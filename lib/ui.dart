@@ -1,4 +1,4 @@
-library ui;
+library polkawallet_ui;
 
 import 'package:flutter/material.dart';
 
@@ -10,8 +10,12 @@ class PageWrapperWithBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      fit: StackFit.expand,
+      // fit: StackFit.expand,
       children: <Widget>[
+        // Container(
+        //   width: double.infinity,
+        //   height: double.infinity,
+        // ),
         Container(
           width: MediaQuery.of(context).size.width,
           height: 180,
@@ -21,9 +25,9 @@ class PageWrapperWithBackground extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Theme.of(context).primaryColor,
-              Theme.of(context).canvasColor
+              Theme.of(context).primaryColorDark
             ],
-            stops: [0.4, 0.9],
+            stops: [0.6, 0.9],
           )),
         ),
         child,

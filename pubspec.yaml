@@ -1,4 +1,4 @@
-name: ui
+name: polkawallet_ui
 description: A new Flutter package project.
 version: 0.0.1
 author:
@@ -11,6 +11,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^0.18.0
+  permission_handler: ^4.2.0
+  qr_flutter:
+    git:
+      url: https://github.com/polkawallet-io/qr.flutter.git
+      ref: master
+  flutter_qr_scan:
+    git:
+      url: https://github.com/polkawallet-io/flutter_qr_reader.git
+      ref: master
+  polkawallet_sdk:
+    path: ../sdk
 
 dev_dependencies:
   flutter_test:
@@ -22,11 +34,9 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
 
-  # To add assets to your package, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-  #
+  assets:
+   - assets/images/polkadot_avatar.png
+
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages
   #
