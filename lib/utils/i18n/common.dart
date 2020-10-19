@@ -23,6 +23,7 @@ const Map<String, String> enCommon = {
   'tx.Broadcast': 'Broadcast',
   'tx.Inblock': 'Inblock',
   'tx.qr': 'Sign via QR',
+  'tx.no.sign': 'Submit (no sign)',
   'uos.scan': 'Scan signed and send',
   'uos.qr.invalid': 'Invalid QR code',
   'uos.warn':
@@ -59,6 +60,7 @@ const Map<String, String> zhCommon = {
   'tx.Broadcast': '正在广播',
   'tx.Inblock': '已被打包',
   'tx.qr': '二维码签名',
+  'tx.no.sign': '发送(不签名)',
   'uos.scan': '扫描签名结果并发送',
   'uos.qr.invalid': '无效二维码',
   'uos.warn': '安全警告!!! 不要将该二维码发送给任何人!!! 泄露该二维码会导致账户资产丢失!!!',

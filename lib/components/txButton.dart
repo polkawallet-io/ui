@@ -27,15 +27,15 @@ class TxConfirmParams {
 class TxButton extends StatelessWidget {
   TxButton({
     this.text,
-    this.params,
+    this.getTxParams,
     this.onFinish,
     this.icon,
     this.color,
     this.expand,
-  }) : assert(text != null);
+  });
 
   final String text;
-  final TxConfirmParams params;
+  final TxConfirmParams Function() getTxParams;
   final Function(bool) onFinish;
   final Widget icon;
   final Color color;
@@ -43,7 +43,7 @@ class TxButton extends StatelessWidget {
 
   Future<void> _onPressed(BuildContext context) async {
     final res = await Navigator.of(context)
-        .pushNamed(TxConfirmPage.route, arguments: params);
+        .pushNamed(TxConfirmPage.route, arguments: getTxParams());
     onFinish(res);
   }
 

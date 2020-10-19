@@ -40,10 +40,11 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   RecoveryInfo _recoveryInfo = RecoveryInfo();
 
   Future<String> _getTxFee({bool reload = false}) async {
-    if (_fee.partialFee != null && !reload) {
+    if (_fee?.partialFee != null && !reload) {
       return _fee.partialFee.toString();
     }
-    if (widget.keyring.current.observation ?? false) {
+    if (widget.plugin.name == 'kusama' && widget.keyring.current.observation ??
+        false) {
       final recoveryInfo = await widget.plugin.sdk.api.recovery
           .queryRecoverable(widget.keyring.current.address);
       setState(() {
@@ -223,9 +224,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       tip: _tipValue.toString(),
     );
 
-    print(txInfo);
-    print(args.params);
-
     try {
       final String hash = viaQr
           ? await _sendTxViaQr(context, txInfo, args)
@@ -324,6 +322,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           child: AddressFormItem(
                             widget.keyring.current,
                             label: dic["tx.from"],
+                            svg: widget.keyring.current.icon,
                           ),
                         ),
                   isKusama && isObservation && _recoveryInfo.address != null
@@ -505,12 +504,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       padding: EdgeInsets.all(16),
                       child: Text(
                         isUnsigned
-                            ? dic['submit.no.sign']
+                            ? dic['tx.no.sign']
                             : (isObservation && _proxyAccount == null) ||
                                     isProxyObservation
-                                ? dic['submit.qr']
+                                ? dic['tx.qr']
                                 // dicAcc['observe.invalid']
-                                : dic['submit'],
+                                : dic['tx.submit'],
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: isUnsigned
