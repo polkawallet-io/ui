@@ -28,20 +28,21 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
     setState(() {
       _submitting = true;
     });
-    var res = await widget.api.keyring.checkPassword(widget.account, password);
+    var passed =
+        await widget.api.keyring.checkPassword(widget.account, password);
     if (mounted) {
       setState(() {
         _submitting = false;
       });
     }
-    if (res == null) {
+    if (!passed) {
       final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: Text(dic['pass.error']),
-            content: Text(dic['pass.error.txt']),
+            content: Text(dic['pass.error.text']),
             actions: <Widget>[
               CupertinoButton(
                 child: Text(dic['ok']),

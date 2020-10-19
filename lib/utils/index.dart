@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/regInputFormatter.dart';
 
@@ -29,7 +30,7 @@ class UI {
   }
 
   static String accountName(BuildContext context, KeyPairData acc) {
-    return '${acc.name ?? ''}${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
+    return '${acc.name ?? Fmt.address(acc.address)}${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
   }
 
   static TextInputFormatter decimalInputFormatter(int decimals) {

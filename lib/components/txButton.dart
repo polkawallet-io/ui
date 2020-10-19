@@ -42,9 +42,12 @@ class TxButton extends StatelessWidget {
   final bool expand;
 
   Future<void> _onPressed(BuildContext context) async {
-    final res = await Navigator.of(context)
-        .pushNamed(TxConfirmPage.route, arguments: getTxParams());
-    onFinish(res);
+    final params = getTxParams();
+    if (params != null) {
+      final res = await Navigator.of(context)
+          .pushNamed(TxConfirmPage.route, arguments: params);
+      onFinish(res);
+    }
   }
 
   @override

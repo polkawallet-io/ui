@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
+import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/accountSelectList.dart';
+import 'package:polkawallet_ui/utils/i18n.dart';
 
 class AccountListPageParams {
   AccountListPageParams({this.list, this.title});
@@ -25,7 +27,8 @@ class AccountListPage extends StatelessWidget {
         ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text(args.title ?? ''),
+        title: Text(args.title ??
+            I18n.of(context).getDic(i18n_full_dic_ui, 'account')['select']),
         centerTitle: true,
       ),
       body: SafeArea(

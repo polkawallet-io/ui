@@ -36,6 +36,7 @@ flutter:
 
   assets:
    - assets/images/polkadot_avatar.png
+   - assets/images/success.png
 
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages

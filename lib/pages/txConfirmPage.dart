@@ -73,10 +73,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       accounts.addAll(widget.keyring.externals);
       final acc = await Navigator.of(context).pushNamed(
         AccountListPage.route,
-        arguments: AccountListPageParams(
-            title:
-                I18n.of(context).getDic(i18n_full_dic_ui, 'account')['select'],
-            list: accounts),
+        arguments: AccountListPageParams(list: accounts),
       );
       if (acc != null) {
         setState(() {
@@ -102,7 +99,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         content: ListTile(
           leading: Container(
             width: 24,
-            child: Image.asset('assets/images/assets/success.png'),
+            child: Image.asset(
+                'packages/polkawallet_ui/assets/images/success.png'),
           ),
           title: Text(
             I18n.of(context).getDic(i18n_full_dic_ui, 'common')['success'],
@@ -226,8 +224,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
     try {
       final String hash = viaQr
-          ? await _sendTxViaQr(context, txInfo, args)
-          : await _sendTx(context, txInfo, args, password);
+          ? await _sendTxViaQr(txInfo, args)
+          : await _sendTx(txInfo, args, password);
       _onTxFinish(context, hash.toString());
     } catch (err) {
       _onTxError(context, err.toString());
@@ -238,7 +236,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   Future<String> _sendTx(
-    BuildContext context,
     TxInfoData txInfo,
     TxConfirmParams args,
     String password,
@@ -251,8 +248,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     });
   }
 
-  Future<Map> _sendTxViaQr(
-      BuildContext context, TxInfoData txInfo, TxConfirmParams args) async {
+  Future<Map> _sendTxViaQr(TxInfoData txInfo, TxConfirmParams args) async {
     final Map dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
     print('show qr');
     final signed = await Navigator.of(context)
@@ -500,26 +496,30 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     color: _submitting
                         ? Theme.of(context).disabledColor
                         : Theme.of(context).primaryColor,
-                    child: FlatButton(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        isUnsigned
-                            ? dic['tx.no.sign']
-                            : (isObservation && _proxyAccount == null) ||
-                                    isProxyObservation
-                                ? dic['tx.qr']
-                                // dicAcc['observe.invalid']
-                                : dic['tx.submit'],
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: isUnsigned
-                          ? () => _onSubmit(context)
-                          : (isObservation && _proxyAccount == null) ||
-                                  isProxyObservation
-                              ? () => _onSubmit(context, viaQr: true)
-                              : _submitting
-                                  ? null
-                                  : () => _showPasswordDialog(context),
+                    child: Builder(
+                      builder: (BuildContext context) {
+                        return FlatButton(
+                          padding: EdgeInsets.all(16),
+                          child: Text(
+                            isUnsigned
+                                ? dic['tx.no.sign']
+                                : (isObservation && _proxyAccount == null) ||
+                                        isProxyObservation
+                                    ? dic['tx.qr']
+                                    // dicAcc['observe.invalid']
+                                    : dic['tx.submit'],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: isUnsigned
+                              ? () => _onSubmit(context)
+                              : (isObservation && _proxyAccount == null) ||
+                                      isProxyObservation
+                                  ? () => _onSubmit(context, viaQr: true)
+                                  : _submitting
+                                      ? null
+                                      : () => _showPasswordDialog(context),
+                        );
+                      },
                     ),
                   ),
                 ),
