@@ -33,6 +33,22 @@ class UI {
     return '${acc.name ?? Fmt.address(acc.address)}${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
   }
 
+  static String accountDisplayNameString(String address, Map accInfo) {
+    String display = Fmt.address(address, pad: 6);
+    if (accInfo != null) {
+      if (accInfo['identity']['display'] != null) {
+        display = accInfo['identity']['display'];
+        if (accInfo['identity']['displayParent'] != null) {
+          display = '${accInfo['identity']['displayParent']}/$display';
+        }
+      } else if (accInfo['accountIndex'] != null) {
+        display = accInfo['accountIndex'];
+      }
+      display = display.toUpperCase();
+    }
+    return display;
+  }
+
   static TextInputFormatter decimalInputFormatter(int decimals) {
     return RegExInputFormatter.withRegex(
         '^[0-9]{0,$decimals}(\\.[0-9]{0,$decimals})?\$');

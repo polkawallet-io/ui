@@ -42,7 +42,7 @@ class AddressFormItem extends StatelessWidget {
                 margin: EdgeInsets.only(right: 8),
                 child: AddressIcon(
                   account.address,
-                  svg: svg,
+                  svg: svg ?? account.icon,
                   size: 32,
                   tapToCopy: false,
                 ),

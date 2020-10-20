@@ -196,17 +196,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     setState(() {
       _submitting = true;
     });
-    Scaffold.of(context).showSnackBar(SnackBar(
-      backgroundColor: Theme.of(context).cardColor,
-      content: ListTile(
-        leading: CupertinoActivityIndicator(),
-        title: Text(
-          dic['tx.$_txStatus'] ?? dic['tx.wait'],
-          style: TextStyle(color: Colors.black54),
-        ),
-      ),
-      duration: Duration(minutes: 5),
-    ));
+    _updateTxStatus(context, dic['tx.wait']);
 
     final TxSenderData sender = TxSenderData(
       widget.keyring.current.address,
@@ -224,8 +214,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
     try {
       final String hash = viaQr
-          ? await _sendTxViaQr(txInfo, args)
-          : await _sendTx(txInfo, args, password);
+          ? await _sendTxViaQr(context, txInfo, args)
+          : await _sendTx(context, txInfo, args, password);
       _onTxFinish(context, hash.toString());
     } catch (err) {
       _onTxError(context, err.toString());
@@ -236,19 +226,23 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   Future<String> _sendTx(
+    BuildContext context,
     TxInfoData txInfo,
     TxConfirmParams args,
     String password,
   ) async {
     return widget.plugin.sdk.api.tx.signAndSend(txInfo, args.params, password,
         rawParam: args.rawParams, onStatusChange: (status) {
-      setState(() {
-        _txStatus = status;
-      });
+      final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+      _updateTxStatus(context, dic['tx.$status']);
     });
   }
 
-  Future<Map> _sendTxViaQr(TxInfoData txInfo, TxConfirmParams args) async {
+  Future<Map> _sendTxViaQr(
+    BuildContext context,
+    TxInfoData txInfo,
+    TxConfirmParams args,
+  ) async {
     final Map dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
     print('show qr');
     final signed = await Navigator.of(context)
@@ -258,8 +252,23 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     }
     return widget.plugin.sdk.api.uos.addSignatureAndSend(
         widget.keyring.current.address, signed.toString(), (status) {
-      _txStatus = status;
+      _updateTxStatus(context, dic['tx.$status']);
     });
+  }
+
+  void _updateTxStatus(BuildContext context, String status) {
+    Scaffold.of(context).removeCurrentSnackBar();
+    Scaffold.of(context).showSnackBar(SnackBar(
+      backgroundColor: Theme.of(context).cardColor,
+      content: ListTile(
+        leading: CupertinoActivityIndicator(),
+        title: Text(
+          status,
+          style: TextStyle(color: Colors.black54),
+        ),
+      ),
+      duration: Duration(minutes: 5),
+    ));
   }
 
   void _onTipChanged(double tip) {
@@ -318,7 +327,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           child: AddressFormItem(
                             widget.keyring.current,
                             label: dic["tx.from"],
-                            svg: widget.keyring.current.icon,
                           ),
                         ),
                   isKusama && isObservation && _recoveryInfo.address != null
