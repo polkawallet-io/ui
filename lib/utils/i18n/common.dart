@@ -1,6 +1,7 @@
 const Map<String, String> enCommon = {
   'copy': 'Copy ',
   'success': 'Success',
+  'fail': 'Failed',
   'ok': 'Ok',
   'cancel': 'Cancel',
   'detail': 'Detail',
@@ -40,6 +41,7 @@ const Map<String, String> enCommon = {
 const Map<String, String> zhCommon = {
   'copy': '复制',
   'success': '成功',
+  'fail': '失败',
   'ok': '确认',
   'cancel': '取消',
   'detail': '详情',
