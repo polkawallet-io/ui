@@ -33,7 +33,11 @@ class UI {
     return '${acc.name ?? Fmt.address(acc.address)}${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
   }
 
-  static Widget accountDisplayName(String address, Map accInfo) {
+  static Widget accountDisplayName(
+    String address,
+    Map accInfo, {
+    bool expand = true,
+  }) {
     return Row(
       children: <Widget>[
         accInfo != null && accInfo['identity']['judgements'].length > 0
@@ -44,9 +48,11 @@ class UI {
                     'packages/polkawallet_ui/assets/images/success.png'),
               )
             : Container(height: 16),
-        Expanded(
-          child: Text(accountDisplayNameString(address, accInfo)),
-        )
+        expand
+            ? Expanded(
+                child: Text(accountDisplayNameString(address, accInfo)),
+              )
+            : Text(accountDisplayNameString(address, accInfo))
       ],
     );
   }
