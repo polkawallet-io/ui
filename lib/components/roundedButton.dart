@@ -26,6 +26,7 @@ class RoundedButton extends StatelessWidget {
     }
     if (icon != null) {
       row.add(Container(
+        padding: EdgeInsets.only(right: 12),
         width: 32,
         child: icon,
       ));

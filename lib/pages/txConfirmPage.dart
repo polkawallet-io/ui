@@ -238,22 +238,29 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     });
   }
 
-  Future<Map> _sendTxViaQr(
+  Future<String> _sendTxViaQr(
     BuildContext context,
     TxInfoData txInfo,
     TxConfirmParams args,
   ) async {
     final Map dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
     print('show qr');
-    final signed = await Navigator.of(context)
-        .pushNamed(QrSenderPage.route, arguments: txInfo);
+    final signed = await Navigator.of(context).pushNamed(
+      QrSenderPage.route,
+      arguments: QrSenderPageParams(
+        txInfo,
+        args.params,
+        rawParams: args.rawParams,
+      ),
+    );
     if (signed == null) {
-      return {'error': dic['tx.cancelled']};
+      throw Exception(dic['tx.cancelled']);
     }
-    return widget.plugin.sdk.api.uos.addSignatureAndSend(
+    final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
         widget.keyring.current.address, signed.toString(), (status) {
       _updateTxStatus(context, dic['tx.$status']);
     });
+    return res['hash'];
   }
 
   void _updateTxStatus(BuildContext context, String status) {

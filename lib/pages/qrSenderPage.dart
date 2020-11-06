@@ -87,7 +87,7 @@ class _QrSenderPageState extends State<QrSenderPage> {
                             padding: EdgeInsets.all(16),
                             child: RoundedButton(
                               icon: Image.asset(
-                                  'assets/images/assets/scanner.png'),
+                                  'packages/polkawallet_ui/assets/images/scanner.png'),
                               text: dic['uos.scan'],
                               onPressed: () {
                                 _handleScan(context);
