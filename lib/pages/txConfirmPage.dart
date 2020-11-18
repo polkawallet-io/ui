@@ -43,7 +43,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     if (_fee?.partialFee != null && !reload) {
       return _fee.partialFee.toString();
     }
-    if (widget.plugin.name == 'kusama' && widget.keyring.current.observation ??
+    if (widget.plugin.basic.name == 'kusama' &&
+            widget.keyring.current.observation ??
         false) {
       final recoveryInfo = await widget.plugin.sdk.api.recovery
           .queryRecoverable(widget.keyring.current.address);
@@ -306,7 +307,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final bool isObservation = widget.keyring.current.observation ?? false;
     final bool isProxyObservation =
         _proxyAccount != null ? _proxyAccount.observation ?? false : false;
-    final bool isKusama = widget.plugin.name == 'kusama';
+    final bool isKusama = widget.plugin.basic.name == 'kusama';
 
     bool isUnsigned = args.isUnsigned ?? false;
     return Scaffold(

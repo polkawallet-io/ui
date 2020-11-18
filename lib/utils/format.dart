@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:intl/intl.dart';
+import 'package:polkawallet_sdk/api/types/balanceData.dart';
 
 class Fmt {
   static String dateTime(DateTime time) {
@@ -46,6 +47,11 @@ class Fmt {
   static bool isHexString(String hex) {
     var reg = RegExp(r'^[a-f0-9]+$');
     return reg.hasMatch(hex);
+  }
+
+  static BigInt balanceTotal(BalanceData balance) {
+    return balanceInt(balance.freeBalance.toString()) +
+        balanceInt(balance.reservedBalance.toString());
   }
 
   /// number transform 1:
