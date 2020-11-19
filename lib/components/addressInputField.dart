@@ -10,18 +10,18 @@ import 'package:polkawallet_ui/utils/index.dart';
 class AddressInputField extends StatefulWidget {
   AddressInputField(
     this.api,
-    this.localAccounts,
-    this.localAccountIndexMap, {
+    this.localAccounts, {
     this.label,
     this.initialValue,
     this.onChanged,
-  });
+    Key key,
+  }) : super(key: key);
   final PolkawalletApi api;
   final List<KeyPairData> localAccounts;
-  final Map localAccountIndexMap;
   final String label;
   final KeyPairData initialValue;
   final Function(KeyPairData) onChanged;
+
   @override
   _AddressInputFieldState createState() => _AddressInputFieldState();
 }
@@ -30,8 +30,8 @@ class _AddressInputFieldState extends State<AddressInputField> {
   Map _addressIndexMap = {};
   Map _addressIconsMap = {};
 
-  Map _getAddressInfo(String address) {
-    return widget.localAccountIndexMap[address] ?? _addressIndexMap[address];
+  Map _getAddressInfo(KeyPairData acc) {
+    return acc.indexInfo ?? _addressIndexMap[acc.address];
   }
 
   Future<List<KeyPairData>> _getAccountsFromInput(String input) async {
@@ -51,7 +51,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
     if (input.length < 47) {
       // check if input indices in local account list
       final int indicesIndex = widget.localAccounts.indexWhere((e) {
-        final Map accInfo = widget.localAccountIndexMap[e.address];
+        final Map accInfo = e.indexInfo;
         return accInfo != null && accInfo['accountIndex'] == input;
       });
       if (indicesIndex >= 0) {
@@ -94,7 +94,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
   }
 
   String _itemAsString(KeyPairData item) {
-    final Map accInfo = _getAddressInfo(item.address);
+    final Map accInfo = _getAddressInfo(item);
     String idx = '';
     if (accInfo != null && accInfo['accountIndex'] != null) {
       idx = accInfo['accountIndex'];
@@ -110,7 +110,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
     if (item == null) {
       return Container();
     }
-    final Map accInfo = _getAddressInfo(item.address);
+    final Map accInfo = _getAddressInfo(item);
     return Container(
       padding: EdgeInsets.only(top: 8),
       child: Row(
@@ -143,7 +143,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
 
   Widget _listItemBuilder(
       BuildContext context, KeyPairData item, bool isSelected) {
-    final Map accInfo = _getAddressInfo(item.address);
+    final Map accInfo = _getAddressInfo(item);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8),
       decoration: !isSelected

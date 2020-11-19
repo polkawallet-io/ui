@@ -76,7 +76,8 @@ class TxDetail extends StatelessWidget {
         trailing: i.copyText != null
             ? IconButton(
                 icon: Image.asset(
-                    'packages/polkawallet_ui/assets/images/copy.png'),
+                    'packages/polkawallet_ui/assets/images/copy.png',
+                    width: 16),
                 onPressed: () => UI.copyAndNotify(context, i.copyText),
               )
             : null,
