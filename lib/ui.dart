@@ -15,9 +15,10 @@ class PageWrapperWithBackground extends StatelessWidget {
         // Container(
         //   width: double.infinity,
         //   height: double.infinity,
+        //   color: Theme.of(context).canvasColor,
         // ),
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: double.infinity,
           height: 180,
           decoration: BoxDecoration(
               gradient: LinearGradient(

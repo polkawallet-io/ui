@@ -1,5 +1,7 @@
 const Map<String, String> enCommon = {
   'copy': 'Copy ',
+  'edit': 'Edit',
+  'delete': 'Delete',
   'success': 'Success',
   'fail': 'Failed',
   'ok': 'Ok',
@@ -7,6 +9,8 @@ const Map<String, String> enCommon = {
   'detail': 'Detail',
   'next': 'Next',
   'loading': 'Loading...',
+  'assets': 'Assets',
+  'profile': 'Profile',
   'list.empty': 'No data',
   'list.end': 'No more data',
   'tx.submit': 'Submit Transaction',
@@ -42,6 +46,8 @@ const Map<String, String> enCommon = {
 
 const Map<String, String> zhCommon = {
   'copy': '复制',
+  'edit': '编辑',
+  'delete': '删除',
   'success': '成功',
   'fail': '失败',
   'ok': '确认',
@@ -49,6 +55,8 @@ const Map<String, String> zhCommon = {
   'detail': '详情',
   'next': '下一步',
   'loading': '载入中。。。',
+  'assets': '资产',
+  'profile': '设置',
   'list.empty': '暂无数据',
   'list.end': '加载完毕',
   'tx.submit': '发送交易',

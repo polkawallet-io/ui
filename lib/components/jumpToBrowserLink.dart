@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class JumpToBrowserLink extends StatefulWidget {
   JumpToBrowserLink(this.url, {this.text, this.mainAxisAlignment});
@@ -23,15 +23,7 @@ class _JumpToBrowserLinkState extends State<JumpToBrowserLink> {
       _loading = true;
     });
 
-    if (await canLaunch(widget.url)) {
-      try {
-        await launch(widget.url);
-      } catch (err) {
-        print(err);
-      }
-    } else {
-      print('Could not launch ${widget.url}');
-    }
+    await UI.launchURL(widget.url);
 
     setState(() {
       _loading = false;

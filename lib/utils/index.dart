@@ -7,6 +7,7 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/regInputFormatter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UI {
   static void copyAndNotify(BuildContext context, String text) {
@@ -30,7 +31,7 @@ class UI {
   }
 
   static String accountName(BuildContext context, KeyPairData acc) {
-    return '${acc.name ?? Fmt.address(acc.address)}${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
+    return '${acc.name ?? accountDisplayNameString(acc.address, acc.indexInfo)}${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
   }
 
   static Widget accountDisplayName(
@@ -76,5 +77,17 @@ class UI {
   static TextInputFormatter decimalInputFormatter(int decimals) {
     return RegExInputFormatter.withRegex(
         '^[0-9]{0,$decimals}(\\.[0-9]{0,$decimals})?\$');
+  }
+
+  static Future<void> launchURL(String url) async {
+    if (await canLaunch(url)) {
+      try {
+        await launch(url);
+      } catch (err) {
+        print(err);
+      }
+    } else {
+      print('Could not launch $url');
+    }
   }
 }
