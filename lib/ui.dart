@@ -19,7 +19,7 @@ class PageWrapperWithBackground extends StatelessWidget {
         // ),
         Container(
           width: double.infinity,
-          height: 180,
+          height: 160,
           decoration: BoxDecoration(
               gradient: LinearGradient(
             begin: Alignment.topCenter,
