@@ -56,7 +56,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final TxConfirmParams args = ModalRoute.of(context).settings.arguments;
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
-    final txInfo = TxInfoData(args.module, args.call, sender);
+    final txInfo =
+        TxInfoData(args.module, args.call, sender, txName: args.txName);
     // if (_proxyAccount != null) {
     //   txInfo['proxy'] = _proxyAccount.pubKey;
     // }
@@ -211,6 +212,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
           ? TxSenderData(_proxyAccount.address, _proxyAccount.pubKey)
           : null,
       tip: _tipValue.toString(),
+      txName: args.txName,
     );
 
     try {

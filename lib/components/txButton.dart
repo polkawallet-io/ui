@@ -14,6 +14,7 @@ class TxConfirmParams {
     this.rawParams,
     this.isUnsigned,
     this.txTitle,
+    this.txName,
   });
   final String module;
   final String call;
@@ -22,6 +23,7 @@ class TxConfirmParams {
   final bool isUnsigned;
   final Map txDisplay;
   final String txTitle;
+  final String txName;
 }
 
 class TxButton extends StatelessWidget {
