@@ -51,20 +51,17 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
       _submitting = true;
     });
     final SignAsExtensionParam args = ModalRoute.of(context).settings.arguments;
-    final res = args.msgType == WalletExtensionSignPage.signTypeBytes
-        ? await widget.plugin.sdk.api.keyring
-            .signBytesAsExtension(password, args.request)
-        : await widget.plugin.sdk.api.keyring
-            .signExtrinsicAsExtension(password, args.request);
+    final res =
+        await widget.plugin.sdk.api.keyring.signAsExtension(password, args);
     if (mounted) {
       setState(() {
         _submitting = false;
       });
     }
-    Navigator.of(context).pop({
+    Navigator.of(context).pop(ExtensionSignResult.fromJson({
       'id': args.id,
       'signature': res.signature,
-    });
+    }));
   }
 
   @override
@@ -76,8 +73,17 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
             .address
         : SignBytesRequest.fromJson(Map<String, dynamic>.of(args.request))
             .address;
-    final KeyPairData acc =
-        widget.keyring.keyPairs.firstWhere((acc) => acc.address == address);
+    final KeyPairData acc = widget.keyring.keyPairs.firstWhere((acc) {
+      bool matched = false;
+      widget.keyring.store.pubKeyAddressMap.values.forEach((e) {
+        e.forEach((k, v) {
+          if (acc.pubKey == k && address == v) {
+            matched = true;
+          }
+        });
+      });
+      return matched;
+    });
     return Scaffold(
       appBar: AppBar(
           title: Text(dic[args.msgType == WalletExtensionSignPage.signTypeBytes

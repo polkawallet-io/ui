@@ -42,6 +42,10 @@ const Map<String, String> enCommon = {
   'pass.invalid': 'Invalid Password',
   'pass.error': 'Wrong Password',
   'pass.error.text': 'Failed to unlock account, please check password.',
+  'submit.sign': 'Sign',
+  'submit.sign.tx': 'Sign Tx',
+  'submit.sign.msg': 'Sign Message',
+  'submit.signer': 'Signer',
 };
 
 const Map<String, String> zhCommon = {
@@ -84,4 +88,8 @@ const Map<String, String> zhCommon = {
   'pass.invalid': '密码错误',
   'pass.error': '密码错误',
   'pass.error.text': '解锁账户失败，请检查密码',
+  'submit.sign': '签名',
+  'submit.sign.tx': '签名交易',
+  'submit.sign.msg': '签名消息',
+  'submit.signer': '签名账户',
 };

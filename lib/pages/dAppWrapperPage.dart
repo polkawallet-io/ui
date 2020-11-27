@@ -42,22 +42,14 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 });
               },
               onSignBytesRequest: (req) async {
-                print(req);
                 final signed = await Navigator.of(context)
-                    .pushNamed(WalletExtensionSignPage.route, arguments: {
-                  'type': req.msgType,
-                  'msg': req,
-                });
-                return null;
+                    .pushNamed(WalletExtensionSignPage.route, arguments: req);
+                return signed;
               },
               onSignExtrinsicRequest: (req) async {
-                print(req);
                 final signed = await Navigator.of(context)
-                    .pushNamed(WalletExtensionSignPage.route, arguments: {
-                  'type': req.msgType,
-                  'msg': req,
-                });
-                return null;
+                    .pushNamed(WalletExtensionSignPage.route, arguments: req);
+                return signed;
               },
             ),
             _loading ? Center(child: CupertinoActivityIndicator()) : Container()
