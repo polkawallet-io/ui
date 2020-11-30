@@ -47,14 +47,23 @@ class ScanPage extends StatelessWidget {
 
         if (address.length > 0) {
           print('address detected in Qr');
-          Navigator.of(context).pop(QRCodeAddressResult(ls));
+          Navigator.of(context).pop(QRCodeResult(
+            type: QRCodeResultType.address,
+            address: QRCodeAddressResult(ls),
+          ));
         } else if (Fmt.isHexString(data)) {
           print('hex detected in Qr');
-          Navigator.of(context).pop(data);
+          Navigator.of(context).pop(QRCodeResult(
+            type: QRCodeResultType.hex,
+            hex: data,
+          ));
         } else if (rawData != null &&
             (rawData.endsWith('ec') || rawData.endsWith('ec11'))) {
           print('rawBytes detected in Qr');
-          Navigator.of(context).pop(rawData);
+          Navigator.of(context).pop(QRCodeResult(
+            type: QRCodeResultType.rawData,
+            rawData: rawData,
+          ));
         } else {
           _qrViewKey.currentState.startScan();
         }
@@ -85,6 +94,17 @@ class ScanPage extends StatelessWidget {
       ),
     );
   }
+}
+
+enum QRCodeResultType { address, hex, rawData }
+
+class QRCodeResult {
+  QRCodeResult({this.type, this.address, this.hex, this.rawData});
+
+  final QRCodeResultType type;
+  final QRCodeAddressResult address;
+  final String hex;
+  final String rawData;
 }
 
 class QRCodeAddressResult {

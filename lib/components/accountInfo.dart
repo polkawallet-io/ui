@@ -6,10 +6,11 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class AccountInfo extends StatelessWidget {
-  AccountInfo({this.accInfo, this.address, this.icon});
+  AccountInfo({this.accInfo, this.address, this.icon, this.network});
   final Map accInfo;
   final String address;
   final String icon;
+  final String network;
   @override
   Widget build(BuildContext context) {
     List<Widget> list = [];
@@ -61,12 +62,12 @@ class AccountInfo extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(right: 16),
               child: JumpToBrowserLink(
-                'https://polkascan.io/pre/kusama/module/account/$address',
+                'https://polkascan.io/$network/account/$address',
                 text: 'Polkascan',
               ),
             ),
             JumpToBrowserLink(
-              'https://kusama.subscan.io/account/$address',
+              'https://$network.subscan.io/account/$address',
               text: 'Subscan',
             ),
           ],
