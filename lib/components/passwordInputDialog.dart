@@ -7,13 +7,13 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 
 class PasswordInputDialog extends StatefulWidget {
   PasswordInputDialog(this.api,
-      {this.account, this.title, this.content, this.onOk});
+      {this.account, this.userPass, this.title, this.content});
 
   final PolkawalletApi api;
   final KeyPairData account;
+  final String userPass;
   final Widget title;
   final Widget content;
-  final Function onOk;
 
   @override
   _PasswordInputDialog createState() => _PasswordInputDialog();
@@ -24,7 +24,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
 
   bool _submitting = false;
 
-  Future<void> _onOk(String password) async {
+  Future<void> _submit(String password) async {
     setState(() {
       _submitting = true;
     });
@@ -53,9 +53,18 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
         },
       );
     } else {
-      widget.onOk(password);
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(password);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.userPass != null) {
+        _submit(widget.userPass);
+      }
+    });
   }
 
   @override
@@ -102,7 +111,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
               Text(dic['ok'])
             ],
           ),
-          onPressed: _submitting ? null : () => _onOk(_passCtrl.text.trim()),
+          onPressed: _submitting ? null : () => _submit(_passCtrl.text.trim()),
         ),
       ],
     );

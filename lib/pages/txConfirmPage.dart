@@ -10,7 +10,6 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/addressFormItem.dart';
-import 'package:polkawallet_ui/components/passwordInputDialog.dart';
 import 'package:polkawallet_ui/components/tapTooltip.dart';
 import 'package:polkawallet_ui/components/txButton.dart';
 import 'package:polkawallet_ui/pages/accountListPage.dart';
@@ -19,9 +18,10 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class TxConfirmPage extends StatefulWidget {
-  const TxConfirmPage(this.plugin, this.keyring);
+  const TxConfirmPage(this.plugin, this.keyring, this.getPassword);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
+  final Future<String> Function(BuildContext, KeyPairData) getPassword;
 
   static final String route = '/tx/confirm';
 
@@ -31,7 +31,6 @@ class TxConfirmPage extends StatefulWidget {
 
 class _TxConfirmPageState extends State<TxConfirmPage> {
   bool _submitting = false;
-  String _txStatus = 'queued';
 
   TxFeeEstimateResult _fee;
   double _tip = 0;
@@ -174,17 +173,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       );
       return;
     }
-    showCupertinoDialog(
-      context: context,
-      builder: (_) {
-        return PasswordInputDialog(
-          widget.plugin.sdk.api,
-          title: Text(dic['unlock']),
-          account: _proxyAccount ?? widget.keyring.current,
-          onOk: (password) => _onSubmit(context, password: password),
-        );
-      },
-    );
+
+    final password = await widget.getPassword(
+        context, _proxyAccount ?? widget.keyring.current);
+    if (password != null) {
+      _onSubmit(context, password: password);
+    }
   }
 
   Future<void> _onSubmit(

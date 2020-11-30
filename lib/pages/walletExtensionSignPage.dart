@@ -9,14 +9,14 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
 import 'package:polkawallet_ui/components/addressFormItem.dart';
 import 'package:polkawallet_ui/components/infoItemRow.dart';
-import 'package:polkawallet_ui/components/passwordInputDialog.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class WalletExtensionSignPage extends StatefulWidget {
-  WalletExtensionSignPage(this.plugin, this.keyring);
+  WalletExtensionSignPage(this.plugin, this.keyring, this.getPassword);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
+  final Future<String> Function(BuildContext, KeyPairData) getPassword;
 
   static const String route = '/extension/sign';
 
@@ -32,18 +32,10 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
   bool _submitting = false;
 
   Future<void> _showPasswordDialog(KeyPairData acc) async {
-    showCupertinoDialog(
-      context: context,
-      builder: (_) {
-        return PasswordInputDialog(
-          widget.plugin.sdk.api,
-          title: Text(
-              I18n.of(context).getDic(i18n_full_dic_ui, 'common')['unlock']),
-          account: acc,
-          onOk: (password) => _sign(password),
-        );
-      },
-    );
+    final password = await widget.getPassword(context, acc);
+    if (password != null) {
+      _sign(password);
+    }
   }
 
   Future<void> _sign(String password) async {
