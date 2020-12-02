@@ -77,6 +77,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
     final res = await widget.api.account.getAddressIcons([acc.address]);
     if (res != null) {
       if (res.length > 0) {
+        acc.icon = res[0][1];
         setState(() {
           _addressIconsMap.addAll({acc.address: res[0][1]});
         });
@@ -85,6 +86,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
       final addressInfo =
           await widget.api.account.queryIndexInfo([acc.address]);
       if (addressInfo != null && addressInfo.length > 0) {
+        acc.name = UI.accountDisplayNameString(acc.address, addressInfo[0]);
         setState(() {
           _addressIndexMap.addAll({acc.address: addressInfo[0]});
         });
