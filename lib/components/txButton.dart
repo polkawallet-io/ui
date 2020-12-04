@@ -37,14 +37,14 @@ class TxButton extends StatelessWidget {
   });
 
   final String text;
-  final TxConfirmParams Function() getTxParams;
-  final Function(bool) onFinish;
+  final Future<TxConfirmParams> Function() getTxParams;
+  final Function(Map) onFinish;
   final Widget icon;
   final Color color;
   final bool expand;
 
   Future<void> _onPressed(BuildContext context) async {
-    final params = getTxParams();
+    final params = await getTxParams();
     if (params != null) {
       final res = await Navigator.of(context)
           .pushNamed(TxConfirmPage.route, arguments: params);

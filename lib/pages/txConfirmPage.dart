@@ -89,8 +89,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     _getTxFee(reload: true);
   }
 
-  void _onTxFinish(BuildContext context, String hash) {
-    print('callback triggered, blockHash: $hash}');
+  void _onTxFinish(BuildContext context, Map res) {
+    print('callback triggered, blockHash: ${res['hash']}');
     if (mounted) {
       final ScaffoldState state = Scaffold.of(context);
 
@@ -112,7 +112,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       ));
 
       Timer(Duration(seconds: 2), () {
-        Navigator.of(context).pop(true);
+        Navigator.of(context).pop(res);
       });
     }
   }
@@ -210,10 +210,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     );
 
     try {
-      final String hash = viaQr
+      final res = viaQr
           ? await _sendTxViaQr(context, txInfo, args)
           : await _sendTx(context, txInfo, args, password);
-      _onTxFinish(context, hash.toString());
+      _onTxFinish(context, res);
     } catch (err) {
       _onTxError(context, err.toString());
     }
@@ -222,7 +222,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     });
   }
 
-  Future<String> _sendTx(
+  Future<Map> _sendTx(
     BuildContext context,
     TxInfoData txInfo,
     TxConfirmParams args,
@@ -235,7 +235,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     });
   }
 
-  Future<String> _sendTxViaQr(
+  Future<Map> _sendTxViaQr(
     BuildContext context,
     TxInfoData txInfo,
     TxConfirmParams args,
@@ -257,7 +257,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         widget.keyring.current.address, signed.toString(), (status) {
       _updateTxStatus(context, dic['tx.$status']);
     });
-    return res['hash'];
+    return res;
   }
 
   void _updateTxStatus(BuildContext context, String status) {
