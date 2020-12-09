@@ -231,7 +231,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     return widget.plugin.sdk.api.tx.signAndSend(txInfo, args.params, password,
         rawParam: args.rawParams, onStatusChange: (status) {
       final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
-      _updateTxStatus(context, dic['tx.$status']);
+      _updateTxStatus(context, dic['tx.$status']??status);
     });
   }
 
@@ -255,7 +255,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     }
     final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
         widget.keyring.current.address, signed.toString(), (status) {
-      _updateTxStatus(context, dic['tx.$status']);
+      _updateTxStatus(context, dic['tx.$status'] ?? status);
     });
     return res;
   }

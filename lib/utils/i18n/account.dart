@@ -1,4 +1,5 @@
 const Map<String, String> enAccount = {
+  'receive': 'Receive',
   'observe': 'Observation',
   'select': 'Select Account',
   'proxy': 'Proxy Account',
@@ -10,6 +11,7 @@ const Map<String, String> enAccount = {
 };
 
 const Map<String, String> zhAccount = {
+  'receive': '收款',
   'observe': '观察账户',
   'select': '选择账户',
   'proxy': '代理账户',

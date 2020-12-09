@@ -22,9 +22,7 @@ class CurrencyWithIcon extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
       children: <Widget>[
         Container(
-          width: symbol.contains('-') ? 48 : 32,
-          height: 32,
-          padding: EdgeInsets.only(right: 4),
+          padding: EdgeInsets.only(right: 8),
           child: icon,
         ),
         Expanded(

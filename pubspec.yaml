@@ -42,6 +42,8 @@ flutter:
    - assets/images/error.png
    - assets/images/copy.png
    - assets/images/scanner.png
+   - assets/images/app.png
+   - assets/images/receive_line.png
 
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages
