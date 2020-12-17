@@ -84,8 +84,9 @@ class TxDetail extends StatelessWidget {
       );
     }));
 
-    final pnLink =
-        'https://polkascan.io/${networkName.toLowerCase()}/transaction/$hash';
+    final pnLink = networkName == 'polkadot' || networkName == 'kusama'
+        ? 'https://polkascan.io/${networkName.toLowerCase()}/transaction/$hash'
+        : null;
     final snLink =
         'https://${networkName.toLowerCase()}.subscan.io/extrinsic/$hash';
     list.addAll(<Widget>[
@@ -106,13 +107,13 @@ class TxDetail extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               JumpToBrowserLink(
-                pnLink,
-                text: 'Polkascan',
+                snLink,
+                text: 'Subscan',
               ),
-              snLink != null
+              pnLink != null
                   ? JumpToBrowserLink(
-                      snLink,
-                      text: 'Subscan',
+                      pnLink,
+                      text: 'Polkascan',
                     )
                   : Container(),
             ],

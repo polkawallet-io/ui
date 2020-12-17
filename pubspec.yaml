@@ -24,7 +24,9 @@ dependencies:
       url: https://github.com/polkawallet-io/flutter_qr_reader.git
       ref: master
   polkawallet_sdk:
-    path: ../sdk
+    git:
+      url: https://github.com/polkawallet-io/sdk.git
+      ref: master
 
 dev_dependencies:
   flutter_test:
