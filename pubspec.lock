@@ -308,9 +308,9 @@ packages:
   polkawallet_sdk:
     dependency: "direct main"
     description:
-      path: "../sdk"
-      relative: true
-    source: path
+      name: polkawallet_sdk
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.0.1"
   process:
     dependency: transitive
