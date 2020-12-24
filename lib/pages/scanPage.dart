@@ -49,7 +49,9 @@ class ScanPage extends StatelessWidget {
           print('address detected in Qr');
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.address,
-            address: QRCodeAddressResult(ls),
+            address: ls.length == 4
+                ? QRCodeAddressResult(ls)
+                : QRCodeAddressResult(['', address, '', '']),
           ));
         } else if (Fmt.isHexString(data)) {
           print('hex detected in Qr');
