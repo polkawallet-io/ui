@@ -50,9 +50,10 @@ class _QrSenderPageState extends State<QrSenderPage> {
   }
 
   Future<void> _handleScan(BuildContext context) async {
-    final signed = await Navigator.of(context).pushNamed(ScanPage.route);
-    if (signed != null) {
-      Navigator.of(context).pop(signed);
+    final res =
+        (await Navigator.of(context).pushNamed(ScanPage.route)) as QRCodeResult;
+    if (res != null && res.type == QRCodeResultType.hex) {
+      Navigator.of(context).pop(res.hex);
     }
   }
 
