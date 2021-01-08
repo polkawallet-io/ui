@@ -231,7 +231,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     return widget.plugin.sdk.api.tx.signAndSend(txInfo, args.params, password,
         rawParam: args.rawParams, onStatusChange: (status) {
       final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
-      _updateTxStatus(context, dic['tx.$status']??status);
+      _updateTxStatus(context, dic['tx.$status'] ?? status);
     });
   }
 
@@ -478,7 +478,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             max: 19,
                             divisions: 19,
                             value: _tip,
-                            onChanged: _onTipChanged,
+                            onChanged: _submitting ? null : _onTipChanged,
                           ),
                         ),
                         Text('1')
