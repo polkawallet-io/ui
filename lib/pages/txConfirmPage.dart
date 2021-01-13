@@ -333,7 +333,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             label: dic["tx.from"],
                           ),
                         ),
-                  isKusama && isObservation && _recoveryInfo.address != null
+                  isKusama && isObservation && _recoveryInfo?.address != null
                       ? Padding(
                           padding: EdgeInsets.only(left: 16, right: 16),
                           child: Row(
