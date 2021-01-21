@@ -118,6 +118,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
       child: Row(
         children: [
           AddressIcon(item.address,
+              size: 32,
               svg: item.icon ?? _addressIconsMap[item.address],
               tapToCopy: false),
           Padding(
@@ -164,11 +165,9 @@ class _AddressInputFieldState extends State<AddressInputField> {
               ? item.name
               : UI.accountDisplayNameString(item.address, accInfo),
         ),
-        leading: CircleAvatar(
-          child: AddressIcon(
-            item.address,
-            svg: item.icon ?? _addressIconsMap[item.address],
-          ),
+        leading: AddressIcon(
+          item.address,
+          svg: item.icon ?? _addressIconsMap[item.address],
         ),
       ),
     );

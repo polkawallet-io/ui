@@ -395,26 +395,26 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                   ),
                   isUnsigned
                       ? Container()
-                      : Padding(
-                          padding: EdgeInsets.only(left: 16, right: 16),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: 8),
-                                width: 64,
-                                child: Text(dic["tx.fee"]),
-                              ),
-                              FutureBuilder<String>(
-                                future: _getTxFee(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<String> snapshot) {
-                                  if (snapshot.hasData) {
-                                    String fee = Fmt.balance(
-                                      _fee.partialFee.toString(),
-                                      decimals,
-                                      length: 6,
-                                    );
-                                    return Container(
+                      : FutureBuilder<String>(
+                          future: _getTxFee(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            if (snapshot.hasData) {
+                              String fee = Fmt.balance(
+                                _fee.partialFee.toString(),
+                                decimals,
+                                length: 6,
+                              );
+                              return Padding(
+                                padding: EdgeInsets.only(left: 16, right: 16),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(top: 8),
+                                      width: 64,
+                                      child: Text(dic["tx.fee"]),
+                                    ),
+                                    Container(
                                       margin: EdgeInsets.only(top: 8),
                                       width: MediaQuery.of(context)
                                               .copyWith()
@@ -438,14 +438,14 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           ),
                                         ],
                                       ),
-                                    );
-                                  } else {
-                                    return CupertinoActivityIndicator();
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
                         ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
