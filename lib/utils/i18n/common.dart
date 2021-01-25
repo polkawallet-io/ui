@@ -13,7 +13,7 @@ const Map<String, String> enCommon = {
   'profile': 'Profile',
   'list.empty': 'No data',
   'list.end': 'No more data',
-  'tx.submit': 'Submit Transaction',
+  'tx.submit': 'Submit',
   'tx.from': 'You are about to sign a transaction from ',
   'tx.call': 'Calling',
   'tx.proxy': 'sign with proxy account',

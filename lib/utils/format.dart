@@ -80,13 +80,12 @@ class Fmt {
   /// from <double> to <String> in token format of ",##0.000"
   static String doubleFormat(
     double value, {
-    int length = 3,
+    int length = 4,
     int round = 0,
   }) {
     if (value == null) {
       return '~';
     }
-    value.toStringAsFixed(3);
     NumberFormat f =
         NumberFormat(",##0${length > 0 ? '.' : ''}${'#' * length}", "en_US");
     return f.format(value);
@@ -97,7 +96,7 @@ class Fmt {
   static String balance(
     String raw,
     int decimals, {
-    int length = 3,
+    int length = 4,
   }) {
     if (raw == null || raw.length == 0) {
       return '~';
@@ -117,7 +116,7 @@ class Fmt {
   static String token(
     BigInt value,
     int decimals, {
-    int length = 3,
+    int length = 4,
   }) {
     if (value == null) {
       return '~';

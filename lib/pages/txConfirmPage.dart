@@ -43,8 +43,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       return _fee.partialFee.toString();
     }
     if (widget.plugin.basic.name == 'kusama' &&
-            widget.keyring.current.observation ??
-        false) {
+        (widget.keyring.current.observation ?? false)) {
       final recoveryInfo = await widget.plugin.sdk.api.recovery
           .queryRecoverable(widget.keyring.current.address);
       setState(() {
@@ -276,7 +275,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   void _onTipChanged(double tip) {
-    final decimals = widget.plugin.networkState.tokenDecimals;
+    final decimals = (widget.plugin.basic.name == 'polkadot' ||
+            widget.plugin.basic.name == 'kusama')
+        ? widget.plugin.networkState.tokenDecimals[0]
+        : widget.plugin.networkState.tokenDecimals;
 
     /// tip division from 0 to 19:
     /// 0-10 for 0-0.1
@@ -295,15 +297,21 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   Widget build(BuildContext context) {
     final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
     final dicAcc = I18n.of(context).getDic(i18n_full_dic_ui, 'account');
-    final String symbol = widget.plugin.networkState.tokenSymbol ?? '';
-    final int decimals = widget.plugin.networkState.tokenDecimals ?? 12;
+
+    final bool isKusama = widget.plugin.basic.name == 'kusama';
+    final bool isPolkadot = widget.plugin.basic.name == 'polkadot';
+    final String symbol = (isPolkadot || isKusama)
+        ? widget.plugin.networkState.tokenSymbol[0] ?? ''
+        : widget.plugin.networkState.tokenSymbol ?? '';
+    final int decimals = (isPolkadot || isKusama)
+        ? widget.plugin.networkState.tokenDecimals[0] ?? 12
+        : widget.plugin.networkState.tokenDecimals ?? 12;
 
     final TxConfirmParams args = ModalRoute.of(context).settings.arguments;
 
     final bool isObservation = widget.keyring.current.observation ?? false;
     final bool isProxyObservation =
         _proxyAccount != null ? _proxyAccount.observation ?? false : false;
-    final bool isKusama = widget.plugin.basic.name == 'kusama';
 
     bool isUnsigned = args.isUnsigned ?? false;
     return Scaffold(
