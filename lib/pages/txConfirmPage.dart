@@ -299,13 +299,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final dicAcc = I18n.of(context).getDic(i18n_full_dic_ui, 'account');
 
     final bool isKusama = widget.plugin.basic.name == 'kusama';
-    final bool isPolkadot = widget.plugin.basic.name == 'polkadot';
-    final String symbol = (isPolkadot || isKusama)
-        ? widget.plugin.networkState.tokenSymbol[0] ?? ''
-        : widget.plugin.networkState.tokenSymbol ?? '';
-    final int decimals = (isPolkadot || isKusama)
-        ? widget.plugin.networkState.tokenDecimals[0] ?? 12
-        : widget.plugin.networkState.tokenDecimals ?? 12;
+    final String symbol = (widget.plugin.networkState.tokenSymbol ?? [''])[0];
+    final int decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
 
     final TxConfirmParams args = ModalRoute.of(context).settings.arguments;
 

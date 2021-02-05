@@ -38,6 +38,16 @@ class ScanPage extends StatelessWidget {
       final String data = txt.trim();
       if (data != null) {
         List<String> ls = data.split(':');
+
+        if (ls[0] == 'wc') {
+          print('walletconnect pairing uri detected.');
+          Navigator.of(context).pop(QRCodeResult(
+            type: QRCodeResultType.rawData,
+            rawData: data,
+          ));
+          return;
+        }
+
         for (String item in ls) {
           if (Fmt.isAddress(item)) {
             address = item;
