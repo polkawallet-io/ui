@@ -275,10 +275,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   void _onTipChanged(double tip) {
-    final decimals = (widget.plugin.basic.name == 'polkadot' ||
-            widget.plugin.basic.name == 'kusama')
-        ? widget.plugin.networkState.tokenDecimals[0]
-        : widget.plugin.networkState.tokenDecimals;
+    final decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
 
     /// tip division from 0 to 19:
     /// 0-10 for 0-0.1

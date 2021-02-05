@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
@@ -39,21 +40,46 @@ class UI {
     Map accInfo, {
     bool expand = true,
   }) {
+    bool hasId = false;
+    bool good = false;
+    if (accInfo != null) {
+      if (accInfo['identity']['display'] != null) {
+        hasId = true;
+      }
+      if (accInfo['identity']['judgements'].length > 0) {
+        final judgement = accInfo['identity']['judgements'][0][1];
+        if (Map.of(judgement).keys.contains('KnownGood') ||
+            Map.of(judgement).keys.contains('Reasonable')) {
+          good = true;
+        }
+      }
+    }
     return Row(
       children: <Widget>[
-        accInfo != null && accInfo['identity']['judgements'].length > 0
+        hasId
             ? Container(
                 width: 14,
                 margin: EdgeInsets.only(right: 4),
-                child: Image.asset(
-                    'packages/polkawallet_ui/assets/images/success.png'),
+                child: good
+                    ? Icon(
+                        Icons.check_circle,
+                        size: 16,
+                        color: Colors.lightGreen,
+                      )
+                    : Icon(
+                        Icons.remove_circle,
+                        size: 16,
+                        color: Colors.black12,
+                      ),
               )
-            : Container(height: 16),
+            : Container(width: 1, height: 2),
         expand
             ? Expanded(
-                child: Text(accountDisplayNameString(address, accInfo)),
+                child: Text(accountDisplayNameString(address, accInfo),
+                    overflow: TextOverflow.ellipsis),
               )
-            : Text(accountDisplayNameString(address, accInfo))
+            : Text(accountDisplayNameString(address, accInfo),
+                overflow: TextOverflow.ellipsis)
       ],
     );
   }
