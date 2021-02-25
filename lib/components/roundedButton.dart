@@ -7,6 +7,7 @@ class RoundedButton extends StatelessWidget {
     this.onPressed,
     this.icon,
     this.color,
+    this.gradientColor,
     this.expand,
     this.submitting = false,
   }) : assert(text != null);
@@ -15,6 +16,7 @@ class RoundedButton extends StatelessWidget {
   final Function onPressed;
   final Widget icon;
   final Color color;
+  final Color gradientColor;
   final bool expand;
   final bool submitting;
 
@@ -35,13 +37,31 @@ class RoundedButton extends StatelessWidget {
       text ?? '',
       style: Theme.of(context).textTheme.button,
     ));
+
     return RaisedButton(
-      padding: EdgeInsets.only(top: 12, bottom: 12),
-      color: color ?? Theme.of(context).primaryColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: row,
+      padding: EdgeInsets.all(0),
+      // color: color ?? Theme.of(context).primaryColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80)),
+      child: Ink(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Theme.of(context).primaryColor,
+                gradientColor ?? Theme.of(context).primaryColor
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomRight,
+              stops: [0.1, 0.9],
+            ),
+            borderRadius: BorderRadius.circular(80.0)),
+        child: Container(
+          constraints: BoxConstraints(minHeight: 50.0),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: row,
+          ),
+        ),
       ),
       onPressed: submitting ? null : onPressed,
     );

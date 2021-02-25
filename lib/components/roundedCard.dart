@@ -17,7 +17,7 @@ class RoundedCard extends StatelessWidget {
       child: child,
       decoration: BoxDecoration(
         border: border,
-        borderRadius: const BorderRadius.all(const Radius.circular(8)),
+        borderRadius: const BorderRadius.all(const Radius.circular(16)),
         color: Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
