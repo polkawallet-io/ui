@@ -38,12 +38,14 @@ class PageWrapperWithBackground extends StatelessWidget {
         Container(
           width: width,
           height: height ?? 200,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: backgroundImage,
-              fit: BoxFit.cover,
-            ),
-          ),
+          decoration: backgroundImage != null
+              ? BoxDecoration(
+                  image: DecorationImage(
+                    image: backgroundImage,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : null,
         ),
         child,
       ],

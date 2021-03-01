@@ -50,7 +50,7 @@ class RoundedButton extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [bgColor, Theme.of(context).accentColor],
+              colors: [bgColor, color ?? Theme.of(context).accentColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: [0.1, 0.9],
