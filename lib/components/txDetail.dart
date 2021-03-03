@@ -12,7 +12,7 @@ class TxDetail extends StatelessWidget {
     this.success,
     this.networkName,
     this.action,
-    this.fee,
+    @required this.fee,
     @required this.eventId,
     this.hash,
     this.blockTime,
@@ -46,12 +46,10 @@ class TxDetail extends StatelessWidget {
           children: <Widget>[
             Container(
               width: 120,
-              padding: EdgeInsets.all(24),
+              padding: EdgeInsets.all(16),
               child: success
-                  ? Image.asset(
-                      'packages/polkawallet_ui/assets/images/success.png')
-                  : Image.asset(
-                      'packages/polkawallet_ui/assets/images/error.png'),
+                  ? Icon(Icons.check_circle, color: Colors.lightGreen, size: 80)
+                  : Icon(Icons.error, color: Colors.red, size: 80),
             ),
             Text(
               '$action ${success ? dic['success'] : dic['fail']}',
@@ -173,7 +171,11 @@ class TxDetailItem extends StatelessWidget {
               color: Theme.of(context).unselectedWidgetColor,
             ),
           )),
-          i.content,
+          Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [i.content]),
+              flex: 0),
           i.copyText != null
               ? GestureDetector(
                   child: Padding(

@@ -10,7 +10,7 @@ class RoundedButton extends StatelessWidget {
     this.color,
     this.borderRadius = 80,
     this.submitting = false,
-  }) : assert(text != null);
+  });
 
   final String text;
   final Color textColor;
@@ -28,19 +28,23 @@ class RoundedButton extends StatelessWidget {
     }
     if (icon != null) {
       row.add(Container(
-        padding: EdgeInsets.only(right: 12),
-        width: 32,
-        child: icon,
+          padding: EdgeInsets.only(right: text == null ? 0 : 8), child: icon));
+    }
+    if (text != null) {
+      row.add(Text(
+        text,
+        style: textColor != null
+            ? TextStyle(color: textColor)
+            : Theme.of(context).textTheme.button,
       ));
     }
-    row.add(Text(
-      text ?? '',
-      style: textColor != null
-          ? TextStyle(color: textColor)
-          : Theme.of(context).textTheme.button,
-    ));
 
-    final bgColor = color ?? Theme.of(context).primaryColor;
+    final bgColor = onPressed == null || submitting
+        ? Theme.of(context).dividerColor
+        : (color ?? Theme.of(context).primaryColor);
+    final gradientColor = onPressed == null || submitting
+        ? Theme.of(context).dividerColor
+        : (color ?? Theme.of(context).accentColor);
 
     return RaisedButton(
       padding: EdgeInsets.all(0),
@@ -50,15 +54,15 @@ class RoundedButton extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [bgColor, color ?? Theme.of(context).accentColor],
+              colors: [bgColor, gradientColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: [0.1, 0.9],
             ),
             borderRadius: BorderRadius.circular(borderRadius)),
         child: Container(
-          padding: EdgeInsets.only(left: 32, right: 32),
-          constraints: BoxConstraints(minHeight: 50.0),
+          padding: EdgeInsets.only(left: 24, right: 24),
+          constraints: BoxConstraints(minHeight: 50.0, minWidth: 88),
           alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
