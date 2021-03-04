@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -87,8 +88,11 @@ class _QrSenderPageState extends State<QrSenderPage> {
                         ? Padding(
                             padding: EdgeInsets.all(16),
                             child: RoundedButton(
-                              icon: Image.asset(
-                                  'packages/polkawallet_ui/assets/images/scanner.png'),
+                              icon: SvgPicture.asset(
+                                'packages/polkawallet_ui/assets/images/scan.svg',
+                                width: 28,
+                                color: Theme.of(context).cardColor,
+                              ),
                               text: dic['uos.scan'],
                               onPressed: () {
                                 _handleScan(context);

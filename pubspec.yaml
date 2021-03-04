@@ -42,7 +42,7 @@ flutter:
    - assets/images/success.png
    - assets/images/error.png
    - assets/images/copy.png
-   - assets/images/scanner.png
+   - assets/images/scan.svg
    - assets/images/app.png
    - assets/images/receive_line.png
 
