@@ -48,8 +48,8 @@ class UI {
       }
       if (accInfo['identity']['judgements'].length > 0) {
         final judgement = accInfo['identity']['judgements'][0][1];
-        if (Map.of(judgement).keys.contains('KnownGood') ||
-            Map.of(judgement).keys.contains('Reasonable')) {
+        if (Map.of(judgement).keys.contains('knownGood') ||
+            Map.of(judgement).keys.contains('reasonable')) {
           good = true;
         }
       }

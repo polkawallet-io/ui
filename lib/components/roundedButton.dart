@@ -28,15 +28,18 @@ class RoundedButton extends StatelessWidget {
     }
     if (icon != null) {
       row.add(Container(
-          padding: EdgeInsets.only(right: text == null ? 0 : 8), child: icon));
+          padding: EdgeInsets.only(right: text == null ? 0 : 4), child: icon));
     }
     if (text != null) {
-      row.add(Text(
-        text,
-        style: textColor != null
-            ? TextStyle(color: textColor)
-            : Theme.of(context).textTheme.button,
-      ));
+      row.add(Expanded(
+          flex: 0,
+          child: Text(
+            text,
+            style: textColor != null
+                ? TextStyle(color: textColor)
+                : Theme.of(context).textTheme.button,
+            overflow: TextOverflow.ellipsis,
+          )));
     }
 
     final bgColor = onPressed == null || submitting
@@ -61,7 +64,7 @@ class RoundedButton extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(borderRadius)),
         child: Container(
-          padding: EdgeInsets.only(left: 24, right: 24),
+          padding: EdgeInsets.only(left: 16, right: 16),
           constraints: BoxConstraints(minHeight: 50.0, minWidth: 88),
           alignment: Alignment.center,
           child: Row(

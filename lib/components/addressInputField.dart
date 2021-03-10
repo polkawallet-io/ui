@@ -176,12 +176,15 @@ class _AddressInputFieldState extends State<AddressInputField> {
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<KeyPairData>(
-      mode: Mode.BOTTOM_SHEET,
+      mode: Mode.DIALOG,
       isFilteredOnline: true,
       showSearchBox: true,
       showSelectedItem: true,
-      autoFocusSearchBox: true,
-      searchBoxDecoration: InputDecoration(hintText: widget.label),
+      searchBoxDecoration: InputDecoration(
+        border: OutlineInputBorder(),
+        contentPadding: EdgeInsets.fromLTRB(12, 12, 8, 0),
+        labelText: widget.label,
+      ),
       label: widget.label,
       selectedItem: widget.initialValue,
       compareFn: (KeyPairData i, s) => i.pubKey == s?.pubKey,
