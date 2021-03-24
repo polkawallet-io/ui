@@ -83,14 +83,20 @@ class _AddressInputFieldState extends State<AddressInputField> {
         });
       }
 
-      final addressInfo =
-          await widget.api.account.queryIndexInfo([acc.address]);
-      if (addressInfo != null && addressInfo.length > 0) {
-        acc.name = UI.accountDisplayNameString(acc.address, addressInfo[0]);
-        setState(() {
-          _addressIndexMap.addAll({acc.address: addressInfo[0]});
-        });
+      // The indices query too slow, so we use address as account name
+      if (acc.name == null) {
+        acc.name = Fmt.address(acc.address);
       }
+      // final addressInfo =
+      //     await widget.api.account.queryIndexInfo([acc.address]);
+      // if (addressInfo != null && addressInfo.length > 0) {
+      //   print(addressInfo[0]);
+      //   acc.name = UI.accountDisplayNameString(acc.address, addressInfo[0]);
+      //   print(acc.name);
+      //   setState(() {
+      //     _addressIndexMap.addAll({acc.address: addressInfo[0]});
+      //   });
+      // }
     }
     return [acc];
   }
