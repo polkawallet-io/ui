@@ -1,14 +1,14 @@
 import 'package:flutter/services.dart';
 
-class RegExInputFormatter implements TextInputFormatter {
+class NumberInputFormatter implements TextInputFormatter {
   final RegExp _regExp;
 
-  RegExInputFormatter._(this._regExp);
+  NumberInputFormatter._(this._regExp);
 
-  factory RegExInputFormatter.withRegex(String regexString) {
+  factory NumberInputFormatter.withRegex(String regexString) {
     try {
       final regex = RegExp(regexString);
-      return RegExInputFormatter._(regex);
+      return NumberInputFormatter._(regex);
     } catch (e) {
       // Something not right with regex string.
       assert(false, e.toString());
@@ -24,7 +24,18 @@ class RegExInputFormatter implements TextInputFormatter {
     if (oldValueValid && !newValueValid) {
       return oldValue;
     }
-    return newValue;
+
+    String truncated = newValue.text;
+    TextSelection newSelection = newValue.selection;
+
+    if (newValue.text.contains(",")) {
+      truncated = newValue.text.replaceFirst(RegExp(','), '.');
+    }
+
+    return TextEditingValue(
+      text: truncated,
+      selection: newSelection,
+    );
   }
 
   bool _isValid(String value) {
