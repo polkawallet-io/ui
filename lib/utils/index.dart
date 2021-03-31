@@ -7,7 +7,6 @@ import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
-import 'package:polkawallet_ui/utils/regInputFormatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UI {
@@ -101,8 +100,8 @@ class UI {
   }
 
   static TextInputFormatter decimalInputFormatter(int decimals) {
-    return RegExInputFormatter.withRegex(
-        '^[0-9]{0,$decimals}(\\.[0-9]{0,$decimals})?\$');
+    return NumberInputFormatter.withRegex(
+        '^[0-9]{0,$decimals}((\\.|,)[0-9]{0,$decimals})?\$');
   }
 
   static Future<void> launchURL(String url) async {
@@ -114,6 +113,61 @@ class UI {
       }
     } else {
       print('Could not launch $url');
+    }
+  }
+}
+
+class NumberInputFormatter implements TextInputFormatter {
+  final RegExp _regExp;
+
+  NumberInputFormatter._(this._regExp);
+
+  factory NumberInputFormatter.withRegex(String regexString) {
+    try {
+      final regex = RegExp(regexString);
+      return NumberInputFormatter._(regex);
+    } catch (e) {
+      // Something not right with regex string.
+      assert(false, e.toString());
+      return null;
+    }
+  }
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final oldValueValid = _isValid(oldValue.text);
+    final newValueValid = _isValid(newValue.text);
+    if (oldValueValid && !newValueValid) {
+      return oldValue;
+    }
+
+    String truncated = newValue.text;
+    TextSelection newSelection = newValue.selection;
+
+    if (newValue.text.contains(",")) {
+      truncated = newValue.text.replaceFirst(RegExp(','), '.');
+    }
+
+    return TextEditingValue(
+      text: truncated,
+      selection: newSelection,
+    );
+  }
+
+  bool _isValid(String value) {
+    try {
+      final matches = _regExp.allMatches(value);
+      for (Match match in matches) {
+        if (match.start == 0 && match.end == value.length) {
+          return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      // Invalid regex
+      assert(false, e.toString());
+      return true;
     }
   }
 }
