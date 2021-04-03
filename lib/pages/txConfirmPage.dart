@@ -33,6 +33,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   bool _submitting = false;
 
   TxFeeEstimateResult _fee;
+  bool _tipExpanded = false;
   double _tip = 0;
   BigInt _tipValue = BigInt.zero;
   KeyPairData _proxyAccount;
@@ -448,43 +449,80 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           },
                         ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 64,
-                          child: Text(dic['tx.tip']),
+                    padding: EdgeInsets.only(top: 8),
+                    child: GestureDetector(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8, top: 8),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              _tipExpanded
+                                  ? Icons.arrow_drop_up
+                                  : Icons.arrow_drop_down,
+                              size: 30,
+                              color: Theme.of(context).unselectedWidgetColor,
+                            ),
+                            Text(dicAcc['advanced'])
+                          ],
                         ),
-                        Text('${Fmt.token(_tipValue, decimals)} $symbol'),
-                        TapTooltip(
-                          message: dic['tx.tip.brief'],
-                          child: Icon(
-                            Icons.info,
-                            color: Theme.of(context).unselectedWidgetColor,
-                            size: 16,
-                          ),
-                        ),
-                      ],
+                      ),
+                      onTap: () {
+                        // clear state while advanced options closed
+                        if (_tipExpanded) {
+                          setState(() {
+                            _tip = 0;
+                            _tipValue = BigInt.zero;
+                          });
+                        }
+                        setState(() {
+                          _tipExpanded = !_tipExpanded;
+                        });
+                      },
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    child: Row(
-                      children: <Widget>[
-                        Text('0'),
-                        Expanded(
-                          child: Slider(
-                            min: 0,
-                            max: 19,
-                            divisions: 19,
-                            value: _tip,
-                            onChanged: _submitting ? null : _onTipChanged,
+                  _tipExpanded
+                      ? Padding(
+                          padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 64,
+                                child: Text(dic['tx.tip']),
+                              ),
+                              Text('${Fmt.token(_tipValue, decimals)} $symbol'),
+                              TapTooltip(
+                                message: dic['tx.tip.brief'],
+                                child: Icon(
+                                  Icons.info,
+                                  color:
+                                      Theme.of(context).unselectedWidgetColor,
+                                  size: 16,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Text('1')
-                      ],
-                    ),
-                  )
+                        )
+                      : Container(),
+                  _tipExpanded
+                      ? Padding(
+                          padding: EdgeInsets.only(left: 16, right: 16),
+                          child: Row(
+                            children: <Widget>[
+                              Text('0'),
+                              Expanded(
+                                child: Slider(
+                                  min: 0,
+                                  max: 19,
+                                  divisions: 19,
+                                  value: _tip,
+                                  onChanged: _submitting ? null : _onTipChanged,
+                                ),
+                              ),
+                              Text('1')
+                            ],
+                          ),
+                        )
+                      : Container()
                 ],
               ),
             ),

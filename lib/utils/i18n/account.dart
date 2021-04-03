@@ -8,6 +8,7 @@ const Map<String, String> enAccount = {
   'uos.push': 'Scan to publish',
   'uos.warn':
       'Safety Warning!!! DO NOT send this QR to anyone or you may LOSE your assets!!!',
+  'advanced': 'Advanced Options',
 };
 
 const Map<String, String> zhAccount = {
@@ -19,4 +20,5 @@ const Map<String, String> zhAccount = {
   'uos.signer': '签名账户',
   'uos.push': '扫码发送交易',
   'uos.warn': '安全警告!!! 不要将该二维码发送给任何人!!! 泄露该二维码会导致账户资产丢失!!!',
+  'advanced': '高级选项',
 };
