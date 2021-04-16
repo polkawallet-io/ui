@@ -186,6 +186,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
       isFilteredOnline: true,
       showSearchBox: true,
       showSelectedItem: true,
+      autoFocusSearchBox: true,
       searchBoxDecoration: InputDecoration(
         border: OutlineInputBorder(),
         contentPadding: EdgeInsets.fromLTRB(12, 12, 8, 0),
