@@ -5,6 +5,7 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_ui/components/addressIcon.dart';
 import 'package:polkawallet_ui/components/roundedButton.dart';
 import 'package:polkawallet_ui/components/roundedCard.dart';
+import 'package:polkawallet_ui/components/textTag.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -20,9 +21,10 @@ class AccountQrCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String codeAddress =
+    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'account');
+
+    final codeAddress =
         'substrate:${keyring.current.address}:${keyring.current.pubKey}:${keyring.current.name}';
-    Color themeColor = Theme.of(context).primaryColor;
 
     final accInfo = keyring.current.indexInfo;
     final qrWidth = MediaQuery.of(context).size.width / 2;
@@ -31,8 +33,7 @@ class AccountQrCodePage extends StatelessWidget {
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-            I18n.of(context).getDic(i18n_full_dic_ui, 'account')['receive']),
+        title: Text(dic['receive']),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -42,6 +43,13 @@ class AccountQrCodePage extends StatelessWidget {
               margin: EdgeInsets.fromLTRB(32, 16, 32, 16),
               child: Column(
                 children: <Widget>[
+                  keyring.current.observation ?? false
+                      ? Container(
+                          margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                          child:
+                              TextTag(dic['warn.external'], color: Colors.red),
+                        )
+                      : Container(),
                   Padding(
                     padding: EdgeInsets.only(top: 24, bottom: 8),
                     child: AddressIcon(
