@@ -296,6 +296,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
     final dicAcc = I18n.of(context).getDic(i18n_full_dic_ui, 'account');
 
+    final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
+    final isNetworkMatch = widget.plugin.networkState.genesisHash ==
+        widget.plugin.basic.genesisHash;
+
     final bool isKusama = widget.plugin.basic.name == 'kusama';
     final String symbol = (widget.plugin.networkState.tokenSymbol ?? [''])[0];
     final int decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
@@ -369,6 +373,24 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           onTap: () => _onSwitch(true),
                         )
                       : Container(),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Container(width: 64, child: Text(dic["tx.network"])),
+                        !isNetworkConnected
+                            ? Container()
+                            : Container(
+                                width: 28,
+                                margin: EdgeInsets.only(right: 8),
+                                child: widget.plugin.basic.icon),
+                        Expanded(
+                            child: !isNetworkConnected
+                                ? Text(dic['tx.network.no'])
+                                : Text(widget.plugin.basic.name))
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.all(16),
                     child: Row(
@@ -526,55 +548,63 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 ],
               ),
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    color: _submitting ? Colors.black12 : Colors.orange,
-                    child: FlatButton(
-                      padding: EdgeInsets.all(16),
-                      child: Text(dic['cancel'],
-                          style: TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    color: _submitting
-                        ? Theme.of(context).disabledColor
-                        : Theme.of(context).primaryColor,
-                    child: Builder(
-                      builder: (BuildContext context) {
-                        return FlatButton(
-                          padding: EdgeInsets.all(16),
-                          child: Text(
-                            isUnsigned
-                                ? dic['tx.no.sign']
-                                : (isObservation && _proxyAccount == null) ||
-                                        isProxyObservation
-                                    ? dic['tx.qr']
-                                    // dicAcc['observe.invalid']
-                                    : dic['tx.submit'],
-                            style: TextStyle(color: Colors.white),
+            !isNetworkConnected
+                ? Container()
+                : Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          color: _submitting ? Colors.black12 : Colors.orange,
+                          child: FlatButton(
+                            padding: EdgeInsets.all(16),
+                            child: Text(dic['cancel'],
+                                style: TextStyle(color: Colors.white)),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
-                          onPressed: isUnsigned
-                              ? () => _onSubmit(context)
-                              : (isObservation && _proxyAccount == null) ||
-                                      isProxyObservation
-                                  ? () => _onSubmit(context, viaQr: true)
-                                  : _submitting
-                                      ? null
-                                      : () => _showPasswordDialog(context),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            )
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          color: _submitting || !isNetworkMatch
+                              ? Theme.of(context).disabledColor
+                              : Theme.of(context).primaryColor,
+                          child: Builder(
+                            builder: (BuildContext context) {
+                              return FlatButton(
+                                padding: EdgeInsets.all(16),
+                                child: Text(
+                                  isUnsigned
+                                      ? dic['tx.no.sign']
+                                      : (isObservation &&
+                                                  _proxyAccount == null) ||
+                                              isProxyObservation
+                                          ? dic['tx.qr']
+                                          // dicAcc['observe.invalid']
+                                          : dic['tx.submit'],
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: !isNetworkMatch
+                                    ? null
+                                    : isUnsigned
+                                        ? () => _onSubmit(context)
+                                        : (isObservation &&
+                                                    _proxyAccount == null) ||
+                                                isProxyObservation
+                                            ? () =>
+                                                _onSubmit(context, viaQr: true)
+                                            : _submitting
+                                                ? null
+                                                : () => _showPasswordDialog(
+                                                    context),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
           ],
         ),
       ),

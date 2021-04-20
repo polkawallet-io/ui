@@ -15,6 +15,8 @@ const Map<String, String> enCommon = {
   'list.end': 'No more data',
   'tx.submit': 'Submit',
   'tx.from': 'You are about to sign a transaction from ',
+  'tx.network': 'Network',
+  'tx.network.no': 'Not connected',
   'tx.call': 'Calling',
   'tx.proxy': 'sign with proxy account',
   'tx.proxy.brief':
@@ -66,6 +68,8 @@ const Map<String, String> zhCommon = {
   'list.end': '加载完毕',
   'tx.submit': '发送交易',
   'tx.from': '您将用以下账户发送交易',
+  'tx.network': '网络',
+  'tx.network.no': '未连接',
   'tx.call': '调用',
   'tx.proxy': '使用代理账户签名',
   'tx.proxy.brief': '\n完成社交恢复流程的账户\n可以使用代理账户发送交易\n',
