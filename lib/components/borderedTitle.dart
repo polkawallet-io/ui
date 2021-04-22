@@ -2,21 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BorderedTitle extends StatelessWidget {
-  BorderedTitle({this.title});
+  BorderedTitle({this.title, this.lineWidth = 6});
   final String title;
+  final double lineWidth;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 8),
-      decoration: BoxDecoration(
-        border: Border(
-            left: BorderSide(width: 3, color: Theme.of(context).primaryColor)),
-      ),
-      child: Text(
-        title,
-        style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black54),
-      ),
+    return Row(
+      children: [
+        Container(
+          width: lineWidth,
+          height: 18,
+          margin: EdgeInsets.only(right: 8),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: Theme.of(context).primaryColor),
+        ),
+        Text(
+          title,
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black54),
+        )
+      ],
     );
   }
 }
