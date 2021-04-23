@@ -297,8 +297,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final dicAcc = I18n.of(context).getDic(i18n_full_dic_ui, 'account');
 
     final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
-    final isNetworkMatch = widget.plugin.networkState.genesisHash ==
-        widget.plugin.basic.genesisHash;
+    // todo: update this check with sdk 0.1.7
+    final isNetworkMatch = true;
+    // final isNetworkMatch = widget.plugin.networkState.genesisHash ==
+    //     widget.plugin.basic.genesisHash;
 
     final bool isKusama = widget.plugin.basic.name == 'kusama';
     final String symbol = (widget.plugin.networkState.tokenSymbol ?? [''])[0];
