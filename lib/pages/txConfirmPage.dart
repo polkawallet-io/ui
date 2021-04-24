@@ -384,6 +384,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             ? Container()
                             : Container(
                                 width: 28,
+                                height: 28,
                                 margin: EdgeInsets.only(right: 8),
                                 child: widget.plugin.basic.icon),
                         Expanded(
