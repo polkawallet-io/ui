@@ -32,7 +32,7 @@ class UI {
   }
 
   static String accountName(BuildContext context, KeyPairData acc) {
-    return '${accountDisplayNameString(acc.address, acc.name.isEmpty ? acc.indexInfo : null, acc.name)}' +
+    return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}' +
         '${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
   }
 
