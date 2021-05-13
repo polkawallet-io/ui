@@ -12,8 +12,8 @@ class TxDetail extends StatelessWidget {
     this.success,
     this.networkName,
     this.action,
-    @required this.fee,
-    @required this.eventId,
+    this.fee,
+    this.eventId,
     this.hash,
     this.blockTime,
     this.blockNum,
@@ -115,10 +115,14 @@ class TxDetail extends StatelessWidget {
       padding: EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
         children: [
-          TxDetailItem(
-              TxDetailInfoItem(label: dic['tx.fee'], content: Text(fee))),
-          TxDetailItem(
-              TxDetailInfoItem(label: 'Event', content: Text(eventId))),
+          fee != null
+              ? TxDetailItem(
+                  TxDetailInfoItem(label: dic['tx.fee'], content: Text(fee)))
+              : Container(),
+          eventId != null
+              ? TxDetailItem(
+                  TxDetailInfoItem(label: 'Event', content: Text(eventId)))
+              : Container(),
           TxDetailItem(
               TxDetailInfoItem(label: 'Block', content: Text('#$blockNum'))),
           TxDetailItem(TxDetailInfoItem(
