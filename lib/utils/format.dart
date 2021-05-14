@@ -8,7 +8,7 @@ class Fmt {
     if (time == null) {
       return 'date-time';
     }
-    return DateFormat.yMd().add_Hm().format(time);
+    return DateFormat.yMd().add_Hm().format(time.toLocal());
   }
 
   static String blockToTime(int blocks, int blockDuration) {
