@@ -32,7 +32,8 @@ class UI {
   }
 
   static String accountName(BuildContext context, KeyPairData acc) {
-    return '${acc.name ?? accountDisplayNameString(acc.address, acc.indexInfo)}${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
+    return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}' +
+        '${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
   }
 
   static Widget accountDisplayName(
@@ -84,8 +85,9 @@ class UI {
     );
   }
 
-  static String accountDisplayNameString(String address, Map accInfo) {
-    String display = Fmt.address(address, pad: 6);
+  static String accountDisplayNameString(String address, Map accInfo,
+      [String localName = ""]) {
+    String display = localName ?? Fmt.address(address, pad: 6);
     if (accInfo != null) {
       if (accInfo['identity']['display'] != null) {
         display = accInfo['identity']['display'];
