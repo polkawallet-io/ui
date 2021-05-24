@@ -1,6 +1,6 @@
 name: polkawallet_ui
 description: Common used Widgets for polkawallet app.
-version: 0.1.7
+version: 0.1.8
 homepage: https://polkawallet.io
 
 environment:
@@ -10,20 +10,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: ^0.19.3
-  permission_handler: ^4.2.0
+  flutter_svg: ^0.22.0
+  permission_handler: ^7.2.0
   dropdown_search: ^0.4.9
-  url_launcher: ^5.4.2
+  url_launcher: ^6.0.4
   intl: ^0.17.0
   qr_flutter:
     git:
       url: https://github.com/polkawallet-io/qr.flutter.git
       ref: master
   flutter_qr_scan:
-    git:
-      url: https://github.com/polkawallet-io/flutter_qr_reader.git
-      ref: master
-  polkawallet_sdk: ^0.1.7
+    path: ../flutter_qr_reader
+#    git:
+#      url: https://github.com/polkawallet-io/flutter_qr_reader.git
+#      ref: 3415c3a369c38b6929a67209164a345b1d31b50f
+#  polkawallet_sdk: ^0.1.7
+  polkawallet_sdk:
+    path: ../sdk
 
 dev_dependencies:
   flutter_test:
