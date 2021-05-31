@@ -40,6 +40,7 @@ class UI {
     String address,
     Map accInfo, {
     bool expand = true,
+    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   }) {
     bool hasId = false;
     bool good = false;
@@ -56,6 +57,7 @@ class UI {
       }
     }
     return Row(
+      mainAxisAlignment: mainAxisAlignment,
       children: <Widget>[
         hasId
             ? Container(

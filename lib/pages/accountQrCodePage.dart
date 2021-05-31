@@ -57,11 +57,10 @@ class AccountQrCodePage extends StatelessWidget {
                       svg: keyring.current.icon,
                     ),
                   ),
-                  Text(
-                    UI.accountDisplayNameString(
-                        keyring.current.address, keyring.current.indexInfo),
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
+                  UI.accountDisplayName(
+                      keyring.current.address, keyring.current.indexInfo,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      expand: false),
                   accInfo != null && accInfo['accountIndex'] != null
                       ? Padding(
                           padding: EdgeInsets.all(8),
