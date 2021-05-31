@@ -88,7 +88,7 @@ class UI {
   }
 
   static String accountDisplayNameString(String address, Map accInfo,
-      [String localName = ""]) {
+      [String localName]) {
     String display = localName ?? Fmt.address(address, pad: 6);
     if (accInfo != null) {
       if (accInfo['identity']['display'] != null) {
