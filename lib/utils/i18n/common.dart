@@ -63,7 +63,7 @@ const Map<String, String> zhCommon = {
   'next': '下一步',
   'loading': '载入中。。。',
   'assets': '资产',
-  'profile': '设置',
+  'profile': '我的',
   'list.empty': '暂无数据',
   'list.end': '加载完毕',
   'tx.submit': '发送交易',
