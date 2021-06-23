@@ -1,3 +1,3 @@
-## [0.0.1] - TODO: Add release date.
+## [0.2.2] - 20210623.
 
-* TODO: Describe initial release.
+* bump polkawallet_sdk: 0.2.2.
