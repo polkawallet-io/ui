@@ -18,22 +18,14 @@ class PageTitleTabs extends StatelessWidget {
           return GestureDetector(
             child: Column(
               children: <Widget>[
-                Container(
-                  width: 160,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        title,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: activeTab == index
-                                ? Theme.of(context).cardColor
-                                : Colors.white70,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
+                Text(
+                  title,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: activeTab == index
+                          ? Theme.of(context).cardColor
+                          : Colors.white70,
+                      fontWeight: FontWeight.w500),
                 ),
                 Container(
                   height: 12,
