@@ -70,7 +70,7 @@ packages:
       name: dropdown_search
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.9"
+    version: "0.6.3"
   fake_async:
     dependency: transitive
     description:
@@ -121,9 +121,11 @@ packages:
   flutter_qr_scan:
     dependency: "direct main"
     description:
-      path: "../flutter_qr_reader"
-      relative: true
-    source: path
+      path: "."
+      ref: a125851ca20038767ac4efa2e20d12116a390414
+      resolved-ref: a125851ca20038767ac4efa2e20d12116a390414
+      url: "https://github.com/polkawallet-io/flutter_qr_reader.git"
+    source: git
     version: "1.0.6"
   flutter_svg:
     dependency: "direct main"
@@ -233,6 +235,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
   logging:
     dependency: transitive
     description:
@@ -376,10 +385,10 @@ packages:
   polkawallet_sdk:
     dependency: "direct main"
     description:
-      path: "../sdk"
-      relative: true
-    source: path
-    version: "0.1.8"
+      name: polkawallet_sdk
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.5"
   process:
     dependency: transitive
     description:
@@ -554,7 +563,7 @@ packages:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.7"
+    version: "2.0.10"
   win32:
     dependency: transitive
     description:
@@ -578,4 +587,4 @@ packages:
     version: "5.1.1"
 sdks:
   dart: ">=2.13.0 <3.0.0"
-  flutter: ">=1.24.0-7.0"
+  flutter: ">=2.0.0"

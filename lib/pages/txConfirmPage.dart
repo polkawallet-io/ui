@@ -89,54 +89,33 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     _getTxFee(reload: true);
   }
 
-  void _onTxFinish(BuildContext context, Map res) {
-    print('callback triggered, blockHash: ${res['hash']}');
-    if (mounted) {
-      final ScaffoldState state = Scaffold.of(context);
-
-      state.removeCurrentSnackBar();
-      state.showSnackBar(SnackBar(
-        backgroundColor: Colors.white,
-        content: ListTile(
-          leading: Container(
-            width: 24,
-            child: Image.asset(
-                'packages/polkawallet_ui/assets/images/success.png'),
-          ),
-          title: Text(
-            I18n.of(context).getDic(i18n_full_dic_ui, 'common')['success'],
-            style: TextStyle(color: Colors.black54),
-          ),
-        ),
-        duration: Duration(seconds: 2),
-      ));
-
-      Timer(Duration(seconds: 2), () {
-        Navigator.of(context).pop(res);
-      });
+  void _onTxFinish(BuildContext context, Map res, String errorMsg) async {
+    if (res != null) {
+      print('callback triggered, blockHash: ${res['hash']}');
     }
-  }
-
-  void _onTxError(BuildContext context, String errorMsg) {
     if (mounted) {
-      Scaffold.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      await showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: errorMsg != null
+                ? Icon(Icons.cancel, color: Colors.red, size: 32)
+                : Icon(Icons.check_circle, color: Colors.lightGreen, size: 32),
+            content: Text(errorMsg ??
+                I18n.of(context).getDic(i18n_full_dic_ui, 'common')['success']),
+            actions: <Widget>[
+              CupertinoButton(
+                child: Text(
+                    I18n.of(context).getDic(i18n_full_dic_ui, 'common')['ok']),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        },
+      );
+      Navigator.of(context).pop(res);
     }
-    showCupertinoDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: Container(),
-          content: Text(errorMsg),
-          actions: <Widget>[
-            CupertinoButton(
-              child: Text(
-                  I18n.of(context).getDic(i18n_full_dic_ui, 'common')['ok']),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Future<bool> _validateProxy() async {
@@ -213,9 +192,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       final res = viaQr
           ? await _sendTxViaQr(context, txInfo, args)
           : await _sendTx(context, txInfo, args, password);
-      _onTxFinish(context, res);
+      _onTxFinish(context, res, null);
     } catch (err) {
-      _onTxError(context, err.toString());
+      _onTxFinish(context, null, err.toString());
     }
     setState(() {
       _submitting = false;
@@ -261,8 +240,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   void _updateTxStatus(BuildContext context, String status) {
-    Scaffold.of(context).removeCurrentSnackBar();
-    Scaffold.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: Theme.of(context).cardColor,
       content: ListTile(
         leading: CupertinoActivityIndicator(),

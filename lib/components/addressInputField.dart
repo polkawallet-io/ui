@@ -184,6 +184,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
     return DropdownSearch<KeyPairData>(
       mode: Mode.DIALOG,
       isFilteredOnline: true,
+      popupSafeArea: PopupSafeArea(top: true, bottom: true),
       showSearchBox: true,
       showSelectedItem: true,
       autoFocusSearchBox: true,
