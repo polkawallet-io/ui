@@ -6,11 +6,13 @@ class OutlinedButtonSmall extends StatelessWidget {
       this.active = false,
       this.color,
       this.margin,
+      this.padding,
       this.onPressed});
   final String content;
   final bool active;
   final Color color;
   final EdgeInsets margin;
+  final EdgeInsets padding;
   final Function onPressed;
   @override
   Widget build(BuildContext context) {
@@ -20,13 +22,17 @@ class OutlinedButtonSmall extends StatelessWidget {
     return GestureDetector(
       child: Container(
         margin: margin ?? EdgeInsets.only(right: 8),
-        padding: EdgeInsets.fromLTRB(12, 4, 12, 4),
+        padding: padding ?? EdgeInsets.fromLTRB(12, 4, 12, 4),
         decoration: BoxDecoration(
           color: active ? primary : white,
           border: Border.all(color: active ? primary : grey),
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderRadius: BorderRadius.all(Radius.circular(80)),
         ),
-        child: Text(content, style: TextStyle(color: active ? white : grey)),
+        child: Text(
+          content,
+          style: TextStyle(color: active ? white : grey),
+          textAlign: TextAlign.center,
+        ),
       ),
       onTap: onPressed,
     );

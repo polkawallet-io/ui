@@ -302,6 +302,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
           children: <Widget>[
             Expanded(
               child: ListView(
+                padding: EdgeInsets.only(bottom: 24),
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(16),
