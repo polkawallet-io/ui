@@ -1,3 +1,8 @@
+## [0.2.7] - 20210726.
+
+* bump polkawallet_sdk: 0.2.7.
+* add address.mismatch error message
+
 ## [0.2.6] - 20210723.
 
 * bump polkawallet_sdk: 0.2.6.
