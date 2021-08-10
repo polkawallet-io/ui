@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/components/tapTooltip.dart';
 
 class InfoItem extends StatelessWidget {
   InfoItem({
@@ -10,6 +11,7 @@ class InfoItem extends StatelessWidget {
     this.crossAxisAlignment,
     this.flex = 1,
     this.lowTitle = false,
+    this.titleToolTip,
   });
   final String title;
   final String content;
@@ -18,11 +20,30 @@ class InfoItem extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
   final int flex;
   final bool lowTitle;
+  final String titleToolTip;
   @override
   Widget build(BuildContext context) {
     final textColor = color ?? Theme.of(context).unselectedWidgetColor;
     final List<Widget> res = [
-      Text(title, style: TextStyle(fontSize: 12, color: titleColor)),
+      titleToolTip != null
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(right: 4),
+                  child: TapTooltip(
+                    message: titleToolTip,
+                    child: Icon(
+                      Icons.info,
+                      color: Theme.of(context).disabledColor,
+                      size: 14,
+                    ),
+                  ),
+                ),
+                Text(title, style: TextStyle(fontSize: 12, color: titleColor))
+              ],
+            )
+          : Text(title, style: TextStyle(fontSize: 12, color: titleColor)),
       Text(
         content ?? '-',
         style: TextStyle(

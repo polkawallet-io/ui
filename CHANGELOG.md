@@ -1,3 +1,8 @@
+## [0.2.8] - 20210810.
+
+* bump polkawallet_sdk: 0.2.8.
+* update passwordInputDialog.
+
 ## [0.2.7] - 20210726.
 
 * bump polkawallet_sdk: 0.2.7.

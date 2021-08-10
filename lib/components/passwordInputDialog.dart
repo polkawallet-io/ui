@@ -87,12 +87,14 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 12),
-            child: CupertinoTextField(
-              placeholder: dic['pass.old'],
-              controller: _passCtrl,
-              obscureText: true,
-              clearButtonMode: OverlayVisibilityMode.editing,
-            ),
+            child: _submitting
+                ? Text(dic['pass.checking'])
+                : CupertinoTextField(
+                    placeholder: dic['pass.old'],
+                    controller: _passCtrl,
+                    obscureText: true,
+                    clearButtonMode: OverlayVisibilityMode.editing,
+                  ),
           ),
         ],
       ),
