@@ -123,8 +123,10 @@ class TxDetail extends StatelessWidget {
               ? TxDetailItem(
                   TxDetailInfoItem(label: 'Event', content: Text(eventId)))
               : Container(),
-          TxDetailItem(
-              TxDetailInfoItem(label: 'Block', content: Text('#$blockNum'))),
+          blockNum != null
+              ? TxDetailItem(
+                  TxDetailInfoItem(label: 'Block', content: Text('#$blockNum')))
+              : Container(),
           TxDetailItem(TxDetailInfoItem(
               label: 'Hash', content: Text(Fmt.address(hash)))),
           Padding(
