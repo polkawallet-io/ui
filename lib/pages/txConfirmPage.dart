@@ -34,6 +34,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
   TxFeeEstimateResult _fee;
   bool _tipExpanded = false;
+  bool _paramsExpanded = false;
   double _tip = 0;
   BigInt _tipValue = BigInt.zero;
   KeyPairData _proxyAccount;
@@ -409,6 +410,43 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           ),
                         ],
                       ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 16),
+                      child: GestureDetector(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 8),
+                          child: Row(
+                            children: <Widget>[
+                              Text('Params'),
+                              Icon(
+                                _paramsExpanded
+                                    ? Icons.arrow_drop_up
+                                    : Icons.arrow_drop_down,
+                                size: 30,
+                                color: Theme.of(context).unselectedWidgetColor,
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _paramsExpanded = !_paramsExpanded;
+                          });
+                        },
+                      ),
+                    ),
+                    _paramsExpanded
+                        ? Container(
+                            margin: EdgeInsets.only(left: 80),
+                            child: Text(
+                              JsonEncoder.withIndent('  ').convert(args.params),
+                            ),
+                          )
+                        : Container(),
+                    Container(
+                      margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                      child: Divider(),
                     ),
                     isUnsigned
                         ? Container()
