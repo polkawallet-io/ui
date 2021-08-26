@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qr_scan/qrcode_reader_view.dart';
-
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -60,7 +59,10 @@ class ScanPage extends StatelessWidget {
             hex: data,
           ));
         } else if (rawData != null &&
-            (rawData.endsWith('ec') || rawData.endsWith('ec11'))) {
+            rawData.startsWith('4') &&
+            (rawData.endsWith('ec') ||
+                rawData.endsWith('ec11') ||
+                rawData.endsWith('0'))) {
           print('rawBytes detected in Qr');
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.rawData,
