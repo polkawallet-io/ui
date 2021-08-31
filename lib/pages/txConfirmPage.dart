@@ -440,7 +440,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         ? Container(
                             margin: EdgeInsets.only(left: 80),
                             child: Text(
-                              JsonEncoder.withIndent('  ').convert(args.params),
+                              args.rawParams != null
+                                  ? args.rawParams
+                                  : JsonEncoder.withIndent('  ')
+                                      .convert(args.params),
                             ),
                           )
                         : Container(),
