@@ -104,7 +104,7 @@ class UI {
     return display;
   }
 
-  static TextInputFormatter decimalInputFormatter(int decimals) {
+  static TextInputFormatter? decimalInputFormatter(int decimals) {
     return NumberInputFormatter.withRegex(
         '^[0-9]{0,$decimals}((\\.|,)[0-9]{0,$decimals})?\$');
   }
