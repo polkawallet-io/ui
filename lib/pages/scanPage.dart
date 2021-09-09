@@ -22,9 +22,9 @@ class ScanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future onScan(String txt, String rawData) async {
+    Future onScan(String? txt, String? rawData) async {
       String address = '';
-      final String data = txt.trim();
+      final String data = txt!.trim();
       if (data != null) {
         List<String> ls = data.split(':');
 
@@ -69,7 +69,7 @@ class ScanPage extends StatelessWidget {
             rawData: rawData,
           ));
         } else {
-          _qrViewKey.currentState.startScan();
+          _qrViewKey.currentState!.startScan();
         }
       }
     }
@@ -105,10 +105,10 @@ enum QRCodeResultType { address, hex, rawData }
 class QRCodeResult {
   QRCodeResult({this.type, this.address, this.hex, this.rawData});
 
-  final QRCodeResultType type;
-  final QRCodeAddressResult address;
-  final String hex;
-  final String rawData;
+  final QRCodeResultType? type;
+  final QRCodeAddressResult? address;
+  final String? hex;
+  final String? rawData;
 }
 
 class QRCodeAddressResult {

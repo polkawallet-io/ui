@@ -16,14 +16,14 @@ class TxConfirmParams {
     this.txTitle,
     this.txName,
   });
-  final String module;
-  final String call;
-  final List params;
-  final String rawParams;
-  final bool isUnsigned;
-  final Map txDisplay;
-  final String txTitle;
-  final String txName;
+  final String? module;
+  final String? call;
+  final List? params;
+  final String? rawParams;
+  final bool? isUnsigned;
+  final Map? txDisplay;
+  final String? txTitle;
+  final String? txName;
 }
 
 class TxButton extends StatelessWidget {
@@ -35,18 +35,18 @@ class TxButton extends StatelessWidget {
     this.color,
   });
 
-  final String text;
-  final Future<TxConfirmParams> Function() getTxParams;
-  final Function(Map) onFinish;
-  final Widget icon;
-  final Color color;
+  final String? text;
+  final Future<TxConfirmParams> Function()? getTxParams;
+  final Function(Map?)? onFinish;
+  final Widget? icon;
+  final Color? color;
 
   Future<void> _onPressed(BuildContext context) async {
-    final params = await getTxParams();
+    final params = await getTxParams!();
     if (params != null) {
       final res = await Navigator.of(context)
           .pushNamed(TxConfirmPage.route, arguments: params);
-      onFinish(res);
+      onFinish!(res as Map<dynamic, dynamic>?);
     }
   }
 
@@ -54,7 +54,7 @@ class TxButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RoundedButton(
       text: text ??
-          I18n.of(context).getDic(i18n_full_dic_ui, 'common')['tx.submit'],
+          I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!['tx.submit'],
       icon: icon,
       color: color,
       onPressed: () {

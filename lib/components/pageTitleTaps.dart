@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 class PageTitleTabs extends StatelessWidget {
   PageTitleTabs({this.names, this.activeTab, this.onTab});
 
-  final List<String> names;
-  final Function(int) onTab;
-  final int activeTab;
+  final List<String>? names;
+  final Function(int)? onTab;
+  final int? activeTab;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: names.map(
+      children: names!.map(
         (title) {
-          int index = names.indexOf(title);
+          int index = names!.indexOf(title);
           return GestureDetector(
             child: Column(
               children: <Widget>[
@@ -39,7 +39,7 @@ class PageTitleTabs extends StatelessWidget {
                 )
               ],
             ),
-            onTap: () => onTab(index),
+            onTap: () => onTab!(index),
           );
         },
       ).toList(),

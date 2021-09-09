@@ -5,9 +5,9 @@ import 'package:polkawallet_ui/utils/index.dart';
 class JumpToBrowserLink extends StatefulWidget {
   JumpToBrowserLink(this.url, {this.text, this.mainAxisAlignment});
 
-  final String text;
+  final String? text;
   final String url;
-  final MainAxisAlignment mainAxisAlignment;
+  final MainAxisAlignment? mainAxisAlignment;
 
   @override
   _JumpToBrowserLinkState createState() => _JumpToBrowserLinkState();

@@ -5,14 +5,13 @@ class NumberInputFormatter implements TextInputFormatter {
 
   NumberInputFormatter._(this._regExp);
 
-  factory NumberInputFormatter.withRegex(String regexString) {
+  static NumberInputFormatter? withRegex(String regexString) {
     try {
       final regex = RegExp(regexString);
       return NumberInputFormatter._(regex);
     } catch (e) {
       // Something not right with regex string.
       assert(false, e.toString());
-      return null;
     }
   }
 

@@ -15,8 +15,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QrSenderPageParams {
   QrSenderPageParams(this.txInfo, this.params, {this.rawParams});
   final TxInfoData txInfo;
-  final List params;
-  final String rawParams;
+  final List? params;
+  final String? rawParams;
 }
 
 class QrSenderPage extends StatefulWidget {
@@ -31,28 +31,28 @@ class QrSenderPage extends StatefulWidget {
 }
 
 class _QrSenderPageState extends State<QrSenderPage> {
-  Uint8List _qrPayload;
+  Uint8List? _qrPayload;
 
-  Future<Uint8List> _getQrCodeData(BuildContext context) async {
+  Future<Uint8List?> _getQrCodeData(BuildContext context) async {
     if (_qrPayload != null) {
       return _qrPayload;
     }
 
-    final QrSenderPageParams args = ModalRoute.of(context).settings.arguments;
+    final QrSenderPageParams args = ModalRoute.of(context)!.settings.arguments as QrSenderPageParams;
 
-    final Map res = await widget.plugin.sdk.api.uos
-        .makeQrCode(args.txInfo, args.params, rawParam: args.rawParams);
+    final Map? res = await widget.plugin.sdk.api!.uos!
+        .makeQrCode(args.txInfo, args.params!, rawParam: args.rawParams);
     print('make qr code');
     setState(() {
       _qrPayload =
-          Uint8List.fromList(List<int>.from(Map.of(res['qrPayload']).values));
+          Uint8List.fromList(List<int>.from(Map.of(res!['qrPayload']).values));
     });
     return _qrPayload;
   }
 
   Future<void> _handleScan(BuildContext context) async {
     final res =
-        (await Navigator.of(context).pushNamed(ScanPage.route)) as QRCodeResult;
+        (await Navigator.of(context).pushNamed(ScanPage.route)) as QRCodeResult?;
     if (res != null && res.type == QRCodeResultType.hex) {
       Navigator.of(context).pop(res.hex);
     }
@@ -60,17 +60,17 @@ class _QrSenderPageState extends State<QrSenderPage> {
 
   @override
   Widget build(BuildContext context) {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text(dic['tx.qr']),
+        title: Text(dic['tx.qr']!),
         centerTitle: true,
       ),
       body: SafeArea(
         child: FutureBuilder(
           future: _getQrCodeData(context),
-          builder: (_, AsyncSnapshot<Uint8List> snapshot) {
+          builder: (_, AsyncSnapshot<Uint8List?> snapshot) {
             return ListView(
               padding: EdgeInsets.only(top: 16),
               children: [

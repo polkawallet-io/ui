@@ -13,14 +13,14 @@ class InfoItem extends StatelessWidget {
     this.lowTitle = false,
     this.titleToolTip,
   });
-  final String title;
-  final String content;
-  final Color color;
-  final Color titleColor;
-  final CrossAxisAlignment crossAxisAlignment;
+  final String? title;
+  final String? content;
+  final Color? color;
+  final Color? titleColor;
+  final CrossAxisAlignment? crossAxisAlignment;
   final int flex;
   final bool lowTitle;
-  final String titleToolTip;
+  final String? titleToolTip;
   @override
   Widget build(BuildContext context) {
     final textColor = color ?? Theme.of(context).unselectedWidgetColor;
@@ -32,7 +32,7 @@ class InfoItem extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(right: 4),
                   child: TapTooltip(
-                    message: titleToolTip,
+                    message: titleToolTip!,
                     child: Icon(
                       Icons.info,
                       color: Theme.of(context).disabledColor,
@@ -40,10 +40,10 @@ class InfoItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(title, style: TextStyle(fontSize: 12, color: titleColor))
+                Text(title!, style: TextStyle(fontSize: 12, color: titleColor))
               ],
             )
-          : Text(title, style: TextStyle(fontSize: 12, color: titleColor)),
+          : Text(title!, style: TextStyle(fontSize: 12, color: titleColor)),
       Text(
         content ?? '-',
         style: TextStyle(

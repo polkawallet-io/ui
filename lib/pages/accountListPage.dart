@@ -10,8 +10,8 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 class AccountListPageParams {
   AccountListPageParams({this.list, this.title});
 
-  final String title;
-  final List<KeyPairData> list;
+  final String? title;
+  final List<KeyPairData>? list;
 }
 
 class AccountListPage extends StatelessWidget {
@@ -24,11 +24,11 @@ class AccountListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AccountListPageParams args =
-        ModalRoute.of(context).settings.arguments;
+        ModalRoute.of(context)!.settings.arguments as AccountListPageParams;
     return Scaffold(
       appBar: AppBar(
         title: Text(args.title ??
-            I18n.of(context).getDic(i18n_full_dic_ui, 'account')['select']),
+            I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['select']!),
         centerTitle: true,
       ),
       body: SafeArea(

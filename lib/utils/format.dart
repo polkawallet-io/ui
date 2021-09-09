@@ -32,7 +32,7 @@ class Fmt {
     return res;
   }
 
-  static String address(String addr, {int pad = 6}) {
+  static String? address(String? addr, {int pad = 6}) {
     if (addr == null || addr.length == 0) {
       return addr;
     }
@@ -50,8 +50,8 @@ class Fmt {
   }
 
   static BigInt balanceTotal(BalanceData balance) {
-    return balanceInt((balance?.freeBalance ?? 0).toString()) +
-        balanceInt((balance?.reservedBalance ?? 0).toString());
+    return balanceInt((balance.freeBalance ?? 0).toString()) +
+        balanceInt((balance.reservedBalance ?? 0).toString());
   }
 
   /// number transform 1:
@@ -133,7 +133,7 @@ class Fmt {
     double v = 0;
     try {
       if (value.contains(',') || value.contains('.')) {
-        v = NumberFormat(",##0.${"0" * decimals}").parse(value);
+        v = NumberFormat(",##0.${"0" * decimals}").parse(value) as double;
       } else {
         v = double.parse(value);
       }
@@ -149,12 +149,12 @@ class Fmt {
   static String priceCeil(
     double value, {
     int lengthFixed = 2,
-    int lengthMax,
+    int? lengthMax,
   }) {
     if (value == null) {
       return '~';
     }
-    final int x = pow(10, lengthMax ?? lengthFixed);
+    final int x = pow(10, lengthMax ?? lengthFixed) as int;
     final double price = (value * x).ceilToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
@@ -170,12 +170,12 @@ class Fmt {
   static String priceFloor(
     double value, {
     int lengthFixed = 2,
-    int lengthMax,
+    int? lengthMax,
   }) {
     if (value == null) {
       return '~';
     }
-    final int x = pow(10, lengthMax ?? lengthFixed);
+    final int x = pow(10, lengthMax ?? lengthFixed) as int;
     final double price = (value * x).floorToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
@@ -196,7 +196,7 @@ class Fmt {
     BigInt value,
     int decimals, {
     int lengthFixed = 2,
-    int lengthMax,
+    int? lengthMax,
   }) {
     if (value == null) {
       return '~';
@@ -209,7 +209,7 @@ class Fmt {
     BigInt value,
     int decimals, {
     int lengthFixed = 2,
-    int lengthMax,
+    int? lengthMax,
   }) {
     if (value == null) {
       return '~';

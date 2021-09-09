@@ -21,7 +21,7 @@ class AccountQrCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'account');
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!;
 
     final codeAddress =
         'substrate:${keyring.current.address}:${keyring.current.pubKey}:${keyring.current.name}';
@@ -33,7 +33,7 @@ class AccountQrCodePage extends StatelessWidget {
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         elevation: 0,
-        title: Text(dic['receive']),
+        title: Text(dic['receive']!),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -80,14 +80,14 @@ class AccountQrCodePage extends StatelessWidget {
                   ),
                   Container(
                     width: qrWidth,
-                    child: Text(keyring.current.address),
+                    child: Text(keyring.current.address!),
                   ),
                   Container(
                     width: qrWidth,
                     padding: EdgeInsets.only(top: 16, bottom: 24),
                     child: RoundedButton(
-                      text: I18n.of(context)
-                          .getDic(i18n_full_dic_ui, 'common')['copy'],
+                      text: I18n.of(context)!
+                          .getDic(i18n_full_dic_ui, 'common')!['copy'],
                       onPressed: () =>
                           UI.copyAndNotify(context, keyring.current.address),
                     ),

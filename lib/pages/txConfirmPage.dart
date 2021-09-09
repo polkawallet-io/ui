@@ -32,28 +32,28 @@ class TxConfirmPage extends StatefulWidget {
 class _TxConfirmPageState extends State<TxConfirmPage> {
   bool _submitting = false;
 
-  TxFeeEstimateResult _fee;
+  TxFeeEstimateResult? _fee;
   bool _tipExpanded = false;
   bool _paramsExpanded = false;
   double _tip = 0;
   BigInt _tipValue = BigInt.zero;
-  KeyPairData _proxyAccount;
-  RecoveryInfo _recoveryInfo = RecoveryInfo();
+  KeyPairData? _proxyAccount;
+  RecoveryInfo? _recoveryInfo = RecoveryInfo();
 
   Future<String> _getTxFee({bool reload = false}) async {
     if (_fee?.partialFee != null && !reload) {
-      return _fee.partialFee.toString();
+      return _fee!.partialFee.toString();
     }
     if (widget.plugin.basic.name == 'kusama' &&
         (widget.keyring.current.observation ?? false)) {
-      final recoveryInfo = await widget.plugin.sdk.api.recovery
-          .queryRecoverable(widget.keyring.current.address);
+      final recoveryInfo = await widget.plugin.sdk.api!.recovery!
+          .queryRecoverable(widget.keyring.current.address!);
       setState(() {
         _recoveryInfo = recoveryInfo;
       });
     }
 
-    final TxConfirmParams args = ModalRoute.of(context).settings.arguments;
+    final TxConfirmParams args = ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
     final txInfo =
@@ -61,8 +61,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     // if (_proxyAccount != null) {
     //   txInfo['proxy'] = _proxyAccount.pubKey;
     // }
-    final fee = await widget.plugin.sdk.api.tx
-        .estimateFees(txInfo, args.params, rawParam: args.rawParams);
+    final fee = await widget.plugin.sdk.api!.tx!
+        .estimateFees(txInfo, args.params!, rawParam: args.rawParams);
     setState(() {
       _fee = fee;
     });
@@ -79,7 +79,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       );
       if (acc != null) {
         setState(() {
-          _proxyAccount = acc;
+          _proxyAccount = acc as KeyPairData?;
         });
       }
     } else {
@@ -90,7 +90,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     _getTxFee(reload: true);
   }
 
-  void _onTxFinish(BuildContext context, Map res, String errorMsg) async {
+  void _onTxFinish(BuildContext context, Map? res, String? errorMsg) async {
     if (res != null) {
       print('callback triggered, blockHash: ${res['hash']}');
     }
@@ -104,11 +104,11 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 ? Icon(Icons.cancel, color: Colors.red, size: 32)
                 : Icon(Icons.check_circle, color: Colors.lightGreen, size: 32),
             content: Text(errorMsg ??
-                I18n.of(context).getDic(i18n_full_dic_ui, 'common')['success']),
+                I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!['success']!),
             actions: <Widget>[
               CupertinoButton(
                 child: Text(
-                    I18n.of(context).getDic(i18n_full_dic_ui, 'common')['ok']),
+                    I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!['ok']!),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -120,25 +120,25 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   Future<bool> _validateProxy() async {
-    List proxies = await widget.plugin.sdk.api.recovery
-        .queryRecoveryProxies([_proxyAccount.address]);
+    List proxies = await (widget.plugin.sdk.api!.recovery!
+        .queryRecoveryProxies([_proxyAccount!.address!]) as FutureOr<List<dynamic>>);
     print(proxies);
     return proxies[0] == widget.keyring.current.address;
   }
 
   Future<void> _showPasswordDialog(BuildContext context) async {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     if (_proxyAccount != null && !(await _validateProxy())) {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
-            title: Text(Fmt.address(widget.keyring.current.address)),
-            content: Text(dic['tx.proxy.invalid']),
+            title: Text(Fmt.address(widget.keyring.current.address)!),
+            content: Text(dic!['tx.proxy.invalid']!),
             actions: <Widget>[
               CupertinoButton(
                 child: Text(
-                  dic['cancel'],
+                  dic['cancel']!,
                   style: TextStyle(
                     color: Theme.of(context).unselectedWidgetColor,
                   ),
@@ -163,16 +163,16 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
   Future<void> _onSubmit(
     BuildContext context, {
-    String password,
+    String? password,
     bool viaQr = false,
   }) async {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
-    final TxConfirmParams args = ModalRoute.of(context).settings.arguments;
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+    final TxConfirmParams args = ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
 
     setState(() {
       _submitting = true;
     });
-    _updateTxStatus(context, dic['tx.wait']);
+    _updateTxStatus(context, dic['tx.wait']!);
 
     final TxSenderData sender = TxSenderData(
       widget.keyring.current.address,
@@ -183,7 +183,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       args.call,
       sender,
       proxy: _proxyAccount != null
-          ? TxSenderData(_proxyAccount.address, _proxyAccount.pubKey)
+          ? TxSenderData(_proxyAccount!.address, _proxyAccount!.pubKey)
           : null,
       tip: _tipValue.toString(),
       txName: args.txName,
@@ -192,7 +192,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     try {
       final res = viaQr
           ? await _sendTxViaQr(context, txInfo, args)
-          : await _sendTx(context, txInfo, args, password);
+          : await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
       _onTxFinish(context, null, err.toString());
@@ -210,21 +210,21 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     TxConfirmParams args,
     String password,
   ) async {
-    return widget.plugin.sdk.api.tx.signAndSend(txInfo, args.params, password,
+    return widget.plugin.sdk.api!.tx!.signAndSend(txInfo, args.params!, password,
         rawParam: args.rawParams, onStatusChange: (status) {
       if (mounted) {
-        final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+        final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
         _updateTxStatus(context, dic['tx.$status'] ?? status);
       }
     });
   }
 
-  Future<Map> _sendTxViaQr(
+  Future<Map?> _sendTxViaQr(
     BuildContext context,
     TxInfoData txInfo,
     TxConfirmParams args,
   ) async {
-    final Map dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+    final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     print('show qr');
     final signed = await Navigator.of(context).pushNamed(
       QrSenderPage.route,
@@ -235,14 +235,14 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       ),
     );
     if (signed == null) {
-      throw Exception(dic['tx.cancelled']);
+      throw Exception(dic!['tx.cancelled']);
     }
-    final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
-      widget.keyring.current.address,
+    final res = await widget.plugin.sdk.api!.uos!.addSignatureAndSend(
+      widget.keyring.current.address!,
       signed.toString(),
       (status) {
         if (mounted) {
-          _updateTxStatus(context, dic['tx.$status'] ?? status);
+          _updateTxStatus(context, dic!['tx.$status'] ?? status);
         }
       },
     );
@@ -282,10 +282,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
   @override
   Widget build(BuildContext context) {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
-    final dicAcc = I18n.of(context).getDic(i18n_full_dic_ui, 'account');
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+    final dicAcc = I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!;
 
-    final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
+    final isNetworkConnected = widget.plugin.sdk.api!.connectedNode != null;
     // todo: update this check with sdk 0.1.7
     final isNetworkMatch = true;
     // final isNetworkMatch = widget.plugin.networkState.genesisHash ==
@@ -295,17 +295,17 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final String symbol = (widget.plugin.networkState.tokenSymbol ?? [''])[0];
     final int decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
 
-    final TxConfirmParams args = ModalRoute.of(context).settings.arguments;
+    final TxConfirmParams args = ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
 
     final bool isObservation = widget.keyring.current.observation ?? false;
     final bool isProxyObservation =
-        _proxyAccount != null ? _proxyAccount.observation ?? false : false;
+        _proxyAccount != null ? _proxyAccount!.observation ?? false : false;
 
     bool isUnsigned = args.isUnsigned ?? false;
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(args.txTitle),
+          title: Text(args.txTitle!),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -318,7 +318,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Text(
-                        dic['tx.submit'],
+                        dic['tx.submit']!,
                         style: Theme.of(context).textTheme.headline4,
                       ),
                     ),
@@ -337,13 +337,13 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             child: Row(
                               children: [
                                 TapTooltip(
-                                  message: dic['tx.proxy.brief'],
+                                  message: dic['tx.proxy.brief']!,
                                   child: Icon(Icons.info_outline, size: 16),
                                 ),
                                 Expanded(
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 4),
-                                    child: Text(dic['tx.proxy']),
+                                    child: Text(dic['tx.proxy']!),
                                   ),
                                 ),
                                 CupertinoSwitch(
@@ -370,7 +370,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                       child: Row(
                         children: <Widget>[
-                          Container(width: 64, child: Text(dic["tx.network"])),
+                          Container(width: 64, child: Text(dic["tx.network"]!)),
                           !isNetworkConnected
                               ? Container()
                               : Container(
@@ -380,8 +380,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   child: widget.plugin.basic.icon),
                           Expanded(
                               child: !isNetworkConnected
-                                  ? Text(dic['tx.network.no'])
-                                  : Text(widget.plugin.basic.name))
+                                  ? Text(dic['tx.network.no']!)
+                                  : Text(widget.plugin.basic.name!))
                         ],
                       ),
                     ),
@@ -389,7 +389,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       padding: EdgeInsets.all(16),
                       child: Row(
                         children: <Widget>[
-                          Container(width: 64, child: Text(dic["tx.call"])),
+                          Container(width: 64, child: Text(dic["tx.call"]!)),
                           Text('${args.module}.${args.call}'),
                         ],
                       ),
@@ -398,7 +398,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       padding: EdgeInsets.only(left: 16, right: 16),
                       child: Row(
                         children: <Widget>[
-                          Container(width: 64, child: Text(dic["detail"])),
+                          Container(width: 64, child: Text(dic["detail"]!)),
                           Container(
                             width:
                                 MediaQuery.of(context).copyWith().size.width -
@@ -441,7 +441,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             margin: EdgeInsets.only(left: 80),
                             child: Text(
                               args.rawParams != null
-                                  ? args.rawParams
+                                  ? args.rawParams!
                                   : JsonEncoder.withIndent('  ')
                                       .convert(args.params),
                             ),
@@ -459,7 +459,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 AsyncSnapshot<String> snapshot) {
                               if (snapshot.hasData) {
                                 String fee = Fmt.balance(
-                                  _fee.partialFee.toString(),
+                                  _fee!.partialFee.toString(),
                                   decimals,
                                   length: 6,
                                 );
@@ -470,7 +470,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                       Container(
                                         margin: EdgeInsets.only(top: 8),
                                         width: 64,
-                                        child: Text(dic["tx.fee"]),
+                                        child: Text(dic["tx.fee"]!),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(top: 8),
@@ -487,7 +487,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                               '$fee $symbol',
                                             ),
                                             Text(
-                                              '${_fee.weight} Weight',
+                                              '${_fee!.weight} Weight',
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 color: Theme.of(context)
@@ -519,7 +519,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 size: 30,
                                 color: Theme.of(context).unselectedWidgetColor,
                               ),
-                              Text(dicAcc['advanced'])
+                              Text(dicAcc['advanced']!)
                             ],
                           ),
                         ),
@@ -544,12 +544,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                               children: <Widget>[
                                 Container(
                                   width: 64,
-                                  child: Text(dic['tx.tip']),
+                                  child: Text(dic['tx.tip']!),
                                 ),
                                 Text(
                                     '${Fmt.token(_tipValue, decimals)} $symbol'),
                                 TapTooltip(
-                                  message: dic['tx.tip.brief'],
+                                  message: dic['tx.tip.brief']!,
                                   child: Icon(
                                     Icons.info,
                                     color:
@@ -594,7 +594,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             color: _submitting ? Colors.black12 : Colors.orange,
                             child: FlatButton(
                               padding: EdgeInsets.all(16),
-                              child: Text(dic['cancel'],
+                              child: Text(dic['cancel']!,
                                   style: TextStyle(color: Colors.white)),
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -613,13 +613,13 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   padding: EdgeInsets.all(16),
                                   child: Text(
                                     isUnsigned
-                                        ? dic['tx.no.sign']
+                                        ? dic['tx.no.sign']!
                                         : (isObservation &&
                                                     _proxyAccount == null) ||
                                                 isProxyObservation
-                                            ? dic['tx.qr']
+                                            ? dic['tx.qr']!
                                             // dicAcc['observe.invalid']
-                                            : dic['tx.submit'],
+                                            : dic['tx.submit']!,
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   onPressed: !isNetworkMatch

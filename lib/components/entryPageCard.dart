@@ -8,7 +8,7 @@ class EntryPageCard extends StatelessWidget {
   final Widget icon;
   final String title;
   final String brief;
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

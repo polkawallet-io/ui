@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 class TextTag extends StatelessWidget {
   TextTag(this.text, {this.margin, this.padding, this.color, this.fontSize});
-  final String text;
-  final EdgeInsetsGeometry margin;
-  final EdgeInsetsGeometry padding;
-  final Color color;
-  final double fontSize;
+  final String? text;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final Color? color;
+  final double? fontSize;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Text(
-        text,
+        text!,
         style: TextStyle(
           fontSize: fontSize ?? 10,
           color: Theme.of(context).cardColor,

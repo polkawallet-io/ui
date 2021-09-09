@@ -7,18 +7,18 @@ import 'package:polkawallet_ui/utils/index.dart';
 
 class AccountInfo extends StatelessWidget {
   AccountInfo({this.accInfo, this.address, this.icon, this.network});
-  final Map accInfo;
-  final String address;
-  final String icon;
-  final String network;
+  final Map? accInfo;
+  final String? address;
+  final String? icon;
+  final String? network;
   @override
   Widget build(BuildContext context) {
     List<Widget> list = [];
     if (accInfo != null) {
       List<Widget> ls = [];
-      accInfo['identity'].keys.forEach((k) {
+      accInfo!['identity'].keys.forEach((k) {
         if (k != 'judgements' && k != 'other') {
-          String content = accInfo['identity'][k].toString();
+          String? content = accInfo!['identity'][k].toString();
           if (k == 'parent') {
             content = Fmt.address(content);
           }
@@ -28,7 +28,7 @@ class AccountInfo extends StatelessWidget {
                 width: 80,
                 child: Text(k),
               ),
-              Text(content),
+              Text(content!),
             ],
           ));
         }
@@ -47,14 +47,14 @@ class AccountInfo extends StatelessWidget {
           padding: EdgeInsets.only(top: 16, bottom: 8),
           child: AddressIcon(address, svg: icon),
         ),
-        accInfo != null ? Text(accInfo['accountIndex'] ?? '') : Container(),
+        accInfo != null ? Text(accInfo!['accountIndex'] ?? '') : Container(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [UI.accountDisplayName(address, accInfo, expand: false)],
         ),
         Padding(
           padding: EdgeInsets.only(bottom: 16, top: 8),
-          child: Text(Fmt.address(address)),
+          child: Text(Fmt.address(address)!),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

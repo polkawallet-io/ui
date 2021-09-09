@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 class PageWrapperWithBackground extends StatelessWidget {
   PageWrapperWithBackground(this.child, {this.height, this.backgroundImage});
 
-  final double height;
-  final AssetImage backgroundImage;
+  final double? height;
+  final AssetImage? backgroundImage;
   final Widget child;
 
   @override
@@ -41,7 +41,7 @@ class PageWrapperWithBackground extends StatelessWidget {
           decoration: backgroundImage != null
               ? BoxDecoration(
                   image: DecorationImage(
-                    image: backgroundImage,
+                    image: backgroundImage!,
                     fit: BoxFit.cover,
                   ),
                 )

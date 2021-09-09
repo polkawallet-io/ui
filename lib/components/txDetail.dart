@@ -20,18 +20,18 @@ class TxDetail extends StatelessWidget {
     this.infoItems,
   });
 
-  final bool success;
-  final String networkName;
-  final String action;
-  final String fee;
-  final String eventId;
-  final String hash;
-  final String blockTime;
-  final int blockNum;
-  final List<TxDetailInfoItem> infoItems;
+  final bool? success;
+  final String? networkName;
+  final String? action;
+  final String? fee;
+  final String? eventId;
+  final String? hash;
+  final String? blockTime;
+  final int? blockNum;
+  final List<TxDetailInfoItem>? infoItems;
 
   List<Widget> _buildListView(BuildContext context) {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final labelStyle = TextStyle(
       fontWeight: FontWeight.bold,
       color: Theme.of(context).unselectedWidgetColor,
@@ -47,17 +47,17 @@ class TxDetail extends StatelessWidget {
             Container(
               width: 120,
               padding: EdgeInsets.all(16),
-              child: success
+              child: success!
                   ? Icon(Icons.check_circle, color: Colors.lightGreen, size: 80)
                   : Icon(Icons.error, color: Colors.red, size: 80),
             ),
             Text(
-              '$action ${success ? dic['success'] : dic['fail']}',
+              '$action ${success! ? dic!['success'] : dic!['fail']}',
               style: Theme.of(context).textTheme.headline4,
             ),
             Padding(
               padding: EdgeInsets.only(top: 8, bottom: 8),
-              child: Text(blockTime),
+              child: Text(blockTime!),
             ),
           ],
         ),
@@ -67,13 +67,13 @@ class TxDetail extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
       padding: EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
-        children: infoItems.map((i) {
+        children: infoItems!.map((i) {
           return Padding(
             padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                Expanded(child: Text(i.label, style: labelStyle)),
-                i.content,
+                Expanded(child: Text(i.label!, style: labelStyle)),
+                i.content!,
                 i.copyText != null
                     ? GestureDetector(
                         child: Padding(
@@ -94,10 +94,10 @@ class TxDetail extends StatelessWidget {
     ));
 
     final pnLink = networkName == 'polkadot' || networkName == 'kusama'
-        ? 'https://polkascan.io/${networkName.toLowerCase()}/transaction/$hash'
+        ? 'https://polkascan.io/${networkName!.toLowerCase()}/transaction/$hash'
         : null;
     final snLink =
-        'https://${networkName.toLowerCase()}.subscan.io/extrinsic/$hash';
+        'https://${networkName!.toLowerCase()}.subscan.io/extrinsic/$hash';
     final links = [
       JumpToBrowserLink(
         snLink,
@@ -117,18 +117,18 @@ class TxDetail extends StatelessWidget {
         children: [
           fee != null
               ? TxDetailItem(
-                  TxDetailInfoItem(label: dic['tx.fee'], content: Text(fee)))
+                  TxDetailInfoItem(label: dic['tx.fee'], content: Text(fee!)))
               : Container(),
           eventId != null
               ? TxDetailItem(
-                  TxDetailInfoItem(label: 'Event', content: Text(eventId)))
+                  TxDetailInfoItem(label: 'Event', content: Text(eventId!)))
               : Container(),
           blockNum != null
               ? TxDetailItem(
                   TxDetailInfoItem(label: 'Block', content: Text('#$blockNum')))
               : Container(),
           TxDetailItem(TxDetailInfoItem(
-              label: 'Hash', content: Text(Fmt.address(hash)))),
+              label: 'Hash', content: Text(Fmt.address(hash)!))),
           Padding(
             padding: EdgeInsets.only(top: 8, bottom: 8),
             child: Row(
@@ -144,10 +144,10 @@ class TxDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(dic['detail']),
+        title: Text(dic['detail']!),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -171,7 +171,7 @@ class TxDetailItem extends StatelessWidget {
         children: [
           Expanded(
               child: Text(
-            i.label,
+            i.label!,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).unselectedWidgetColor,
@@ -180,7 +180,7 @@ class TxDetailItem extends StatelessWidget {
           Expanded(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [i.content]),
+                  children: [i.content!]),
               flex: 0),
           i.copyText != null
               ? GestureDetector(
@@ -202,7 +202,7 @@ class TxDetailItem extends StatelessWidget {
 
 class TxDetailInfoItem {
   TxDetailInfoItem({this.label, this.content, this.copyText});
-  final String label;
-  final Widget content;
-  final String copyText;
+  final String? label;
+  final Widget? content;
+  final String? copyText;
 }
