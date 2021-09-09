@@ -42,9 +42,9 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
     setState(() {
       _submitting = true;
     });
-    final SignAsExtensionParam args = ModalRoute.of(context).settings.arguments;
+    final SignAsExtensionParam args = ModalRoute.of(context)!.settings.arguments as SignAsExtensionParam;
     final res =
-        await widget.plugin.sdk.api.keyring.signAsExtension(password, args);
+        await (widget.plugin.sdk.api!.keyring.signAsExtension(password, args) as FutureOr<ExtensionSignResult>);
     if (mounted) {
       setState(() {
         _submitting = false;
@@ -58,12 +58,12 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
 
   @override
   Widget build(BuildContext context) {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
-    final SignAsExtensionParam args = ModalRoute.of(context).settings.arguments;
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+    final SignAsExtensionParam args = ModalRoute.of(context)!.settings.arguments as SignAsExtensionParam;
     final address = args.msgType == WalletExtensionSignPage.signTypeBytes
-        ? SignBytesRequest.fromJson(Map<String, dynamic>.of(args.request))
+        ? SignBytesRequest.fromJson(Map<String?, dynamic>.of(args.request as Map<String?, dynamic>) as Map<String, dynamic>)
             .address
-        : SignBytesRequest.fromJson(Map<String, dynamic>.of(args.request))
+        : SignBytesRequest.fromJson(Map<String?, dynamic>.of(args.request as Map<String?, dynamic>) as Map<String, dynamic>)
             .address;
     final KeyPairData acc = widget.keyring.keyPairs.firstWhere((acc) {
       bool matched = false;
@@ -80,7 +80,7 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
       appBar: AppBar(
           title: Text(dic[args.msgType == WalletExtensionSignPage.signTypeBytes
               ? 'submit.sign.tx'
-              : 'submit.sign.msg']),
+              : 'submit.sign.msg']!),
           centerTitle: true),
       body: SafeArea(
         child: Column(
@@ -107,7 +107,7 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
                     color: _submitting ? Colors.black12 : Colors.orange,
                     child: FlatButton(
                       padding: EdgeInsets.all(16),
-                      child: Text(dic['cancel'],
+                      child: Text(dic['cancel']!,
                           style: TextStyle(color: Colors.white)),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -123,7 +123,7 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
                     child: FlatButton(
                       padding: EdgeInsets.all(16),
                       child: Text(
-                        dic['submit.sign'],
+                        dic['submit.sign']!,
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed:
@@ -146,13 +146,13 @@ class SignExtrinsicInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final req =
-        SignExtrinsicRequest.fromJson(Map<String, dynamic>.of(msg.request));
+        SignExtrinsicRequest.fromJson(Map<String?, dynamic>.of(msg.request as Map<String?, dynamic>) as Map<String, dynamic>);
     return Column(
       children: [
         InfoItemRow('from', msg.url),
         InfoItemRow('genesis', Fmt.address(req.genesisHash, pad: 10)),
-        InfoItemRow('version', int.parse(req.specVersion).toString()),
-        InfoItemRow('nonce', int.parse(req.nonce).toString()),
+        InfoItemRow('version', int.parse(req.specVersion!).toString()),
+        InfoItemRow('nonce', int.parse(req.nonce!).toString()),
         InfoItemRow('method data', Fmt.address(req.method, pad: 10)),
       ],
     );
@@ -164,7 +164,7 @@ class SignBytesInfo extends StatelessWidget {
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {
-    final req = SignBytesRequest.fromJson(Map<String, dynamic>.of(msg.request));
+    final req = SignBytesRequest.fromJson(Map<String?, dynamic>.of(msg.request as Map<String?, dynamic>) as Map<String, dynamic>);
     return Column(
       children: [
         InfoItemRow('from', msg.url),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class OutlinedCircle extends StatelessWidget {
   OutlinedCircle({this.icon, this.color});
-  final IconData icon;
-  final Color color;
+  final IconData? icon;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +17,7 @@ class OutlinedCircle extends StatelessWidget {
       margin: EdgeInsets.all(4),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(width: 1, color: color),
+        border: Border.all(width: 1, color: color!),
       ),
     );
   }

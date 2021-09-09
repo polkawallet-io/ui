@@ -12,9 +12,9 @@ class CurrencyWithIcon extends StatelessWidget {
 
   final String symbol;
   final Widget icon;
-  final TextStyle textStyle;
-  final MainAxisAlignment mainAxisAlignment;
-  final Widget trailing;
+  final TextStyle? textStyle;
+  final MainAxisAlignment? mainAxisAlignment;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {

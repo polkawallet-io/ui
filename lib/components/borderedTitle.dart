@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class BorderedTitle extends StatelessWidget {
   BorderedTitle({this.title, this.lineWidth = 6});
-  final String title;
+  final String? title;
   final double lineWidth;
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BorderedTitle extends StatelessWidget {
               color: Theme.of(context).primaryColor),
         ),
         Text(
-          title,
+          title!,
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black54),
         )

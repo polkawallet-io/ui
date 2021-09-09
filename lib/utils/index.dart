@@ -11,14 +11,14 @@ import 'package:polkawallet_ui/utils/numberInputFormatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UI {
-  static void copyAndNotify(BuildContext context, String text) {
+  static void copyAndNotify(BuildContext context, String? text) {
     Clipboard.setData(ClipboardData(text: text ?? ''));
 
     showCupertinoDialog(
       context: context,
       builder: (BuildContext context) {
         final Map<String, String> dic =
-            I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+            I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
         return CupertinoAlertDialog(
           title: Container(),
           content: Text('${dic['copy']} ${dic['success']}'),
@@ -33,12 +33,12 @@ class UI {
 
   static String accountName(BuildContext context, KeyPairData acc) {
     return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}' +
-        '${(acc.observation ?? false) ? ' (${I18n.of(context).getDic(i18n_full_dic_ui, 'account')['observe']})' : ''}';
+        '${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
   }
 
   static Widget accountDisplayName(
-    String address,
-    Map accInfo, {
+    String? address,
+    Map? accInfo, {
     bool expand = true,
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
   }) {
@@ -78,18 +78,18 @@ class UI {
             : Container(width: 1, height: 2),
         expand
             ? Expanded(
-                child: Text(accountDisplayNameString(address, accInfo),
+                child: Text(accountDisplayNameString(address, accInfo)!,
                     overflow: TextOverflow.ellipsis),
               )
-            : Text(accountDisplayNameString(address, accInfo),
+            : Text(accountDisplayNameString(address, accInfo)!,
                 overflow: TextOverflow.ellipsis)
       ],
     );
   }
 
-  static String accountDisplayNameString(String address, Map accInfo,
-      [String localName]) {
-    String display = localName ?? Fmt.address(address, pad: 6);
+  static String? accountDisplayNameString(String? address, Map? accInfo,
+      [String? localName]) {
+    String? display = localName ?? Fmt.address(address, pad: 6);
     if (accInfo != null) {
       if (accInfo['identity']['display'] != null) {
         display = accInfo['identity']['display'];
@@ -99,7 +99,7 @@ class UI {
       } else if (accInfo['accountIndex'] != null) {
         display = accInfo['accountIndex'];
       }
-      display = display.toUpperCase();
+      display = display!.toUpperCase();
     }
     return display;
   }

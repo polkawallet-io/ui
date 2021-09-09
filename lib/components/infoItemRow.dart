@@ -9,8 +9,8 @@ class InfoItemRow extends StatelessWidget {
     this.color,
   });
   final String label;
-  final String content;
-  final Color color;
+  final String? content;
+  final Color? color;
   final bool colorPrimary;
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class InfoItemRow extends StatelessWidget {
         ),
         Expanded(
           child: Text(
-            content,
+            content!,
             textAlign: TextAlign.right,
             style: color != null || colorPrimary
                 ? TextStyle(

@@ -8,12 +8,12 @@ class OutlinedButtonSmall extends StatelessWidget {
       this.margin,
       this.padding,
       this.onPressed});
-  final String content;
+  final String? content;
   final bool active;
-  final Color color;
-  final EdgeInsets margin;
-  final EdgeInsets padding;
-  final Function onPressed;
+  final Color? color;
+  final EdgeInsets? margin;
+  final EdgeInsets? padding;
+  final Function? onPressed;
   @override
   Widget build(BuildContext context) {
     Color primary = color ?? Theme.of(context).primaryColor;
@@ -29,12 +29,12 @@ class OutlinedButtonSmall extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(80)),
         ),
         child: Text(
-          content,
+          content!,
           style: TextStyle(color: active ? white : grey),
           textAlign: TextAlign.center,
         ),
       ),
-      onTap: onPressed,
+      onTap: onPressed as void Function()?,
     );
   }
 }

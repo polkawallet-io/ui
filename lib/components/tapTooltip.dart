@@ -42,8 +42,8 @@ class TapTooltip extends StatefulWidget {
   /// All parameters that are defined in the constructor will
   /// override the default values _and_ the values in [TooltipTheme.of].
   const TapTooltip({
-    Key key,
-    @required this.message,
+    Key? key,
+    required this.message,
     this.height,
     this.padding,
     this.margin,
@@ -64,12 +64,12 @@ class TapTooltip extends StatefulWidget {
   /// The height of the tooltip's [child].
   ///
   /// If the [child] is null, then this is the tooltip's intrinsic height.
-  final double height;
+  final double? height;
 
   /// The amount of space by which to inset the tooltip's [child].
   ///
   /// Defaults to 16.0 logical pixels in each direction.
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   /// The empty space that surrounds the tooltip.
   ///
@@ -82,7 +82,7 @@ class TapTooltip extends StatefulWidget {
   /// If this property is null, then [TooltipThemeData.margin] is used.
   /// If [TooltipThemeData.margin] is also null, the default margin is
   /// 0.0 logical pixels on all sides.
-  final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry? margin;
 
   /// The vertical gap between the widget and the displayed tooltip.
   ///
@@ -91,14 +91,14 @@ class TapTooltip extends StatefulWidget {
   /// tooltips will position themselves under their corresponding widgets.
   /// Otherwise, tooltips will position themselves above their corresponding
   /// widgets with the given offset.
-  final double verticalOffset;
+  final double? verticalOffset;
 
   /// Whether the tooltip defaults to being displayed below the widget.
   ///
   /// Defaults to true. If there is insufficient space to display the tooltip in
   /// the preferred direction, the tooltip will be displayed in the opposite
   /// direction.
-  final bool preferBelow;
+  final bool? preferBelow;
 
   /// Whether the tooltip's [message] should be excluded from the semantics
   /// tree.
@@ -106,12 +106,12 @@ class TapTooltip extends StatefulWidget {
   /// Defaults to false. A tooltip will add a [Semantics.label] that is set to
   /// [Tooltip.message]. Set this property to true if the app is going to
   /// provide its own custom semantics label.
-  final bool excludeFromSemantics;
+  final bool? excludeFromSemantics;
 
   /// The widget below this widget in the tree.
   ///
   /// {@macro flutter.widgets.child}
-  final Widget child;
+  final Widget? child;
 
   /// Specifies the tooltip's shape and background color.
   ///
@@ -119,7 +119,7 @@ class TapTooltip extends StatefulWidget {
   /// 4.0. Tooltips will also default to an opacity of 90% and with the color
   /// [Colors.grey[700]] if [ThemeData.brightness] is [Brightness.dark], and
   /// [Colors.white] if it is [Brightness.light].
-  final Decoration decoration;
+  final Decoration? decoration;
 
   /// The style to use for the message of the tooltip.
   ///
@@ -128,7 +128,7 @@ class TapTooltip extends StatefulWidget {
   /// [ThemeData.textTheme.body1] will be used with [Colors.white]. Otherwise,
   /// if [ThemeData.brightness] is set to [Brightness.light],
   /// [ThemeData.textTheme.body1] will be used with [Colors.black].
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   /// The length of time that a pointer must hover over a tooltip's widget
   /// before the tooltip will be shown.
@@ -137,13 +137,13 @@ class TapTooltip extends StatefulWidget {
   /// disappear.
   ///
   /// Defaults to 0 milliseconds (tooltips are shown immediately upon hover).
-  final Duration waitDuration;
+  final Duration? waitDuration;
 
   /// The length of time that the tooltip will be shown after a long press
   /// is released.
   ///
   /// Defaults to 1.5 seconds.
-  final Duration showDuration;
+  final Duration? showDuration;
 
   @override
   _TooltipState createState() => _TooltipState();
@@ -191,38 +191,38 @@ class _TooltipState extends State<TapTooltip>
   static const Duration _defaultWaitDuration = Duration(milliseconds: 0);
   static const bool _defaultExcludeFromSemantics = false;
 
-  double height;
-  EdgeInsetsGeometry padding;
-  EdgeInsetsGeometry margin;
-  Decoration decoration;
-  TextStyle textStyle;
-  double verticalOffset;
-  bool preferBelow;
-  bool excludeFromSemantics;
-  AnimationController _controller;
-  OverlayEntry _entry;
-  Timer _hideTimer;
-  Timer _showTimer;
-  Duration showDuration;
-  Duration waitDuration;
-  bool _mouseIsConnected;
+  double? height;
+  EdgeInsetsGeometry? padding;
+  EdgeInsetsGeometry? margin;
+  Decoration? decoration;
+  TextStyle? textStyle;
+  double? verticalOffset;
+  bool? preferBelow;
+  late bool excludeFromSemantics;
+  late AnimationController _controller;
+  OverlayEntry? _entry;
+  Timer? _hideTimer;
+  Timer? _showTimer;
+  late Duration showDuration;
+  late Duration waitDuration;
+  bool? _mouseIsConnected;
   bool _longPressActivated = false;
 
   @override
   void initState() {
     super.initState();
-    _mouseIsConnected = RendererBinding.instance.mouseTracker.mouseIsConnected;
+    _mouseIsConnected = RendererBinding.instance!.mouseTracker.mouseIsConnected;
     _controller = AnimationController(
       duration: _fadeInDuration,
       reverseDuration: _fadeOutDuration,
       vsync: this,
     )..addStatusListener(_handleStatusChanged);
     // Listen to see when a mouse is added.
-    RendererBinding.instance.mouseTracker
+    RendererBinding.instance!.mouseTracker
         .addListener(_handleMouseTrackerChange);
     // Listen to global pointer events so that we can hide a tooltip immediately
     // if some other control is clicked on.
-    GestureBinding.instance.pointerRouter.addGlobalRoute(_handlePointerEvent);
+    GestureBinding.instance!.pointerRouter.addGlobalRoute(_handlePointerEvent);
   }
 
   // Forces a rebuild if a mouse has been added or removed.
@@ -231,7 +231,7 @@ class _TooltipState extends State<TapTooltip>
       return;
     }
     final bool mouseIsConnected =
-        RendererBinding.instance.mouseTracker.mouseIsConnected;
+        RendererBinding.instance!.mouseTracker.mouseIsConnected;
     if (mouseIsConnected != _mouseIsConnected) {
       setState(() {
         _mouseIsConnected = mouseIsConnected;
@@ -292,7 +292,7 @@ class _TooltipState extends State<TapTooltip>
   }
 
   void _createNewEntry() {
-    final RenderBox box = context.findRenderObject();
+    final RenderBox box = context.findRenderObject() as RenderBox;
     final Offset target = box.localToGlobal(box.size.center(Offset.zero));
 
     // We create this widget outside of the overlay entry's builder to prevent
@@ -317,7 +317,7 @@ class _TooltipState extends State<TapTooltip>
       ),
     );
     _entry = OverlayEntry(builder: (BuildContext context) => overlay);
-    Overlay.of(context, debugRequiredFor: widget).insert(_entry);
+    Overlay.of(context, debugRequiredFor: widget)!.insert(_entry!);
     SemanticsService.tooltip(widget.message);
   }
 
@@ -351,9 +351,9 @@ class _TooltipState extends State<TapTooltip>
 
   @override
   void dispose() {
-    GestureBinding.instance.pointerRouter
+    GestureBinding.instance!.pointerRouter
         .removeGlobalRoute(_handlePointerEvent);
-    RendererBinding.instance.mouseTracker
+    RendererBinding.instance!.mouseTracker
         .removeListener(_handleMouseTrackerChange);
     if (_entry != null) _removeEntry();
     _controller.dispose();
@@ -374,7 +374,7 @@ class _TooltipState extends State<TapTooltip>
     TextStyle defaultTextStyle;
     BoxDecoration defaultDecoration;
     if (theme.brightness == Brightness.dark) {
-      defaultTextStyle = theme.textTheme.bodyText1.copyWith(
+      defaultTextStyle = theme.textTheme.bodyText1!.copyWith(
         color: Colors.black,
       );
       defaultDecoration = BoxDecoration(
@@ -382,11 +382,11 @@ class _TooltipState extends State<TapTooltip>
         borderRadius: const BorderRadius.all(Radius.circular(4)),
       );
     } else {
-      defaultTextStyle = theme.textTheme.bodyText1.copyWith(
+      defaultTextStyle = theme.textTheme.bodyText1!.copyWith(
         color: Colors.white,
       );
       defaultDecoration = BoxDecoration(
-        color: Colors.grey[700].withOpacity(0.9),
+        color: Colors.grey[700]!.withOpacity(0.9),
         borderRadius: const BorderRadius.all(Radius.circular(4)),
       );
     }
@@ -424,7 +424,7 @@ class _TooltipState extends State<TapTooltip>
     );
 
     // Only check for hovering if there is a mouse connected.
-    if (_mouseIsConnected) {
+    if (_mouseIsConnected!) {
       result = MouseRegion(
         onEnter: (PointerEnterEvent event) => _showTooltip(),
         onExit: (PointerExitEvent event) => _hideTooltip(),
@@ -443,9 +443,9 @@ class _TooltipPositionDelegate extends SingleChildLayoutDelegate {
   ///
   /// The arguments must not be null.
   _TooltipPositionDelegate({
-    @required this.target,
-    @required this.verticalOffset,
-    @required this.preferBelow,
+    required this.target,
+    required this.verticalOffset,
+    required this.preferBelow,
   })  : assert(target != null),
         assert(verticalOffset != null),
         assert(preferBelow != null);
@@ -489,7 +489,7 @@ class _TooltipPositionDelegate extends SingleChildLayoutDelegate {
 
 class _TooltipOverlay extends StatelessWidget {
   const _TooltipOverlay({
-    Key key,
+    Key? key,
     this.message,
     this.height,
     this.padding,
@@ -502,16 +502,16 @@ class _TooltipOverlay extends StatelessWidget {
     this.preferBelow,
   }) : super(key: key);
 
-  final String message;
-  final double height;
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
-  final Decoration decoration;
-  final TextStyle textStyle;
-  final Animation<double> animation;
-  final Offset target;
-  final double verticalOffset;
-  final bool preferBelow;
+  final String? message;
+  final double? height;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+  final Decoration? decoration;
+  final TextStyle? textStyle;
+  final Animation<double>? animation;
+  final Offset? target;
+  final double? verticalOffset;
+  final bool? preferBelow;
 
   @override
   Widget build(BuildContext context) {
@@ -519,16 +519,16 @@ class _TooltipOverlay extends StatelessWidget {
       child: IgnorePointer(
         child: CustomSingleChildLayout(
           delegate: _TooltipPositionDelegate(
-            target: target,
-            verticalOffset: verticalOffset,
-            preferBelow: preferBelow,
+            target: target!,
+            verticalOffset: verticalOffset!,
+            preferBelow: preferBelow!,
           ),
           child: FadeTransition(
-            opacity: animation,
+            opacity: animation!,
             child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: height),
+              constraints: BoxConstraints(minHeight: height!),
               child: DefaultTextStyle(
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyText1!,
                 child: Container(
                   decoration: decoration,
                   padding: padding,
@@ -537,7 +537,7 @@ class _TooltipOverlay extends StatelessWidget {
                     widthFactor: 1.0,
                     heightFactor: 1.0,
                     child: Text(
-                      message,
+                      message!,
                       style: textStyle,
                     ),
                   ),

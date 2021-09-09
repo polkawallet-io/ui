@@ -9,17 +9,17 @@ class MainTabBar extends StatelessWidget {
     this.lineWidth = 8,
   });
 
-  final List<String> tabs;
-  final Function(int) onTap;
-  final int activeTab;
+  final List<String>? tabs;
+  final Function(int)? onTap;
+  final int? activeTab;
   final double fontSize;
   final double lineWidth;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: tabs.map((e) {
-        final isActive = tabs[activeTab] == e;
+      children: tabs!.map((e) {
+        final isActive = tabs![activeTab!] == e;
         return GestureDetector(
           child: isActive
               ? Padding(
@@ -47,7 +47,7 @@ class MainTabBar extends StatelessWidget {
                     Container(width: 24, height: 8)
                   ]),
                 ),
-          onTap: () => onTap(tabs.indexOf(e)),
+          onTap: () => onTap!(tabs!.indexOf(e)),
         );
       }).toList(),
     );

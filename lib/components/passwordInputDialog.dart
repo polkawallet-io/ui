@@ -10,10 +10,10 @@ class PasswordInputDialog extends StatefulWidget {
       {this.account, this.userPass, this.title, this.content});
 
   final PolkawalletApi api;
-  final KeyPairData account;
-  final String userPass;
-  final Widget title;
-  final Widget content;
+  final KeyPairData? account;
+  final String? userPass;
+  final Widget? title;
+  final Widget? content;
 
   @override
   _PasswordInputDialog createState() => _PasswordInputDialog();
@@ -29,23 +29,23 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
       _submitting = true;
     });
     var passed =
-        await widget.api.keyring.checkPassword(widget.account, password);
+        await widget.api.keyring.checkPassword(widget.account!, password);
     if (mounted) {
       setState(() {
         _submitting = false;
       });
     }
     if (!passed) {
-      final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+      final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
-            title: Text(dic['pass.error']),
-            content: Text(dic['pass.error.text']),
+            title: Text(dic!['pass.error']!),
+            content: Text(dic['pass.error.text']!),
             actions: <Widget>[
               CupertinoButton(
-                child: Text(dic['ok']),
+                child: Text(dic['ok']!),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -60,9 +60,9 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (widget.userPass != null) {
-        _submit(widget.userPass);
+        _submit(widget.userPass!);
       }
     });
   }
@@ -75,7 +75,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final dic = I18n.of(context).getDic(i18n_full_dic_ui, 'common');
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
 
     return CupertinoAlertDialog(
       title: widget.title ?? Container(),
@@ -88,7 +88,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
           Padding(
             padding: EdgeInsets.only(top: 12),
             child: _submitting
-                ? Text(dic['pass.checking'])
+                ? Text(dic['pass.checking']!)
                 : CupertinoTextField(
                     placeholder: dic['pass.old'],
                     controller: _passCtrl,
@@ -100,7 +100,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
       ),
       actions: <Widget>[
         CupertinoButton(
-          child: Text(dic['cancel']),
+          child: Text(dic['cancel']!),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -110,7 +110,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _submitting ? CupertinoActivityIndicator() : Container(),
-              Text(dic['ok'])
+              Text(dic['ok']!)
             ],
           ),
           onPressed: _submitting ? null : () => _submit(_passCtrl.text.trim()),

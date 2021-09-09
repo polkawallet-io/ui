@@ -7,10 +7,10 @@ import 'package:polkawallet_ui/utils/index.dart';
 
 class AddressFormItem extends StatelessWidget {
   AddressFormItem(this.account, {this.label, this.svg, this.onTap});
-  final String label;
-  final String svg;
-  final KeyPairData account;
-  final Future<void> Function() onTap;
+  final String? label;
+  final String? svg;
+  final KeyPairData? account;
+  final Future<void> Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class AddressFormItem extends StatelessWidget {
             ? Container(
                 margin: EdgeInsets.only(top: 4),
                 child: Text(
-                  label,
+                  label!,
                   style: TextStyle(color: grey),
                 ),
               )
@@ -40,8 +40,8 @@ class AddressFormItem extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(right: 8),
                 child: AddressIcon(
-                  account.address,
-                  svg: svg ?? account.icon,
+                  account!.address,
+                  svg: svg ?? account!.icon,
                   size: 32,
                   tapToCopy: false,
                 ),
@@ -50,9 +50,9 @@ class AddressFormItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(UI.accountName(context, account)),
+                    Text(UI.accountName(context, account!)),
                     Text(
-                      Fmt.address(account.address),
+                      Fmt.address(account!.address)!,
                       style: TextStyle(fontSize: 14, color: grey),
                     )
                   ],
@@ -76,7 +76,7 @@ class AddressFormItem extends StatelessWidget {
     }
     return GestureDetector(
       child: content,
-      onTap: () => onTap(),
+      onTap: () => onTap!(),
     );
   }
 }

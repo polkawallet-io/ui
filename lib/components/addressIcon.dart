@@ -10,9 +10,9 @@ class AddressIcon extends StatelessWidget {
     this.svg,
     this.tapToCopy = true,
   });
-  final String address;
-  final String svg;
-  final double size;
+  final String? address;
+  final String? svg;
+  final double? size;
   final bool tapToCopy;
 
   @override
@@ -26,7 +26,7 @@ class AddressIcon extends StatelessWidget {
                 'packages/polkawallet_ui/assets/images/polkadot_avatar.png',
                 bundle: rootBundle,
               )
-            : SvgPicture.string(svg),
+            : SvgPicture.string(svg!),
       ),
       onTap: tapToCopy ? () => UI.copyAndNotify(context, address) : null,
     );

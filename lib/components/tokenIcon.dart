@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TokenIcon extends StatelessWidget {
   TokenIcon(this.id, this.tokenIcons, {this.small = false, this.symbol});
   final String id;
-  final String symbol;
+  final String? symbol;
   final Map<String, Widget> tokenIcons;
   final bool small;
   @override

@@ -12,11 +12,11 @@ class RoundedButton extends StatelessWidget {
     this.submitting = false,
   });
 
-  final String text;
-  final Color textColor;
-  final Function onPressed;
-  final Widget icon;
-  final Color color;
+  final String? text;
+  final Color? textColor;
+  final Function? onPressed;
+  final Widget? icon;
+  final Color? color;
   final double borderRadius;
   final bool submitting;
 
@@ -34,7 +34,7 @@ class RoundedButton extends StatelessWidget {
       row.add(Expanded(
           flex: 0,
           child: Text(
-            text,
+            text!,
             style: textColor != null
                 ? TextStyle(color: textColor)
                 : Theme.of(context).textTheme.button,
@@ -73,7 +73,7 @@ class RoundedButton extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: submitting ? null : onPressed,
+      onPressed: submitting ? null : onPressed as void Function()?,
     );
   }
 }
