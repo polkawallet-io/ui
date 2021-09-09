@@ -50,8 +50,8 @@ class Fmt {
   }
 
   static BigInt balanceTotal(BalanceData balance) {
-    return balanceInt((balance?.freeBalance ?? 0).toString()) +
-        balanceInt((balance?.reservedBalance ?? 0).toString());
+    return balanceInt((balance.freeBalance ?? 0).toString()) +
+        balanceInt((balance.reservedBalance ?? 0).toString());
   }
 
   /// number transform 1:

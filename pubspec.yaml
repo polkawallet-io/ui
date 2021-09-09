@@ -16,15 +16,15 @@ dependencies:
   url_launcher: ^6.0.4
   intl: ^0.17.0
   qr_flutter:
-    path: ../qr_flutter
-    # git:
-    #   url: https://github.com/polkawallet-io/qr.flutter.git
-    #   ref: master
+    # path: ../qr_flutter
+    git:
+      url: https://github.com/polkawallet-io/qr.flutter.git
+      ref: master
   flutter_qr_scan:
-    path: ../flutter_qr_reader
-    # git:
-    #   url: https://github.com/polkawallet-io/flutter_qr_reader.git
-    #   ref: a125851ca20038767ac4efa2e20d12116a390414
+    # path: ../flutter_qr_reader
+    git:
+      url: https://github.com/polkawallet-io/flutter_qr_reader.git
+      ref: master
   # polkawallet_sdk: ^0.3.1
   polkawallet_sdk:
    path: ../sdk
