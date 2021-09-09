@@ -128,9 +128,11 @@ packages:
   flutter_qr_scan:
     dependency: "direct main"
     description:
-      path: "../flutter_qr_reader"
-      relative: true
-    source: path
+      path: "."
+      ref: master
+      resolved-ref: "2774649132665ad00250c8db601db5d10a18bdb1"
+      url: "https://github.com/polkawallet-io/flutter_qr_reader.git"
+    source: git
     version: "1.0.6"
   flutter_svg:
     dependency: "direct main"
@@ -411,10 +413,12 @@ packages:
   qr_flutter:
     dependency: "direct main"
     description:
-      path: "../qr_flutter"
-      relative: true
-    source: path
-    version: "3.2.1"
+      path: "."
+      ref: master
+      resolved-ref: a0dea61c7b0fa5b5822aeba8a65808599c0a0b44
+      url: "https://github.com/polkawallet-io/qr.flutter.git"
+    source: git
+    version: "4.0.0"
   shared_preferences:
     dependency: transitive
     description:

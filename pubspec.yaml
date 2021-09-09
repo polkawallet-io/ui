@@ -27,7 +27,7 @@ dependencies:
       ref: master
   # polkawallet_sdk: ^0.3.1
   polkawallet_sdk:
-   path: ../sdk
+    path: ../sdk
 
 dev_dependencies:
   flutter_test:
