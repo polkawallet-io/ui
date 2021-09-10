@@ -23,12 +23,13 @@ class AccountInfo extends StatelessWidget {
             content = Fmt.address(content);
           }
           ls.add(Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
                 width: 80,
                 child: Text(k),
               ),
-              Text(content!),
+              Expanded(child: Text(content!)),
             ],
           ));
         }
