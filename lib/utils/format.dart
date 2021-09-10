@@ -49,9 +49,9 @@ class Fmt {
     return reg.hasMatch(hex);
   }
 
-  static BigInt balanceTotal(BalanceData balance) {
-    return balanceInt((balance.freeBalance ?? 0).toString()) +
-        balanceInt((balance.reservedBalance ?? 0).toString());
+  static BigInt balanceTotal(BalanceData? balance) {
+    return balanceInt((balance?.freeBalance ?? 0).toString()) +
+        balanceInt((balance?.reservedBalance ?? 0).toString());
   }
 
   /// number transform 1:
