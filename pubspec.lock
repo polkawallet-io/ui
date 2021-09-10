@@ -104,12 +104,12 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_aes_ecb_pkcs5_fork:
+  flutter_aes_ecb_pkcs5:
     dependency: transitive
     description:
-      name: flutter_aes_ecb_pkcs5_fork
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "../flutter_aes_ecb_pkcs5"
+      relative: true
+    source: path
     version: "0.1.1"
   flutter_inappwebview:
     dependency: transitive
@@ -128,11 +128,9 @@ packages:
   flutter_qr_scan:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "2774649132665ad00250c8db601db5d10a18bdb1"
-      url: "https://github.com/polkawallet-io/flutter_qr_reader.git"
-    source: git
+      path: "../flutter_qr_reader"
+      relative: true
+    source: path
     version: "1.0.6"
   flutter_svg:
     dependency: "direct main"
@@ -413,11 +411,9 @@ packages:
   qr_flutter:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: a0dea61c7b0fa5b5822aeba8a65808599c0a0b44
-      url: "https://github.com/polkawallet-io/qr.flutter.git"
-    source: git
+      path: "../qr_flutter"
+      relative: true
+    source: path
     version: "4.0.0"
   shared_preferences:
     dependency: transitive
