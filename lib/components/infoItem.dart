@@ -26,22 +26,25 @@ class InfoItem extends StatelessWidget {
     final textColor = color ?? Theme.of(context).unselectedWidgetColor;
     final List<Widget> res = [
       titleToolTip != null
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 4),
-                  child: TapTooltip(
-                    message: titleToolTip!,
-                    child: Icon(
+          ? Container(
+              child: TapTooltip(
+                message: titleToolTip!,
+                child: Center(
+                    child: Row(
+                  children: [
+                    Icon(
                       Icons.info,
                       color: Theme.of(context).disabledColor,
                       size: 14,
                     ),
-                  ),
-                ),
-                Text(title!, style: TextStyle(fontSize: 12, color: titleColor))
-              ],
+                    Container(
+                      margin: EdgeInsets.only(left: 4),
+                      child: Text(title!,
+                          style: TextStyle(fontSize: 12, color: titleColor)),
+                    )
+                  ],
+                )),
+              ),
             )
           : Text(title!, style: TextStyle(fontSize: 12, color: titleColor)),
       Text(
