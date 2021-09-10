@@ -94,7 +94,7 @@ class Fmt {
   /// combined number transform 1-3:
   /// from raw <String> to <String> in token format of ",##0.000"
   static String balance(
-    String raw,
+    String? raw,
     int decimals, {
     int length = 4,
   }) {
