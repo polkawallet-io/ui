@@ -4,23 +4,23 @@ import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/api/types/balanceData.dart';
 
 class Fmt {
-  static String dateTime(DateTime time) {
+  static String dateTime(DateTime? time) {
     if (time == null) {
       return 'date-time';
     }
     return DateFormat.yMd().add_Hm().format(time.toLocal());
   }
 
-  static String blockToTime(int blocks, int blockDuration) {
+  static String blockToTime(int? blocks, int blockDuration) {
     if (blocks == null) return '~';
 
-    int blocksOfMin = 60000 ~/ blockDuration;
-    int blocksOfHour = 60 * blocksOfMin;
-    int blocksOfDay = 24 * blocksOfHour;
+    final blocksOfMin = 60000 ~/ blockDuration;
+    final blocksOfHour = 3600000 ~/ blockDuration;
+    final blocksOfDay = 24 * 3600000 ~/ blockDuration;
 
-    int day = (blocks / blocksOfDay).floor();
-    int hour = (blocks % blocksOfDay / blocksOfHour).floor();
-    int min = (blocks % blocksOfHour / blocksOfMin).floor();
+    final day = (blocks / blocksOfDay).floor();
+    final hour = (blocks % blocksOfDay / blocksOfHour).floor();
+    final min = (blocks % blocksOfHour / blocksOfMin).floor();
 
     String res = '$min mins';
 
@@ -56,7 +56,7 @@ class Fmt {
 
   /// number transform 1:
   /// from raw <String> of Api data to <BigInt>
-  static BigInt balanceInt(String raw) {
+  static BigInt balanceInt(String? raw) {
     if (raw == null || raw.length == 0) {
       return BigInt.zero;
     }
@@ -69,7 +69,7 @@ class Fmt {
 
   /// number transform 2:
   /// from <BigInt> to <double>
-  static double bigIntToDouble(BigInt value, int decimals) {
+  static double bigIntToDouble(BigInt? value, int decimals) {
     if (value == null) {
       return 0;
     }
@@ -79,7 +79,7 @@ class Fmt {
   /// number transform 3:
   /// from <double> to <String> in token format of ",##0.000"
   static String doubleFormat(
-    double value, {
+    double? value, {
     int length = 4,
     int round = 0,
   }) {
@@ -114,7 +114,7 @@ class Fmt {
   /// combined number transform 2-3:
   /// from <BigInt> to <String> in token format of ",##0.000"
   static String token(
-    BigInt value,
+    BigInt? value,
     int decimals, {
     int length = 4,
   }) {
@@ -126,7 +126,7 @@ class Fmt {
 
   /// number transform 4:
   /// from <String of double> to <BigInt>
-  static BigInt tokenInt(String value, int decimals) {
+  static BigInt tokenInt(String? value, int decimals) {
     if (value == null) {
       return BigInt.zero;
     }
@@ -147,7 +147,7 @@ class Fmt {
   /// from <BigInt> to <String> in price format of ",##0.00"
   /// ceil number of last decimal
   static String priceCeil(
-    double value, {
+    double? value, {
     int lengthFixed = 2,
     int? lengthMax,
   }) {
@@ -168,7 +168,7 @@ class Fmt {
   /// from <BigInt> to <String> in price format of ",##0.00"
   /// floor number of last decimal
   static String priceFloor(
-    double value, {
+    double? value, {
     int lengthFixed = 2,
     int? lengthMax,
   }) {
@@ -193,7 +193,7 @@ class Fmt {
   }
 
   static String priceCeilBigInt(
-    BigInt value,
+    BigInt? value,
     int decimals, {
     int lengthFixed = 2,
     int? lengthMax,
@@ -206,7 +206,7 @@ class Fmt {
   }
 
   static String priceFloorBigInt(
-    BigInt value,
+    BigInt? value,
     int decimals, {
     int lengthFixed = 2,
     int? lengthMax,
