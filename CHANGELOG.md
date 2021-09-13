@@ -1,3 +1,8 @@
+## [0.3.2] - 20210913.
+
+* bump polkawallet_sdk: 0.3.2.
+* null-safety support.
+
 ## [0.3.0] - 20210826.
 
 * bump polkawallet_sdk: 0.3.0.
