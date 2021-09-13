@@ -10,7 +10,7 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/roundedButton.dart';
 import 'package:polkawallet_ui/pages/scanPage.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qr_flutter_fork/qr_flutter_fork.dart';
 
 class QrSenderPageParams {
   QrSenderPageParams(this.txInfo, this.params, {this.rawParams});
@@ -38,7 +38,8 @@ class _QrSenderPageState extends State<QrSenderPage> {
       return _qrPayload;
     }
 
-    final QrSenderPageParams args = ModalRoute.of(context)!.settings.arguments as QrSenderPageParams;
+    final QrSenderPageParams args =
+        ModalRoute.of(context)!.settings.arguments as QrSenderPageParams;
 
     final Map? res = await widget.plugin.sdk.api!.uos!
         .makeQrCode(args.txInfo, args.params!, rawParam: args.rawParams);
@@ -51,8 +52,8 @@ class _QrSenderPageState extends State<QrSenderPage> {
   }
 
   Future<void> _handleScan(BuildContext context) async {
-    final res =
-        (await Navigator.of(context).pushNamed(ScanPage.route)) as QRCodeResult?;
+    final res = (await Navigator.of(context).pushNamed(ScanPage.route))
+        as QRCodeResult?;
     if (res != null && res.type == QRCodeResultType.hex) {
       Navigator.of(context).pop(res.hex);
     }
