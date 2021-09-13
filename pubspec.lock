@@ -4,9 +4,9 @@ packages:
   aes_ecb_pkcs5_flutter:
     dependency: transitive
     description:
-      path: "../aes_ecb_pkcs5_flutter"
-      relative: true
-    source: path
+      name: aes_ecb_pkcs5_flutter
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "0.1.1"
   async:
     dependency: transitive
@@ -390,10 +390,10 @@ packages:
   polkawallet_sdk:
     dependency: "direct main"
     description:
-      path: "../sdk"
-      relative: true
-    source: path
-    version: "0.3.1"
+      name: polkawallet_sdk
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.2"
   process:
     dependency: transitive
     description:
@@ -411,9 +411,9 @@ packages:
   qr_flutter_fork:
     dependency: "direct main"
     description:
-      path: "../qr_flutter"
-      relative: true
-    source: path
+      name: qr_flutter_fork
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "4.0.0"
   shared_preferences:
     dependency: transitive
