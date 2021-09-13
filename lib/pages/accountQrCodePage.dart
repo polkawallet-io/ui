@@ -8,7 +8,7 @@ import 'package:polkawallet_ui/components/roundedCard.dart';
 import 'package:polkawallet_ui/components/textTag.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qr_flutter_fork/qr_flutter_fork.dart';
 
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
