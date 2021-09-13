@@ -31,6 +31,7 @@ class InfoItem extends StatelessWidget {
                 message: titleToolTip!,
                 child: Center(
                     child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.info,
