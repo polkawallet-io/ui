@@ -46,14 +46,15 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     }
     if (widget.plugin.basic.name == 'kusama' &&
         (widget.keyring.current.observation ?? false)) {
-      final recoveryInfo = await widget.plugin.sdk.api!.recovery!
+      final recoveryInfo = await widget.plugin.sdk.api.recovery
           .queryRecoverable(widget.keyring.current.address!);
       setState(() {
         _recoveryInfo = recoveryInfo;
       });
     }
 
-    final TxConfirmParams args = ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+    final TxConfirmParams args =
+        ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
     final txInfo =
@@ -61,7 +62,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     // if (_proxyAccount != null) {
     //   txInfo['proxy'] = _proxyAccount.pubKey;
     // }
-    final fee = await widget.plugin.sdk.api!.tx!
+    final fee = await widget.plugin.sdk.api.tx
         .estimateFees(txInfo, args.params!, rawParam: args.rawParams);
     setState(() {
       _fee = fee;
@@ -104,11 +105,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 ? Icon(Icons.cancel, color: Colors.red, size: 32)
                 : Icon(Icons.check_circle, color: Colors.lightGreen, size: 32),
             content: Text(errorMsg ??
-                I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!['success']!),
+                I18n.of(context)!
+                    .getDic(i18n_full_dic_ui, 'common')!['success']!),
             actions: <Widget>[
               CupertinoButton(
-                child: Text(
-                    I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!['ok']!),
+                child: Text(I18n.of(context)!
+                    .getDic(i18n_full_dic_ui, 'common')!['ok']!),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -120,8 +122,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   Future<bool> _validateProxy() async {
-    List proxies = await (widget.plugin.sdk.api!.recovery!
-        .queryRecoveryProxies([_proxyAccount!.address!]) as FutureOr<List<dynamic>>);
+    List proxies = await (widget.plugin.sdk.api.recovery
+            .queryRecoveryProxies([_proxyAccount!.address!])
+        as FutureOr<List<dynamic>>);
     print(proxies);
     return proxies[0] == widget.keyring.current.address;
   }
@@ -167,7 +170,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     bool viaQr = false,
   }) async {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
-    final TxConfirmParams args = ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+    final TxConfirmParams args =
+        ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
 
     setState(() {
       _submitting = true;
@@ -210,7 +214,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     TxConfirmParams args,
     String password,
   ) async {
-    return widget.plugin.sdk.api!.tx!.signAndSend(txInfo, args.params!, password,
+    return widget.plugin.sdk.api.tx.signAndSend(txInfo, args.params!, password,
         rawParam: args.rawParams, onStatusChange: (status) {
       if (mounted) {
         final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
@@ -237,7 +241,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     if (signed == null) {
       throw Exception(dic!['tx.cancelled']);
     }
-    final res = await widget.plugin.sdk.api!.uos!.addSignatureAndSend(
+    final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
       widget.keyring.current.address!,
       signed.toString(),
       (status) {
@@ -285,7 +289,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
     final dicAcc = I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!;
 
-    final isNetworkConnected = widget.plugin.sdk.api!.connectedNode != null;
+    final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
     // todo: update this check with sdk 0.1.7
     final isNetworkMatch = true;
     // final isNetworkMatch = widget.plugin.networkState.genesisHash ==
@@ -295,7 +299,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final String symbol = (widget.plugin.networkState.tokenSymbol ?? [''])[0];
     final int decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
 
-    final TxConfirmParams args = ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+    final TxConfirmParams args =
+        ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
 
     final bool isObservation = widget.keyring.current.observation ?? false;
     final bool isProxyObservation =

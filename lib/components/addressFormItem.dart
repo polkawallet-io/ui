@@ -6,9 +6,11 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class AddressFormItem extends StatelessWidget {
-  AddressFormItem(this.account, {this.label, this.svg, this.onTap});
+  AddressFormItem(this.account,
+      {this.label, this.svg, this.onTap, this.isShowSubtitle = true});
   final String? label;
   final String? svg;
+  final bool isShowSubtitle;
   final KeyPairData? account;
   final Future<void> Function()? onTap;
 
@@ -51,10 +53,12 @@ class AddressFormItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(UI.accountName(context, account!)),
-                    Text(
-                      Fmt.address(account!.address)!,
-                      style: TextStyle(fontSize: 14, color: grey),
-                    )
+                    Visibility(
+                        visible: isShowSubtitle,
+                        child: Text(
+                          Fmt.address(account!.address)!,
+                          style: TextStyle(fontSize: 14, color: grey),
+                        ))
                   ],
                 ),
               ),

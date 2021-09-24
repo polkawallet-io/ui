@@ -34,7 +34,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         child: Stack(
           children: [
             WebViewWithExtension(
-              widget.plugin.sdk.api!,
+              widget.plugin.sdk.api,
               url,
               widget.keyring,
               onPageFinished: (url) {

@@ -42,9 +42,10 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
     setState(() {
       _submitting = true;
     });
-    final SignAsExtensionParam args = ModalRoute.of(context)!.settings.arguments as SignAsExtensionParam;
-    final res =
-        await (widget.plugin.sdk.api!.keyring.signAsExtension(password, args) as FutureOr<ExtensionSignResult>);
+    final SignAsExtensionParam args =
+        ModalRoute.of(context)!.settings.arguments as SignAsExtensionParam;
+    final res = await (widget.plugin.sdk.api.keyring
+        .signAsExtension(password, args) as FutureOr<ExtensionSignResult>);
     if (mounted) {
       setState(() {
         _submitting = false;
@@ -59,11 +60,16 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
-    final SignAsExtensionParam args = ModalRoute.of(context)!.settings.arguments as SignAsExtensionParam;
+    final SignAsExtensionParam args =
+        ModalRoute.of(context)!.settings.arguments as SignAsExtensionParam;
     final address = args.msgType == WalletExtensionSignPage.signTypeBytes
-        ? SignBytesRequest.fromJson(Map<String?, dynamic>.of(args.request as Map<String?, dynamic>) as Map<String, dynamic>)
+        ? SignBytesRequest.fromJson(
+                Map<String?, dynamic>.of(args.request as Map<String?, dynamic>)
+                    as Map<String, dynamic>)
             .address
-        : SignBytesRequest.fromJson(Map<String?, dynamic>.of(args.request as Map<String?, dynamic>) as Map<String, dynamic>)
+        : SignBytesRequest.fromJson(
+                Map<String?, dynamic>.of(args.request as Map<String?, dynamic>)
+                    as Map<String, dynamic>)
             .address;
     final KeyPairData acc = widget.keyring.keyPairs.firstWhere((acc) {
       bool matched = false;
@@ -145,8 +151,9 @@ class SignExtrinsicInfo extends StatelessWidget {
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {
-    final req =
-        SignExtrinsicRequest.fromJson(Map<String?, dynamic>.of(msg.request as Map<String?, dynamic>) as Map<String, dynamic>);
+    final req = SignExtrinsicRequest.fromJson(
+        Map<String?, dynamic>.of(msg.request as Map<String?, dynamic>)
+            as Map<String, dynamic>);
     return Column(
       children: [
         InfoItemRow('from', msg.url),
@@ -164,7 +171,9 @@ class SignBytesInfo extends StatelessWidget {
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {
-    final req = SignBytesRequest.fromJson(Map<String?, dynamic>.of(msg.request as Map<String?, dynamic>) as Map<String, dynamic>);
+    final req = SignBytesRequest.fromJson(
+        Map<String?, dynamic>.of(msg.request as Map<String?, dynamic>)
+            as Map<String, dynamic>);
     return Column(
       children: [
         InfoItemRow('from', msg.url),
