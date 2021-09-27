@@ -7,12 +7,23 @@ import 'package:polkawallet_ui/utils/index.dart';
 
 class AddressFormItem extends StatelessWidget {
   AddressFormItem(this.account,
-      {this.label, this.svg, this.onTap, this.isShowSubtitle = true});
+      {this.label,
+      this.svg,
+      this.onTap,
+      this.isShowSubtitle = true,
+      this.color,
+      this.borderWidth = 0.5,
+      this.imageRight = 8.0,
+      this.margin});
   final String? label;
   final String? svg;
   final bool isShowSubtitle;
   final KeyPairData? account;
   final Future<void> Function()? onTap;
+  Color? color;
+  final double borderWidth;
+  final double imageRight;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +41,25 @@ class AddressFormItem extends StatelessWidget {
               )
             : Container(),
         Container(
-          margin: EdgeInsets.only(top: 4, bottom: 4),
+          margin: this.margin ?? EdgeInsets.only(top: 4, bottom: 4),
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            border:
-                Border.all(color: Theme.of(context).disabledColor, width: 0.5),
+            border: Border.all(
+                color: color ?? Theme.of(context).disabledColor,
+                width: borderWidth),
           ),
           child: Row(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 8),
+                margin: EdgeInsets.only(right: imageRight),
                 child: AddressIcon(
                   account!.address,
                   svg: svg ?? account!.icon,
                   size: 32,
                   tapToCopy: false,
+                  borderColor: color ?? Theme.of(context).disabledColor,
+                  borderWidth: borderWidth,
                 ),
               ),
               Expanded(
@@ -57,7 +71,7 @@ class AddressFormItem extends StatelessWidget {
                         visible: isShowSubtitle,
                         child: Text(
                           Fmt.address(account!.address)!,
-                          style: TextStyle(fontSize: 14, color: grey),
+                          style: TextStyle(fontSize: 14, color: color ?? grey),
                         ))
                   ],
                 ),
@@ -67,7 +81,7 @@ class AddressFormItem extends StatelessWidget {
                   : Icon(
                       Icons.arrow_forward_ios,
                       size: 18,
-                      color: grey,
+                      color: color ?? grey,
                     )
             ],
           ),
