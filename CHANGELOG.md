@@ -1,3 +1,9 @@
+## [0.3.3] - 20210928.
+
+* bump polkawallet_sdk: 0.3.3.
+* bump flutter_qr_scan 1.0.7 hosted.
+* support flutter 2.5.x.
+
 ## [0.3.2] - 20210913.
 
 * bump polkawallet_sdk: 0.3.2.
