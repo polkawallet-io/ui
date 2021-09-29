@@ -31,12 +31,12 @@ class AddressIcon extends StatelessWidget {
                     BorderRadius.all(Radius.circular((size ?? 40) / 2.0)),
                 border: Border.all(color: borderColor!, width: borderWidth),
               ),
-        child: svg == null
+        child: ClipOval(child:svg == null
             ? Image.asset(
                 'packages/polkawallet_ui/assets/images/polkadot_avatar.png',
                 bundle: rootBundle,
               )
-            : SvgPicture.string(svg!),
+            : SvgPicture.string(svg!)),
       ),
       onTap: tapToCopy ? () => UI.copyAndNotify(context, address) : null,
     );
