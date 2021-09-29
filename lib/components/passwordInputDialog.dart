@@ -4,16 +4,19 @@ import 'package:polkawallet_sdk/api/api.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
+import 'package:polkawallet_sdk/plugin/index.dart';
+import 'package:polkawallet_sdk/storage/types/keyPairETHData.dart';
 
 class PasswordInputDialog extends StatefulWidget {
   PasswordInputDialog(this.api,
-      {this.account, this.userPass, this.title, this.content});
+      {this.account, this.userPass, this.title, this.content,this.pluginType = PluginType.Substrate});
 
   final PolkawalletApi api;
   final KeyPairData? account;
   final String? userPass;
   final Widget? title;
   final Widget? content;
+  final PluginType pluginType;
 
   @override
   _PasswordInputDialog createState() => _PasswordInputDialog();
@@ -28,8 +31,9 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
     setState(() {
       _submitting = true;
     });
+
     var passed =
-        await widget.api.keyring.checkPassword(widget.account!, password);
+    widget.pluginType == PluginType.Etherem?await widget.api.ethKeyring.checkPassword(keystore: (widget.account! as KeyPairETHData).keystore!, pass: password):await widget.api.keyring.checkPassword(widget.account!, password);
     if (mounted) {
       setState(() {
         _submitting = false;
