@@ -9,12 +9,16 @@ import 'package:polkawallet_ui/components/textTag.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 import 'package:qr_flutter_fork/qr_flutter_fork.dart';
+import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
 class AccountQrCodePage extends StatelessWidget {
-  AccountQrCodePage(this.plugin, this.keyring);
+  AccountQrCodePage(this.plugin, this.keyring, {this.current});
   final PolkawalletPlugin plugin;
+  /// Substrate or Etherem Recommend current
+  final KeyPairData? current;
+  /// Deprecated
   final Keyring keyring;
 
   static final String route = '/assets/receive';
@@ -23,10 +27,11 @@ class AccountQrCodePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!;
 
+    final acc = this.current ?? keyring.current;
     final codeAddress =
-        'substrate:${keyring.current.address}:${keyring.current.pubKey}:${keyring.current.name}';
+        'substrate:${acc.address}:${acc.pubKey}:${acc.name}';
 
-    final accInfo = keyring.current.indexInfo;
+    final accInfo = acc.indexInfo;
     final qrWidth = MediaQuery.of(context).size.width / 2;
 
     return Scaffold(
@@ -43,7 +48,7 @@ class AccountQrCodePage extends StatelessWidget {
               margin: EdgeInsets.fromLTRB(32, 16, 32, 16),
               child: Column(
                 children: <Widget>[
-                  keyring.current.observation ?? false
+                  acc.observation ?? false
                       ? Container(
                           margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
                           child:
@@ -53,12 +58,12 @@ class AccountQrCodePage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 24, bottom: 8),
                     child: AddressIcon(
-                      keyring.current.address,
-                      svg: keyring.current.icon,
+                      acc.address,
+                      svg: acc.icon,
                     ),
                   ),
                   UI.accountDisplayName(
-                      keyring.current.address, keyring.current.indexInfo,
+                      acc.address, acc.indexInfo,
                       mainAxisAlignment: MainAxisAlignment.center,
                       expand: false),
                   accInfo != null && accInfo['accountIndex'] != null
@@ -80,7 +85,7 @@ class AccountQrCodePage extends StatelessWidget {
                   ),
                   Container(
                     width: qrWidth,
-                    child: Text(keyring.current.address!),
+                    child: Text(acc.address!),
                   ),
                   Container(
                     width: qrWidth,
@@ -89,7 +94,7 @@ class AccountQrCodePage extends StatelessWidget {
                       text: I18n.of(context)!
                           .getDic(i18n_full_dic_ui, 'common')!['copy'],
                       onPressed: () =>
-                          UI.copyAndNotify(context, keyring.current.address),
+                          UI.copyAndNotify(context, acc.address),
                     ),
                   )
                 ],
