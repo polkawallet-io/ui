@@ -345,16 +345,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.0"
-<<<<<<< HEAD
-=======
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.11.1"
->>>>>>> ccce3f83890ff665cce4c3158916473fd392c83c
   permission_handler:
     dependency: "direct main"
     description:
@@ -368,11 +358,7 @@ packages:
       name: permission_handler_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-<<<<<<< HEAD
     version: "3.7.0"
-=======
-    version: "3.6.2"
->>>>>>> ccce3f83890ff665cce4c3158916473fd392c83c
   petitparser:
     dependency: transitive
     description:
@@ -397,15 +383,9 @@ packages:
   polkawallet_sdk:
     dependency: "direct main"
     description:
-<<<<<<< HEAD
       path: "../sdk"
       relative: true
     source: path
-=======
-      name: polkawallet_sdk
-      url: "https://pub.flutter-io.cn"
-    source: hosted
->>>>>>> ccce3f83890ff665cce4c3158916473fd392c83c
     version: "0.3.3"
   process:
     dependency: transitive
@@ -586,22 +566,14 @@ packages:
       name: webview_flutter_android
       url: "https://pub.flutter-io.cn"
     source: hosted
-<<<<<<< HEAD
     version: "2.0.15"
-=======
-    version: "2.0.14"
->>>>>>> ccce3f83890ff665cce4c3158916473fd392c83c
   webview_flutter_platform_interface:
     dependency: transitive
     description:
       name: webview_flutter_platform_interface
       url: "https://pub.flutter-io.cn"
     source: hosted
-<<<<<<< HEAD
     version: "1.2.0"
-=======
-    version: "1.0.0"
->>>>>>> ccce3f83890ff665cce4c3158916473fd392c83c
   webview_flutter_wkwebview:
     dependency: transitive
     description:
