@@ -39,8 +39,11 @@ class Fmt {
     return addr.substring(0, pad) + '...' + addr.substring(addr.length - pad);
   }
 
-  static bool isAddress(String txt) {
-    var reg = RegExp(r'^[A-z\d]{47,48}$');
+  static bool isAddress(String txt,
+      {PluginType pluginType = PluginType.Substrate}) {
+    var reg = pluginType == PluginType.Etherem
+        ? RegExp(r'^(0x)?[A-z\d]{40}$')
+        : RegExp(r'^[A-z\d]{47,48}$');
     return reg.hasMatch(txt);
   }
 
