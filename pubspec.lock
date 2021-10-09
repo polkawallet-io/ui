@@ -391,7 +391,11 @@ packages:
     dependency: "direct main"
     description:
       name: polkawallet_sdk
+<<<<<<< HEAD
       url: "https://pub.dartlang.org"
+=======
+      url: "https://pub.flutter-io.cn"
+>>>>>>> c012228 (sdk update)
     source: hosted
     version: "0.3.2"
   process:
@@ -412,7 +416,11 @@ packages:
     dependency: "direct main"
     description:
       name: qr_flutter_fork
+<<<<<<< HEAD
       url: "https://pub.dartlang.org"
+=======
+      url: "https://pub.flutter-io.cn"
+>>>>>>> c012228 (sdk update)
     source: hosted
     version: "4.0.0"
   shared_preferences:
