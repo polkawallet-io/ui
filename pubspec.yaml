@@ -16,6 +16,7 @@ dependencies:
   url_launcher: ^6.0.4
   intl: ^0.17.0
   qr_flutter_fork: ^4.0.0
+<<<<<<< HEAD
     # path: ../qr_flutter
   flutter_qr_scan: ^1.0.6
   # flutter_qr_scan:
@@ -23,6 +24,10 @@ dependencies:
   # polkawallet_sdk: ^0.3.1
   polkawallet_sdk:
     path: ../sdk
+=======
+  flutter_qr_scan: ^1.0.7
+  polkawallet_sdk: ^0.3.3
+>>>>>>> ccce3f83890ff665cce4c3158916473fd392c83c
 
 dev_dependencies:
   flutter_test:
