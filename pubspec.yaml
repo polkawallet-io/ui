@@ -28,13 +28,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-#dependency_overrides:
+dependency_overrides:
 #  qr_flutter_fork:
 #    path: ../qr_flutter
-#  flutter_qr_scan:
-#    path: ../flutter_qr_reader
-#  polkawallet_sdk:
-#    path: ../sdk
+  flutter_qr_scan:
+    path: ../flutter_qr_reader
+  polkawallet_sdk:
+    path: ../sdk
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -41,7 +41,7 @@ class _QrSenderPageState extends State<QrSenderPage> {
     final QrSenderPageParams args =
         ModalRoute.of(context)!.settings.arguments as QrSenderPageParams;
 
-    final Map? res = await widget.plugin.sdk.api!.uos!
+    final Map? res = await widget.plugin.sdk.api.uos
         .makeQrCode(args.txInfo, args.params!, rawParam: args.rawParams);
     print('make qr code');
     setState(() {
