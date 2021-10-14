@@ -1,3 +1,8 @@
+## [0.3.4] - 20211014.
+
+* bump polkawallet_sdk: 0.3.4.
+* add disabledCalls params in TxConfirmPage.
+
 ## [0.3.3] - 20210928.
 
 * bump polkawallet_sdk: 0.3.3.
