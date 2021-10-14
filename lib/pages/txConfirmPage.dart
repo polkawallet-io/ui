@@ -173,6 +173,36 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
 
+    if (args.txDisabledCalls != null) {
+      List moduleCalls = args.txDisabledCalls![args.module] ?? [];
+      if (moduleCalls.contains(args.call)) {
+        showCupertinoDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CupertinoAlertDialog(
+              title: Text(dic['tx.hint']!),
+              content: Text(
+                  "${args.module}.${args.call} ${dic['tx.disabledCall']!}"),
+              actions: <Widget>[
+                CupertinoButton(
+                  child: Text(
+                    dic['cancel']!,
+                    style: TextStyle(
+                      color: Theme.of(context).unselectedWidgetColor,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+    }
+
     setState(() {
       _submitting = true;
     });

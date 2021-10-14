@@ -6,16 +6,16 @@ import 'package:polkawallet_ui/pages/txConfirmPage.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class TxConfirmParams {
-  TxConfirmParams({
-    this.module,
-    this.call,
-    this.txDisplay,
-    this.params,
-    this.rawParams,
-    this.isUnsigned,
-    this.txTitle,
-    this.txName,
-  });
+  TxConfirmParams(
+      {this.module,
+      this.call,
+      this.txDisplay,
+      this.params,
+      this.rawParams,
+      this.isUnsigned,
+      this.txTitle,
+      this.txName,
+      this.txDisabledCalls});
   final String? module;
   final String? call;
   final List? params;
@@ -24,6 +24,7 @@ class TxConfirmParams {
   final Map? txDisplay;
   final String? txTitle;
   final String? txName;
+  final Map? txDisabledCalls;
 }
 
 class TxButton extends StatelessWidget {
