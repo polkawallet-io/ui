@@ -18,9 +18,11 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class TxConfirmPage extends StatefulWidget {
-  const TxConfirmPage(this.plugin, this.keyring, this.getPassword);
+  const TxConfirmPage(this.plugin, this.keyring, this.getPassword,
+      {this.txDisabledCalls});
   final PolkawalletPlugin plugin;
   final Keyring keyring;
+  final Future<Map<dynamic, dynamic>>? txDisabledCalls;
   final Future<String> Function(BuildContext, KeyPairData) getPassword;
 
   static final String route = '/tx/confirm';
@@ -173,8 +175,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
 
-    if (args.txDisabledCalls != null) {
-      List moduleCalls = args.txDisabledCalls![args.module] ?? [];
+    if ((await widget.txDisabledCalls) != null) {
+      List moduleCalls = (await widget.txDisabledCalls)![args.module] ?? [];
       if (moduleCalls.contains(args.call)) {
         showCupertinoDialog(
           context: context,
