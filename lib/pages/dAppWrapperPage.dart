@@ -37,6 +37,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               widget.plugin.sdk.api,
               url,
               widget.keyring,
+              pluginType: widget.plugin.basic.pluginType,
               onPageFinished: (url) {
                 setState(() {
                   _loading = false;
