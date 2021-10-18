@@ -48,6 +48,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
 
     final acc = KeyPairData();
     acc.address = input;
+    acc.pubKey = checkAddress.keys.toList()[0];
     if (input.length < 47) {
       // check if input indices in local account list
       final int indicesIndex = widget.localAccounts.indexWhere((e) {

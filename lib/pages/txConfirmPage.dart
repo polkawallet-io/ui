@@ -133,6 +133,16 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
   Future<void> _showPasswordDialog(BuildContext context) async {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
+    final TxConfirmParams args =
+        ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+
+    if ((await widget.txDisabledCalls) != null) {
+      List moduleCalls = (await widget.txDisabledCalls)![args.module] ?? [];
+      if (_checkCallDisabled(moduleCalls)) {
+        return;
+      }
+    }
+
     if (_proxyAccount != null && !(await _validateProxy())) {
       showCupertinoDialog(
         context: context,
@@ -175,32 +185,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
 
-    if ((await widget.txDisabledCalls) != null) {
+    if (viaQr && (await widget.txDisabledCalls) != null) {
       List moduleCalls = (await widget.txDisabledCalls)![args.module] ?? [];
-      if (moduleCalls.contains(args.call)) {
-        showCupertinoDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CupertinoAlertDialog(
-              title: Text(dic['tx.hint']!),
-              content: Text(
-                  "${args.module}.${args.call} ${dic['tx.disabledCall']!}"),
-              actions: <Widget>[
-                CupertinoButton(
-                  child: Text(
-                    dic['cancel']!,
-                    style: TextStyle(
-                      color: Theme.of(context).unselectedWidgetColor,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+      if (_checkCallDisabled(moduleCalls)) {
         return;
       }
     }
@@ -238,6 +225,39 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         _submitting = false;
       });
     }
+  }
+
+  bool _checkCallDisabled(List disabledCalls) {
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+    final TxConfirmParams args =
+        ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+    if (disabledCalls.contains(args.call)) {
+      showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(dic['note']!),
+            content: Text(
+                "<${args.module}.${args.call}> ${dic['tx.disabledCall']!}"),
+            actions: <Widget>[
+              CupertinoButton(
+                child: Text(
+                  dic['cancel']!,
+                  style: TextStyle(
+                    color: Theme.of(context).unselectedWidgetColor,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return true;
+    }
+    return false;
   }
 
   Future<Map> _sendTx(
