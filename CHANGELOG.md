@@ -1,3 +1,8 @@
+## [0.3.5] - 20211025.
+
+* bump polkawallet_sdk: 0.3.6.
+* fix extension sign page title.
+
 ## [0.3.4] - 20211019.
 
 * bump polkawallet_sdk: 0.3.5.
