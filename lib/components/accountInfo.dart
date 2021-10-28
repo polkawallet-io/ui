@@ -48,7 +48,9 @@ class AccountInfo extends StatelessWidget {
           padding: EdgeInsets.only(top: 16, bottom: 8),
           child: AddressIcon(address, svg: icon),
         ),
-        accInfo != null ? Text(accInfo!['accountIndex'] ?? '') : Container(),
+        Visibility(
+            visible: accInfo != null,
+            child: Text(accInfo!['accountIndex'] ?? '')),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [UI.accountDisplayName(address, accInfo, expand: false)],
@@ -73,14 +75,13 @@ class AccountInfo extends StatelessWidget {
             ),
           ],
         ),
-        accInfo == null
-            ? Container()
-            : Container(
-                padding: EdgeInsets.only(left: 24, right: 24, bottom: 4),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: list),
-              )
+        Visibility(
+            visible: accInfo != null,
+            child: Container(
+              padding: EdgeInsets.only(left: 24, right: 24, bottom: 4),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, children: list),
+            ))
       ],
     );
   }

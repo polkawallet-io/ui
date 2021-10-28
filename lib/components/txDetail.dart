@@ -115,18 +115,18 @@ class TxDetail extends StatelessWidget {
       padding: EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
         children: [
-          fee != null
-              ? TxDetailItem(
-                  TxDetailInfoItem(label: dic['tx.fee'], content: Text(fee!)))
-              : Container(),
-          eventId != null
-              ? TxDetailItem(
-                  TxDetailInfoItem(label: 'Event', content: Text(eventId!)))
-              : Container(),
-          blockNum != null
-              ? TxDetailItem(
-                  TxDetailInfoItem(label: 'Block', content: Text('#$blockNum')))
-              : Container(),
+          Visibility(
+              visible: fee != null,
+              child: TxDetailItem(TxDetailInfoItem(
+                  label: dic['tx.fee'], content: Text(fee ?? "")))),
+          Visibility(
+              visible: eventId != null,
+              child: TxDetailItem(TxDetailInfoItem(
+                  label: 'Event', content: Text(eventId ?? "")))),
+          Visibility(
+              visible: blockNum != null,
+              child: TxDetailItem(TxDetailInfoItem(
+                  label: 'Block', content: Text('#$blockNum')))),
           TxDetailItem(TxDetailInfoItem(
               label: 'Hash', content: Text(Fmt.address(hash)!))),
           Padding(

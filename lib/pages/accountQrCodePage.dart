@@ -43,13 +43,12 @@ class AccountQrCodePage extends StatelessWidget {
               margin: EdgeInsets.fromLTRB(32, 16, 32, 16),
               child: Column(
                 children: <Widget>[
-                  keyring.current.observation ?? false
-                      ? Container(
-                          margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                          child:
-                              TextTag(dic['warn.external'], color: Colors.red),
-                        )
-                      : Container(),
+                  Visibility(
+                      visible: keyring.current.observation ?? false,
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                        child: TextTag(dic['warn.external'], color: Colors.red),
+                      )),
                   Padding(
                     padding: EdgeInsets.only(top: 24, bottom: 8),
                     child: AddressIcon(

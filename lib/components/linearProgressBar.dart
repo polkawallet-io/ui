@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 
 class LinearProgressbar extends StatelessWidget {
   LinearProgressbar(
-      {this.color, this.backgroundColor, this.width, this.progress, this.margin});
+      {this.color,
+      this.backgroundColor,
+      this.width,
+      this.progress,
+      this.margin});
   final Color? color;
   final Color? backgroundColor;
   final double? width;
@@ -25,13 +29,15 @@ class LinearProgressbar extends StatelessWidget {
                 color: backgroundColor ?? Colors.black12,
                 borderRadius: BorderRadius.all(Radius.circular(8))),
           ),
-          progressWidth == 0 ? Container() : Container(
-            height: 16,
-            width: progressWidth < 8 ? 16 : progressWidth as double?,
-            decoration: BoxDecoration(
-                color: color ?? Colors.blue,
-                borderRadius: BorderRadius.all(Radius.circular(8))),
-          ),
+          Visibility(
+              visible: progressWidth != 0,
+              child: Container(
+                height: 16,
+                width: progressWidth < 8 ? 16 : progressWidth as double?,
+                decoration: BoxDecoration(
+                    color: color ?? Colors.blue,
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+              )),
         ],
       ),
     );

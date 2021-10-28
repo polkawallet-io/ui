@@ -31,15 +31,15 @@ class AddressFormItem extends StatelessWidget {
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        label != null
-            ? Container(
-                margin: EdgeInsets.only(top: 4),
-                child: Text(
-                  label!,
-                  style: TextStyle(color: grey),
-                ),
-              )
-            : Container(),
+        Visibility(
+            visible: label != null,
+            child: Container(
+              margin: EdgeInsets.only(top: 4),
+              child: Text(
+                label ?? "",
+                style: TextStyle(color: grey),
+              ),
+            )),
         Container(
           margin: this.margin ?? EdgeInsets.only(top: 4, bottom: 4),
           padding: EdgeInsets.all(8),
@@ -76,13 +76,13 @@ class AddressFormItem extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap == null
-                  ? Container()
-                  : Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18,
-                      color: color ?? grey,
-                    )
+              Visibility(
+                  visible: onTap != null,
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
+                    color: color ?? grey,
+                  ))
             ],
           ),
         )

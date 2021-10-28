@@ -109,7 +109,8 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _submitting ? CupertinoActivityIndicator() : Container(),
+              Visibility(
+                  visible: _submitting, child: CupertinoActivityIndicator()),
               Text(dic['ok']!)
             ],
           ),
