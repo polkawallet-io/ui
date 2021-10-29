@@ -379,15 +379,14 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         style: Theme.of(context).textTheme.headline4,
                       ),
                     ),
-                    Visibility(
-                        visible: !isUnsigned,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16, right: 16),
-                          child: AddressFormItem(
-                            widget.keyring.current,
-                            label: dic["tx.from"],
-                          ),
-                        )),
+                    isUnsigned
+                        ? Container()
+                        : Padding(
+                            padding: EdgeInsets.only(left: 16, right: 16),
+                            child: AddressFormItem(
+                              widget.keyring.current,
+                              label: dic["tx.from"],
+                            )),
                     Visibility(
                         visible: isKusama &&
                             isObservation &&
@@ -413,18 +412,18 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             ],
                           ),
                         )),
-                    Visibility(
-                        visible: _proxyAccount != null,
-                        child: GestureDetector(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 16, right: 16),
-                            child: AddressFormItem(
-                              _proxyAccount,
-                              label: dicAcc["proxy"],
+                    _proxyAccount != null
+                        ? GestureDetector(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 16, right: 16),
+                              child: AddressFormItem(
+                                _proxyAccount,
+                                label: dicAcc["proxy"],
+                              ),
                             ),
-                          ),
-                          onTap: () => _onSwitch(true),
-                        )),
+                            onTap: () => _onSwitch(true),
+                          )
+                        : Container(),
                     Padding(
                       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                       child: Row(
