@@ -648,10 +648,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       Expanded(
                         child: Container(
                           color: _submitting ? Colors.black12 : Colors.orange,
-                          child: FlatButton(
-                            padding: EdgeInsets.all(16),
-                            child: Text(dic['cancel']!,
-                                style: TextStyle(color: Colors.white)),
+                          child: TextButton(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 6, bottom: 6),
+                              child: Text(dic['cancel']!,
+                                  style: TextStyle(color: Colors.white)),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -667,18 +669,19 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             builder: (BuildContext context) {
                               return TextButton(
                                 child: Container(
-                                    padding: EdgeInsets.all(16),
-                                    child: Text(
-                                      isUnsigned
-                                          ? dic['tx.no.sign']!
-                                          : (isObservation &&
-                                                      _proxyAccount == null) ||
-                                                  isProxyObservation
-                                              ? dic['tx.qr']!
-                                              // dicAcc['observe.invalid']
-                                              : dic['tx.submit']!,
-                                      style: TextStyle(color: Colors.white),
-                                    )),
+                                  padding: EdgeInsets.only(top: 6, bottom: 6),
+                                  child: Text(
+                                    isUnsigned
+                                        ? dic['tx.no.sign']!
+                                        : (isObservation &&
+                                                    _proxyAccount == null) ||
+                                                isProxyObservation
+                                            ? dic['tx.qr']!
+                                            // dicAcc['observe.invalid']
+                                            : dic['tx.submit']!,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
                                 onPressed: !isNetworkMatch
                                     ? null
                                     : isUnsigned
