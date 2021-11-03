@@ -50,7 +50,7 @@ class AccountInfo extends StatelessWidget {
         ),
         Visibility(
             visible: accInfo != null,
-            child: Text(accInfo!['accountIndex'] ?? '')),
+            child: Text(accInfo?['accountIndex'] ?? '')),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [UI.accountDisplayName(address, accInfo, expand: false)],
