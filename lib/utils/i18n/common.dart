@@ -4,7 +4,7 @@ const Map<String, String> enCommon = {
   'delete': 'Delete',
   'success': 'Success',
   'fail': 'Failed',
-  'ok': 'Ok',
+  'ok': 'OK',
   'cancel': 'Cancel',
   'detail': 'Detail',
   'next': 'Next',

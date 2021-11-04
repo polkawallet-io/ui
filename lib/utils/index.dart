@@ -96,8 +96,6 @@ class UI {
         if (accInfo['identity']['displayParent'] != null) {
           display = '${accInfo['identity']['displayParent']}/$display';
         }
-      } else if (accInfo['accountIndex'] != null) {
-        display = accInfo['accountIndex'];
       }
       display = display!.toUpperCase();
     }
