@@ -18,6 +18,7 @@ dependencies:
   qr_flutter_fork: ^4.0.0
   flutter_qr_scan: ^1.0.7
   polkawallet_sdk: ^0.3.7
+  skeleton_loader: ^2.0.0+4
 #  polkawallet_sdk:
 #    path: ../sdk
 
