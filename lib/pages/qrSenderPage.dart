@@ -85,22 +85,22 @@ class _QrSenderPageState extends State<QrSenderPage> {
                             size: screenWidth - 24,
                           )
                         : CupertinoActivityIndicator(),
-                    snapshot.hasData
-                        ? Padding(
-                            padding: EdgeInsets.all(16),
-                            child: RoundedButton(
-                              icon: SvgPicture.asset(
-                                'packages/polkawallet_ui/assets/images/scan.svg',
-                                width: 28,
-                                color: Theme.of(context).cardColor,
-                              ),
-                              text: dic['uos.scan'],
-                              onPressed: () {
-                                _handleScan(context);
-                              },
+                    Visibility(
+                        visible: snapshot.hasData,
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: RoundedButton(
+                            icon: SvgPicture.asset(
+                              'packages/polkawallet_ui/assets/images/scan.svg',
+                              width: 28,
+                              color: Theme.of(context).cardColor,
                             ),
-                          )
-                        : Container()
+                            text: dic['uos.scan'],
+                            onPressed: () {
+                              _handleScan(context);
+                            },
+                          ),
+                        ))
                   ],
                 )
               ],

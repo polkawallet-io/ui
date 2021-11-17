@@ -56,7 +56,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 return signed;
               },
             ),
-            _loading ? Center(child: CupertinoActivityIndicator()) : Container()
+            Visibility(
+                visible: _loading,
+                child: Center(child: CupertinoActivityIndicator()))
           ],
         ),
       ),

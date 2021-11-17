@@ -4,9 +4,10 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class ListTail extends StatelessWidget {
-  ListTail({this.isEmpty, this.isLoading});
+  ListTail({this.isEmpty, this.isLoading, this.isShowLoadText = false});
   final bool? isLoading;
   final bool? isEmpty;
+  late bool isShowLoadText;
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
@@ -16,7 +17,13 @@ class ListTail extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(16),
           child: isLoading!
-              ? CupertinoActivityIndicator()
+              ? this.isShowLoadText
+                  ? Text(
+                      dic!['list.loading']!,
+                      style: TextStyle(
+                          fontSize: 16, color: Theme.of(context).disabledColor),
+                    )
+                  : CupertinoActivityIndicator()
               : Text(
                   isEmpty! ? dic!['list.empty']! : dic!['list.end']!,
                   style: TextStyle(

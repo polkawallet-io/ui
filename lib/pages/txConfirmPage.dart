@@ -386,31 +386,32 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             child: AddressFormItem(
                               widget.keyring.current,
                               label: dic["tx.from"],
-                            ),
+                            )),
+                    Visibility(
+                        visible: isKusama &&
+                            isObservation &&
+                            _recoveryInfo?.address != null,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16, right: 16),
+                          child: Row(
+                            children: [
+                              TapTooltip(
+                                message: dic['tx.proxy.brief']!,
+                                child: Icon(Icons.info_outline, size: 16),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 4),
+                                  child: Text(dic['tx.proxy']!),
+                                ),
+                              ),
+                              CupertinoSwitch(
+                                value: _proxyAccount != null,
+                                onChanged: (res) => _onSwitch(res),
+                              )
+                            ],
                           ),
-                    isKusama && isObservation && _recoveryInfo?.address != null
-                        ? Padding(
-                            padding: EdgeInsets.only(left: 16, right: 16),
-                            child: Row(
-                              children: [
-                                TapTooltip(
-                                  message: dic['tx.proxy.brief']!,
-                                  child: Icon(Icons.info_outline, size: 16),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 4),
-                                    child: Text(dic['tx.proxy']!),
-                                  ),
-                                ),
-                                CupertinoSwitch(
-                                  value: _proxyAccount != null,
-                                  onChanged: (res) => _onSwitch(res),
-                                )
-                              ],
-                            ),
-                          )
-                        : Container(),
+                        )),
                     _proxyAccount != null
                         ? GestureDetector(
                             child: Padding(
@@ -428,13 +429,13 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       child: Row(
                         children: <Widget>[
                           Container(width: 64, child: Text(dic["tx.network"]!)),
-                          !isNetworkConnected
-                              ? Container()
-                              : Container(
+                          Visibility(
+                              visible: isNetworkConnected,
+                              child: Container(
                                   width: 28,
                                   height: 28,
                                   margin: EdgeInsets.only(right: 8),
-                                  child: widget.plugin.basic.icon),
+                                  child: widget.plugin.basic.icon)),
                           Expanded(
                               child: !isNetworkConnected
                                   ? Text(dic['tx.network.no']!)
@@ -493,75 +494,75 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         },
                       ),
                     ),
-                    _paramsExpanded
-                        ? Container(
-                            margin: EdgeInsets.only(left: 80),
-                            child: Text(
-                              args.rawParams != null
-                                  ? args.rawParams!
-                                  : JsonEncoder.withIndent('  ')
-                                      .convert(args.params),
-                            ),
-                          )
-                        : Container(),
+                    Visibility(
+                        visible: _paramsExpanded,
+                        child: Container(
+                          margin: EdgeInsets.only(left: 80),
+                          child: Text(
+                            args.rawParams != null
+                                ? args.rawParams!
+                                : JsonEncoder.withIndent('  ')
+                                    .convert(args.params),
+                          ),
+                        )),
                     Container(
                       margin: EdgeInsets.only(left: 16, top: 8, right: 16),
                       child: Divider(),
                     ),
-                    isUnsigned
-                        ? Container()
-                        : FutureBuilder<String>(
-                            future: _getTxFee(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
-                              if (snapshot.hasData) {
-                                String fee = Fmt.balance(
-                                  _fee!.partialFee.toString(),
-                                  decimals,
-                                  length: 6,
-                                );
-                                return Padding(
-                                  padding: EdgeInsets.only(left: 16, right: 16),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(top: 8),
-                                        width: 64,
-                                        child: Text(dic["tx.fee"]!),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 8),
-                                        width: MediaQuery.of(context)
-                                                .copyWith()
-                                                .size
-                                                .width -
-                                            120,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              '$fee $symbol',
+                    Visibility(
+                        visible: !isUnsigned,
+                        child: FutureBuilder<String>(
+                          future: _getTxFee(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            if (snapshot.hasData) {
+                              String fee = Fmt.balance(
+                                _fee!.partialFee.toString(),
+                                decimals,
+                                length: 6,
+                              );
+                              return Padding(
+                                padding: EdgeInsets.only(left: 16, right: 16),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(top: 8),
+                                      width: 64,
+                                      child: Text(dic["tx.fee"]!),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 8),
+                                      width: MediaQuery.of(context)
+                                              .copyWith()
+                                              .size
+                                              .width -
+                                          120,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            '$fee $symbol',
+                                          ),
+                                          Text(
+                                            '${_fee!.weight} Weight',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: Theme.of(context)
+                                                  .unselectedWidgetColor,
                                             ),
-                                            Text(
-                                              '${_fee!.weight} Weight',
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                color: Theme.of(context)
-                                                    .unselectedWidgetColor,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                );
-                              } else {
-                                return Container();
-                              }
-                            },
-                          ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
+                        )),
                     Padding(
                       padding: EdgeInsets.only(top: 8),
                       child: GestureDetector(
@@ -594,80 +595,81 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         },
                       ),
                     ),
-                    _tipExpanded
-                        ? Padding(
-                            padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 64,
-                                  child: Text(dic['tx.tip']!),
+                    Visibility(
+                        visible: _tipExpanded,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 64,
+                                child: Text(dic['tx.tip']!),
+                              ),
+                              Text('${Fmt.token(_tipValue, decimals)} $symbol'),
+                              TapTooltip(
+                                message: dic['tx.tip.brief']!,
+                                child: Icon(
+                                  Icons.info,
+                                  color:
+                                      Theme.of(context).unselectedWidgetColor,
+                                  size: 16,
                                 ),
-                                Text(
-                                    '${Fmt.token(_tipValue, decimals)} $symbol'),
-                                TapTooltip(
-                                  message: dic['tx.tip.brief']!,
-                                  child: Icon(
-                                    Icons.info,
-                                    color:
-                                        Theme.of(context).unselectedWidgetColor,
-                                    size: 16,
-                                  ),
+                              ),
+                            ],
+                          ),
+                        )),
+                    Visibility(
+                        visible: _tipExpanded,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16, right: 16),
+                          child: Row(
+                            children: <Widget>[
+                              Text('0'),
+                              Expanded(
+                                child: Slider(
+                                  min: 0,
+                                  max: 19,
+                                  divisions: 19,
+                                  value: _tip,
+                                  onChanged: _submitting ? null : _onTipChanged,
                                 ),
-                              ],
-                            ),
-                          )
-                        : Container(),
-                    _tipExpanded
-                        ? Padding(
-                            padding: EdgeInsets.only(left: 16, right: 16),
-                            child: Row(
-                              children: <Widget>[
-                                Text('0'),
-                                Expanded(
-                                  child: Slider(
-                                    min: 0,
-                                    max: 19,
-                                    divisions: 19,
-                                    value: _tip,
-                                    onChanged:
-                                        _submitting ? null : _onTipChanged,
-                                  ),
-                                ),
-                                Text('1')
-                              ],
-                            ),
-                          )
-                        : Container()
+                              ),
+                              Text('1')
+                            ],
+                          ),
+                        ))
                   ],
                 ),
               ),
-              !isNetworkConnected
-                  ? Container()
-                  : Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            color: _submitting ? Colors.black12 : Colors.orange,
-                            child: FlatButton(
-                              padding: EdgeInsets.all(16),
+              Visibility(
+                  visible: isNetworkConnected,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          color: _submitting ? Colors.black12 : Colors.orange,
+                          child: TextButton(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 6, bottom: 6),
                               child: Text(dic['cancel']!,
                                   style: TextStyle(color: Colors.white)),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
                             ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            color: _submitting || !isNetworkMatch
-                                ? Theme.of(context).disabledColor
-                                : Theme.of(context).primaryColor,
-                            child: Builder(
-                              builder: (BuildContext context) {
-                                return FlatButton(
-                                  padding: EdgeInsets.all(16),
+                      ),
+                      Expanded(
+                        child: Container(
+                          color: _submitting || !isNetworkMatch
+                              ? Theme.of(context).disabledColor
+                              : Theme.of(context).primaryColor,
+                          child: Builder(
+                            builder: (BuildContext context) {
+                              return TextButton(
+                                child: Container(
+                                  padding: EdgeInsets.only(top: 6, bottom: 6),
                                   child: Text(
                                     isUnsigned
                                         ? dic['tx.no.sign']!
@@ -679,26 +681,27 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                             : dic['tx.submit']!,
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  onPressed: !isNetworkMatch
-                                      ? null
-                                      : isUnsigned
-                                          ? () => _onSubmit(context)
-                                          : (isObservation &&
-                                                      _proxyAccount == null) ||
-                                                  isProxyObservation
-                                              ? () => _onSubmit(context,
-                                                  viaQr: true)
-                                              : _submitting
-                                                  ? null
-                                                  : () => _showPasswordDialog(
-                                                      context),
-                                );
-                              },
-                            ),
+                                ),
+                                onPressed: !isNetworkMatch
+                                    ? null
+                                    : isUnsigned
+                                        ? () => _onSubmit(context)
+                                        : (isObservation &&
+                                                    _proxyAccount == null) ||
+                                                isProxyObservation
+                                            ? () =>
+                                                _onSubmit(context, viaQr: true)
+                                            : _submitting
+                                                ? null
+                                                : () => _showPasswordDialog(
+                                                    context),
+                              );
+                            },
                           ),
                         ),
-                      ],
-                    )
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),

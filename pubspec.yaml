@@ -1,6 +1,6 @@
 name: polkawallet_ui
 description: Common used Widgets for polkawallet app.
-version: 0.3.4
+version: 0.3.6
 homepage: https://polkawallet.io
 
 environment:
@@ -18,9 +18,8 @@ dependencies:
   qr_flutter_fork: ^4.0.0
     # path: ../qr_flutter
   flutter_qr_scan: ^1.0.7
-  # flutter_qr_scan:
-  #   path: ../flutter_qr_reader
-  # polkawallet_sdk: ^0.3.3
+  skeleton_loader: ^2.0.0+4
+  # polkawallet_sdk: ^0.3.7
   polkawallet_sdk:
     path: ../sdk
 
@@ -35,13 +34,7 @@ dev_dependencies:
 flutter:
 
   assets:
-   - assets/images/polkadot_avatar.png
-   - assets/images/success.png
-   - assets/images/error.png
-   - assets/images/copy.png
-   - assets/images/scan.svg
-   - assets/images/app.png
-   - assets/images/receive_line.png
+   - assets/images/
 
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages

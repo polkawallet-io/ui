@@ -4,7 +4,7 @@ const Map<String, String> enCommon = {
   'delete': 'Delete',
   'success': 'Success',
   'fail': 'Failed',
-  'ok': 'Ok',
+  'ok': 'OK',
   'cancel': 'Cancel',
   'detail': 'Detail',
   'next': 'Next',
@@ -12,6 +12,7 @@ const Map<String, String> enCommon = {
   'loading': 'Loading...',
   'assets': 'Assets',
   'profile': 'Profile',
+  'list.loading': 'Loading...',
   'list.empty': 'No data',
   'list.end': 'No more data',
   'tx.submit': 'Submit',
@@ -52,6 +53,7 @@ const Map<String, String> enCommon = {
   'submit.sign.msg': 'Sign Message',
   'submit.signer': 'Signer',
   'exit.confirm': 'Do you want to exit the App?',
+  'amount.error': 'Invalid amount',
 };
 
 const Map<String, String> zhCommon = {
@@ -68,6 +70,7 @@ const Map<String, String> zhCommon = {
   'loading': '载入中。。。',
   'assets': '资产',
   'profile': '我的',
+  'list.loading': '正在加载',
   'list.empty': '暂无数据',
   'list.end': '加载完毕',
   'tx.submit': '发送交易',
@@ -104,4 +107,5 @@ const Map<String, String> zhCommon = {
   'submit.sign.msg': '签名消息',
   'submit.signer': '签名账户',
   'exit.confirm': '确定要退出 App 吗？',
+  'amount.error': '格式错误',
 };

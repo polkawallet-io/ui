@@ -84,9 +84,10 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
     });
     return Scaffold(
       appBar: AppBar(
-          title: Text(dic[args.msgType == WalletExtensionSignPage.signTypeBytes
-              ? 'submit.sign.tx'
-              : 'submit.sign.msg']!),
+          title: Text(dic[
+              args.msgType == WalletExtensionSignPage.signTypeExtrinsic
+                  ? 'submit.sign.tx'
+                  : 'submit.sign.msg']!),
           centerTitle: true),
       body: SafeArea(
         child: Column(

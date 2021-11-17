@@ -16,8 +16,10 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 class AccountQrCodePage extends StatelessWidget {
   AccountQrCodePage(this.plugin, this.keyring, {this.current});
   final PolkawalletPlugin plugin;
+
   /// Substrate or Etherem Recommend current
   final KeyPairData? current;
+
   /// Deprecated
   final Keyring keyring;
 
@@ -28,8 +30,7 @@ class AccountQrCodePage extends StatelessWidget {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!;
 
     final acc = this.current ?? keyring.current;
-    final codeAddress =
-        'substrate:${acc.address}:${acc.pubKey}:${acc.name}';
+    final codeAddress = 'substrate:${acc.address}:${acc.pubKey}:${acc.name}';
 
     final accInfo = acc.indexInfo;
     final qrWidth = MediaQuery.of(context).size.width / 2;
@@ -48,13 +49,12 @@ class AccountQrCodePage extends StatelessWidget {
               margin: EdgeInsets.fromLTRB(32, 16, 32, 16),
               child: Column(
                 children: <Widget>[
-                  acc.observation ?? false
-                      ? Container(
-                          margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                          child:
-                              TextTag(dic['warn.external'], color: Colors.red),
-                        )
-                      : Container(),
+                  Visibility(
+                      visible: acc.observation ?? false,
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                        child: TextTag(dic['warn.external'], color: Colors.red),
+                      )),
                   Padding(
                     padding: EdgeInsets.only(top: 24, bottom: 8),
                     child: AddressIcon(
@@ -62,8 +62,7 @@ class AccountQrCodePage extends StatelessWidget {
                       svg: acc.icon,
                     ),
                   ),
-                  UI.accountDisplayName(
-                      acc.address, acc.indexInfo,
+                  UI.accountDisplayName(acc.address, acc.indexInfo,
                       mainAxisAlignment: MainAxisAlignment.center,
                       expand: false),
                   accInfo != null && accInfo['accountIndex'] != null
@@ -93,8 +92,7 @@ class AccountQrCodePage extends StatelessWidget {
                     child: RoundedButton(
                       text: I18n.of(context)!
                           .getDic(i18n_full_dic_ui, 'common')!['copy'],
-                      onPressed: () =>
-                          UI.copyAndNotify(context, acc.address),
+                      onPressed: () => UI.copyAndNotify(context, acc.address),
                     ),
                   )
                 ],

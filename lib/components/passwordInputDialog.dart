@@ -9,7 +9,11 @@ import 'package:polkawallet_sdk/storage/types/keyPairETHData.dart';
 
 class PasswordInputDialog extends StatefulWidget {
   PasswordInputDialog(this.api,
-      {this.account, this.userPass, this.title, this.content,this.pluginType = PluginType.Substrate});
+      {this.account,
+      this.userPass,
+      this.title,
+      this.content,
+      this.pluginType = PluginType.Substrate});
 
   final PolkawalletApi api;
   final KeyPairData? account;
@@ -32,8 +36,11 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
       _submitting = true;
     });
 
-    var passed =
-    widget.pluginType == PluginType.Etherem?await widget.api.ethKeyring.checkPassword(keystore: (widget.account! as KeyPairETHData).keystore!, pass: password):await widget.api.keyring.checkPassword(widget.account!, password);
+    var passed = widget.pluginType == PluginType.Etherem
+        ? await widget.api.ethKeyring.checkPassword(
+            keystore: (widget.account! as KeyPairETHData).keystore!,
+            pass: password)
+        : await widget.api.keyring.checkPassword(widget.account!, password);
     if (mounted) {
       setState(() {
         _submitting = false;
@@ -113,7 +120,8 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _submitting ? CupertinoActivityIndicator() : Container(),
+              Visibility(
+                  visible: _submitting, child: CupertinoActivityIndicator()),
               Text(dic['ok']!)
             ],
           ),
