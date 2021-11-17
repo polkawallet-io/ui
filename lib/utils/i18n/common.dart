@@ -53,6 +53,7 @@ const Map<String, String> enCommon = {
   'submit.sign.msg': 'Sign Message',
   'submit.signer': 'Signer',
   'exit.confirm': 'Do you want to exit the App?',
+  'amount.error': 'Invalid amount',
 };
 
 const Map<String, String> zhCommon = {
@@ -106,4 +107,5 @@ const Map<String, String> zhCommon = {
   'submit.sign.msg': '签名消息',
   'submit.signer': '签名账户',
   'exit.confirm': '确定要退出 App 吗？',
+  'amount.error': '格式错误',
 };

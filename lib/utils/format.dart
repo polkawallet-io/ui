@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/api/types/balanceData.dart';
+import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/i18n.dart';
 
 class Fmt {
   static String dateTime(DateTime? time) {
@@ -216,5 +219,19 @@ class Fmt {
     }
     return priceFloor(Fmt.bigIntToDouble(value, decimals),
         lengthFixed: lengthFixed, lengthMax: lengthMax);
+  }
+
+  static String? validatePrice(String value, BuildContext context) {
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
+
+    final v = value.trim();
+    try {
+      if (v.isEmpty || double.parse(v.trim()) == 0) {
+        return dic!['amount.error'];
+      }
+    } catch (e) {
+      return dic!['amount.error'];
+    }
+    return null;
   }
 }
