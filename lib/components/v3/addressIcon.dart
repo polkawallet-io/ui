@@ -12,14 +12,21 @@ class AddressIcon extends StatelessWidget {
   final double? size;
   final bool tapToCopy;
   final Decoration? decoration;
+  final double defaultSize = 32;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        width: size ?? 40,
-        height: size ?? 40,
-        decoration: decoration,
+        width: size ?? defaultSize,
+        height: size ?? defaultSize,
+        decoration: decoration ??
+            BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                    color: Theme.of(context).toggleableActiveColor, width: 2),
+                borderRadius: BorderRadius.all(
+                    Radius.circular((size ?? defaultSize) / 2))),
         child: svg == null
             ? Image.asset(
                 'packages/polkawallet_ui/assets/images/polkadot_avatar.png',
