@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IconButton extends StatelessWidget {
   const IconButton(
@@ -18,8 +19,8 @@ class IconButton extends StatelessWidget {
             onTap: onPressed,
             child: Container(
               margin: margin,
-              width: 30,
-              height: 30,
+              width: 30.w,
+              height: 30.h,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(!isBlueBg

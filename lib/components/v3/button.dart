@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Button extends StatelessWidget {
   Button({Key? key, this.onPressed, @required this.title = ""})
@@ -10,7 +11,7 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 52,
+      height: 52.h,
       decoration: BoxDecoration(
         color: Colors.transparent,
         image: DecorationImage(
