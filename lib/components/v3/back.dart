@@ -14,7 +14,7 @@ class BackBtn extends StatelessWidget {
       child: Center(
         child: Image.asset(
           'packages/polkawallet_ui/assets/images/icon_back.png',
-          width: 30.sp,
+          width: 30,
           fit: BoxFit.contain,
         ),
       ),

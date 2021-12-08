@@ -19,7 +19,7 @@ class IconButton extends StatelessWidget {
             onTap: onPressed,
             child: Container(
               margin: margin,
-              width: 30.w,
+              width: 30.h,
               height: 30.h,
               decoration: BoxDecoration(
                   image: DecorationImage(

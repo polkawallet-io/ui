@@ -9,6 +9,7 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/numberInputFormatter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UI {
   static void copyAndNotify(BuildContext context, String? text) {
@@ -41,6 +42,7 @@ class UI {
     Map? accInfo, {
     bool expand = true,
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+    Color textColor = const Color(0xFF565554),
   }) {
     bool hasId = false;
     bool good = false;
@@ -79,10 +81,20 @@ class UI {
         expand
             ? Expanded(
                 child: Text(accountDisplayNameString(address, accInfo)!,
-                    overflow: TextOverflow.ellipsis),
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: "TitilliumWeb",
+                        fontWeight: FontWeight.w400,
+                        color: textColor)),
               )
             : Text(accountDisplayNameString(address, accInfo)!,
-                overflow: TextOverflow.ellipsis)
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "TitilliumWeb",
+                    fontWeight: FontWeight.w400,
+                    color: textColor))
       ],
     );
   }
