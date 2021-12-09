@@ -9,7 +9,6 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/numberInputFormatter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UI {
   static void copyAndNotify(BuildContext context, String? text) {
@@ -101,7 +100,7 @@ class UI {
 
   static String? accountDisplayNameString(String? address, Map? accInfo,
       [String? localName]) {
-    String? display = localName ?? Fmt.address(address, pad: 6);
+    String? display = localName?.toUpperCase() ?? Fmt.address(address, pad: 6);
     if (accInfo != null) {
       if (accInfo['identity']['display'] != null) {
         display = accInfo['identity']['display'];

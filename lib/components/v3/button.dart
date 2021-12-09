@@ -22,11 +22,11 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
+      padding: EdgeInsets.all(0),
       onPressed: !submitting ? onPressed : null,
       child: Container(
         width: double.infinity,
         height: height ?? 58,
-        padding: EdgeInsets.all(0),
         decoration: BoxDecoration(
           color: Colors.transparent,
           image: DecorationImage(
