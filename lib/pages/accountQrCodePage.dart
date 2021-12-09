@@ -11,7 +11,7 @@ import 'package:polkawallet_ui/utils/index.dart';
 import 'package:qr_flutter_fork/qr_flutter_fork.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:polkawallet_ui/components/v3/button.dart' as v3;
+import 'package:polkawallet_ui/components/v3/index.dart' as v3;
 
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
