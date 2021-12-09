@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 
 class RoundedCard extends StatelessWidget {
   const RoundedCard(
-      {this.border, this.margin, this.padding, this.child, Key? key})
+      {this.border,
+      this.margin,
+      this.padding,
+      this.child,
+      Key? key,
+      this.color})
       : super(key: key);
 
   final BoxBorder? border;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final Widget? child;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,7 @@ class RoundedCard extends StatelessWidget {
       decoration: BoxDecoration(
         border: border,
         borderRadius: const BorderRadius.all(const Radius.circular(10)),
-        color: Theme.of(context).cardColor,
+        color: this.color ?? Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
             color: Color(0x30000000),

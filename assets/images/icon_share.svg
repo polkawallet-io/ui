@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_export_24</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <g id="icon_export_24" transform="translate(-329.000000, -671.000000)" filter="url(#filter-1)">
+            <g transform="translate(329.000000, 671.000000)">
+                <rect id="矩形" stroke="#979797" stroke-width="1.5" x="4" y="4" width="16" height="16" rx="1"></rect>
+                <line x1="5" y1="19" x2="16" y2="8" id="路径" stroke="#979797" stroke-width="1.5" stroke-linecap="round"></line>
+                <line x1="16" y1="8" x2="16" y2="15.5" id="路径-48" stroke="#979797" stroke-width="1.5" stroke-linecap="round"></line>
+                <line x1="16" y1="8" x2="8.5" y2="8" id="路径-48备份" stroke="#979797" stroke-width="1.5" stroke-linecap="round"></line>
+            </g>
+        </g>
+    </g>
+</svg>

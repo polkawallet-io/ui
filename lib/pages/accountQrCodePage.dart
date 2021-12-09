@@ -47,6 +47,7 @@ class AccountQrCodePage extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             RoundedCard(
+              color: Color(0xFFF8F5F2),
               margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
               child: Column(
                 children: <Widget>[
@@ -55,7 +56,7 @@ class AccountQrCodePage extends StatelessWidget {
                       child: Container(
                         margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
                         child: TextTag(dic['warn.external'],
-                            color: Color(0xD8D8D8)),
+                            color: Color(0xFFD8D8D8)),
                       )),
                   Padding(
                     padding: EdgeInsets.only(
