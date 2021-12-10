@@ -18,11 +18,7 @@ class BorderedTitle extends StatelessWidget {
         ),
         Text(
           title!,
-          style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-              color: Theme.of(context).textSelectionColor,
-              fontFamily: "TitilliumWeb"),
+          style: Theme.of(context).textTheme.headline3,
         )
       ],
     );

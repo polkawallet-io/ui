@@ -73,7 +73,8 @@ class AccountQrCodePage extends StatelessWidget {
                       keyring.current.address, keyring.current.indexInfo,
                       mainAxisAlignment: MainAxisAlignment.center,
                       expand: false,
-                      textColor: Theme.of(context).textSelectionColor),
+                      textColor:
+                          Theme.of(context).textSelectionTheme.selectionColor!),
                   accInfo != null && accInfo['accountIndex'] != null
                       ? Padding(
                           padding: EdgeInsets.all(8),
@@ -98,7 +99,9 @@ class AccountQrCodePage extends StatelessWidget {
                             fontSize: 12,
                             fontFamily: "SF_Pro",
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).textSelectionColor)),
+                            color: Theme.of(context)
+                                .textSelectionTheme
+                                .selectionColor)),
                   ),
                   Container(
                     width: qrWidth,

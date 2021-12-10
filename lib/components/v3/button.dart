@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Button extends StatelessWidget {
   Button(
@@ -10,6 +9,7 @@ class Button extends StatelessWidget {
       this.style,
       this.icon,
       this.submitting = false,
+      this.isBlueBg = true,
       this.height})
       : super(key: key);
   final Function()? onPressed;
@@ -18,22 +18,17 @@ class Button extends StatelessWidget {
   final bool submitting;
   final double? height;
   final TextStyle? style;
+  final bool isBlueBg;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.all(0),
       onPressed: !submitting ? onPressed : null,
-      child: Container(
-        width: double.infinity,
+      child: BgContainer(
+        double.infinity,
         height: height ?? 58,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          image: DecorationImage(
-              image: AssetImage(
-                  "packages/polkawallet_ui/assets/images/button_blue.png"),
-              fit: BoxFit.fill),
-        ),
+        isBlueBg: isBlueBg,
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -54,47 +49,57 @@ class Button extends StatelessWidget {
   }
 }
 
-class ShortButton extends StatelessWidget {
-  ShortButton(
-      {Key? key,
-      this.onPressed,
-      required this.title,
-      this.style,
+class BgContainer extends StatelessWidget {
+  const BgContainer(this.width,
+      {this.margin,
+      this.padding,
+      this.child,
       this.isBlueBg = false,
-      this.icon})
+      this.alignment,
+      this.height,
+      Key? key})
       : super(key: key);
-  final Function()? onPressed;
-  final String title;
-  final TextStyle? style;
+
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final Widget? child;
+  final double width;
+  final double? height;
   final bool isBlueBg;
-  final Widget? icon;
+  final AlignmentGeometry? alignment;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 15.h),
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            image: DecorationImage(
-                image: AssetImage(isBlueBg
-                    ? "packages/polkawallet_ui/assets/images/button_blue_short.png"
-                    : "packages/polkawallet_ui/assets/images/button_grey_short.png"),
-                fit: BoxFit.fill),
+    return Container(
+      width: width,
+      height: height,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: width,
+            child: Row(
+              children: [
+                Image.asset(
+                    "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_left.png"),
+                Expanded(
+                    child: Image.asset(
+                  "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_center.png",
+                  fit: BoxFit.fill,
+                )),
+                Image.asset(
+                    "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_right.png"),
+              ],
+            ),
           ),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: style ?? Theme.of(context).textTheme.button,
-              ),
-              icon != null ? icon! : Container(),
-            ],
-          ),
-        ));
+          Container(
+              margin: margin,
+              width: width,
+              padding: padding,
+              alignment: alignment,
+              child: child!)
+        ],
+      ),
+    );
   }
 }

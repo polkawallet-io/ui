@@ -41,7 +41,7 @@ class TxDetail extends StatelessWidget {
   List<Widget> _buildListView(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final labelStyle = TextStyle(
-      color: Theme.of(context).textSelectionColor,
+      color: Theme.of(context).textSelectionTheme.selectionColor,
       fontSize: 16,
       fontFamily: 'TitilliumWeb',
       fontWeight: FontWeight.w600,
@@ -172,8 +172,9 @@ class TxDetail extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                  child: ShortButton(
+                  child: Button(
                 title: 'Subscan',
+                isBlueBg: false,
                 style: Theme.of(context).textTheme.headline3,
                 onPressed: () async {
                   await UI.launchURL(snLink);
@@ -189,7 +190,7 @@ class TxDetail extends StatelessWidget {
               Expanded(
                   child: Container(
                       margin: EdgeInsets.only(left: 30),
-                      child: ShortButton(
+                      child: Button(
                         title: 'Polkascan',
                         style: TextStyle(
                             fontSize: 20,
