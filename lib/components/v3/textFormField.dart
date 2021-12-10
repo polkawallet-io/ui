@@ -286,7 +286,7 @@ class TextFormField extends FormField<String> {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage(
-                                    "packages/polkawallet_ui/assets/images/bg_input.png"),
+                                    "packages/polkawallet_ui/assets/images/bg_input${maxLines == 3 ? '_x2' : ''}.png"),
                                 fit: BoxFit.fill)),
                         child: Stack(
                           alignment: Alignment.centerRight,
