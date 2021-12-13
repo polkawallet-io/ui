@@ -281,8 +281,7 @@ class TextFormField extends FormField<String> {
                           )
                         : Container(),
                     Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        padding: EdgeInsets.symmetric(horizontal: 7),
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage(

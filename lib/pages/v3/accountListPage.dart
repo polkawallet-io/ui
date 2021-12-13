@@ -31,9 +31,7 @@ class AccountListPage extends StatelessWidget {
         title: Text(args.title ??
             I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['select']!),
         centerTitle: true,
-        leading: BackBtn(
-          onBack: () => Navigator.of(context).pop(),
-        ),
+        leading: BackBtn(),
       ),
       body: SafeArea(
         child: AccountSelectList(

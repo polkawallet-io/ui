@@ -11,7 +11,6 @@ import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TxDetail extends StatelessWidget {
   TxDetail({
@@ -50,7 +49,8 @@ class TxDetail extends StatelessWidget {
     var list = <Widget>[
       Container(
         margin: EdgeInsets.all(16),
-        height: 180.h,
+        height: 180,
+        width: double.infinity,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -59,6 +59,7 @@ class TxDetail extends StatelessWidget {
                 child: Image.asset(
                   'packages/polkawallet_ui/assets/images/bg_detail.png',
                   width: double.infinity,
+                  fit: BoxFit.fill,
                 )),
             Image.asset(
                 'packages/polkawallet_ui/assets/images/bg_detail_circle.png',
@@ -91,7 +92,9 @@ class TxDetail extends StatelessWidget {
                         Text(
                           '$action ${success! ? dic!['success'] : dic!['fail']}',
                           style: TextStyle(
-                            color: Color(0xFF22BC5A),
+                            color: success!
+                                ? Color(0xFF22BC5A)
+                                : Theme.of(context).disabledColor,
                             fontSize: 14,
                             fontFamily: 'TitilliumWeb',
                             fontWeight: FontWeight.w400,
@@ -162,7 +165,7 @@ class TxDetail extends StatelessWidget {
           },
           icon: SvgPicture.asset(
             "packages/polkawallet_ui/assets/images/icon_share.svg",
-            width: 24.h,
+            width: 24,
             color: Colors.white,
           ),
         ));
@@ -183,7 +186,7 @@ class TxDetail extends StatelessWidget {
                     margin: EdgeInsets.only(left: 3),
                     child: SvgPicture.asset(
                       "packages/polkawallet_ui/assets/images/icon_share.svg",
-                      width: 24.h,
+                      width: 24,
                       color: Theme.of(context).disabledColor,
                     )),
               )),
@@ -205,7 +208,7 @@ class TxDetail extends StatelessWidget {
                             margin: EdgeInsets.only(left: 3),
                             child: SvgPicture.asset(
                               "packages/polkawallet_ui/assets/images/icon_share.svg",
-                              width: 24.h,
+                              width: 24,
                               color: Colors.white,
                             )),
                       )))
@@ -224,9 +227,7 @@ class TxDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(dic['detail']!),
         centerTitle: true,
-        leading: BackBtn(
-          onBack: () => Navigator.of(context).pop(),
-        ),
+        leading: BackBtn(),
       ),
       body: SafeArea(
         child: ListView(
@@ -251,12 +252,12 @@ class TxDetailItem extends StatelessWidget {
         Visibility(
             visible: isShowDivider,
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Divider(
                   height: 1,
                 ))),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
               Expanded(child: Text(i.label!, style: labelStyle)),
@@ -267,7 +268,7 @@ class TxDetailItem extends StatelessWidget {
                         padding: EdgeInsets.only(left: 8),
                         child: Image.asset(
                           'packages/polkawallet_ui/assets/images/copy.png',
-                          width: 16.w,
+                          width: 16,
                         ),
                       ),
                       onTap: () => UI.copyAndNotify(context, i.copyText),

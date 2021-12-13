@@ -4,6 +4,7 @@ import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/webviewWithExtension.dart';
+import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/pages/walletExtensionSignPage.dart';
 
 class DAppWrapperPage extends StatefulWidget {
@@ -29,6 +30,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
             url,
             style: TextStyle(fontSize: 16),
           ),
+          leading: BackBtn(),
           centerTitle: true),
       body: SafeArea(
         child: Stack(

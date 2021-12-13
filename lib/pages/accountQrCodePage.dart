@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
-import 'package:polkawallet_ui/components/roundedButton.dart';
 import 'package:polkawallet_ui/components/roundedCard.dart';
 import 'package:polkawallet_ui/components/textTag.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
@@ -39,9 +38,7 @@ class AccountQrCodePage extends StatelessWidget {
           centerTitle: true,
           leading: Container(
             margin: EdgeInsets.only(left: 16.w),
-            child: BackBtn(
-              onBack: () => Navigator.of(context).pop(),
-            ),
+            child: BackBtn(),
           )),
       body: SafeArea(
         child: ListView(
@@ -88,8 +85,8 @@ class AccountQrCodePage extends StatelessWidget {
                       size: qrWidth + 24,
                       embeddedImage: AssetImage(
                           'packages/polkawallet_ui/assets/images/app.png'),
-                      embeddedImageStyle:
-                          QrEmbeddedImageStyle(size: Size(48, 48)),
+                      embeddedImageStyle: QrEmbeddedImageStyle(
+                          size: Size(qrWidth / 3.875, qrWidth / 3.875)),
                     ),
                   ),
                   Container(
