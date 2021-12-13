@@ -1,29 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/components/txButton.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/pages/txConfirmPage.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
-
-class TxConfirmParams {
-  TxConfirmParams(
-      {this.module,
-      this.call,
-      this.txDisplay,
-      this.params,
-      this.rawParams,
-      this.isUnsigned,
-      this.txTitle,
-      this.txName});
-  final String? module;
-  final String? call;
-  final List? params;
-  final String? rawParams;
-  final bool? isUnsigned;
-  final Map? txDisplay;
-  final String? txTitle;
-  final String? txName;
-}
 
 class TxButton extends StatelessWidget {
   TxButton({

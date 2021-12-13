@@ -9,7 +9,8 @@ class TxConfirmParams {
   TxConfirmParams(
       {this.module,
       this.call,
-      this.txDisplay,
+      this.txDisplay = const {},
+      this.txDisplayBold = const {},
       this.params,
       this.rawParams,
       this.isUnsigned,
@@ -20,7 +21,8 @@ class TxConfirmParams {
   final List? params;
   final String? rawParams;
   final bool? isUnsigned;
-  final Map? txDisplay;
+  final Map txDisplay;
+  final Map<String, Widget> txDisplayBold;
   final String? txTitle;
   final String? txName;
 }
