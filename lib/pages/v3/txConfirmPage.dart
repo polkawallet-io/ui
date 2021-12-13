@@ -12,6 +12,7 @@ import 'package:polkawallet_ui/components/tapTooltip.dart';
 import 'package:polkawallet_ui/components/txButton.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
+import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/components/v3/collapsedContainer.dart';
 import 'package:polkawallet_ui/components/v3/innerShadow.dart';
 import 'package:polkawallet_ui/pages/qrSenderPage.dart';
@@ -642,65 +643,61 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
               ),
               Visibility(
                   visible: isNetworkConnected,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          color: _submitting ? Colors.black12 : Colors.orange,
-                          child: TextButton(
-                            child: Container(
-                              padding: EdgeInsets.only(top: 6, bottom: 6),
-                              child: Text(dic['cancel']!,
-                                  style: TextStyle(color: Colors.white)),
+                  child: Padding(
+                      padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Button(
+                              submitting: _submitting,
+                              style: Theme.of(context).textTheme.headline3,
+                              title: dic['cancel']!,
+                              isBlueBg: false,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
                             ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: _submitting || !isNetworkMatch
-                              ? Theme.of(context).disabledColor
-                              : Theme.of(context).primaryColor,
-                          child: Builder(
-                            builder: (BuildContext context) {
-                              return TextButton(
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 6, bottom: 6),
-                                  child: Text(
-                                    isUnsigned
-                                        ? dic['tx.no.sign']!
-                                        : (isObservation &&
-                                                    _proxyAccount == null) ||
-                                                isProxyObservation
-                                            ? dic['tx.qr']!
-                                            // dicAcc['observe.invalid']
-                                            : dic['tx.submit']!,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                                onPressed: !isNetworkMatch
-                                    ? null
-                                    : isUnsigned
-                                        ? () => _onSubmit(context)
-                                        : (isObservation &&
-                                                    _proxyAccount == null) ||
-                                                isProxyObservation
-                                            ? () =>
-                                                _onSubmit(context, viaQr: true)
-                                            : _submitting
-                                                ? null
-                                                : () => _showPasswordDialog(
-                                                    context),
-                              );
-                            },
+                          Container(
+                            width: 20,
                           ),
-                        ),
-                      ),
-                    ],
-                  ))
+                          Expanded(
+                            child: Builder(
+                              builder: (BuildContext context) {
+                                return Button(
+                                  submitting: _submitting,
+                                  title: isUnsigned
+                                      ? dic['tx.no.sign']!
+                                      : (isObservation &&
+                                                  _proxyAccount == null) ||
+                                              isProxyObservation
+                                          ? dic['tx.qr']!
+                                          // dicAcc['observe.invalid']
+                                          : dic['tx.submit']!,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      fontFamily: "TitilliumWeb"),
+                                  onPressed: !isNetworkMatch
+                                      ? null
+                                      : isUnsigned
+                                          ? () => _onSubmit(context)
+                                          : (isObservation &&
+                                                      _proxyAccount == null) ||
+                                                  isProxyObservation
+                                              ? () => _onSubmit(context,
+                                                  viaQr: true)
+                                              : _submitting
+                                                  ? null
+                                                  : () => _showPasswordDialog(
+                                                      context),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      )))
             ],
           ),
         ),
