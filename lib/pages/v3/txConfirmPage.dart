@@ -441,12 +441,16 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 );
                               }).toList(),
                               ...args.txDisplay.keys.map((key) {
+                                final content =
+                                    args.txDisplay[key].runtimeType == String
+                                        ? args.txDisplay[key]
+                                        : jsonEncode(args.txDisplay[key]);
                                 return Row(
                                   children: [
                                     _ConfirmItemLabel(text: key),
                                     Expanded(
                                         child: Text(
-                                      args.txDisplay[key],
+                                      content,
                                       style: itemContentStyle,
                                     )),
                                   ],

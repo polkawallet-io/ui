@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
-import 'package:polkawallet_ui/components/jumpToBrowserLink.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
+import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/components/v3/roundedCard.dart';
-import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
@@ -143,13 +142,16 @@ class TxDetail extends StatelessWidget {
               child: TxDetailItem(
                   TxDetailInfoItem(label: 'Block', content: Text('#$blockNum')),
                   labelStyle)),
-          TxDetailItem(
-              TxDetailInfoItem(
-                  label: 'Hash', content: Text(Fmt.address(hash)!)),
-              labelStyle),
+          Visibility(
+              visible: hash != null,
+              child: TxDetailItem(
+                  TxDetailInfoItem(
+                      label: 'Hash', content: Text(Fmt.address(hash) ?? '')),
+                  labelStyle)),
         ],
       ),
     ));
+    if (hash == null) return list;
 
     final pnLink = networkName == 'polkadot' || networkName == 'kusama'
         ? 'https://polkascan.io/${networkName!.toLowerCase()}/transaction/$hash'
