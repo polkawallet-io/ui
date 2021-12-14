@@ -164,6 +164,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                   child: AddressFormItem(
                     widget.initialValue,
                     margin: EdgeInsets.zero,
+                    isGreyBg: false,
                   ))
               : v3.TextFormField(
                   controller: _controller,

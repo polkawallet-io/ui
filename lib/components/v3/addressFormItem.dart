@@ -11,6 +11,7 @@ class AddressFormItem extends StatelessWidget {
       this.svg,
       this.onTap,
       this.isShowSubtitle = true,
+      this.isGreyBg = true,
       this.color,
       this.borderWidth = 0.5,
       this.imageRight = 8.0,
@@ -18,6 +19,7 @@ class AddressFormItem extends StatelessWidget {
   final String? label;
   final String? svg;
   final bool isShowSubtitle;
+  final bool isGreyBg;
   final KeyPairData? account;
   final Future<void> Function()? onTap;
   final Color? color;
@@ -31,23 +33,19 @@ class AddressFormItem extends StatelessWidget {
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Visibility(
-            visible: label != null,
-            child: Container(
-              margin: EdgeInsets.only(top: 4),
-              child: Text(
-                label ?? "",
-                style: TextStyle(color: grey),
-              ),
-            )),
+        Visibility(visible: label != null, child: Text(label ?? "")),
         Container(
           margin: this.margin ?? EdgeInsets.only(top: 4, bottom: 4),
           padding: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                      "packages/polkawallet_ui/assets/images/bg_input.png"),
-                  fit: BoxFit.fill)),
+          decoration: isGreyBg
+              ? BoxDecoration(
+                  color: Color(0xFFE3DED8),
+                  borderRadius: BorderRadius.all(Radius.circular(10)))
+              : BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(
+                          "packages/polkawallet_ui/assets/images/bg_input.png"),
+                      fit: BoxFit.fill)),
           child: Row(
             children: <Widget>[
               Container(
