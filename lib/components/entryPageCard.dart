@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:polkawallet_ui/components/roundedCard.dart';
+import 'package:polkawallet_ui/components/v3/roundedCard.dart';
 
 class EntryPageCard extends StatelessWidget {
   EntryPageCard(this.title, this.brief, this.icon, {this.color});
@@ -34,7 +34,10 @@ class EntryPageCard extends StatelessWidget {
                 padding: EdgeInsets.only(left: 8, bottom: 8),
                 child: Text(
                   title,
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4!
+                      .copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
               Container(
@@ -42,9 +45,7 @@ class EntryPageCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / 2,
                 child: Text(
                   brief,
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Theme.of(context).unselectedWidgetColor),
+                  style: Theme.of(context).textTheme.headline6,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
