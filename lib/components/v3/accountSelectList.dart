@@ -25,11 +25,14 @@ class AccountSelectList extends StatelessWidget {
               leading: AddressIcon(i.address, svg: i.icon, size: 36.w),
               title: Text(
                 UI.accountName(context, i),
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headline5,
               ),
               subtitle: Text(
                 Fmt.address(i.address)!,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(fontSize: 10, color: Color(0xFF908E8C)),
               ),
               onTap: () => Navigator.of(context).pop(i),
             ));

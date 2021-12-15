@@ -348,7 +348,8 @@ class TextFormField extends FormField<String> {
                           )
                         : Container(),
                     Container(
-                        padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            16, hasFocus ? 0 : 4, 16, hasFocus ? 4 : 0),
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage(
@@ -364,6 +365,10 @@ class TextFormField extends FormField<String> {
                               decoration: effectiveDecoration.copyWith(
                                   errorText: null,
                                   label: null,
+                                  hintStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: "TitilliumWeb",
+                                      color: Color(0x77565554)),
                                   suffix: decoration!.suffix != null
                                       ? Visibility(
                                           child: decoration.suffix!,

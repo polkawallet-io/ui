@@ -37,7 +37,6 @@ class AccountQrCodePage extends StatelessWidget {
           title: Text(dic['receive']!),
           centerTitle: true,
           leading: Container(
-            margin: EdgeInsets.only(left: 16.w),
             child: BackBtn(),
           )),
       body: SafeArea(
