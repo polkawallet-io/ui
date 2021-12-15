@@ -121,14 +121,16 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
+    final labelStyle =
+        widget.labelStyle ?? Theme.of(context).textTheme.bodyText1;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       widget.labelText != null
           ? Padding(
               padding: EdgeInsets.only(bottom: 3),
               child: Text(
                 widget.labelText ?? "",
-                style:
-                    widget.labelStyle ?? Theme.of(context).textTheme.bodyText1,
+                style: labelStyle?.copyWith(
+                    fontWeight: hasFocus ? FontWeight.w600 : FontWeight.w400),
               ),
             )
           : Container(),
@@ -166,7 +168,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                     margin: EdgeInsets.zero,
                     isGreyBg: false,
                   ))
-              : v3.TextFormField(
+              : v3.TextInputWidget(
                   controller: _controller,
                   focusNode: _commentFocus,
                   onChanged: (value) {

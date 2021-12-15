@@ -8,6 +8,71 @@ import 'package:flutter/widgets.dart';
 
 export 'package:flutter/services.dart' show SmartQuotesType, SmartDashesType;
 
+class TextInputWidget extends StatefulWidget {
+  TextInputWidget(
+      {this.controller,
+      this.focusNode,
+      this.onChanged,
+      this.autovalidateMode,
+      this.decoration,
+      this.validator,
+      this.obscureText = false,
+      this.maxLines,
+      this.enabled,
+      this.readOnly = false,
+      this.inputFormatters,
+      this.keyboardType,
+      this.style,
+      Key? key})
+      : super(key: key);
+  TextEditingController? controller;
+  FocusNode? focusNode;
+  void Function(String)? onChanged;
+  AutovalidateMode? autovalidateMode;
+  InputDecorationV3? decoration = const InputDecorationV3();
+  String? Function(String?)? validator;
+  bool obscureText;
+  int? maxLines;
+  bool? enabled;
+  bool readOnly;
+  List<TextInputFormatter>? inputFormatters;
+  TextInputType? keyboardType;
+  TextStyle? style;
+
+  @override
+  _TextInputWidgetState createState() => _TextInputWidgetState();
+}
+
+class _TextInputWidgetState extends State<TextInputWidget> {
+  bool hasFocus = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Focus(
+        onFocusChange: (hasFocus) async {
+          setState(() {
+            this.hasFocus = hasFocus;
+          });
+        },
+        child: TextFormField(
+          controller: widget.controller,
+          focusNode: widget.focusNode,
+          onChanged: widget.onChanged,
+          autovalidateMode: widget.autovalidateMode,
+          decoration: widget.decoration,
+          validator: widget.validator,
+          obscureText: widget.obscureText,
+          maxLines: widget.maxLines,
+          enabled: widget.enabled,
+          readOnly: widget.readOnly,
+          inputFormatters: widget.inputFormatters,
+          keyboardType: widget.keyboardType,
+          style: widget.style,
+          hasFocus: this.hasFocus,
+        ));
+  }
+}
+
 /// A [FormField] that contains a [TextField].
 ///
 /// This is a convenience widget that wraps a [TextField] widget in a
@@ -130,71 +195,72 @@ class TextFormField extends FormField<String> {
   ///
   /// For documentation about the various parameters, see the [TextField] class
   /// and [new TextField], the constructor.
-  TextFormField({
-    Key? key,
-    this.controller,
-    String? initialValue,
-    FocusNode? focusNode,
-    InputDecorationV3? decoration = const InputDecorationV3(),
-    TextInputType? keyboardType,
-    TextCapitalization textCapitalization = TextCapitalization.none,
-    TextInputAction? textInputAction,
-    TextStyle? style,
-    StrutStyle? strutStyle,
-    TextDirection? textDirection,
-    TextAlign textAlign = TextAlign.start,
-    TextAlignVertical? textAlignVertical,
-    bool autofocus = false,
-    bool readOnly = false,
-    ToolbarOptions? toolbarOptions,
-    bool? showCursor,
-    String obscuringCharacter = '•',
-    bool obscureText = false,
-    bool autocorrect = true,
-    SmartDashesType? smartDashesType,
-    SmartQuotesType? smartQuotesType,
-    bool enableSuggestions = true,
-    @Deprecated(
-      'Use autovalidateMode parameter which provide more specific '
-      'behaviour related to auto validation. '
-      'This feature was deprecated after v1.19.0.',
-    )
-        bool autovalidate = false,
-    @Deprecated(
-      'Use maxLengthEnforcement parameter which provides more specific '
-      'behavior related to the maxLength limit. '
-      'This feature was deprecated after v1.25.0-5.0.pre.',
-    )
-        bool maxLengthEnforced = true,
-    MaxLengthEnforcement? maxLengthEnforcement,
-    int? maxLines = 1,
-    int? minLines,
-    bool expands = false,
-    // int? maxLength,
-    ValueChanged<String>? onChanged,
-    GestureTapCallback? onTap,
-    VoidCallback? onEditingComplete,
-    ValueChanged<String>? onFieldSubmitted,
-    FormFieldSetter<String>? onSaved,
-    FormFieldValidator<String>? validator,
-    List<TextInputFormatter>? inputFormatters,
-    bool? enabled,
-    // double cursorWidth = 2.0,
-    // double? cursorHeight,
-    Radius? cursorRadius,
-    // Color? cursorColor,
-    Brightness? keyboardAppearance,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
-    bool enableInteractiveSelection = true,
-    TextSelectionControls? selectionControls,
-    InputCounterWidgetBuilder? buildCounter,
-    ScrollPhysics? scrollPhysics,
-    Iterable<String>? autofillHints,
-    AutovalidateMode? autovalidateMode,
-    ScrollController? scrollController,
-    String? restorationId,
-    bool enableIMEPersonalizedLearning = true,
-  })  : assert(initialValue == null || controller == null),
+  TextFormField(
+      {Key? key,
+      this.controller,
+      String? initialValue,
+      FocusNode? focusNode,
+      InputDecorationV3? decoration = const InputDecorationV3(),
+      TextInputType? keyboardType,
+      TextCapitalization textCapitalization = TextCapitalization.none,
+      TextInputAction? textInputAction,
+      TextStyle? style,
+      StrutStyle? strutStyle,
+      TextDirection? textDirection,
+      TextAlign textAlign = TextAlign.start,
+      TextAlignVertical? textAlignVertical,
+      bool autofocus = false,
+      bool readOnly = false,
+      ToolbarOptions? toolbarOptions,
+      bool? showCursor,
+      String obscuringCharacter = '•',
+      bool obscureText = false,
+      bool autocorrect = true,
+      SmartDashesType? smartDashesType,
+      SmartQuotesType? smartQuotesType,
+      bool enableSuggestions = true,
+      @Deprecated(
+        'Use autovalidateMode parameter which provide more specific '
+        'behaviour related to auto validation. '
+        'This feature was deprecated after v1.19.0.',
+      )
+          bool autovalidate = false,
+      @Deprecated(
+        'Use maxLengthEnforcement parameter which provides more specific '
+        'behavior related to the maxLength limit. '
+        'This feature was deprecated after v1.25.0-5.0.pre.',
+      )
+          bool maxLengthEnforced = true,
+      MaxLengthEnforcement? maxLengthEnforcement,
+      int? maxLines = 1,
+      int? minLines,
+      bool expands = false,
+      // int? maxLength,
+      ValueChanged<String>? onChanged,
+      GestureTapCallback? onTap,
+      VoidCallback? onEditingComplete,
+      ValueChanged<String>? onFieldSubmitted,
+      FormFieldSetter<String>? onSaved,
+      FormFieldValidator<String>? validator,
+      List<TextInputFormatter>? inputFormatters,
+      bool? enabled,
+      // double cursorWidth = 2.0,
+      // double? cursorHeight,
+      Radius? cursorRadius,
+      // Color? cursorColor,
+      Brightness? keyboardAppearance,
+      EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
+      bool enableInteractiveSelection = true,
+      TextSelectionControls? selectionControls,
+      InputCounterWidgetBuilder? buildCounter,
+      ScrollPhysics? scrollPhysics,
+      Iterable<String>? autofillHints,
+      AutovalidateMode? autovalidateMode,
+      ScrollController? scrollController,
+      String? restorationId,
+      bool enableIMEPersonalizedLearning = true,
+      bool hasFocus = false})
+      : assert(initialValue == null || controller == null),
         assert(textAlign != null),
         assert(autofocus != null),
         assert(readOnly != null),
@@ -260,7 +326,8 @@ class TextFormField extends FormField<String> {
                     .textTheme
                     .caption!
                     .copyWith(color: Theme.of(field.context).errorColor);
-
+            final labelStyle = effectiveDecoration.labelStyle ??
+                Theme.of(field.context).textTheme.bodyText1;
             return UnmanagedRestorationScope(
                 bucket: field.bucket,
                 child: Column(
@@ -273,10 +340,10 @@ class TextFormField extends FormField<String> {
                                 ? decoration?.label
                                 : Text(
                                     decoration?.labelText ?? "",
-                                    style: effectiveDecoration.labelStyle ??
-                                        Theme.of(field.context)
-                                            .textTheme
-                                            .bodyText1,
+                                    style: labelStyle?.copyWith(
+                                        fontWeight: hasFocus
+                                            ? FontWeight.w600
+                                            : FontWeight.w400),
                                   ),
                           )
                         : Container(),
@@ -285,7 +352,7 @@ class TextFormField extends FormField<String> {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage(
-                                    "packages/polkawallet_ui/assets/images/bg_input${maxLines == 3 ? '_x2' : ''}.png"),
+                                    "packages/polkawallet_ui/assets/images/bg_input${hasFocus ? '_select' : ''}${maxLines == 3 ? '_x2' : ''}.png"),
                                 fit: BoxFit.fill)),
                         child: Stack(
                           alignment: Alignment.centerRight,
