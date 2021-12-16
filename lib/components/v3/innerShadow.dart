@@ -1,6 +1,37 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class InnerShadowTop extends StatelessWidget {
+class InnerShadowBGCar extends StatelessWidget {
+  InnerShadowBGCar({@required this.child, this.margin, this.padding});
+  Widget? child;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: this.margin ?? EdgeInsets.zero,
+      child: Column(
+        children: [
+          _InnerShadowTop(),
+          Container(
+            padding: this.padding ?? EdgeInsets.only(left: 16.w, right: 16.w),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage(
+                  'packages/polkawallet_ui/assets/images/bg_input_mid.png'),
+              fit: BoxFit.fill,
+            )),
+            child: child,
+          ),
+          _InnerShadowBottom(),
+        ],
+      ),
+    );
+  }
+}
+
+class _InnerShadowTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,7 +42,7 @@ class InnerShadowTop extends StatelessWidget {
   }
 }
 
-class InnerShadowBottom extends StatelessWidget {
+class _InnerShadowBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

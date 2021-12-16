@@ -419,15 +419,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     //     : Container(),
                     Column(
                       children: [
-                        InnerShadowTop(),
-                        Container(
+                        InnerShadowBGCar(
                           padding: EdgeInsets.only(left: 16),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: AssetImage(
-                                'packages/polkawallet_ui/assets/images/bg_input_mid.png'),
-                            fit: BoxFit.fill,
-                          )),
+                          margin: EdgeInsets.only(bottom: 24),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -459,19 +453,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             ],
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 24),
-                          child: InnerShadowBottom(),
-                        ),
-                        InnerShadowTop(),
-                        Container(
+                        InnerShadowBGCar(
                           padding: EdgeInsets.only(left: 16),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: AssetImage(
-                                'packages/polkawallet_ui/assets/images/bg_input_mid.png'),
-                            fit: BoxFit.fill,
-                          )),
                           child: Column(
                             children: [
                               isUnsigned
@@ -556,7 +539,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             ],
                           ),
                         ),
-                        InnerShadowBottom()
                       ],
                     ),
                     Divider(height: 24),

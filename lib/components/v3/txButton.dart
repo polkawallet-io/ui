@@ -6,6 +6,8 @@ import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/pages/txConfirmPage.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
+export 'package:polkawallet_ui/components/txButton.dart';
+
 class TxButton extends StatelessWidget {
   TxButton({
     this.text,

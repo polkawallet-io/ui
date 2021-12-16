@@ -17,7 +17,7 @@ class TextInputWidget extends StatefulWidget {
       this.decoration,
       this.validator,
       this.obscureText = false,
-      this.maxLines,
+      this.maxLines = 1,
       this.enabled,
       this.readOnly = false,
       this.inputFormatters,
