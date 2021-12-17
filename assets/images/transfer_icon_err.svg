@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组备份</title>
+    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组备份">
+            <path d="M13.2862394,4.64373231 L21.1369538,17.7282564 C21.5631761,18.4386268 21.3328285,19.3600171 20.6224581,19.7862394 C20.389335,19.9261132 20.1225804,20 19.8507144,20 L4.14928557,20 C3.32085844,20 2.64928557,19.3284271 2.64928557,18.5 C2.64928557,18.2281341 2.72317232,17.9613795 2.86304618,17.7282564 L10.7137606,4.64373231 C11.1399829,3.93336192 12.0613732,3.70301432 12.7717436,4.12923656 C12.982868,4.2559112 13.1595647,4.43260791 13.2862394,4.64373231 Z" id="三角形" stroke="#979797" stroke-width="1.5" stroke-linejoin="round"></path>
+            <line x1="12" y1="8.5" x2="12" y2="14.5" id="路径-51" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+            <circle id="椭圆形" fill="#979797" cx="12" cy="17" r="1"></circle>
+        </g>
+    </g>
+</svg>

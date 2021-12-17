@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 enum TransferIconType { rollIn, rollOut, fine, earn, failure }
 
@@ -16,62 +18,29 @@ class TransferIcon extends StatelessWidget {
       child: Container(
           width: double.infinity,
           height: double.infinity,
-          padding:
-              EdgeInsets.symmetric(horizontal: getPaddingHorizontal(this.type)),
-          decoration: new BoxDecoration(
-            image: new DecorationImage(
-              image: new AssetImage(getBgImage(this.type)),
-            ),
-          ),
-          child: Image.asset(
-            getIconImage(this.type),
-            fit: BoxFit.contain,
+          padding: EdgeInsets.all(4.r),
+          decoration: BoxDecoration(
+              color: Color(0xFFCECECE),
+              borderRadius: BorderRadius.all(Radius.circular(8.r))),
+          child: SvgPicture.asset(
+            getIconImage(type),
+            color: Colors.white,
           )),
     );
-  }
-
-  double getPaddingHorizontal(TransferIconType type) {
-    switch (type) {
-      case TransferIconType.rollOut:
-        return 9;
-      case TransferIconType.fine:
-        return 7;
-      case TransferIconType.earn:
-        return 7;
-      case TransferIconType.rollIn:
-        return 7;
-      case TransferIconType.failure:
-        return 7;
-    }
-  }
-
-  String getBgImage(TransferIconType type) {
-    switch (type) {
-      case TransferIconType.rollOut:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_blue_bg.png";
-      case TransferIconType.fine:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_red_bg.png";
-      case TransferIconType.earn:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_yellow_bg.png";
-      case TransferIconType.rollIn:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_green_bg.png";
-      case TransferIconType.failure:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_gray_bg.png";
-    }
   }
 
   String getIconImage(TransferIconType type) {
     switch (type) {
       case TransferIconType.rollOut:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_out.png";
+        return "packages/polkawallet_ui/assets/images/transfer_icon_out.svg";
       case TransferIconType.fine:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_err.png";
+        return "packages/polkawallet_ui/assets/images/transfer_icon_err.svg";
       case TransferIconType.earn:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_earn.png";
+        return "packages/polkawallet_ui/assets/images/transfer_icon_earn.svg";
       case TransferIconType.rollIn:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_in.png";
+        return "packages/polkawallet_ui/assets/images/transfer_icon_in.svg";
       case TransferIconType.failure:
-        return "packages/polkawallet_ui/assets/images/transfer_icon_failure.png";
+        return "packages/polkawallet_ui/assets/images/transfer_icon_failure.svg";
     }
   }
 }
