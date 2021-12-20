@@ -16,6 +16,7 @@ class InnerShadowBGCar extends StatelessWidget {
           _InnerShadowTop(),
           Container(
             padding: this.padding ?? EdgeInsets.only(left: 16.w, right: 16.w),
+            width: double.infinity,
             decoration: BoxDecoration(
                 image: DecorationImage(
               image: AssetImage(

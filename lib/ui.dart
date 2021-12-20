@@ -19,7 +19,7 @@ class PageWrapperWithBackground extends StatelessWidget {
         // Container(
         //   width: double.infinity,
         //   height: double.infinity,
-        //   color: Theme.of(context).canvasColor,
+        //   color: Theme.of(context).hoverColor,
         // ),
         Container(
           width: width,

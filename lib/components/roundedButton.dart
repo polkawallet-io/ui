@@ -47,7 +47,7 @@ class RoundedButton extends StatelessWidget {
         : (color ?? Theme.of(context).primaryColor);
     final gradientColor = onPressed == null || submitting
         ? Theme.of(context).dividerColor
-        : (color ?? Theme.of(context).accentColor);
+        : (color ?? Theme.of(context).hoverColor);
 
     return RaisedButton(
       padding: EdgeInsets.all(0),
