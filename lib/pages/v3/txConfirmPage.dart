@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -15,6 +18,7 @@ import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/components/v3/collapsedContainer.dart';
 import 'package:polkawallet_ui/components/v3/innerShadow.dart';
+import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
 import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
@@ -41,6 +45,27 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   BigInt _tipValue = BigInt.zero;
   KeyPairData? _proxyAccount;
   // RecoveryInfo? _recoveryInfo = RecoveryInfo();
+
+  ui.Image? _image;
+
+  @override
+  void initState() {
+    super.initState();
+    load('packages/polkawallet_ui/assets/images/slider_thumb.png').then((i) {
+      setState(() {
+        _image = i;
+      });
+    });
+  }
+
+  Future<ui.Image> load(String asset) async {
+    ByteData data = await rootBundle.load(asset);
+    ui.ImmutableBuffer.fromUint8List(data.buffer.asUint8List());
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: 32, targetHeight: 18);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return fi.image;
+  }
 
   Future<String> _getTxFee({bool reload = false}) async {
     if (_fee?.partialFee != null && !reload) {
@@ -600,14 +625,23 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                               children: <Widget>[
                                 Text('0'),
                                 Expanded(
-                                  child: Slider(
-                                    min: 0,
-                                    max: 19,
-                                    divisions: 19,
-                                    value: _tip,
-                                    onChanged:
-                                        _submitting ? null : _onTipChanged,
-                                  ),
+                                  child: SliderTheme(
+                                      data: SliderThemeData(
+                                          trackHeight: 16,
+                                          activeTrackColor: Theme.of(context)
+                                              .toggleableActiveColor,
+                                          inactiveTrackColor: Color(0xFFE3DED8),
+                                          overlayColor: Colors.transparent,
+                                          thumbShape:
+                                              SliderThumbShape(_image ?? null)),
+                                      child: Slider(
+                                        min: 0,
+                                        max: 19,
+                                        divisions: 19,
+                                        value: _tip,
+                                        onChanged:
+                                            _submitting ? null : _onTipChanged,
+                                      )),
                                 ),
                                 Text('1')
                               ],

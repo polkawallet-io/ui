@@ -24,9 +24,24 @@ class TransferIcon extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(8.r))),
           child: SvgPicture.asset(
             getIconImage(type),
-            color: Colors.white,
+            color: getIconColor(type, context),
           )),
     );
+  }
+
+  Color getIconColor(TransferIconType type, BuildContext context) {
+    switch (type) {
+      case TransferIconType.rollOut:
+        return Theme.of(context).toggleableActiveColor;
+      case TransferIconType.fine:
+        return Color(0xFFCE623C);
+      case TransferIconType.earn:
+        return Color(0xFFD7BC75);
+      case TransferIconType.rollIn:
+        return Color(0xFF7AC074);
+      default:
+        return Colors.white;
+    }
   }
 
   String getIconImage(TransferIconType type) {
