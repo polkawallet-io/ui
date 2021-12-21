@@ -62,7 +62,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     ByteData data = await rootBundle.load(asset);
     ui.ImmutableBuffer.fromUint8List(data.buffer.asUint8List());
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: 32, targetHeight: 18);
+        targetWidth: 39, targetHeight: 24);
     ui.FrameInfo fi = await codec.getNextFrame();
     return fi.image;
   }

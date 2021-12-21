@@ -20,7 +20,7 @@ class TransferIcon extends StatelessWidget {
           height: double.infinity,
           padding: EdgeInsets.all(4.r),
           decoration: BoxDecoration(
-              color: Color(0xFFCECECE),
+              color: Color(0xFFE9E9E9),
               borderRadius: BorderRadius.all(Radius.circular(8.r))),
           child: SvgPicture.asset(
             getIconImage(type),

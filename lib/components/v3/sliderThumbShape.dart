@@ -30,7 +30,8 @@ class SliderThumbShape extends SliderComponentShape {
     if (image != null) {
       canvas.drawImage(
           image!,
-          Offset(center.dx - image!.width / 2, center.dy - image!.height / 2),
+          Offset(
+              center.dx - image!.width / 2, center.dy - image!.height / 2 + 2),
           Paint());
     }
   }
