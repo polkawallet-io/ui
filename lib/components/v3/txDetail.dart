@@ -192,28 +192,27 @@ class TxDetail extends StatelessWidget {
                       color: Theme.of(context).disabledColor,
                     )),
               )),
+              Container(width: 30),
               Expanded(
-                  child: Container(
-                      margin: EdgeInsets.only(left: 30),
-                      child: Button(
-                        title: 'Polkascan',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontFamily: "TitilliumWeb"),
-                        isBlueBg: true,
-                        onPressed: () async {
-                          await UI.launchURL(pnLink);
-                        },
-                        icon: Container(
-                            margin: EdgeInsets.only(left: 3),
-                            child: SvgPicture.asset(
-                              "packages/polkawallet_ui/assets/images/icon_share.svg",
-                              width: 24,
-                              color: Colors.white,
-                            )),
-                      )))
+                  child: Button(
+                title: 'Polkascan',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontFamily: "TitilliumWeb"),
+                isBlueBg: true,
+                onPressed: () async {
+                  await UI.launchURL(pnLink);
+                },
+                icon: Container(
+                    margin: EdgeInsets.only(left: 3),
+                    child: SvgPicture.asset(
+                      "packages/polkawallet_ui/assets/images/icon_share.svg",
+                      width: 24,
+                      color: Colors.white,
+                    )),
+              ))
             ],
           ));
     }
