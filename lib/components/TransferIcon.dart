@@ -5,10 +5,15 @@ import 'package:flutter_svg/svg.dart';
 enum TransferIconType { rollIn, rollOut, fine, earn, failure }
 
 class TransferIcon extends StatelessWidget {
-  TransferIcon({Key? key, this.size = 32, this.type = TransferIconType.rollIn})
+  TransferIcon(
+      {Key? key,
+      this.size = 32,
+      this.type = TransferIconType.rollIn,
+      this.bgColor = const Color(0xFFE9E9E9)})
       : super(key: key);
   final double size;
   final TransferIconType type;
+  final Color bgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class TransferIcon extends StatelessWidget {
           height: double.infinity,
           padding: EdgeInsets.all(4.r),
           decoration: BoxDecoration(
-              color: Color(0xFFE9E9E9),
+              color: bgColor,
               borderRadius: BorderRadius.all(Radius.circular(8.r))),
           child: SvgPicture.asset(
             getIconImage(type),
