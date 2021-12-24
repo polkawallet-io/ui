@@ -18,6 +18,7 @@ class IconButton extends StatelessWidget {
         child: GestureDetector(
             onTap: onPressed,
             child: Container(
+              padding: EdgeInsets.only(right: 1, bottom: 1),
               margin: margin,
               width: 30.h,
               height: 30.h,

@@ -8,6 +8,8 @@ import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/roundedButton.dart';
+import 'package:polkawallet_ui/components/v3/back.dart';
+import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/pages/scanPage.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:qr_flutter_fork/qr_flutter_fork.dart';
@@ -65,9 +67,7 @@ class _QrSenderPageState extends State<QrSenderPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text(dic['tx.qr']!),
-        centerTitle: true,
-      ),
+          title: Text(dic['tx.qr']!), centerTitle: true, leading: BackBtn()),
       body: SafeArea(
         child: FutureBuilder(
           future: _getQrCodeData(context),
@@ -89,13 +89,13 @@ class _QrSenderPageState extends State<QrSenderPage> {
                         visible: snapshot.hasData,
                         child: Padding(
                           padding: EdgeInsets.all(16),
-                          child: RoundedButton(
+                          child: Button(
                             icon: SvgPicture.asset(
                               'packages/polkawallet_ui/assets/images/scan.svg',
                               width: 28,
                               color: Theme.of(context).cardColor,
                             ),
-                            text: dic['uos.scan'],
+                            title: dic['uos.scan'] ?? "",
                             onPressed: () {
                               _handleScan(context);
                             },
