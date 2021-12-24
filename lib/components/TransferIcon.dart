@@ -44,6 +44,8 @@ class TransferIcon extends StatelessWidget {
         return Color(0xFFD7BC75);
       case TransferIconType.rollIn:
         return Color(0xFF7AC074);
+      case TransferIconType.failure:
+        return Color(0xFF979797);
       default:
         return Colors.white;
     }
