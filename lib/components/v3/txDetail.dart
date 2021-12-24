@@ -261,8 +261,13 @@ class TxDetailItem extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
-              Expanded(child: Text(i.label!, style: labelStyle)),
-              i.content!,
+              Expanded(flex: 0, child: Text(i.label!, style: labelStyle)),
+              Expanded(
+                  child: Container(
+                margin: EdgeInsets.only(left: 16),
+                alignment: Alignment.centerRight,
+                child: i.content!,
+              )),
               i.copyText != null
                   ? GestureDetector(
                       child: Padding(

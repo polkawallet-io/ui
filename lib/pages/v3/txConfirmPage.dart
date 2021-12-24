@@ -56,6 +56,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         _image = i;
       });
     });
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _getTxFee();
+    });
   }
 
   Future<ui.Image> load(String asset) async {
@@ -68,9 +72,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   Future<String> _getTxFee({bool reload = false}) async {
-    if (_fee?.partialFee != null && !reload) {
-      return _fee!.partialFee.toString();
-    }
+    // if (_fee?.partialFee != null && !reload) {
+    //   return _fee!.partialFee.toString();
+    // }
     // if (widget.plugin.basic.name == 'kusama' &&
     //     (widget.keyring.current.observation ?? false)) {
     //   final recoveryInfo = await widget.plugin.sdk.api.recovery
@@ -332,17 +336,19 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
   void _updateTxStatus(BuildContext context, String status) {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Theme.of(context).cardColor,
-      content: ListTile(
-        leading: CupertinoActivityIndicator(),
-        title: Text(
-          status,
-          style: TextStyle(color: Colors.black54),
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Theme.of(context).cardColor,
+        content: ListTile(
+          leading: CupertinoActivityIndicator(),
+          title: Text(
+            status,
+            style: TextStyle(color: Colors.black54),
+          ),
         ),
-      ),
-      duration: Duration(minutes: 5),
-    ));
+        duration: Duration(minutes: 5),
+      ));
+    }
   }
 
   void _onTipChanged(double tip) {
@@ -531,36 +537,25 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 ],
                               ),
                               Visibility(
-                                  visible: !isUnsigned,
-                                  child: FutureBuilder<String>(
-                                    future: _getTxFee(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<String> snapshot) {
-                                      if (snapshot.hasData) {
-                                        String fee = Fmt.balance(
-                                          _fee!.partialFee.toString(),
-                                          decimals,
-                                          length: 6,
-                                        );
-                                        return Row(
-                                          children: <Widget>[
-                                            _ConfirmItemLabel(
-                                                text: dic["tx.fee"] ?? ''),
-                                            Text(
-                                              '$fee $symbol',
-                                              style: TextStyle(
-                                                fontFamily: 'TitilliumWeb',
-                                                color: Theme.of(context)
-                                                    .errorColor,
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      } else {
-                                        return Container();
-                                      }
-                                    },
-                                  )),
+                                visible: !isUnsigned && _fee != null,
+                                child: Row(
+                                  children: <Widget>[
+                                    _ConfirmItemLabel(
+                                        text: dic["tx.fee"] ?? ''),
+                                    Text(
+                                      '${Fmt.balance(
+                                        (_fee?.partialFee ?? 0).toString(),
+                                        decimals,
+                                        length: 6,
+                                      )} $symbol',
+                                      style: TextStyle(
+                                        fontFamily: 'TitilliumWeb',
+                                        color: Theme.of(context).errorColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
