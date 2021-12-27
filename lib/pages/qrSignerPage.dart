@@ -4,6 +4,7 @@ import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_ui/components/addressFormItem.dart';
 import 'package:polkawallet_ui/components/textTag.dart';
+import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:qr_flutter_fork/qr_flutter_fork.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
@@ -22,7 +23,10 @@ class QrSignerPage extends StatelessWidget {
     final text = ModalRoute.of(context)!.settings.arguments!;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text(dic['uos.title']!), centerTitle: true),
+      appBar: AppBar(
+          title: Text(dic['uos.title']!),
+          centerTitle: true,
+          leading: BackBtn()),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.all(16),

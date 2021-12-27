@@ -158,13 +158,11 @@ class Fmt {
       return '~';
     }
     final int x = pow(10, lengthMax ?? lengthFixed) as int;
-    final double price = (value * x).ceilToDouble() / x;
+    final PriceFormatter pf = PriceFormatter.init(value);
+    final double price = (pf.price * x).ceilToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
-    return NumberFormat(
-            ",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals",
-            "en_US")
-        .format(price);
+    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}${pf.unit}";
   }
 
   /// number transform 6:
@@ -179,13 +177,11 @@ class Fmt {
       return '~';
     }
     final int x = pow(10, lengthMax ?? lengthFixed) as int;
-    final double price = (value * x).floorToDouble() / x;
+    final PriceFormatter pf = PriceFormatter.init(value);
+    final double price = (pf.price * x).floorToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
-    return NumberFormat(
-            ",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals",
-            "en_US")
-        .format(price);
+    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}${pf.unit}";
   }
 
   /// number transform 7:
@@ -234,4 +230,21 @@ class Fmt {
     }
     return null;
   }
+}
+
+class PriceFormatter {
+  PriceFormatter.init(double price) {
+    var suffix = [' ', 'k', 'M', 'B', 'T', 'P', 'E'];
+    if (price < 1000) {
+      this.price = price;
+      this.unit = '';
+    } else {
+      for (int i = 1; i < suffix.length && price > 1000; price /= 1000, i++) {
+        this.price = price / 1000;
+        this.unit = suffix[i];
+      }
+    }
+  }
+  double price = 0;
+  String unit = '';
 }

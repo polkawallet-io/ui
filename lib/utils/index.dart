@@ -118,15 +118,33 @@ class UI {
         '^[0-9]{0,$decimals}((\\.|,)[0-9]{0,$decimals})?\$');
   }
 
-  static Future<void> launchURL(String url) async {
-    if (await canLaunch(url)) {
-      try {
-        await launch(url);
-      } catch (err) {
-        print(err);
+  static launchURL(String url) {
+    throttle(() async {
+      if (await canLaunch(url)) {
+        try {
+          await launch(url);
+        } catch (err) {
+          print(err);
+        }
+      } else {
+        print('Could not launch $url');
       }
-    } else {
-      print('Could not launch $url');
+    });
+  }
+
+  static const Duration _KDelay = Duration(milliseconds: 500);
+  static var enable = true;
+
+  static throttle(
+    Function func, {
+    Duration delay = _KDelay,
+  }) {
+    if (enable) {
+      func();
+      enable = false;
+      Future.delayed(delay, () {
+        enable = true;
+      });
     }
   }
 }

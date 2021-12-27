@@ -14,22 +14,6 @@ class JumpToBrowserLink extends StatefulWidget {
 }
 
 class _JumpToBrowserLinkState extends State<JumpToBrowserLink> {
-  bool _loading = false;
-
-  Future<void> _launchUrl() async {
-    if (_loading) return;
-
-    setState(() {
-      _loading = true;
-    });
-
-    await UI.launchURL(widget.url);
-
-    setState(() {
-      _loading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -48,7 +32,7 @@ class _JumpToBrowserLinkState extends State<JumpToBrowserLink> {
               size: 16, color: Theme.of(context).primaryColor)
         ],
       ),
-      onTap: _launchUrl,
+      onTap: UI.launchURL(widget.url),
     );
   }
 }
