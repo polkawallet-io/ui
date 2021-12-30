@@ -336,9 +336,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
   void _updateTxStatus(BuildContext context, String status) {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    print("ScaffoldMessenger=====_updateTxStatus");
     if (mounted) {
-      print("ScaffoldMessenger=====_updateTxStatus=====showSnackBar");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Theme.of(context).cardColor,
         content: ListTile(

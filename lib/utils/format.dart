@@ -158,11 +158,10 @@ class Fmt {
       return '~';
     }
     final int x = pow(10, lengthMax ?? lengthFixed) as int;
-    final PriceFormatter pf = PriceFormatter.init(value);
-    final double price = (pf.price * x).ceilToDouble() / x;
+    final double price = (value * x).ceilToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
-    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}${pf.unit}";
+    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}";
   }
 
   /// number transform 6:
@@ -177,11 +176,10 @@ class Fmt {
       return '~';
     }
     final int x = pow(10, lengthMax ?? lengthFixed) as int;
-    final PriceFormatter pf = PriceFormatter.init(value);
-    final double price = (pf.price * x).floorToDouble() / x;
+    final double price = (value * x).floorToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
-    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}${pf.unit}";
+    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}";
   }
 
   /// number transform 7:
@@ -229,6 +227,22 @@ class Fmt {
       return dic!['amount.error'];
     }
     return null;
+  }
+
+  static String priceFloorFormatter(
+    double? value, {
+    int lengthFixed = 2,
+    int? lengthMax,
+  }) {
+    if (value == null) {
+      return '~';
+    }
+    final int x = pow(10, lengthMax ?? lengthFixed) as int;
+    final PriceFormatter pf = PriceFormatter.init(value);
+    final double price = (pf.price * x).floorToDouble() / x;
+    final String tailDecimals =
+        lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
+    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}${pf.unit}";
   }
 }
 
