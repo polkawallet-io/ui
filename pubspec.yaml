@@ -20,6 +20,8 @@ dependencies:
   polkawallet_sdk: ^0.4.0
   skeleton_loader: ^2.0.0+4
   flutter_screenutil: ^5.0.0+2
+  scrollable_positioned_list: ^0.2.3
+  flutter_swiper: ^1.1.6
 #  polkawallet_sdk:
 #    path: ../sdk
 
