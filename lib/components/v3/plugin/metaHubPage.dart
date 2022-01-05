@@ -77,6 +77,7 @@ class _MetaHubPageState extends State<MetaHubPage> {
                   colors: [Color(0xFF434451), Color(0xFF13111D)])),
           child: Swiper(
             outer: true,
+            physics: BouncingScrollPhysics(),
             controller: _swiperController,
             itemBuilder: (context, index) {
               return Container(
@@ -143,6 +144,7 @@ class _MetaHubPageState extends State<MetaHubPage> {
                           ),
                           Expanded(
                               child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
                                   child: widget.metaItems[index].context))
                         ],
                       ),
