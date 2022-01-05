@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 
 class PluginItemCard extends StatelessWidget {
   const PluginItemCard(
@@ -26,12 +27,18 @@ class PluginItemCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                this.title,
-                style: Theme.of(context)
-                    .appBarTheme
-                    .titleTextStyle
-                    ?.copyWith(fontSize: 16, color: Colors.white),
+              SimpleShadow(
+                child: Text(
+                  this.title,
+                  style: Theme.of(context)
+                      .appBarTheme
+                      .titleTextStyle
+                      ?.copyWith(fontSize: 16, color: Colors.white),
+                ),
+                opacity: 0.7, // Default: 0.5
+                color: Color(0x80FFFFFF), // Default: Black
+                offset: Offset(1, 1), // Default: Offset(2, 2)
+                sigma: 4, // Default: 2
               ),
               Visibility(
                   visible: this.icon != null,
