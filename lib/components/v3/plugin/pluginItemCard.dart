@@ -5,7 +5,7 @@ import 'package:simple_shadow/simple_shadow.dart';
 class PluginItemCard extends StatelessWidget {
   const PluginItemCard(
       {required this.title,
-      required this.describe,
+      this.describe,
       this.icon,
       this.margin,
       this.padding = const EdgeInsets.fromLTRB(9, 6, 6, 11),
@@ -15,7 +15,7 @@ class PluginItemCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final String title;
   final String? icon;
-  final String describe;
+  final String? describe;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class PluginItemCard extends StatelessWidget {
       margin: this.margin,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
@@ -59,15 +60,17 @@ class PluginItemCard extends StatelessWidget {
                   ))
             ],
           ),
-          Padding(
-              padding: EdgeInsets.only(top: 3),
-              child: Text(
-                this.describe,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2
-                    ?.copyWith(fontSize: 11, color: Colors.white),
-              )),
+          this.describe != null
+              ? Padding(
+                  padding: EdgeInsets.only(top: 3),
+                  child: Text(
+                    this.describe!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        ?.copyWith(fontSize: 11, color: Colors.white),
+                  ))
+              : Container(),
         ],
       ),
     );
