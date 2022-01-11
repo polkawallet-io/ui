@@ -52,7 +52,7 @@ class AccountQrCodePage extends StatelessWidget {
                       child: Container(
                         margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
                         child: TextTag(dic['warn.external'],
-                            color: Color(0xFFD8D8D8)),
+                            color: Theme.of(context).errorColor),
                       )),
                   Padding(
                     padding: EdgeInsets.only(

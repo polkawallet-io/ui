@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
 import 'package:polkawallet_ui/components/v3/roundedCard.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -78,7 +79,7 @@ class SkaletionRow extends StatelessWidget {
 }
 
 class SkaletonList extends StatelessWidget {
-  SkaletonList(
+  const SkaletonList(
       {Key? key,
       this.child,
       this.items = 1,
@@ -87,10 +88,14 @@ class SkaletonList extends StatelessWidget {
       this.baseColor = const Color(0xFFE0E0E0),
       this.direction = SkeletonDirection.ltr,
       this.itemMargin,
-      this.itemPadding})
+      this.itemPadding,
+      this.padding,
+      this.physics,
+      this.shrinkWrap = false,
+      this.isPlugin = false})
       : super(key: key);
 
-  Widget? child;
+  final Widget? child;
   final int items;
   final Duration period;
   final Color highlightColor;
@@ -98,53 +103,68 @@ class SkaletonList extends StatelessWidget {
   final Color baseColor;
   final EdgeInsetsGeometry? itemMargin;
   final EdgeInsetsGeometry? itemPadding;
+  final EdgeInsetsGeometry? padding;
+  final bool shrinkWrap;
+  final ScrollPhysics? physics;
+  final bool isPlugin;
 
   @override
   Widget build(BuildContext context) {
+    final childWidget = SkeletonLoader(
+      builder: child ??
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Row(
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 30,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        height: 10,
+                        color: Colors.white,
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        height: 12,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+      items: 1,
+      period: period,
+      highlightColor: highlightColor,
+      baseColor: baseColor,
+      direction: direction,
+    );
+
+    final card = !this.isPlugin
+        ? RoundedCard(
+            margin: itemMargin ?? EdgeInsets.only(bottom: 16),
+            padding: itemPadding,
+            child: childWidget)
+        : RoundedPluginCard(
+            margin: itemMargin ?? EdgeInsets.only(bottom: 16),
+            padding: itemPadding,
+            child: childWidget);
+
     return ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        shrinkWrap: shrinkWrap,
+        physics: physics,
+        padding:
+            this.padding ?? EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         itemCount: items,
         itemBuilder: (BuildContext context, int index) {
-          return RoundedCard(
-              margin: itemMargin ?? EdgeInsets.only(bottom: 16),
-              padding: itemPadding,
-              child: SkeletonLoader(
-                builder: child ??
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      child: Row(
-                        children: <Widget>[
-                          CircleAvatar(
-                            radius: 30,
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  width: double.infinity,
-                                  height: 10,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(height: 10),
-                                Container(
-                                  width: double.infinity,
-                                  height: 12,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                items: 1,
-                period: period,
-                highlightColor: highlightColor,
-                baseColor: baseColor,
-                direction: direction,
-              ));
+          return card;
         });
   }
 }

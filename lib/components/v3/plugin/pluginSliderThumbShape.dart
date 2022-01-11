@@ -1,15 +1,12 @@
 import 'dart:async';
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
-class SliderThumbShape extends SliderComponentShape {
-  final ui.Image? image;
-  // ui.Image images;
-  SliderThumbShape(this.image);
+class PluginSliderThumbShape extends SliderComponentShape {
+  const PluginSliderThumbShape();
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size.zero;
+    return Size(25, 17);
   }
 
   @override
@@ -25,12 +22,22 @@ class SliderThumbShape extends SliderComponentShape {
       required double textScaleFactor,
       required Size sizeWithOverflow}) async {
     final Canvas canvas = context.canvas;
-    if (image != null) {
-      canvas.drawImage(
-          image!,
-          Offset(
-              center.dx - image!.width / 2, center.dy - image!.height / 2 + 2),
-          Paint());
-    }
+    final rrect = RRect.fromLTRBXY(center.dx - 12.5, center.dy - 8.5,
+        center.dx + 12.5, center.dy + 8.5, 6.0, 6.0);
+    canvas.drawShadow(
+        Path()
+          ..addRRect(
+            RRect.fromLTRBXY(rrect.left - 1, rrect.top - 1, rrect.right + 1,
+                rrect.bottom + 1, 6.0, 6.0),
+          )
+          ..close(),
+        Color(0x80FFFFFF),
+        0.5,
+        true);
+    canvas.drawRRect(
+        rrect,
+        Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.fill);
   }
 }
