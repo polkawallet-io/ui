@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
-import 'package:simple_shadow/simple_shadow.dart';
+// import 'package:simple_shadow/simple_shadow.dart';
 
 class PluginItemCard extends StatelessWidget {
   const PluginItemCard(
@@ -14,7 +14,7 @@ class PluginItemCard extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final String title;
-  final String? icon;
+  final Widget? icon;
   final String? describe;
 
   @override
@@ -28,35 +28,25 @@ class PluginItemCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              SimpleShadow(
-                child: Text(
-                  this.title,
-                  style: Theme.of(context)
-                      .appBarTheme
-                      .titleTextStyle
-                      ?.copyWith(fontSize: 16, color: Colors.white),
-                ),
-                opacity: 0.7, // Default: 0.5
-                color: Color(0x80FFFFFF), // Default: Black
-                offset: Offset(1, 1), // Default: Offset(2, 2)
-                sigma: 4, // Default: 2
+              // SimpleShadow(
+              //   child:
+              Text(
+                this.title,
+                style: Theme.of(context)
+                    .appBarTheme
+                    .titleTextStyle
+                    ?.copyWith(fontSize: 16, color: Colors.white),
               ),
+              //   opacity: 0.7, // Default: 0.5
+              //   color: Color(0x80FFFFFF), // Default: Black
+              //   offset: Offset(1, 1), // Default: Offset(2, 2)
+              //   sigma: 4, // Default: 2
+              // ),
               Visibility(
                   visible: this.icon != null,
                   child: Padding(
                     padding: EdgeInsets.only(left: 6),
-                    child: Container(
-                        width: 18,
-                        height: 18,
-                        padding: EdgeInsets.all(2),
-                        child: this.icon != null
-                            ? Image.asset(this.icon!)
-                            : Container(),
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(const Radius.circular(5)),
-                          color: Color(0xFFFF8E66),
-                        )),
+                    child: this.icon != null ? this.icon : Container(),
                   ))
             ],
           ),
