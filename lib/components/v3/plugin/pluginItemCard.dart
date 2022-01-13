@@ -52,7 +52,7 @@ class PluginItemCard extends StatelessWidget {
           ),
           this.describe != null
               ? Padding(
-                  padding: EdgeInsets.only(top: 3),
+                  padding: EdgeInsets.only(top: 3, right: 43),
                   child: Text(
                     this.describe!,
                     style: Theme.of(context)

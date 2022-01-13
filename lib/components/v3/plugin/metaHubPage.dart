@@ -70,11 +70,15 @@ class _MetaHubPageState extends State<MetaHubPage> {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                      "packages/polkawallet_ui/assets/images/metaHub_bg.png"),
+                  fit: BoxFit.fill),
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   stops: [0.0, 1.0],
-                  colors: [Color(0xFF434451), Color(0xFF13111D)])),
+                  colors: [Color(0xFF4D5458), Color(0xFF191A22)])),
           child: Swiper(
             outer: true,
             physics: BouncingScrollPhysics(),
@@ -106,7 +110,7 @@ class _MetaHubPageState extends State<MetaHubPage> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               stops: [0.0, 1.0],
-                              colors: [Color(0xFF4D5458), Color(0xFF191A22)])),
+                              colors: [Color(0xFF27292F), Color(0xFF202020)])),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
