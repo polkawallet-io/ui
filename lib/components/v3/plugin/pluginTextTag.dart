@@ -22,6 +22,7 @@ class PluginTextTag extends StatelessWidget {
       child: TagBgContainer(
         margin: margin,
         padding: padding,
+        height: 25,
         backgroundColor: backgroundColor,
         child: Text(
           title,
@@ -64,15 +65,18 @@ class TagBgContainer extends StatelessWidget {
           SvgPicture.asset(
             'packages/polkawallet_ui/assets/images/plugin_tag_bg_left.svg',
             color: backgroundColor ?? Color(0xCCFFFFFF),
+            fit: BoxFit.fill,
           ),
           Container(
             padding: EdgeInsets.only(left: 5),
+            height: double.infinity,
             color: backgroundColor ?? Color(0xCCFFFFFF),
             child: child,
           ),
           SvgPicture.asset(
             "packages/polkawallet_ui/assets/images/plugin_tag_bg_right.svg",
             color: backgroundColor ?? Color(0xCCFFFFFF),
+            fit: BoxFit.fill,
           ),
         ],
       ),
