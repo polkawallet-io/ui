@@ -20,7 +20,6 @@ class PluginTextTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: TagBgContainer(
-        double.infinity,
         margin: margin,
         padding: padding,
         backgroundColor: backgroundColor,
@@ -36,8 +35,9 @@ class PluginTextTag extends StatelessWidget {
 }
 
 class TagBgContainer extends StatelessWidget {
-  const TagBgContainer(this.width,
-      {this.margin,
+  const TagBgContainer(
+      {this.width,
+      this.margin,
       this.padding,
       this.child,
       this.height,
@@ -48,7 +48,7 @@ class TagBgContainer extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final Widget? child;
-  final double width;
+  final double? width;
   final double? height;
   final Color? backgroundColor;
 
@@ -56,31 +56,24 @@ class TagBgContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
+      padding: padding,
       height: height,
       margin: margin,
-      child: Stack(
-        alignment: Alignment.center,
+      child: Row(
         children: [
-          Container(
-            width: width,
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  'packages/polkawallet_ui/assets/images/plugin_tag_bg_left.svg',
-                  color: backgroundColor ?? Color(0xCCFFFFFF),
-                ),
-                Expanded(
-                    child: Container(
-                  color: backgroundColor ?? Color(0xCCFFFFFF),
-                )),
-                SvgPicture.asset(
-                  "packages/polkawallet_ui/assets/images/plugin_tag_bg_right.svg",
-                  color: backgroundColor ?? Color(0xCCFFFFFF),
-                ),
-              ],
-            ),
+          SvgPicture.asset(
+            'packages/polkawallet_ui/assets/images/plugin_tag_bg_left.svg',
+            color: backgroundColor ?? Color(0xCCFFFFFF),
           ),
-          Container(width: width, padding: padding, child: child!)
+          Container(
+            padding: EdgeInsets.only(left: 5),
+            color: backgroundColor ?? Color(0xCCFFFFFF),
+            child: child,
+          ),
+          SvgPicture.asset(
+            "packages/polkawallet_ui/assets/images/plugin_tag_bg_right.svg",
+            color: backgroundColor ?? Color(0xCCFFFFFF),
+          ),
         ],
       ),
     );

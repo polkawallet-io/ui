@@ -55,7 +55,8 @@ const Map<String, String> enCommon = {
   'submit.signer': 'Signer',
   'exit.confirm': 'Do you want to exit the App?',
   'amount.error': 'Invalid amount',
-  'scan.help': 'Please put the QR code in the box'
+  'scan.help': 'Please put the QR code in the box',
+  'balance': 'Balance',
 };
 
 const Map<String, String> zhCommon = {
@@ -111,5 +112,6 @@ const Map<String, String> zhCommon = {
   'submit.signer': '签名账户',
   'exit.confirm': '确定要退出 App 吗？',
   'amount.error': '格式错误',
-  'scan.help': '请将二维码置于方框中'
+  'scan.help': '请将二维码置于方框中',
+  'balance': '余额',
 };
