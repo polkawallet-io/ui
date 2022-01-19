@@ -5,10 +5,14 @@ export 'package:polkawallet_ui/components/v3/plugin/pluginAppBar.dart';
 
 class PluginScaffold extends StatelessWidget {
   const PluginScaffold(
-      {this.body, this.appBar = const PluginAppBar(), Key? key})
+      {this.body,
+      this.appBar = const PluginAppBar(),
+      this.extendBodyBehindAppBar = false,
+      Key? key})
       : super(key: key);
   final Widget? body;
   final PluginAppBar? appBar;
+  final bool extendBodyBehindAppBar;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class PluginScaffold extends StatelessWidget {
               colors: [Color(0xFF27292F), Color(0xFF202020)])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: extendBodyBehindAppBar,
         appBar: appBar,
         body: body,
       ),

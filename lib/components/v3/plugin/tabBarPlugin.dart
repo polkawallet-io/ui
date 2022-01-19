@@ -106,12 +106,11 @@ class _TabBarPluginState extends State<TabBarPlugin> {
             },
             child: Image.asset(
               "packages/polkawallet_ui/assets/images/tab_bar_plugin.png",
-              height: 54,
+              height: double.infinity,
             ),
           ),
           Container(
-              height: 45,
-              margin: EdgeInsets.only(right: 24, bottom: 2),
+              margin: EdgeInsets.only(right: 22, bottom: 5.5, top: 2.5),
               padding: EdgeInsets.all(4),
               width: double.infinity,
               decoration: BoxDecoration(

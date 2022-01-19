@@ -15,7 +15,7 @@ class _PluginLoadingWidgetState extends State<PluginLoadingWidget>
   @override
   void initState() {
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1500));
+        vsync: this, duration: Duration(milliseconds: 1000));
     _controller.forward();
 
     _listener = (status) {

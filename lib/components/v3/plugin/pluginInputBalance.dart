@@ -22,6 +22,7 @@ class PluginInputBalance extends StatefulWidget {
       this.onInputChange,
       this.onSetMax,
       this.enabled = true,
+      this.tokenBgColor = const Color(0xFFFC8156),
       this.text})
       : super(key: key);
   final String? titleTag;
@@ -34,6 +35,7 @@ class PluginInputBalance extends StatefulWidget {
   final Function? onClear;
   final Function(String)? onInputChange;
   final Function(BigInt)? onSetMax;
+  final Color tokenBgColor;
   final bool enabled;
   final String? text; //enabled is false  To be valid
 
@@ -137,12 +139,10 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                     keyboardType:
                         TextInputType.numberWithOptions(decimal: true),
                     onChanged: (value) {
-                      print(value);
                       try {
                         double.parse(value);
                         widget.onInputChange!(value);
                       } catch (e) {
-                        print(e);
                         widget.inputCtrl!.text = "";
                       }
                     },
@@ -152,7 +152,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       color: widget.enabled
-                          ? Color(0xFFFC8156)
+                          ? widget.tokenBgColor
                           : Color(0x4DFFFFFF),
                       borderRadius: const BorderRadius.all(Radius.circular(3))),
                   child: PluginCurrencyWithIcon(

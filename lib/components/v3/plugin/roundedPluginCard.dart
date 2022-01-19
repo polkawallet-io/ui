@@ -6,13 +6,15 @@ class RoundedPluginCard extends StatelessWidget {
       this.padding,
       this.child,
       this.color = const Color(0x1FFFFFFF),
+      this.borderRadius = const BorderRadius.all(const Radius.circular(6)),
       Key? key})
       : super(key: key);
 
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final Widget? child;
-  final Color? color;
+  final Color color;
+  final BorderRadiusGeometry borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class RoundedPluginCard extends StatelessWidget {
       padding: padding,
       child: child,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(const Radius.circular(6)),
+        borderRadius: borderRadius,
         color: this.color,
       ),
     );
