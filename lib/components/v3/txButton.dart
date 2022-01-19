@@ -11,20 +11,20 @@ export 'package:polkawallet_ui/components/txButton.dart';
 class TxButton extends StatelessWidget {
   TxButton({
     this.text,
-    this.getTxParams,
+    required this.getTxParams,
     this.onFinish,
     this.icon,
     this.color,
   });
 
   final String? text;
-  final Future<TxConfirmParams> Function()? getTxParams;
+  final Future<TxConfirmParams?> Function() getTxParams;
   final Function(Map?)? onFinish;
   final Widget? icon;
   final Color? color;
 
   Future<void> _onPressed(BuildContext context) async {
-    final params = await getTxParams!();
+    final params = await getTxParams();
     if (params != null) {
       final res = await Navigator.of(context)
           .pushNamed(TxConfirmPage.route, arguments: params);
