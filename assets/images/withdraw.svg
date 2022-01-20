@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>withdraw</title>
+    <g id="icon-v2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon" transform="translate(-31.000000, -135.000000)">
+            <g id="withdraw" transform="translate(31.000000, 135.000000)">
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+                <line x1="12.0261976" y1="4" x2="9.02619763" y2="7.5" id="路径-29备份" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                <line x1="12.0261976" y1="4" x2="15.0261976" y2="7.5" id="路径-30备份" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                <line x1="12.0261976" y1="4" x2="12" y2="13.5572409" id="路径" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                <rect id="矩形" stroke="#979797" stroke-width="1.5" x="4.75" y="16.3072409" width="14.5" height="3.5" rx="1.75"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

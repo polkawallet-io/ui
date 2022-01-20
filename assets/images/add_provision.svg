@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>add_prov</title>
+    <g id="icon-v2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon" transform="translate(-7.000000, -159.000000)" stroke="#979797" stroke-width="1.5">
+            <g id="add_prov" transform="translate(7.000000, 159.000000)">
+                <path d="M8.4,4.75 L6,7.29310345 L6,19.5 L18,19.5 L18,5.75 C18,5.19771525 17.5522847,4.75 17,4.75 L8.4,4.75 L8.4,4.75 Z" id="路径-19" stroke-linejoin="round"></path>
+                <line x1="8.5" y1="9.32758621" x2="15.5" y2="9.32758621" id="路径-21" stroke-linecap="round"></line>
+                <line x1="8.5" y1="12.3793103" x2="15.5" y2="12.3793103" id="路径-21备份" stroke-linecap="round"></line>
+                <line x1="8.5" y1="15.4310345" x2="15.5" y2="15.4310345" id="路径-21备份-2" stroke-linecap="round"></line>
+            </g>
+        </g>
+    </g>
+</svg>

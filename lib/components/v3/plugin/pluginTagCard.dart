@@ -14,6 +14,7 @@ class PluginTagCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -24,7 +25,6 @@ class PluginTagCard extends StatelessWidget {
           ),
           Container(
               padding: padding,
-              margin: margin,
               decoration: BoxDecoration(
                   color: Color(0x24FFFFFF),
                   borderRadius: const BorderRadius.only(

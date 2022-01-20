@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>payback</title>
+    <g id="icon-v2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon" transform="translate(-31.000000, -15.000000)">
+            <g id="payback" transform="translate(31.000000, 15.000000)">
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+                <path d="M13.9962123,20.5349617 C17.8705896,19.6316319 20.7567568,16.1562445 20.7567568,12.0067568 C20.7567568,7.17053354 16.8362232,3.25 12,3.25 C7.16377679,3.25 3.24324324,7.17053354 3.24324324,12.0067568 C3.24324324,16.1743132 6.15460039,19.6618858 10.0544559,20.5466157" id="路径" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <polyline id="路径-5" fill="#979797" points="8.3 21.9 11.8540541 21.4459459 9.8 18.4"></polyline>
+                <text id="$" font-family="SweiGothicLegCJKtc-Medium, 獅尾腿圓" font-size="14" font-weight="400" letter-spacing="0.0656923077" fill="#979797">
+                    <tspan x="8" y="17">$</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

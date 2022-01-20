@@ -2,7 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-enum TransferIconType { rollIn, rollOut, fine, earn, failure }
+enum TransferIconType {
+  rollIn,
+  rollOut,
+  fine,
+  earn,
+  failure,
+  redeem,
+  mint,
+  deposit,
+  payback,
+  withdraw,
+  swap,
+  add_liquidity,
+  remove_liquidity,
+  add_provision
+}
 
 class TransferIcon extends StatelessWidget {
   TransferIcon(
@@ -63,6 +78,24 @@ class TransferIcon extends StatelessWidget {
         return "packages/polkawallet_ui/assets/images/transfer_icon_in.svg";
       case TransferIconType.failure:
         return "packages/polkawallet_ui/assets/images/transfer_icon_failure.svg";
+      case TransferIconType.redeem:
+        return "packages/polkawallet_ui/assets/images/redeem.svg";
+      case TransferIconType.mint:
+        return "packages/polkawallet_ui/assets/images/mint.svg";
+      case TransferIconType.withdraw:
+        return "packages/polkawallet_ui/assets/images/withdraw.svg";
+      case TransferIconType.deposit:
+        return "packages/polkawallet_ui/assets/images/deposit.svg";
+      case TransferIconType.payback:
+        return "packages/polkawallet_ui/assets/images/payback.svg";
+      case TransferIconType.swap:
+        return "packages/polkawallet_ui/assets/images/swap.svg";
+      case TransferIconType.add_liquidity:
+        return "packages/polkawallet_ui/assets/images/add_liquidity.svg";
+      case TransferIconType.remove_liquidity:
+        return "packages/polkawallet_ui/assets/images/remove_liquidity.svg";
+      case TransferIconType.add_provision:
+        return "packages/polkawallet_ui/assets/images/add_provision.svg";
     }
   }
 }
