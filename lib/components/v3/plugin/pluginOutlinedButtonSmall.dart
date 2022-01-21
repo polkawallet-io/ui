@@ -9,7 +9,8 @@ class PluginOutlinedButtonSmall extends StatelessWidget {
       this.padding,
       this.onPressed,
       this.activeTextcolor,
-      this.unActiveTextcolor});
+      this.unActiveTextcolor,
+      this.fontSize});
   final String? content;
   final bool active;
   final Color? color;
@@ -18,6 +19,7 @@ class PluginOutlinedButtonSmall extends StatelessWidget {
   final EdgeInsets? margin;
   final EdgeInsets? padding;
   final Function? onPressed;
+  final double? fontSize;
   @override
   Widget build(BuildContext context) {
     final bgColor =
@@ -35,10 +37,10 @@ class PluginOutlinedButtonSmall extends StatelessWidget {
         ),
         child: Text(
           content!,
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              ?.copyWith(fontWeight: FontWeight.w600, color: textColor),
+          style: Theme.of(context).textTheme.headline4?.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: fontSize,
+              color: textColor),
           textAlign: TextAlign.center,
         ),
       ),

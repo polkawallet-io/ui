@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/plugin/store/balances.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/currencyWithIcon.dart';
@@ -53,6 +54,152 @@ class PluginInputBalance extends StatefulWidget {
 
 class _PluginInputBalanceState extends State<PluginInputBalance> {
   bool _hasFocus = false;
+
+  _tokenChangeAction() async {
+    final selected = await showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+          ),
+          height: MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top -
+              MediaQuery.of(context).padding.bottom -
+              kToolbarHeight -
+              200,
+          width: double.infinity,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24)),
+                    color: Color(0xFFD8D8D8),
+                  ),
+                  height: 48,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(widget.tokenSelectTitle ?? "",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF26282D),
+                                    fontSize: 18)),
+                      ),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 15),
+                              child: Icon(
+                                Icons.close,
+                                color: Colors.black,
+                                size: 15,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+                Expanded(
+                    child: Container(
+                        color: Color(0xFFBDBEBE),
+                        padding: EdgeInsets.only(top: 35, left: 16, right: 16),
+                        child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: widget.tokenOptions?.length,
+                            itemBuilder: (context, index) {
+                              final symbol =
+                                  widget.tokenOptions![index]!.symbol!;
+                              return Container(
+                                  margin: EdgeInsets.only(bottom: 16),
+                                  decoration: BoxDecoration(
+                                      color: Color(0x33555555),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: ListTile(
+                                    title: CurrencyWithIcon(
+                                      symbol,
+                                      PluginTokenIcon(
+                                        symbol,
+                                        widget.tokenIconsMap!,
+                                        size: 23,
+                                      ),
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .headline4
+                                          ?.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600),
+                                    ),
+                                    trailing: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          Fmt.priceFloorBigInt(
+                                              BigInt.parse(widget
+                                                  .tokenOptions![index]!
+                                                  .amount!),
+                                              widget.tokenOptions![index]!
+                                                  .decimals!,
+                                              lengthMax: 4),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6
+                                              ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          '≈\$ ${Fmt.priceFloor((widget.marketPrices![widget.tokenOptions![index]!.symbol] ?? 0) * Fmt.balanceDouble(widget.tokenOptions![index]!.amount!, widget.tokenOptions![index]!.decimals!), lengthMax: 4)}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6
+                                              ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w300),
+                                        ),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .pop(widget.tokenOptions![index]!);
+                                    },
+                                  ));
+                            })))
+              ],
+            ),
+          ),
+        );
+      },
+      context: context,
+    );
+    if (selected != null) {
+      widget.onTokenChange!(selected as TokenBalanceData);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +323,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                               widget.onInputChange!(value);
                             } catch (e) {
                               widget.inputCtrl!.text = "";
+                              widget.onInputChange!("");
                             }
+                            setState(() {});
                           },
                         ),
                       ),
@@ -216,7 +365,12 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                               color: Color(0xFF212123),
                               fontWeight: FontWeight.w600),
                       trailing: widget.onTokenChange != null
-                          ? Icon(Icons.keyboard_arrow_down)
+                          ? Padding(
+                              padding: EdgeInsets.only(left: 2),
+                              child: SvgPicture.asset(
+                                "packages/polkawallet_ui/assets/images/triangle_bottom.svg",
+                                color: Color(0x8026282D),
+                              ))
                           : null,
                     ),
                   ),
@@ -224,189 +378,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           widget.enabled &&
                           (widget.tokenOptions?.length ?? 0) > 0
                       ? () async {
-                          final selected = await showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (BuildContext context) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10)),
-                                ),
-                                height: MediaQuery.of(context).size.height -
-                                    MediaQuery.of(context).padding.top -
-                                    MediaQuery.of(context).padding.bottom -
-                                    kToolbarHeight -
-                                    200,
-                                width: double.infinity,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).cardColor,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(24),
-                                        topRight: Radius.circular(24)),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(24),
-                                              topRight: Radius.circular(24)),
-                                          color: Color(0xFFD8D8D8),
-                                        ),
-                                        height: 48,
-                                        child: Stack(
-                                          children: [
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                  widget.tokenSelectTitle ?? "",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5
-                                                      ?.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color:
-                                                              Color(0xFF26282D),
-                                                          fontSize: 18)),
-                                            ),
-                                            Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 15),
-                                                    child: Icon(
-                                                      Icons.close,
-                                                      color: Colors.black,
-                                                      size: 15,
-                                                    ),
-                                                  ),
-                                                )),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Container(
-                                              color: Color(0xFFBDBEBE),
-                                              padding: EdgeInsets.only(
-                                                  top: 35, left: 16, right: 16),
-                                              child: ListView.builder(
-                                                  physics:
-                                                      BouncingScrollPhysics(),
-                                                  itemCount: widget
-                                                      .tokenOptions?.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    final symbol = widget
-                                                        .tokenOptions![index]!
-                                                        .symbol!;
-                                                    return Container(
-                                                        margin: EdgeInsets.only(
-                                                            bottom: 16),
-                                                        decoration: BoxDecoration(
-                                                            color: Color(
-                                                                0x33555555),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                        child: ListTile(
-                                                          title:
-                                                              CurrencyWithIcon(
-                                                            symbol,
-                                                            PluginTokenIcon(
-                                                              symbol,
-                                                              widget
-                                                                  .tokenIconsMap!,
-                                                              size: 23,
-                                                            ),
-                                                            textStyle: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline4
-                                                                ?.copyWith(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                          ),
-                                                          trailing: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .end,
-                                                            children: [
-                                                              Text(
-                                                                Fmt.priceFloorBigInt(
-                                                                    BigInt.parse(widget
-                                                                        .tokenOptions![
-                                                                            index]!
-                                                                        .amount!),
-                                                                    widget
-                                                                        .tokenOptions![
-                                                                            index]!
-                                                                        .decimals!,
-                                                                    lengthMax:
-                                                                        4),
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .headline6
-                                                                    ?.copyWith(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            14,
-                                                                        fontWeight:
-                                                                            FontWeight.w600),
-                                                              ),
-                                                              Text(
-                                                                '≈\$ ${Fmt.priceFloor((widget.marketPrices![widget.tokenOptions![index]!.symbol] ?? 0) * Fmt.balanceDouble(widget.tokenOptions![index]!.amount!, widget.tokenOptions![index]!.decimals!), lengthMax: 4)}',
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .headline6
-                                                                    ?.copyWith(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            10,
-                                                                        fontWeight:
-                                                                            FontWeight.w300),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop(widget
-                                                                        .tokenOptions![
-                                                                    index]!);
-                                                          },
-                                                        ));
-                                                  })))
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                            context: context,
-                          );
-                          if (selected != null) {
-                            widget.onTokenChange!(selected as TokenBalanceData);
-                          }
+                          _tokenChangeAction();
                         }
                       : null,
                 )
