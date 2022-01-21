@@ -11,6 +11,24 @@ class PluginTokenIcon extends StatelessWidget {
   final bool isHighlighted;
   @override
   Widget build(BuildContext context) {
+    if (id.contains('-')) {
+      final pair = id.toUpperCase().split('-');
+      return Container(
+        padding: EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(size / 2)),
+          color: Color(0xFFFF7849),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(width: size, child: tokenIcons[pair[1]]),
+            SizedBox(width: size, child: tokenIcons[pair[0]])
+          ],
+        ),
+        width: size * 2 + 4,
+      );
+    }
     return SizedBox(
         child: Stack(
           children: [

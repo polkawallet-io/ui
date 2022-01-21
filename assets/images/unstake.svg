@@ -1,0 +1,16 @@
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>stake</title>
+  
+    <g id="icon-v2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon" transform="translate(-31.000000, -87.000000)">
+            <g id="stake" transform="translate(31.000000, 87.000000)">
+              <g id = 'icon-v3' transform="translate(24, 24)rotate(180)">
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+                <path d="M12,5 C12,5 12,8.75 12,16.25" id="路径-3" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M16,14.75 L16.25,17 C16.25,18.1736051 15.7743025,19.2361051 15.0052038,20.0052038 C14.2361051,20.7743025 13.1736051,21.25 12,21.25 C10.8263949,21.25 9.76389491,20.7743025 8.99479618,20.0052038 C8.22569745,19.2361051 7.75,18.1736051 7.75,17 L7.75,17 L7.75,15 L16,14.75 Z" id="矩形" stroke="#979797" stroke-width="1.5"></path>
+                <polygon id="路径-4" stroke="#979797" stroke-width="1.5" stroke-linejoin="round" points="10.5 5 13.5 5 14 3 10 3"></polygon>
+            </g>
+       </g>
+            </g>
+  </g>
+</svg>

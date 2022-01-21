@@ -16,7 +16,10 @@ enum TransferIconType {
   swap,
   add_liquidity,
   remove_liquidity,
-  add_provision
+  add_provision,
+  stake,
+  unstake,
+  claim_rewards
 }
 
 class TransferIcon extends StatelessWidget {
@@ -96,6 +99,12 @@ class TransferIcon extends StatelessWidget {
         return "packages/polkawallet_ui/assets/images/remove_liquidity.svg";
       case TransferIconType.add_provision:
         return "packages/polkawallet_ui/assets/images/add_provision.svg";
+      case TransferIconType.stake:
+        return "packages/polkawallet_ui/assets/images/stake.svg";
+      case TransferIconType.unstake:
+        return "packages/polkawallet_ui/assets/images/unstake.svg";
+      case TransferIconType.claim_rewards:
+        return "packages/polkawallet_ui/assets/images/reward.svg";
     }
   }
 }

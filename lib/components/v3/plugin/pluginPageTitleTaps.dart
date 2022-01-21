@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PluginPageTitleTaps extends StatelessWidget {
-  PluginPageTitleTaps({this.names, this.activeTab, this.onTab});
+  PluginPageTitleTaps({this.names, this.activeTab, this.onTap});
 
   final List<String>? names;
-  final Function(int)? onTab;
+  final Function(int)? onTap;
   final int? activeTab;
 
   @override
@@ -31,7 +31,7 @@ class PluginPageTitleTaps extends StatelessWidget {
                         activeTab == index ? Colors.white : Color(0x88FFFFFF)),
               ),
             ),
-            onTap: () => onTab!(index),
+            onTap: () => onTap!(index),
           );
         },
       ).toList(),
