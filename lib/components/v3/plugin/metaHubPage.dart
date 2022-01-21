@@ -146,10 +146,7 @@ class _MetaHubPageState extends State<MetaHubPage> {
                             ),
                             margin: EdgeInsets.only(bottom: 24),
                           ),
-                          Expanded(
-                              child: SingleChildScrollView(
-                                  physics: BouncingScrollPhysics(),
-                                  child: widget.metaItems[index].context))
+                          Expanded(child: widget.metaItems[index].context)
                         ],
                       ),
                     ),
