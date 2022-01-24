@@ -244,6 +244,19 @@ class Fmt {
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
     return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}${pf.unit}";
   }
+
+  static String priceFloorBigIntFormatter(
+    BigInt? value,
+    int decimals, {
+    int lengthFixed = 2,
+    int? lengthMax,
+  }) {
+    if (value == null) {
+      return '~';
+    }
+    return priceFloorFormatter(Fmt.bigIntToDouble(value, decimals),
+        lengthFixed: lengthFixed, lengthMax: lengthMax);
+  }
 }
 
 class PriceFormatter {
