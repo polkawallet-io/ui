@@ -6,16 +6,19 @@ class InfoItemRow extends StatelessWidget {
       {this.colorPrimary = false,
       this.color,
       this.labelStyle,
-      this.contentStyle});
+      this.contentStyle,
+      this.crossAxisAlignment = CrossAxisAlignment.center});
   final String label;
   final String? content;
   final Color? color;
   final bool colorPrimary;
   final TextStyle? labelStyle;
   final TextStyle? contentStyle;
+  final CrossAxisAlignment crossAxisAlignment;
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: this.crossAxisAlignment,
       children: <Widget>[
         Text(
           label,

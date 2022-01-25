@@ -27,7 +27,7 @@ class Button extends StatelessWidget {
       onPressed: !submitting ? onPressed : null,
       child: BgContainer(
         double.infinity,
-        height: height ?? 58,
+        height: height ?? 54,
         isBlueBg: isBlueBg,
         alignment: Alignment.center,
         child: Row(
@@ -81,14 +81,18 @@ class BgContainer extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(
-                    "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_left.png"),
+                  "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_left.png",
+                  fit: BoxFit.fill,
+                ),
                 Expanded(
                     child: Image.asset(
                   "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_center.png",
                   fit: BoxFit.fill,
                 )),
                 Image.asset(
-                    "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_right.png"),
+                  "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_right.png",
+                  fit: BoxFit.fill,
+                ),
               ],
             ),
           ),

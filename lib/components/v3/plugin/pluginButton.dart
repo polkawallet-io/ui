@@ -28,7 +28,7 @@ class PluginButton extends StatelessWidget {
       onPressed: !submitting ? onPressed : null,
       child: BgContainer(
         double.infinity,
-        height: height ?? 52,
+        height: height ?? 48,
         alignment: Alignment.center,
         backgroundColor: backgroundColor,
         child: Row(
@@ -89,6 +89,7 @@ class BgContainer extends StatelessWidget {
                 SvgPicture.asset(
                   'packages/polkawallet_ui/assets/images/bg_plugin_left.svg',
                   color: backgroundColor ?? Color(0xFFFC8156),
+                  fit: BoxFit.fill,
                 ),
                 Expanded(
                     child: Container(
@@ -97,6 +98,7 @@ class BgContainer extends StatelessWidget {
                 SvgPicture.asset(
                   "packages/polkawallet_ui/assets/images/bg_plugin_right.svg",
                   color: backgroundColor ?? Color(0xFFFC8156),
+                  fit: BoxFit.fill,
                 ),
               ],
             ),

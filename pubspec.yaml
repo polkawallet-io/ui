@@ -22,7 +22,7 @@ dependencies:
   flutter_screenutil: ^5.0.0+2
   scrollable_positioned_list: ^0.2.3
   flutter_swiper: ^1.1.6
-  simple_shadow: ^0.2.0
+  # simple_shadow: ^0.2.0
   polkawallet_sdk:
     path: ../sdk
 
