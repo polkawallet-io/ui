@@ -17,9 +17,9 @@ class TokenIcon extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(left: distance),
-              child: SizedBox(width: size, child: tokenIcons[pair[1]]),
+              child: TokenIcon(pair[1], tokenIcons, size: size),
             ),
-            SizedBox(width: size, child: tokenIcons[pair[0]])
+            TokenIcon(pair[0], tokenIcons, size: size)
           ],
         ),
         width: size + distance,

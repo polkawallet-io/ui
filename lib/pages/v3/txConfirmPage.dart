@@ -668,7 +668,13 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           Expanded(
                             child: Button(
                               submitting: _submitting,
-                              style: Theme.of(context).textTheme.headline3,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .textSelectionTheme
+                                          .selectionColor),
                               title: dic['cancel']!,
                               isBlueBg: false,
                               onPressed: () {
@@ -692,11 +698,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           ? dic['tx.qr']!
                                           // dicAcc['observe.invalid']
                                           : dic['tx.submit']!,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontFamily: "TitilliumWeb"),
+                                  style: Theme.of(context).textTheme.button,
                                   onPressed: !isNetworkMatch
                                       ? null
                                       : isUnsigned
