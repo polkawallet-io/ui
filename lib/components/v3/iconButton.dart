@@ -20,8 +20,8 @@ class IconButton extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.only(right: 1, bottom: 1),
               margin: margin,
-              width: 30.h,
-              height: 30.h,
+              width: 32.h,
+              height: 32.h,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(!isBlueBg

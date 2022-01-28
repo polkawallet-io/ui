@@ -488,23 +488,23 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           ),
                         ),
                         InnerShadowBGCar(
-                          padding: EdgeInsets.only(left: 16),
+                          padding: EdgeInsets.only(left: 16, right: 16),
                           child: Column(
                             children: [
                               isUnsigned
                                   ? Container()
                                   : Row(
                                       children: [
-                                        _ConfirmItemLabel(
-                                            text: dic["tx.from"] ?? ''),
+                                        Expanded(
+                                            child: _ConfirmItemLabel(
+                                                text: dic["tx.from"] ?? '')),
                                         AddressIcon(
                                           widget.keyring.current.address,
                                           svg: widget.keyring.current.icon,
+                                          size: 24,
                                         ),
-                                        Expanded(
-                                            child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: 8, right: 8),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 8),
                                           child: Text(
                                             Fmt.address(
                                                     widget.keyring.current
@@ -513,38 +513,39 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                                 '',
                                             style: itemContentStyle,
                                           ),
-                                        ))
+                                        )
                                       ],
                                     ),
                               Row(
                                 children: <Widget>[
-                                  _ConfirmItemLabel(
-                                      text: dic["tx.network"] ?? ''),
+                                  Expanded(
+                                      child: _ConfirmItemLabel(
+                                          text: dic["tx.network"] ?? '')),
                                   Visibility(
                                       visible: isNetworkConnected,
                                       child: Container(
                                           height: 44,
-                                          width: 32,
+                                          width: 24,
                                           margin: EdgeInsets.only(right: 8),
                                           child: widget.plugin.basic.icon)),
-                                  Expanded(
-                                      child: !isNetworkConnected
-                                          ? Text(
-                                              dic['tx.network.no']!,
-                                              style: itemContentStyle,
-                                            )
-                                          : Text(
-                                              widget.plugin.basic.name!,
-                                              style: itemContentStyle,
-                                            ))
+                                  !isNetworkConnected
+                                      ? Text(
+                                          dic['tx.network.no']!,
+                                          style: itemContentStyle,
+                                        )
+                                      : Text(
+                                          widget.plugin.basic.name!,
+                                          style: itemContentStyle,
+                                        )
                                 ],
                               ),
                               Visibility(
                                 visible: !isUnsigned && _fee != null,
                                 child: Row(
                                   children: <Widget>[
-                                    _ConfirmItemLabel(
-                                        text: dic["tx.fee"] ?? ''),
+                                    Expanded(
+                                        child: _ConfirmItemLabel(
+                                            text: dic["tx.fee"] ?? '')),
                                     Text(
                                       '${Fmt.balance(
                                         (_fee?.partialFee ?? 0).toString(),
@@ -604,7 +605,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   child: Row(
                                     children: [
                                       Text(
-                                          '${Fmt.token(_tipValue, decimals)} $symbol'),
+                                        '${Fmt.token(_tipValue, decimals)} $symbol',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .toggleableActiveColor),
+                                      ),
                                       Container(
                                         padding: EdgeInsets.only(left: 8),
                                         child: Icon(
