@@ -14,8 +14,10 @@ class Fmt {
     return DateFormat.yMd().add_Hm().format(time.toLocal());
   }
 
-  static String blockToTime(int? blocks, int blockDuration) {
+  static String blockToTime(int? blocks, int blockDuration,
+      {String locale = 'en'}) {
     if (blocks == null) return '~';
+    print(locale);
 
     final blocksOfMin = 60000 ~/ blockDuration;
     final blocksOfHour = 3600000 ~/ blockDuration;
@@ -25,12 +27,13 @@ class Fmt {
     final hour = (blocks % blocksOfDay / blocksOfHour).floor();
     final min = (blocks % blocksOfHour / blocksOfMin).floor();
 
-    String res = '$min mins';
+    String res = '$min ${locale.contains('zh') ? "分钟" : "mins"}';
 
     if (day > 0) {
-      res = '$day days $hour hrs';
+      res =
+          '$day ${locale.contains('zh') ? "天" : "days"} $hour ${locale.contains('zh') ? "小时" : "hrs"}';
     } else if (hour > 0) {
-      res = '$hour hrs $res';
+      res = '$hour ${locale.contains('zh') ? "小时" : "hrs"} $res';
     }
     return res;
   }

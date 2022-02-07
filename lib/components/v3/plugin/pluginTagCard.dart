@@ -3,13 +3,21 @@ import 'package:polkawallet_ui/components/v3/plugin/pluginTextTag.dart';
 
 class PluginTagCard extends StatelessWidget {
   const PluginTagCard(
-      {Key? key, this.margin, this.padding, this.titleTag, this.child})
+      {Key? key,
+      this.margin,
+      this.padding,
+      this.titleTag,
+      this.child,
+      this.radius = const Radius.circular(4),
+      this.backgroundColor = const Color(0x24FFFFFF)})
       : super(key: key);
 
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final String? titleTag;
   final Widget? child;
+  final Radius radius;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +34,11 @@ class PluginTagCard extends StatelessWidget {
           Container(
               padding: padding,
               decoration: BoxDecoration(
-                  color: Color(0x24FFFFFF),
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(4),
-                      topRight: Radius.circular(4),
-                      bottomRight: Radius.circular(4))),
+                  color: backgroundColor,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: this.radius,
+                      topRight: this.radius,
+                      bottomRight: this.radius)),
               child: child)
         ],
       ),

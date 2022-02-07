@@ -127,7 +127,7 @@ class PluginSliderTrackShape extends SliderTrackShape {
           bottomLeft: Radius.circular(2),
         ),
         Paint()
-          ..color = Colors.white
+          ..color = Colors.white.withAlpha(127)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.5);
 
@@ -159,7 +159,7 @@ class PluginSliderTrackShape extends SliderTrackShape {
           bottomRight: Radius.circular(2),
         ),
         Paint()
-          ..color = Colors.white
+          ..color = Colors.white.withAlpha(127)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.5);
   }

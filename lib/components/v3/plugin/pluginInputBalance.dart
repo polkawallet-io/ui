@@ -357,6 +357,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                         widget.balance!.symbol!,
                         widget.tokenIconsMap!,
                         isHighlighted: widget.enabled,
+                        isFold: true,
                       ),
                       textStyle: Theme.of(context)
                           .textTheme

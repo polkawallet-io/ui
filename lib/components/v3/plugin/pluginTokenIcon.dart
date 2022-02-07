@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 
 class PluginTokenIcon extends StatelessWidget {
   PluginTokenIcon(this.id, this.tokenIcons,
-      {this.size = 19, this.symbol, this.isHighlighted = true});
+      {this.size = 19,
+      this.symbol,
+      this.isHighlighted = true,
+      this.isFold = false});
   final String id;
   final String? symbol;
   final Map<String, Widget> tokenIcons;
   final double size;
   final bool isHighlighted;
+  final bool isFold;
   @override
   Widget build(BuildContext context) {
-    if (id.contains('-')) {
-      final pair = id.toUpperCase().split('-');
+    if (id.contains('-') && !isFold) {
+      final pair = id.replaceAll(" LP", "").toUpperCase().split('-');
       return Container(
         padding: EdgeInsets.all(1),
         decoration: BoxDecoration(
@@ -28,7 +32,23 @@ class PluginTokenIcon extends StatelessWidget {
         ),
         width: size * 2 + 4,
       );
+    } else if (id.contains('-')) {
+      final distance = size / 2;
+      final pair = id.replaceAll(" LP", "").toUpperCase().split('-');
+      return SizedBox(
+        child: Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: distance),
+              child: PluginTokenIcon(pair[1], tokenIcons, size: size),
+            ),
+            PluginTokenIcon(pair[0], tokenIcons, size: size)
+          ],
+        ),
+        width: size + distance,
+      );
     }
+
     return SizedBox(
         child: Stack(
           children: [
