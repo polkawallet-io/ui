@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BackBtn extends StatelessWidget {
   BackBtn({this.onBack, this.margin, Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class BackBtn extends StatelessWidget {
       child: Center(
         child: Image.asset(
           'packages/polkawallet_ui/assets/images/icon_back.png',
-          width: 30,
+          width: 32.w,
           fit: BoxFit.contain,
         ),
       ),

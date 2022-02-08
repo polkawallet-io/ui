@@ -13,26 +13,24 @@ class IconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: GestureDetector(
-            onTap: onPressed,
-            child: Container(
-              padding: EdgeInsets.only(right: 1, bottom: 1),
-              margin: margin,
-              width: 32.h,
-              height: 32.h,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(!isBlueBg
-                          ? "packages/polkawallet_ui/assets/images/icon_bg_grey.png"
-                          : "packages/polkawallet_ui/assets/images/icon_bg_blue.png"),
-                      fit: BoxFit.fill)),
-              child: Center(
-                child: icon,
-              ),
-            )),
-      ),
+    return Center(
+      child: GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            padding: EdgeInsets.only(right: 1, bottom: 1),
+            margin: margin,
+            width: 32.h,
+            height: 32.h,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(!isBlueBg
+                        ? "packages/polkawallet_ui/assets/images/icon_bg_grey.png"
+                        : "packages/polkawallet_ui/assets/images/icon_bg_blue.png"),
+                    fit: BoxFit.fill)),
+            child: Center(
+              child: icon,
+            ),
+          )),
     );
   }
 }
