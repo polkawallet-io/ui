@@ -28,6 +28,23 @@ class ScanPage extends StatelessWidget {
       String address = '';
       final String data = txt!.trim();
       if (data != null) {
+        if (data.contains("polkawallet.io")) {
+          final paths = data.toString().split("polkawallet.io");
+          Map<dynamic, dynamic> args = Map<dynamic, dynamic>();
+          if (paths.length > 1) {
+            final pathDatas = paths[1].split("?");
+            if (pathDatas.length > 1) {
+              final datas = pathDatas[1].split("&");
+              datas.forEach((element) {
+                args[element.split("=")[0]] =
+                    Uri.decodeComponent(element.split("=")[1]);
+              });
+            }
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(pathDatas[0], arguments: args);
+          }
+          return;
+        }
         List<String> ls = data.split(':');
 
         if (ls[0] == 'wc') {
