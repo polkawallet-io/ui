@@ -56,6 +56,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
   bool _hasFocus = false;
 
   _tokenChangeAction() async {
+    print(widget.marketPrices);
     final selected = await showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,

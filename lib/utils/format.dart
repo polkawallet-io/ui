@@ -269,7 +269,7 @@ class PriceFormatter {
       this.price = price;
       this.unit = '';
     } else {
-      for (int i = 1; i < suffix.length && price > 1000; price /= 1000, i++) {
+      for (int i = 1; i < suffix.length && price >= 1000; price /= 1000, i++) {
         this.price = price / 1000;
         this.unit = suffix[i];
       }
