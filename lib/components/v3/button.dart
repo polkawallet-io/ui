@@ -27,7 +27,7 @@ class Button extends StatelessWidget {
       onPressed: !submitting ? onPressed : null,
       child: BgContainer(
         double.infinity,
-        height: height ?? 54,
+        height: height ?? 48,
         isBlueBg: isBlueBg,
         alignment: Alignment.center,
         child: Row(
