@@ -11,13 +11,13 @@ class PluginPageTitleTaps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: names!.map(
         (title) {
           int index = names!.indexOf(title);
           return GestureDetector(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+              margin: EdgeInsets.only(right: 26),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(const Radius.circular(6)),
                 color:

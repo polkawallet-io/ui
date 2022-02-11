@@ -57,6 +57,7 @@ const Map<String, String> enCommon = {
   'amount.error': 'Invalid amount',
   'scan.help': 'Please put the QR code in the box',
   'balance': 'Balance',
+  'max': 'Max',
 };
 
 const Map<String, String> zhCommon = {
@@ -114,4 +115,5 @@ const Map<String, String> zhCommon = {
   'amount.error': '格式错误',
   'scan.help': '请将二维码置于方框中',
   'balance': '余额',
+  'max': '最大值',
 };

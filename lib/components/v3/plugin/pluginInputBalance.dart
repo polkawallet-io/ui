@@ -277,7 +277,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                       child: Padding(
                         padding: EdgeInsets.only(right: 6),
                         child: Text(
-                          "Max",
+                          dic['max']!,
                           style: Theme.of(context)
                               .textTheme
                               .headline5
