@@ -5,7 +5,7 @@ class RoundedPluginCard extends StatelessWidget {
       {this.margin,
       this.padding,
       this.child,
-      this.color = const Color(0x1FFFFFFF),
+      this.color = const Color(0xFF3A3D40),
       this.borderRadius = const BorderRadius.all(const Radius.circular(6)),
       Key? key})
       : super(key: key);

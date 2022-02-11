@@ -29,11 +29,11 @@ class RoundedCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Color(0x30000000),
-            blurRadius: 3.0, // has the effect of softening the shadow
-            spreadRadius: 1.0, // has the effect of extending the shadow
+            blurRadius: 2.0, // has the effect of softening the shadow
+            spreadRadius: 0.0, // has the effect of extending the shadow
             offset: Offset(
-              2.0, // horizontal, move right 10
-              2.0, // vertical, move down 10
+              1.0, // horizontal, move right 10
+              1.0, // vertical, move down 10
             ),
           )
         ],
