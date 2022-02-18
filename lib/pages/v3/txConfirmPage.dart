@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -18,6 +19,12 @@ import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/components/v3/collapsedContainer.dart';
 import 'package:polkawallet_ui/components/v3/innerShadow.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginButton.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginSliderThumbShape.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginSliderTrackShape.dart';
+import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
 import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
 import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/format.dart';
@@ -393,7 +400,385 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
     final itemContentStyle = TextStyle(
         fontFamily: 'TitilliumWeb',
-        color: Theme.of(context).unselectedWidgetColor);
+        color: args.isPlugin
+            ? Colors.white
+            : Theme.of(context).unselectedWidgetColor);
+    if (args.isPlugin) {
+      return WillPopScope(
+        child: PluginScaffold(
+          appBar: PluginAppBar(
+            title: Text(args.txTitle!),
+            centerTitle: true,
+            leading: PluginIconButton(
+                icon: SvgPicture.asset(
+                  "packages/polkawallet_ui/assets/images/icon_back_24.svg",
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  Navigator.of(context).pop();
+                }),
+          ),
+          body: SafeArea(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+                    children: <Widget>[
+                      // todo: social-recovery supporting paused for now
+                      // Visibility(
+                      //     visible: isKusama &&
+                      //         isObservation &&
+                      //         _recoveryInfo?.address != null,
+                      //     child: Padding(
+                      //       padding: EdgeInsets.only(left: 16, right: 16),
+                      //       child: Row(
+                      //         children: [
+                      //           TapTooltip(
+                      //             message: dic['tx.proxy.brief']!,
+                      //             child: Icon(Icons.info_outline, size: 16),
+                      //           ),
+                      //           Expanded(
+                      //             child: Padding(
+                      //               padding: EdgeInsets.only(left: 4),
+                      //               child: Text(dic['tx.proxy']!),
+                      //             ),
+                      //           ),
+                      //           CupertinoSwitch(
+                      //             value: _proxyAccount != null,
+                      //             onChanged: (res) => _onSwitch(res),
+                      //           )
+                      //         ],
+                      //       ),
+                      //     )),
+                      // _proxyAccount != null
+                      //     ? GestureDetector(
+                      //         child: Padding(
+                      //           padding: EdgeInsets.only(left: 16, right: 16),
+                      //           child: AddressFormItem(
+                      //             _proxyAccount,
+                      //             label: dicAcc["proxy"],
+                      //           ),
+                      //         ),
+                      //         onTap: () => _onSwitch(true),
+                      //       )
+                      //     : Container(),
+                      Column(
+                        children: [
+                          RoundedPluginCard(
+                            color: Color(0x24FFFFFF),
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10)),
+                            padding: EdgeInsets.all(16),
+                            margin: EdgeInsets.only(bottom: 24),
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ...args.txDisplayBold.keys.map((key) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      _ConfirmItemLabel(
+                                          text: key, isPlugin: true),
+                                      args.txDisplayBold[key] ?? Container(),
+                                    ],
+                                  );
+                                }).toList(),
+                                ...args.txDisplay.keys.map((key) {
+                                  final content =
+                                      args.txDisplay[key].runtimeType == String
+                                          ? args.txDisplay[key]
+                                          : jsonEncode(args.txDisplay[key]);
+                                  return Row(
+                                    children: [
+                                      _ConfirmItemLabel(
+                                          text: key, isPlugin: true),
+                                      Expanded(
+                                          child: Text(
+                                        content,
+                                        style: itemContentStyle,
+                                      )),
+                                    ],
+                                  );
+                                }).toList(),
+                              ],
+                            ),
+                          ),
+                          RoundedPluginCard(
+                            color: Color(0x24FFFFFF),
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10)),
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                isUnsigned
+                                    ? Container()
+                                    : Row(
+                                        children: [
+                                          Expanded(
+                                              child: _ConfirmItemLabel(
+                                            text: dic["tx.from"] ?? '',
+                                            isPlugin: true,
+                                          )),
+                                          AddressIcon(
+                                            widget.keyring.current.address,
+                                            svg: widget.keyring.current.icon,
+                                            size: 24,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 8),
+                                            child: Text(
+                                              Fmt.address(
+                                                      widget.keyring.current
+                                                          .address,
+                                                      pad: 8) ??
+                                                  '',
+                                              style: itemContentStyle,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: _ConfirmItemLabel(
+                                      text: dic["tx.network"] ?? '',
+                                      isPlugin: true,
+                                    )),
+                                    Visibility(
+                                        visible: isNetworkConnected,
+                                        child: Container(
+                                            height: 44,
+                                            width: 24,
+                                            margin: EdgeInsets.only(right: 8),
+                                            child: widget.plugin.basic.icon)),
+                                    !isNetworkConnected
+                                        ? Text(
+                                            dic['tx.network.no']!,
+                                            style: itemContentStyle,
+                                          )
+                                        : Text(
+                                            widget.plugin.basic.name!,
+                                            style: itemContentStyle,
+                                          )
+                                  ],
+                                ),
+                                Visibility(
+                                  visible: !isUnsigned && _fee != null,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: _ConfirmItemLabel(
+                                        text: dic["tx.fee"] ?? '',
+                                        isPlugin: true,
+                                      )),
+                                      Text(
+                                        '${Fmt.balance(
+                                          (_fee?.partialFee ?? 0).toString(),
+                                          decimals,
+                                          length: 6,
+                                        )} $symbol',
+                                        style: TextStyle(
+                                          fontFamily: 'TitilliumWeb',
+                                          color: Theme.of(context).errorColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Image.asset(
+                              "packages/polkawallet_ui/assets/images/divider.png")),
+                      CollapsedContainer(
+                        title: dic['tx.params'] ?? '',
+                        isPlugin: true,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${args.module}.${args.call}',
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.white),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 40),
+                              child: Text(
+                                args.rawParams != null
+                                    ? args.rawParams!
+                                    : JsonEncoder.withIndent('  ')
+                                        .convert(args.params),
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.white),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 16),
+                        child: CollapsedContainer(
+                          title: dicAcc['advanced'] ?? '',
+                          isPlugin: true,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 64,
+                                    child: Text(dic['tx.tip']!,
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                  TapTooltip(
+                                    message: dic['tx.tip.brief']!,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${Fmt.token(_tipValue, decimals)} $symbol',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8),
+                                          child: Icon(
+                                            Icons.info,
+                                            color: Colors.white,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text('0',
+                                      style: TextStyle(color: Colors.white)),
+                                  Expanded(
+                                    child: SliderTheme(
+                                        data: SliderThemeData(
+                                          trackHeight: 12,
+                                          activeTrackColor: Color(0xFFFF7849),
+                                          inactiveTrackColor:
+                                              Colors.transparent,
+                                          overlayColor: Colors.transparent,
+                                          trackShape:
+                                              const PluginSliderTrackShape(),
+                                          thumbShape:
+                                              const PluginSliderThumbShape(),
+                                        ),
+                                        child: Slider(
+                                          min: 0,
+                                          max: 19,
+                                          divisions: 19,
+                                          value: _tip,
+                                          onChanged: _submitting
+                                              ? null
+                                              : _onTipChanged,
+                                        )),
+                                  ),
+                                  Text('1',
+                                      style: TextStyle(color: Colors.white))
+                                ],
+                              )
+                            ],
+                          ),
+                          onCollapse: (collapsed) {
+                            if (!collapsed) {
+                              setState(() {
+                                _tip = 0;
+                                _tipValue = BigInt.zero;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                    visible: isNetworkConnected,
+                    child: Padding(
+                        padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: PluginButton(
+                                submitting: _submitting,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .textSelectionTheme
+                                            .selectionColor),
+                                title: dic['cancel']!,
+                                backgroundColor: Colors.white,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                            Container(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Builder(
+                                builder: (BuildContext context) {
+                                  return PluginButton(
+                                    submitting: _submitting,
+                                    title: isUnsigned
+                                        ? dic['tx.no.sign']!
+                                        : (isObservation &&
+                                                    _proxyAccount == null) ||
+                                                isProxyObservation
+                                            ? dic['tx.qr']!
+                                            // dicAcc['observe.invalid']
+                                            : dic['tx.submit']!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .button
+                                        ?.copyWith(color: Colors.black),
+                                    onPressed: !isNetworkMatch
+                                        ? null
+                                        : isUnsigned
+                                            ? () => _onSubmit(context)
+                                            : (isObservation &&
+                                                        _proxyAccount ==
+                                                            null) ||
+                                                    isProxyObservation
+                                                ? () => _onSubmit(context,
+                                                    viaQr: true)
+                                                : _submitting
+                                                    ? null
+                                                    : () => _showPasswordDialog(
+                                                        context),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        )))
+              ],
+            ),
+          ),
+        ),
+        onWillPop: () {
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          return Future.value(true);
+        },
+      );
+    }
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
@@ -737,13 +1122,17 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 }
 
 class _ConfirmItemLabel extends StatelessWidget {
-  _ConfirmItemLabel({required this.text});
+  _ConfirmItemLabel({required this.text, this.isPlugin = false});
   final String text;
+  final bool isPlugin;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 88,
-      child: Text(text, style: TextStyle(fontFamily: 'TitilliumWeb')),
+      child: Text(text,
+          style: TextStyle(
+              fontFamily: 'TitilliumWeb',
+              color: this.isPlugin ? Colors.white : null)),
       alignment: AlignmentDirectional.centerStart,
     );
   }

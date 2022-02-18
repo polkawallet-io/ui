@@ -4,10 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CollapsedContainer extends StatefulWidget {
-  CollapsedContainer({required this.child, this.title = '', this.onCollapse});
+  CollapsedContainer(
+      {required this.child,
+      this.title = '',
+      this.onCollapse,
+      this.isPlugin = false});
   final Widget child;
   final String title;
   final Function(bool)? onCollapse;
+  final bool isPlugin;
   @override
   _CollapsedContainerState createState() => _CollapsedContainerState();
 }
@@ -25,7 +30,10 @@ class _CollapsedContainerState extends State<CollapsedContainer> {
             children: <Widget>[
               Text(
                 widget.title,
-                style: TextStyle(fontFamily: 'TitilliumWeb'),
+                style: TextStyle(
+                    fontFamily: 'TitilliumWeb',
+                    color: widget.isPlugin ? Colors.white : null,
+                    fontWeight: widget.isPlugin ? FontWeight.w600 : null),
               ),
               Container(
                 padding: EdgeInsets.only(
@@ -38,7 +46,9 @@ class _CollapsedContainerState extends State<CollapsedContainer> {
                   child: Icon(
                     _collapsed ? Icons.arrow_forward_ios : Icons.arrow_back_ios,
                     size: 18,
-                    color: Theme.of(context).unselectedWidgetColor,
+                    color: widget.isPlugin
+                        ? Colors.white
+                        : Theme.of(context).unselectedWidgetColor,
                   ),
                 ),
               ),
