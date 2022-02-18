@@ -292,7 +292,6 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             ],
           ),
           Container(
-            // height: 48,
             padding: EdgeInsets.only(left: 8, right: 6, top: 5, bottom: 5),
             decoration: BoxDecoration(
                 color: Color(0x24FFFFFF),
@@ -314,10 +313,12 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           });
                         },
                         child: TextFormField(
+                          scrollPadding: EdgeInsets.zero,
                           cursorColor: Colors.blue,
                           enabled: widget.enabled,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,
+                            isDense: true,
                             hintText:
                                 '${dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
                             hintStyle: Theme.of(context)
@@ -330,12 +331,12 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                             border: InputBorder.none,
                             suffix: _hasFocus &&
                                     widget.inputCtrl!.text.isNotEmpty
-                                ? IconButton(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 4, 0),
-                                    icon: Icon(Icons.cancel,
-                                        size: 16, color: colorGray),
-                                    onPressed:
-                                        widget.onClear as void Function()?,
+                                ? GestureDetector(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(right: 4),
+                                        child: Icon(Icons.cancel,
+                                            size: 16, color: colorGray)),
+                                    onTap: widget.onClear as void Function()?,
                                   )
                                 : null,
                           ),
@@ -365,16 +366,18 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                       ),
                       Visibility(
                           visible: priceVisible,
-                          child: Text(
-                            '≈ \$ ${Fmt.priceFloor(price)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                ?.copyWith(
-                                    color: Colors.white,
-                                    height: 0.8,
-                                    fontWeight: FontWeight.w300),
-                          ))
+                          child: Padding(
+                              padding: EdgeInsets.only(top: 2),
+                              child: Text(
+                                '≈ \$ ${Fmt.priceFloor(price)}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(
+                                        color: Colors.white,
+                                        height: 0.8,
+                                        fontWeight: FontWeight.w300),
+                              )))
                     ])),
                 GestureDetector(
                   child: Container(
@@ -399,7 +402,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           ?.copyWith(
                               color: Color(0xFF212123),
                               fontWeight: FontWeight.w600),
-                      trailing: widget.onTokenChange != null
+                      trailing: widget.onTokenChange != null &&
+                              widget.enabled &&
+                              (widget.tokenOptions?.length ?? 0) > 0
                           ? Padding(
                               padding: EdgeInsets.only(left: 2),
                               child: SvgPicture.asset(
