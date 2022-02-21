@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/tapTooltip.dart';
 
 class PluginInfoItem extends StatelessWidget {
-  PluginInfoItem({
-    this.title,
-    this.content,
-    this.style,
-    this.titleStyle,
-    this.crossAxisAlignment,
-    this.flex = 1,
-    this.lowTitle = false,
-    this.titleToolTip,
-  });
+  PluginInfoItem(
+      {this.title,
+      this.content,
+      this.style,
+      this.titleStyle,
+      this.crossAxisAlignment,
+      this.flex = 1,
+      this.lowTitle = false,
+      this.titleToolTip,
+      this.contentCrossAxisAlignment});
   final String? title;
   final String? content;
   final TextStyle? style;
   final TextStyle? titleStyle;
   final CrossAxisAlignment? crossAxisAlignment;
+  final CrossAxisAlignment? contentCrossAxisAlignment;
   final int flex;
   final bool lowTitle;
   final String? titleToolTip;
@@ -67,7 +68,8 @@ class PluginInfoItem extends StatelessWidget {
         crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment:
+                contentCrossAxisAlignment ?? CrossAxisAlignment.center,
             children: lowTitle ? res.reversed.toList() : res,
           )
         ],
