@@ -9,6 +9,7 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
 import 'package:polkawallet_ui/components/addressFormItem.dart';
 import 'package:polkawallet_ui/components/infoItemRow.dart';
+import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
@@ -84,11 +85,13 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
     });
     return Scaffold(
       appBar: AppBar(
-          title: Text(dic[
-              args.msgType == WalletExtensionSignPage.signTypeExtrinsic
-                  ? 'submit.sign.tx'
-                  : 'submit.sign.msg']!),
-          centerTitle: true),
+        title: Text(dic[
+            args.msgType == WalletExtensionSignPage.signTypeExtrinsic
+                ? 'submit.sign.tx'
+                : 'submit.sign.msg']!),
+        centerTitle: true,
+        leading: BackBtn(),
+      ),
       body: SafeArea(
         child: Column(
           children: [
