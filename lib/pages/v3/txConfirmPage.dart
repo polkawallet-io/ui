@@ -51,7 +51,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   double _tip = 0;
   BigInt _tipValue = BigInt.zero;
   KeyPairData? _proxyAccount;
-  // RecoveryInfo? _recoveryInfo = RecoveryInfo();
 
   ui.Image? _image;
 
@@ -79,55 +78,22 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   Future<String> _getTxFee({bool reload = false}) async {
-    // if (_fee?.partialFee != null && !reload) {
-    //   return _fee!.partialFee.toString();
-    // }
-    // if (widget.plugin.basic.name == 'kusama' &&
-    //     (widget.keyring.current.observation ?? false)) {
-    //   final recoveryInfo = await widget.plugin.sdk.api.recovery
-    //       .queryRecoverable(widget.keyring.current.address!);
-    //   setState(() {
-    //     _recoveryInfo = recoveryInfo;
-    //   });
-    // }
-
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
     final txInfo =
         TxInfoData(args.module, args.call, sender, txName: args.txName);
-    // if (_proxyAccount != null) {
-    //   txInfo['proxy'] = _proxyAccount.pubKey;
-    // }
+
     final fee = await widget.plugin.sdk.api.tx
         .estimateFees(txInfo, args.params!, rawParam: args.rawParams);
-    setState(() {
-      _fee = fee;
-    });
+    if (mounted) {
+      setState(() {
+        _fee = fee;
+      });
+    }
     return fee.partialFee.toString();
   }
-
-  // Future<void> _onSwitch(bool value) async {
-  //   if (value) {
-  //     final accounts = widget.keyring.keyPairs.toList();
-  //     accounts.addAll(widget.keyring.externals);
-  //     final acc = await Navigator.of(context).pushNamed(
-  //       AccountListPage.route,
-  //       arguments: AccountListPageParams(list: accounts),
-  //     );
-  //     if (acc != null) {
-  //       setState(() {
-  //         _proxyAccount = acc as KeyPairData?;
-  //       });
-  //     }
-  //   } else {
-  //     setState(() {
-  //       _proxyAccount = null;
-  //     });
-  //   }
-  //   _getTxFee(reload: true);
-  // }
 
   void _onTxFinish(BuildContext context, Map? res, String? errorMsg) async {
     if (res != null) {
@@ -159,14 +125,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     }
   }
 
-  // Future<bool> _validateProxy() async {
-  //   List proxies = await (widget.plugin.sdk.api.recovery
-  //           .queryRecoveryProxies([_proxyAccount!.address!])
-  //       as FutureOr<List<dynamic>>);
-  //   print(proxies);
-  //   return proxies[0] == widget.keyring.current.address;
-  // }
-
   Future<void> _showPasswordDialog(BuildContext context) async {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final TxConfirmParams args =
@@ -178,32 +136,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         return;
       }
     }
-
-    // if (_proxyAccount != null && !(await _validateProxy())) {
-    //   showCupertinoDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return CupertinoAlertDialog(
-    //         title: Text(Fmt.address(widget.keyring.current.address)!),
-    //         content: Text(dic!['tx.proxy.invalid']!),
-    //         actions: <Widget>[
-    //           CupertinoButton(
-    //             child: Text(
-    //               dic['cancel']!,
-    //               style: TextStyle(
-    //                 color: Theme.of(context).unselectedWidgetColor,
-    //               ),
-    //             ),
-    //             onPressed: () {
-    //               Navigator.of(context).pop();
-    //             },
-    //           ),
-    //         ],
-    //       );
-    //     },
-    //   );
-    //   return;
-    // }
 
     final password = await widget.getPassword(
         context, _proxyAccount ?? widget.keyring.current);
@@ -426,44 +358,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                   child: ListView(
                     padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
                     children: <Widget>[
-                      // todo: social-recovery supporting paused for now
-                      // Visibility(
-                      //     visible: isKusama &&
-                      //         isObservation &&
-                      //         _recoveryInfo?.address != null,
-                      //     child: Padding(
-                      //       padding: EdgeInsets.only(left: 16, right: 16),
-                      //       child: Row(
-                      //         children: [
-                      //           TapTooltip(
-                      //             message: dic['tx.proxy.brief']!,
-                      //             child: Icon(Icons.info_outline, size: 16),
-                      //           ),
-                      //           Expanded(
-                      //             child: Padding(
-                      //               padding: EdgeInsets.only(left: 4),
-                      //               child: Text(dic['tx.proxy']!),
-                      //             ),
-                      //           ),
-                      //           CupertinoSwitch(
-                      //             value: _proxyAccount != null,
-                      //             onChanged: (res) => _onSwitch(res),
-                      //           )
-                      //         ],
-                      //       ),
-                      //     )),
-                      // _proxyAccount != null
-                      //     ? GestureDetector(
-                      //         child: Padding(
-                      //           padding: EdgeInsets.only(left: 16, right: 16),
-                      //           child: AddressFormItem(
-                      //             _proxyAccount,
-                      //             label: dicAcc["proxy"],
-                      //           ),
-                      //         ),
-                      //         onTap: () => _onSwitch(true),
-                      //       )
-                      //     : Container(),
                       Column(
                         children: [
                           RoundedPluginCard(
@@ -798,44 +692,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
                   children: <Widget>[
-                    // todo: social-recovery supporting paused for now
-                    // Visibility(
-                    //     visible: isKusama &&
-                    //         isObservation &&
-                    //         _recoveryInfo?.address != null,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.only(left: 16, right: 16),
-                    //       child: Row(
-                    //         children: [
-                    //           TapTooltip(
-                    //             message: dic['tx.proxy.brief']!,
-                    //             child: Icon(Icons.info_outline, size: 16),
-                    //           ),
-                    //           Expanded(
-                    //             child: Padding(
-                    //               padding: EdgeInsets.only(left: 4),
-                    //               child: Text(dic['tx.proxy']!),
-                    //             ),
-                    //           ),
-                    //           CupertinoSwitch(
-                    //             value: _proxyAccount != null,
-                    //             onChanged: (res) => _onSwitch(res),
-                    //           )
-                    //         ],
-                    //       ),
-                    //     )),
-                    // _proxyAccount != null
-                    //     ? GestureDetector(
-                    //         child: Padding(
-                    //           padding: EdgeInsets.only(left: 16, right: 16),
-                    //           child: AddressFormItem(
-                    //             _proxyAccount,
-                    //             label: dicAcc["proxy"],
-                    //           ),
-                    //         ),
-                    //         onTap: () => _onSwitch(true),
-                    //       )
-                    //     : Container(),
                     Column(
                       children: [
                         InnerShadowBGCar(
