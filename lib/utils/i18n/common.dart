@@ -58,6 +58,10 @@ const Map<String, String> enCommon = {
   'scan.help': 'Please put the QR code in the box',
   'balance': 'Balance',
   'max': 'Max',
+  'nominate.active': 'Active',
+  'nominate.over': 'Oversubscribed',
+  'nominate.inactive': 'Inactive',
+  'nominate.waiting': 'Waiting',
 };
 
 const Map<String, String> zhCommon = {
@@ -116,4 +120,8 @@ const Map<String, String> zhCommon = {
   'scan.help': '请将二维码置于方框中',
   'balance': '余额',
   'max': '最大值',
+  'nominate.active': '活跃',
+  'nominate.over': '超额认购',
+  'nominate.inactive': '不活跃',
+  'nominate.waiting': '等待',
 };
