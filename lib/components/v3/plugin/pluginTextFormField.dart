@@ -9,13 +9,19 @@ class PluginTextFormField extends StatelessWidget {
       this.inputFormatters,
       this.controller,
       this.padding,
-      this.validator});
+      this.validator,
+      this.focusNode,
+      this.onChanged,
+      this.suffix});
   final String? label;
   final String? hintText;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final EdgeInsetsGeometry? padding;
   final FormFieldValidator<String>? validator;
+  final FocusNode? focusNode;
+  final Function(String)? onChanged;
+  final Widget? suffix;
   @override
   Widget build(BuildContext context) {
     return PluginInputItem(
@@ -28,6 +34,7 @@ class PluginTextFormField extends StatelessWidget {
             hintText: hintText,
             hintStyle: Theme.of(context).textTheme.headline5?.copyWith(
                 color: Color(0xFFBCBCBC), fontWeight: FontWeight.w300),
+            suffixIcon: suffix,
           ),
           style: Theme.of(context)
               .textTheme
@@ -37,6 +44,8 @@ class PluginTextFormField extends StatelessWidget {
           controller: controller,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           validator: validator,
+          focusNode: focusNode,
+          onChanged: onChanged,
         ),
       ),
     );

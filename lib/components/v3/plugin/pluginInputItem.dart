@@ -8,13 +8,15 @@ class PluginInputItem extends StatelessWidget {
       this.labelBgColor,
       this.margin,
       required this.child,
-      this.bgHeight});
+      this.bgHeight,
+      this.bgColor});
   final String? label;
   final TextStyle? labelStyle;
   final Color? labelBgColor;
   final EdgeInsetsGeometry? margin;
   final Widget child;
   final double? bgHeight;
+  final Color? bgColor;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +28,7 @@ class PluginInputItem extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   title: label!,
                   style: labelStyle,
-                  backgroundColor: labelBgColor ?? Color(0xFFFFFFFF),
+                  backgroundColor: labelBgColor,
                 )
               : Container(),
           Stack(
@@ -35,8 +37,9 @@ class PluginInputItem extends StatelessWidget {
                 width: double.infinity,
                 height: bgHeight ?? 52,
                 decoration: BoxDecoration(
-                    color: Color(0x24FFFFFF),
+                    color: bgColor ?? Color(0x24FFFFFF),
                     borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(label == null ? 6 : 0),
                         bottomLeft: Radius.circular(6),
                         topRight: Radius.circular(6),
                         bottomRight: Radius.circular(6))),
