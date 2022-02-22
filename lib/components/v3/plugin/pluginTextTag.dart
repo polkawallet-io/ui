@@ -10,6 +10,7 @@ class PluginTextTag extends StatelessWidget {
       this.style,
       this.backgroundColor,
       this.child,
+      this.height = 25,
       Key? key})
       : super(key: key);
   final String title;
@@ -18,6 +19,7 @@ class PluginTextTag extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final Widget? child;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class PluginTextTag extends StatelessWidget {
       child: TagBgContainer(
         margin: margin,
         padding: padding,
-        height: 25,
+        height: height,
         backgroundColor: backgroundColor,
         child: child ??
             Text(
