@@ -11,6 +11,7 @@ class PluginOutlinedButtonSmall extends StatelessWidget {
       this.onPressed,
       this.activeTextcolor,
       this.unActiveTextcolor,
+      this.minSize = 33,
       this.fontSize});
   final String? content;
   final bool active;
@@ -21,6 +22,7 @@ class PluginOutlinedButtonSmall extends StatelessWidget {
   final EdgeInsets? padding;
   final Function? onPressed;
   final double? fontSize;
+  final double? minSize;
   @override
   Widget build(BuildContext context) {
     final bgColor =
@@ -34,7 +36,7 @@ class PluginOutlinedButtonSmall extends StatelessWidget {
             onPressed: onPressed as void Function()?,
             color: bgColor,
             disabledColor: Color(0xFF737675),
-            minSize: 33,
+            minSize: minSize,
             borderRadius: BorderRadius.all(Radius.circular(6)),
             padding: padding ?? EdgeInsets.zero,
             child: Text(

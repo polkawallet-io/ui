@@ -294,7 +294,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
           Container(
             padding: EdgeInsets.only(left: 8, right: 6, top: 5, bottom: 5),
             decoration: BoxDecoration(
-                color: Color(0x24FFFFFF),
+                color: Color(_hasFocus ? 0x4cFFFFFF : 0x24FFFFFF),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(widget.titleTag != null ? 0 : 6),
                     bottomLeft: Radius.circular(6),

@@ -9,6 +9,7 @@ class PluginTextTag extends StatelessWidget {
       this.title = "",
       this.style,
       this.backgroundColor,
+      this.child,
       Key? key})
       : super(key: key);
   final String title;
@@ -16,6 +17,7 @@ class PluginTextTag extends StatelessWidget {
   final Color? backgroundColor;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,13 @@ class PluginTextTag extends StatelessWidget {
         padding: padding,
         height: 25,
         backgroundColor: backgroundColor,
-        child: Text(
-          title,
-          style: style ??
-              Theme.of(context).textTheme.headline4?.copyWith(
-                  fontWeight: FontWeight.w600, color: Color(0xFF212123)),
-        ),
+        child: child ??
+            Text(
+              title,
+              style: style ??
+                  Theme.of(context).textTheme.headline4?.copyWith(
+                      fontWeight: FontWeight.w600, color: Color(0xFF212123)),
+            ),
       ),
     );
   }
