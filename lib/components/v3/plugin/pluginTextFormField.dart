@@ -12,7 +12,8 @@ class PluginTextFormField extends StatelessWidget {
       this.validator,
       this.focusNode,
       this.onChanged,
-      this.suffix});
+      this.suffix,
+      this.keyboardType});
   final String? label;
   final String? hintText;
   final List<TextInputFormatter>? inputFormatters;
@@ -22,6 +23,7 @@ class PluginTextFormField extends StatelessWidget {
   final FocusNode? focusNode;
   final Function(String)? onChanged;
   final Widget? suffix;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
     return PluginInputItem(
@@ -42,7 +44,7 @@ class PluginTextFormField extends StatelessWidget {
               ?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
           inputFormatters: inputFormatters,
           controller: controller,
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
+          keyboardType: keyboardType,
           validator: validator,
           focusNode: focusNode,
           onChanged: onChanged,

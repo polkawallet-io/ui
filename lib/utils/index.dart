@@ -73,7 +73,7 @@ class UI {
                     : Icon(
                         Icons.remove_circle,
                         size: 16,
-                        color: Colors.black12,
+                        color: Colors.grey,
                       ),
               )
             : Container(width: 1, height: 2),

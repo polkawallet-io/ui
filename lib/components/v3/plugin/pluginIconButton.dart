@@ -13,19 +13,19 @@ class PluginIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-            child: GestureDetector(
-                onTap: onPressed,
-                child: Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        const BorderRadius.all(const Radius.circular(8)),
-                    color: this.color,
-                  ),
-                  child: icon,
-                ))));
+    return GestureDetector(
+      onTap: onPressed,
+      child: Center(
+        child: Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(const Radius.circular(8)),
+            color: this.color,
+          ),
+          child: icon,
+        ),
+      ),
+    );
   }
 }

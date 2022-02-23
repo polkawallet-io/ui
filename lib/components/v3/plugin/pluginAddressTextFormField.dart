@@ -161,7 +161,7 @@ class _PluginAddressTextFormFieldState
           : PluginTextFormField(
               controller: _controller,
               focusNode: _commentFocus,
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding: EdgeInsets.fromLTRB(8, 2, 4, 2),
               suffix: GestureDetector(
                 onTap: () async {
                   var res = await Navigator.of(context).pushNamed(
@@ -174,7 +174,7 @@ class _PluginAddressTextFormFieldState
                   }
                 },
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(4, 10, 4, 10),
+                  padding: EdgeInsets.fromLTRB(4, 10, 0, 10),
                   child: SvgPicture.asset(
                     "packages/polkawallet_ui/assets/images/icon_user.svg",
                     color: PluginColorsDark.headline2,
