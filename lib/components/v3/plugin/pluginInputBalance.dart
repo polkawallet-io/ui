@@ -29,6 +29,7 @@ class PluginInputBalance extends StatefulWidget {
       this.marketPrices,
       this.tokenSelectTitle,
       this.tokenOptions,
+      this.tokenViewFunction,
       this.text})
       : super(key: key);
   final String? titleTag;
@@ -41,6 +42,7 @@ class PluginInputBalance extends StatefulWidget {
   final Function? onClear;
   final Function(String)? onInputChange;
   final Function(BigInt)? onSetMax;
+  final String Function(String)? tokenViewFunction;
   final Color tokenBgColor;
   final Map<String?, double>? marketPrices;
   final String? tokenSelectTitle;
@@ -146,7 +148,10 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                       child: GestureDetector(
                                         child: ListTile(
                                           title: CurrencyWithIcon(
-                                            symbol,
+                                            widget.tokenViewFunction != null
+                                                ? widget
+                                                    .tokenViewFunction!(symbol)
+                                                : symbol,
                                             PluginTokenIcon(
                                               symbol,
                                               widget.tokenIconsMap!,
@@ -389,7 +394,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(3))),
                     child: PluginCurrencyWithIcon(
-                      widget.balance!.symbol!,
+                      widget.tokenViewFunction != null
+                          ? widget.tokenViewFunction!(widget.balance!.symbol!)
+                          : widget.balance!.symbol!,
                       PluginTokenIcon(
                         widget.balance!.symbol!,
                         widget.tokenIconsMap!,
