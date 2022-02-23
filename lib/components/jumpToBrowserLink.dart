@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class JumpToBrowserLink extends StatefulWidget {
-  JumpToBrowserLink(this.url, {this.text, this.mainAxisAlignment});
+  JumpToBrowserLink(this.url, {this.text, this.mainAxisAlignment, this.color});
 
   final String? text;
   final String url;
   final MainAxisAlignment? mainAxisAlignment;
+  final Color? color;
 
   @override
   _JumpToBrowserLinkState createState() => _JumpToBrowserLinkState();
@@ -26,11 +27,12 @@ class _JumpToBrowserLinkState extends State<JumpToBrowserLink> {
               padding: EdgeInsets.only(right: 4),
               child: Text(
                 widget.text ?? widget.url,
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(
+                    color: widget.color ?? Theme.of(context).primaryColor),
               ),
             ),
             Icon(Icons.open_in_new,
-                size: 16, color: Theme.of(context).primaryColor)
+                size: 16, color: widget.color ?? Theme.of(context).primaryColor)
           ],
         ),
         onTap: () {

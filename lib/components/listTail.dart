@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginLoadingWidget.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class ListTail extends StatelessWidget {
@@ -26,7 +27,7 @@ class ListTail extends StatelessWidget {
                           fontSize: 16,
                           color: color ?? Theme.of(context).disabledColor),
                     )
-                  : CupertinoActivityIndicator()
+                  : PluginLoadingWidget()
               : Text(
                   isEmpty! ? dic!['list.empty']! : dic!['list.end']!,
                   style: TextStyle(
