@@ -19,7 +19,7 @@ class _PluginTabCardState extends State<PluginTabCard> {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        height: 26,
+        height: 28,
         margin: widget.margin,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -38,7 +38,7 @@ class _PluginTabCardState extends State<PluginTabCard> {
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF212123),
                     fontSize: widget.initIndex == index ? 16 : 14),
-                height: widget.initIndex == index ? 26 : 23,
+                height: widget.initIndex == index ? 28 : 25,
                 backgroundColor: widget.initIndex == index
                     ? Color(0xCCFFFFFF)
                     : Color(0x80FFFFFF),

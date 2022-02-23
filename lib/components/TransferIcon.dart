@@ -27,11 +27,13 @@ class TransferIcon extends StatelessWidget {
       {Key? key,
       this.size = 32,
       this.type = TransferIconType.rollIn,
-      this.bgColor = const Color(0xFFE9E9E9)})
+      this.bgColor = const Color(0xFFE9E9E9),
+      this.iconColor})
       : super(key: key);
   final double size;
   final TransferIconType type;
   final Color bgColor;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class TransferIcon extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(8.r))),
           child: SvgPicture.asset(
             getIconImage(type),
-            color: getIconColor(type, context),
+            color: iconColor ?? getIconColor(type, context),
           )),
     );
   }

@@ -12,7 +12,8 @@ class PluginInfoItem extends StatelessWidget {
       this.flex = 1,
       this.lowTitle = false,
       this.titleToolTip,
-      this.contentCrossAxisAlignment});
+      this.contentCrossAxisAlignment,
+      this.isExpanded = true});
   final String? title;
   final String? content;
   final TextStyle? style;
@@ -22,6 +23,7 @@ class PluginInfoItem extends StatelessWidget {
   final int flex;
   final bool lowTitle;
   final String? titleToolTip;
+  final bool isExpanded;
   @override
   Widget build(BuildContext context) {
     final textStyle = style ??
@@ -62,18 +64,31 @@ class PluginInfoItem extends StatelessWidget {
     if (lowTitle) {
       res.reversed;
     }
-    return Expanded(
-      flex: flex,
-      child: Column(
-        crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment:
-                contentCrossAxisAlignment ?? CrossAxisAlignment.center,
-            children: lowTitle ? res.reversed.toList() : res,
+    return isExpanded
+        ? Expanded(
+            flex: flex,
+            child: Column(
+              crossAxisAlignment:
+                  crossAxisAlignment ?? CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment:
+                      contentCrossAxisAlignment ?? CrossAxisAlignment.center,
+                  children: lowTitle ? res.reversed.toList() : res,
+                )
+              ],
+            ),
           )
-        ],
-      ),
-    );
+        : Container(
+            child: Column(
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment:
+                    contentCrossAxisAlignment ?? CrossAxisAlignment.center,
+                children: lowTitle ? res.reversed.toList() : res,
+              )
+            ],
+          ));
   }
 }

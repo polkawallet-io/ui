@@ -36,13 +36,11 @@ class UI {
         '${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
   }
 
-  static Widget accountDisplayName(
-    String? address,
-    Map? accInfo, {
-    bool expand = true,
-    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-    Color textColor = const Color(0xFF565554),
-  }) {
+  static Widget accountDisplayName(String? address, Map? accInfo,
+      {bool expand = true,
+      MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+      Color textColor = const Color(0xFF565554),
+      TextStyle? style}) {
     bool hasId = false;
     bool good = false;
     if (accInfo != null) {
@@ -81,19 +79,21 @@ class UI {
             ? Expanded(
                 child: Text(accountDisplayNameString(address, accInfo)!,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: "TitilliumWeb",
-                        fontWeight: FontWeight.w400,
-                        color: textColor)),
+                    style: style ??
+                        TextStyle(
+                            fontSize: 12,
+                            fontFamily: "TitilliumWeb",
+                            fontWeight: FontWeight.w400,
+                            color: textColor)),
               )
             : Text(accountDisplayNameString(address, accInfo)!,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: "TitilliumWeb",
-                    fontWeight: FontWeight.w400,
-                    color: textColor))
+                style: style ??
+                    TextStyle(
+                        fontSize: 12,
+                        fontFamily: "TitilliumWeb",
+                        fontWeight: FontWeight.w400,
+                        color: textColor))
       ],
     );
   }
