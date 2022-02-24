@@ -7,7 +7,7 @@ class PluginColorsLight {
 }
 
 class PluginColorsDark {
-  static final primary = Color(0xFFFC8156);
+  static final primary = Color(0xFFFF7849);
   static final headline1 = Colors.white;
   static final headline2 = Color(0xCCFFFFFF);
   static final headline3 = Color(0x88FFFFFF);

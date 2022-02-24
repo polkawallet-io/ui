@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="8px" height="25px" viewBox="0 0 8 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="10px" height="26px" viewBox="0 0 10 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>画板</title>
-    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.8">
-        <g id="画板" transform="translate(-130.000000, -6.000000)" fill="#FFFFFF">
-            <path d="M138,13.5 L138,31 L9,31 L9,6 L130.5,6 M130.5,6 L138,13.5" id="形状结合"></path>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-5备份" transform="translate(-64.000000, -3.000000)" filter="url(#filter-1)">
+            <g transform="translate(4.000000, 3.000000)">
+                <polygon id="形状结合" fill="#FFFFFF" points="70 8 70 26 0 26 0 0 60 0"></polygon>
+            </g>
         </g>
     </g>
 </svg>
