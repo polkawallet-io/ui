@@ -140,7 +140,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
               if (_controller.text.trim().isNotEmpty) {
                 final data = await _getAccountFromInput(_controller.text);
                 setState(() {
-                  validatorError = data == null ? dic!['amount.error'] : null;
+                  validatorError = data == null ? dic!['address.error'] : null;
                 });
                 if (data != null && widget.onChanged != null) {
                   widget.onChanged!(data);

@@ -13,7 +13,8 @@ class PluginTextFormField extends StatelessWidget {
       this.focusNode,
       this.onChanged,
       this.suffix,
-      this.keyboardType});
+      this.keyboardType,
+      this.autovalidateMode});
   final String? label;
   final String? hintText;
   final List<TextInputFormatter>? inputFormatters;
@@ -24,6 +25,7 @@ class PluginTextFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final Widget? suffix;
   final TextInputType? keyboardType;
+  final AutovalidateMode? autovalidateMode;
   @override
   Widget build(BuildContext context) {
     return PluginInputItem(
@@ -48,6 +50,7 @@ class PluginTextFormField extends StatelessWidget {
           validator: validator,
           focusNode: focusNode,
           onChanged: onChanged,
+          autovalidateMode: autovalidateMode,
         ),
       ),
     );

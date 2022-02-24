@@ -132,7 +132,7 @@ class _PluginAddressTextFormFieldState
           if (_controller.text.trim().isNotEmpty) {
             final data = await _getAccountFromInput(_controller.text);
             setState(() {
-              validatorError = data == null ? dic!['amount.error'] : null;
+              validatorError = data == null ? dic!['address.error'] : null;
             });
             if (data != null && widget.onChanged != null) {
               widget.onChanged!(data);
@@ -189,6 +189,7 @@ class _PluginAddressTextFormFieldState
                   });
                 }
               },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value!.trim().length > 0) {
                   return validatorError;
