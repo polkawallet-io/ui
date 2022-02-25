@@ -37,7 +37,10 @@ class AccountInfo extends StatelessWidget {
               Container(
                 width: 80,
                 child: Text(k,
-                    style: TextStyle(color: isPlugin ? Colors.white : null)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        ?.copyWith(color: isPlugin ? Colors.white : null)),
               ),
               Expanded(
                   child: Text(content!,
@@ -58,50 +61,61 @@ class AccountInfo extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16, bottom: 8),
-          child: AddressIcon(address, svg: icon),
-        ),
-        Visibility(
-            visible: accInfo != null,
-            child: Text(accInfo?['accountIndex'] ?? '',
-                style: TextStyle(color: isPlugin ? Colors.white : null))),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            UI.accountDisplayName(address, accInfo,
-                expand: false,
-                textColor: isPlugin ? Colors.white : Color(0xFF565554))
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.only(bottom: 16, top: 8),
-          child: Text(Fmt.address(address)!,
-              style: TextStyle(color: isPlugin ? Colors.white : null)),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: JumpToBrowserLink(
-                'https://polkascan.io/$network/account/$address',
-                text: 'Polkascan',
-                color: isPlugin ? PluginColorsDark.primary : null,
+        Container(
+          color: Color(0x0FFFFFFF),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 16, bottom: 8),
+                child: AddressIcon(address, svg: icon),
               ),
-            ),
-            JumpToBrowserLink(
-              'https://$network.subscan.io/account/$address',
-              text: 'Subscan',
-              color: isPlugin ? PluginColorsDark.primary : null,
-            ),
-            Visibility(
-                visible: charts != null,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: charts ?? Container(),
-                ))
-          ],
+              Visibility(
+                  visible: accInfo != null,
+                  child: Text(accInfo?['accountIndex'] ?? '',
+                      style: TextStyle(color: isPlugin ? Colors.white : null))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  UI.accountDisplayName(address, accInfo,
+                      expand: false,
+                      textColor: isPlugin ? Colors.white : Color(0xFF565554))
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16, top: 8),
+                child: Text(Fmt.address(address)!,
+                    style: TextStyle(
+                        color: isPlugin ? Colors.white : null, fontSize: 14)),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 16),
+                      child: JumpToBrowserLink(
+                        'https://polkascan.io/$network/account/$address',
+                        text: 'Polkascan',
+                        color: isPlugin ? PluginColorsDark.primary : null,
+                      ),
+                    ),
+                    JumpToBrowserLink(
+                      'https://$network.subscan.io/account/$address',
+                      text: 'Subscan',
+                      color: isPlugin ? PluginColorsDark.primary : null,
+                    ),
+                    Visibility(
+                        visible: charts != null,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16),
+                          child: charts ?? Container(),
+                        ))
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
         Visibility(
             visible: accInfo != null,

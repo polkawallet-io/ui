@@ -28,11 +28,12 @@ class _JumpToBrowserLinkState extends State<JumpToBrowserLink> {
               child: Text(
                 widget.text ?? widget.url,
                 style: TextStyle(
-                    color: widget.color ?? Theme.of(context).primaryColor),
+                    color: widget.color ?? Theme.of(context).primaryColor,
+                    fontSize: 14),
               ),
             ),
             Icon(Icons.open_in_new,
-                size: 16, color: widget.color ?? Theme.of(context).primaryColor)
+                size: 14, color: widget.color ?? Theme.of(context).primaryColor)
           ],
         ),
         onTap: () {
