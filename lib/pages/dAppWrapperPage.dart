@@ -37,8 +37,13 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               style: TextStyle(fontSize: 16),
             ),
             leading: BackBtn(
-              onBack: () {
-                _controller?.goBack();
+              onBack: () async {
+                final canGoBack = await _controller?.canGoBack();
+                if (canGoBack ?? false) {
+                  _controller?.goBack();
+                } else {
+                  Navigator.of(context).pop();
+                }
               },
             ),
             actions: [
