@@ -32,6 +32,7 @@ class PluginTagCard extends StatelessWidget {
             backgroundColor: Color(0xCCFFFFFF),
           ),
           Container(
+              width: double.infinity,
               padding: padding,
               decoration: BoxDecoration(
                   color: backgroundColor,
