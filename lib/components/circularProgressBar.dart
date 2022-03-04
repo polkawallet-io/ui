@@ -33,7 +33,8 @@ class CircularProgressBar extends CustomPainter {
       startAngle: 0,
       endAngle: 2 * pi,
       colors: lineColor,
-      transform: GradientRotation(this.startAngle - 0.2 * pi),
+      transform: GradientRotation(
+          this.startAngle - ((1 - progress) < 0.05 ? 0 : 0.05 * pi)),
     ).createShader(
       Rect.fromCircle(center: center, radius: radius),
     );
