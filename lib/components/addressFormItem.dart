@@ -20,7 +20,7 @@ class AddressFormItem extends StatelessWidget {
   final bool isShowSubtitle;
   final KeyPairData? account;
   final Future<void> Function()? onTap;
-  Color? color;
+  final Color? color;
   final double borderWidth;
   final double imageRight;
   final EdgeInsetsGeometry? margin;
