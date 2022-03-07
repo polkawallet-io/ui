@@ -162,6 +162,7 @@ class _PluginAddressTextFormFieldState
               controller: _controller,
               focusNode: _commentFocus,
               padding: EdgeInsets.fromLTRB(8, 2, 4, 2),
+              label: widget.labelText,
               suffix: GestureDetector(
                 onTap: () async {
                   var res = await Navigator.of(context).pushNamed(
