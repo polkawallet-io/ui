@@ -426,10 +426,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                             margin: EdgeInsets.only(left: 8),
                                             child: Text(
                                               Fmt.address(
-                                                      widget.keyring.current
-                                                          .address,
-                                                      pad: 8) ??
-                                                  '',
+                                                  widget
+                                                      .keyring.current.address,
+                                                  pad: 8),
                                               style: itemContentStyle,
                                             ),
                                           )
@@ -748,10 +747,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           margin: EdgeInsets.only(left: 8),
                                           child: Text(
                                             Fmt.address(
-                                                    widget.keyring.current
-                                                        .address,
-                                                    pad: 8) ??
-                                                '',
+                                                widget.keyring.current.address,
+                                                pad: 8),
                                             style: itemContentStyle,
                                           ),
                                         )

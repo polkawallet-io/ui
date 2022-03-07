@@ -146,7 +146,7 @@ class TxDetail extends StatelessWidget {
               visible: hash != null,
               child: TxDetailItem(
                   TxDetailInfoItem(
-                      label: 'Hash', content: Text(Fmt.address(hash) ?? '')),
+                      label: 'Hash', content: Text(Fmt.address(hash))),
                   labelStyle)),
         ],
       ),

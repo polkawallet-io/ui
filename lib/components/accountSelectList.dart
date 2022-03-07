@@ -19,7 +19,7 @@ class AccountSelectList extends StatelessWidget {
         return ListTile(
           leading: AddressIcon(i.address, svg: i.icon),
           title: Text(UI.accountName(context, i)),
-          subtitle: Text(Fmt.address(i.address)!),
+          subtitle: Text(Fmt.address(i.address)),
           trailing: Icon(Icons.arrow_forward_ios, size: 16),
           onTap: () => Navigator.of(context).pop(i),
         );

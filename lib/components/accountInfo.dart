@@ -43,7 +43,7 @@ class AccountInfo extends StatelessWidget {
                         ?.copyWith(color: isPlugin ? Colors.white : null)),
               ),
               Expanded(
-                  child: Text(content!,
+                  child: Text(content,
                       style: TextStyle(color: isPlugin ? Colors.white : null))),
             ],
           ));
@@ -83,7 +83,7 @@ class AccountInfo extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 16, top: 8),
-                child: Text(Fmt.address(address)!,
+                child: Text(Fmt.address(address),
                     style: TextStyle(
                         color: isPlugin ? Colors.white : null, fontSize: 14)),
               ),

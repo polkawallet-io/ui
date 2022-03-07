@@ -28,7 +28,7 @@ class AccountSelectList extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline5,
               ),
               subtitle: Text(
-                Fmt.address(i.address)!,
+                Fmt.address(i.address),
                 style: Theme.of(context)
                     .textTheme
                     .headline5

@@ -47,7 +47,7 @@ class PluginAddressFormItem extends StatelessWidget {
                           color: Color(0xCCFFFFFF)),
                     ),
                     Text(
-                      Fmt.address(account.address)!,
+                      Fmt.address(account.address),
                       style: TextStyle(fontSize: 12, color: Color(0xCCFFFFFF)),
                     )
                   ],

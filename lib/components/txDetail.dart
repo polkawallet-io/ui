@@ -128,7 +128,7 @@ class TxDetail extends StatelessWidget {
               child: TxDetailItem(TxDetailInfoItem(
                   label: 'Block', content: Text('#$blockNum')))),
           TxDetailItem(TxDetailInfoItem(
-              label: 'Hash', content: Text(Fmt.address(hash)!))),
+              label: 'Hash', content: Text(Fmt.address(hash)))),
           Padding(
             padding: EdgeInsets.only(top: 8, bottom: 8),
             child: Row(

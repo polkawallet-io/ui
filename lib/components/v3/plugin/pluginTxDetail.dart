@@ -159,7 +159,7 @@ class PluginTxDetail extends StatelessWidget {
               child: TxDetailItem(
                   TxDetailInfoItem(
                       label: 'Hash',
-                      content: Text(Fmt.address(hash) ?? '',
+                      content: Text(Fmt.address(hash),
                           style: TextStyle(color: Colors.white))),
                   labelStyle)),
         ],

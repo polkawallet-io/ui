@@ -133,11 +133,11 @@ class _AddressInputFieldState extends State<AddressInputField> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(Fmt.address(item.address)!),
+                Text(Fmt.address(item.address)),
                 Text(
                   item.name != null && item.name!.isNotEmpty
                       ? item.name!
-                      : UI.accountDisplayNameString(item.address, accInfo)!,
+                      : UI.accountDisplayNameString(item.address, accInfo),
                   style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).unselectedWidgetColor,
@@ -166,11 +166,11 @@ class _AddressInputFieldState extends State<AddressInputField> {
       child: ListTile(
         selected: isSelected,
         dense: true,
-        title: Text(Fmt.address(item.address)!),
+        title: Text(Fmt.address(item.address)),
         subtitle: Text(
           item.name != null && item.name!.isNotEmpty
               ? item.name!
-              : UI.accountDisplayNameString(item.address, accInfo)!,
+              : UI.accountDisplayNameString(item.address, accInfo),
         ),
         leading: AddressIcon(
           item.address,

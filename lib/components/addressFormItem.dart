@@ -70,7 +70,7 @@ class AddressFormItem extends StatelessWidget {
                     Visibility(
                         visible: isShowSubtitle,
                         child: Text(
-                          Fmt.address(account!.address)!,
+                          Fmt.address(account!.address),
                           style: TextStyle(fontSize: 14, color: color ?? grey),
                         ))
                   ],

@@ -148,7 +148,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
-            title: Text(Fmt.address(widget.keyring.current.address)!),
+            title: Text(Fmt.address(widget.keyring.current.address)),
             content: Text(dic!['tx.proxy.invalid']!),
             actions: <Widget>[
               CupertinoButton(
