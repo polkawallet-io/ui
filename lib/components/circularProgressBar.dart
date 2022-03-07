@@ -23,7 +23,7 @@ class CircularProgressBar extends CustomPainter {
         min(size.width / 2 - width / 2, size.height / 2 - width / 2);
 
     var paint = Paint()
-      ..strokeCap = StrokeCap.round
+      ..strokeCap = (1 - progress) <= 0.04 ? StrokeCap.butt : StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..style = PaintingStyle.stroke
       ..isAntiAlias = true
@@ -34,7 +34,7 @@ class CircularProgressBar extends CustomPainter {
       endAngle: 2 * pi,
       colors: lineColor,
       transform: GradientRotation(
-          this.startAngle - ((1 - progress) < 0.05 ? 0 : 0.05 * pi)),
+          this.startAngle - ((1 - progress) <= 0.04 ? 0 : 0.05 * pi)),
     ).createShader(
       Rect.fromCircle(center: center, radius: radius),
     );
