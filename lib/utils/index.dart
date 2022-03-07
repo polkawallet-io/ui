@@ -77,7 +77,7 @@ class UI {
             : Container(width: 1, height: 2),
         expand
             ? Expanded(
-                child: Text(accountDisplayNameString(address, accInfo)!,
+                child: Text(accountDisplayNameString(address, accInfo),
                     overflow: TextOverflow.ellipsis,
                     style: style ??
                         TextStyle(
@@ -86,7 +86,7 @@ class UI {
                             fontWeight: FontWeight.w400,
                             color: textColor)),
               )
-            : Text(accountDisplayNameString(address, accInfo)!,
+            : Text(accountDisplayNameString(address, accInfo),
                 overflow: TextOverflow.ellipsis,
                 style: style ??
                     TextStyle(
@@ -98,9 +98,9 @@ class UI {
     );
   }
 
-  static String? accountDisplayNameString(String? address, Map? accInfo,
+  static String accountDisplayNameString(String? address, Map? accInfo,
       [String? localName]) {
-    String? display = localName?.toUpperCase() ?? Fmt.address(address, pad: 6);
+    String display = localName?.toUpperCase() ?? Fmt.address(address, pad: 6);
     if (accInfo != null) {
       if (accInfo['identity']['display'] != null) {
         display = accInfo['identity']['display'];
@@ -108,7 +108,7 @@ class UI {
           display = '${accInfo['identity']['displayParent']}/$display';
         }
       }
-      display = display!.toUpperCase();
+      display = display.toUpperCase();
     }
     return display;
   }
