@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 
 class PluginButton extends StatelessWidget {
   PluginButton(
@@ -84,28 +85,31 @@ class BgContainer extends StatelessWidget {
         children: [
           Container(
             width: width,
+            height: height,
             child: Row(
               children: [
                 SvgPicture.asset(
                   'packages/polkawallet_ui/assets/images/bg_plugin_left.svg',
-                  color: backgroundColor ?? Color(0xFFFC8156),
+                  color: backgroundColor ?? PluginColorsDark.primary,
+                  height: height,
                   fit: BoxFit.fill,
                 ),
                 Expanded(
                     child: Container(
-                  color: backgroundColor ?? Color(0xFFFC8156),
+                  color: backgroundColor ?? PluginColorsDark.primary,
                 )),
                 SvgPicture.asset(
-                  "packages/polkawallet_ui/assets/images/bg_plugin_right.svg",
-                  color: backgroundColor ?? Color(0xFFFC8156),
-                  fit: BoxFit.fill,
-                ),
+                    "packages/polkawallet_ui/assets/images/bg_plugin_right.svg",
+                    color: backgroundColor ?? PluginColorsDark.primary,
+                    height: height,
+                    fit: BoxFit.fill),
               ],
             ),
           ),
           Container(
               margin: margin,
               width: width,
+              height: height,
               padding: padding,
               alignment: alignment,
               child: child!)

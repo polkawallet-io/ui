@@ -3,23 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_ui/components/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginInputItem.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginAddressFormItem extends StatelessWidget {
   PluginAddressFormItem(
-      {this.label, this.svg, this.onTap, required this.account});
+      {this.label,
+      this.svg,
+      this.onTap,
+      required this.account,
+      this.isDisable = true});
 
   final String? label;
   final KeyPairData account;
   final String? svg;
   final Future<void> Function()? onTap;
+  final bool isDisable;
 
   @override
   Widget build(BuildContext context) {
     final content = PluginInputItem(
       label: label,
-      labelBgColor: Color(0xCCFFFFFF),
+      labelBgColor: this.isDisable ? PluginColorsDark.disableTagBg : null,
+      bgColor: this.isDisable ? PluginColorsDark.disableBg : null,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Row(

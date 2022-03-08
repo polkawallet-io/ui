@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginTextTag.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 
 class PluginTagCard extends StatelessWidget {
   const PluginTagCard(
@@ -29,7 +30,7 @@ class PluginTagCard extends StatelessWidget {
           PluginTextTag(
             padding: EdgeInsets.zero,
             title: titleTag!,
-            backgroundColor: Color(0xCCFFFFFF),
+            backgroundColor: PluginColorsDark.headline1,
           ),
           Container(
               width: double.infinity,

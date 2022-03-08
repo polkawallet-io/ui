@@ -156,6 +156,7 @@ class _PluginAddressTextFormFieldState
               child: PluginAddressFormItem(
                 label: widget.labelText,
                 account: widget.initialValue!,
+                isDisable: false,
               ),
             )
           : PluginTextFormField(

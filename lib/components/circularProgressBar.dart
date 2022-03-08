@@ -8,12 +8,14 @@ class CircularProgressBar extends CustomPainter {
   double progress; //0-1
   late double endAngle;
   double startAngle;
+  Color bgColor;
 
   CircularProgressBar(
       {required this.lineColor,
       required this.width,
       this.progress = 1,
-      this.startAngle = pi / 2}) {
+      this.startAngle = pi / 2,
+      this.bgColor = Colors.transparent}) {
     this.endAngle = this.progress / 1 * 2 * pi;
   }
   @override
@@ -38,6 +40,17 @@ class CircularProgressBar extends CustomPainter {
     ).createShader(
       Rect.fromCircle(center: center, radius: radius),
     );
+
+    var bgpaint = Paint()
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.round
+      ..style = PaintingStyle.stroke
+      ..color = bgColor
+      ..isAntiAlias = true
+      ..strokeWidth = width;
+
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), 0, 2 * pi,
+        false, bgpaint);
 
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius),
         this.startAngle, endAngle, false, paint);

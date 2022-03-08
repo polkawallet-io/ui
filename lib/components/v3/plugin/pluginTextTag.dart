@@ -71,19 +71,20 @@ class TagBgContainer extends StatelessWidget {
         children: [
           SvgPicture.asset(
               'packages/polkawallet_ui/assets/images/plugin_tag_bg_left.svg',
-              color: backgroundColor ?? PluginColorsDark.headline2,
-              height: height),
+              color: backgroundColor ?? PluginColorsDark.headline1,
+              height: height,
+              fit: BoxFit.fill),
           Container(
             padding: EdgeInsets.only(left: 5),
             height: height,
-            color: backgroundColor ?? PluginColorsDark.headline2,
+            color: backgroundColor ?? PluginColorsDark.headline1,
             child: child,
           ),
           SvgPicture.asset(
               "packages/polkawallet_ui/assets/images/plugin_tag_bg_right.svg",
-              color: backgroundColor ?? PluginColorsDark.headline2,
+              color: backgroundColor ?? PluginColorsDark.headline1,
               height: height,
-              alignment: Alignment.centerLeft),
+              fit: BoxFit.fill),
         ],
       ),
     );

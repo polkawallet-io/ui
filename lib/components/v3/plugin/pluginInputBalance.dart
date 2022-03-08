@@ -6,6 +6,7 @@ import 'package:polkawallet_ui/components/currencyWithIcon.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginCurrencyWithIcon.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginTextTag.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginTokenIcon.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
@@ -272,8 +273,8 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                       padding: EdgeInsets.zero,
                       title: widget.titleTag!,
                       backgroundColor: widget.enabled
-                          ? Color(0xCCFFFFFF)
-                          : Color(0x33FFFFFF),
+                          ? PluginColorsDark.headline1
+                          : PluginColorsDark.headline3,
                     )
                   : Container(),
               widget.onSetMax != null && widget.enabled
