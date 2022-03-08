@@ -6,12 +6,16 @@ class LinearProgressbar extends StatelessWidget {
       {this.color,
       this.backgroundColor,
       this.width,
+      this.height,
       this.progress,
+      this.borderRadius,
       this.margin});
   final Color? color;
   final Color? backgroundColor;
   final double? width;
+  final double? height;
   final double? progress;
+  final double? borderRadius;
   final EdgeInsets? margin;
 
   @override
@@ -23,20 +27,22 @@ class LinearProgressbar extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: 16,
+            height: height ?? 16,
             width: width ?? double.infinity,
             decoration: BoxDecoration(
                 color: backgroundColor ?? Colors.black12,
-                borderRadius: BorderRadius.all(Radius.circular(8))),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(borderRadius ?? 8))),
           ),
           Visibility(
               visible: progressWidth != 0,
               child: Container(
-                height: 16,
+                height: height ?? 16,
                 width: progressWidth < 8 ? 16 : progressWidth as double?,
                 decoration: BoxDecoration(
                     color: color ?? Colors.blue,
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(borderRadius ?? 8))),
               )),
         ],
       ),
