@@ -26,10 +26,13 @@ class TokenIcon extends StatelessWidget {
       );
     }
     return SizedBox(
-        child: tokenIcons[id.toUpperCase()] ??
-            CircleAvatar(
-                child: Text((symbol ?? id).substring(
-                    0, (symbol ?? id).length > 2 ? 2 : (symbol ?? id).length))),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(size / 2),
+          child: tokenIcons[id.toUpperCase()] ??
+              CircleAvatar(
+                  child: Text((symbol ?? id).substring(0,
+                      (symbol ?? id).length > 2 ? 2 : (symbol ?? id).length))),
+        ),
         width: size);
   }
 }
