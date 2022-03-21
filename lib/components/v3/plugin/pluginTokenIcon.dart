@@ -26,8 +26,8 @@ class PluginTokenIcon extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: size, child: tokenIcons[pair[1]]),
-            SizedBox(width: size, child: tokenIcons[pair[0]])
+            SizedBox(width: size, child: tokenIcons[pair[0]]),
+            SizedBox(width: size, child: tokenIcons[pair[1]])
           ],
         ),
         width: size * 2 + 4,
