@@ -256,7 +256,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
       priceVisible = false;
     }
     final price = priceVisible
-        ? widget.marketPrices![widget.balance!.symbol]! * inputAmount
+        ? (widget.marketPrices?[widget.balance!.symbol] ?? 0) * inputAmount
         : null;
 
     return Container(
