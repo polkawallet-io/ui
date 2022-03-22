@@ -306,6 +306,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     });
   }
 
+  dynamic _updateKusd(String value) {
+    value = value.replaceAll("KUSD", "AUSD");
+    value = value.replaceAll("kUSD", "aUSD");
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
@@ -392,7 +398,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           text: key, isPlugin: true),
                                       Expanded(
                                           child: Text(
-                                        content,
+                                        _updateKusd(content),
                                         style: itemContentStyle,
                                       )),
                                     ],
@@ -506,9 +512,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                               margin: EdgeInsets.only(left: 40),
                               child: Text(
                                 args.rawParams != null
-                                    ? args.rawParams!
-                                    : JsonEncoder.withIndent('  ')
-                                        .convert(args.params),
+                                    ? _updateKusd(args.rawParams!)
+                                    : _updateKusd(JsonEncoder.withIndent('  ')
+                                        .convert(args.params)),
                                 style: TextStyle(
                                     fontSize: 14, color: Colors.white),
                               ),
