@@ -17,14 +17,15 @@ dependencies:
   intl: ^0.17.0
   qr_flutter_fork: ^4.0.0
   flutter_qr_scan: ^1.0.7
-#  polkawallet_sdk: ^0.4.4
+  polkawallet_sdk: ^0.4.4
+  webview_flutter: ^3.0.0
   skeleton_loader: ^2.0.0+4
   flutter_screenutil: ^5.0.0+2
   scrollable_positioned_list: ^0.2.3
   card_swiper: ^2.0.3
   # simple_shadow: ^0.2.0
-  polkawallet_sdk:
-    path: ../sdk
+#  polkawallet_sdk:
+#    path: ../sdk
 
 dev_dependencies:
   flutter_test:
