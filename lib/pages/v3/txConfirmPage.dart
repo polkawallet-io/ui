@@ -307,8 +307,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   dynamic _updateKusd(String value) {
-    value = value.replaceAll("KUSD", "AUSD");
-    value = value.replaceAll("kUSD", "aUSD");
+    // value = value.replaceAll("KUSD", "AUSD");
+    // value = value.replaceAll("kUSD", "aUSD");
     return value;
   }
 
