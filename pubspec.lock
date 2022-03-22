@@ -407,7 +407,7 @@ packages:
       path: "../sdk"
       relative: true
     source: path
-    version: "0.4.3"
+    version: "0.4.4"
   process:
     dependency: transitive
     description:
