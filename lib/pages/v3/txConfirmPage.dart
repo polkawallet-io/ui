@@ -511,9 +511,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             Container(
                               margin: EdgeInsets.only(left: 40),
                               child: Text(
-                                args.rawParams != null
-                                    ? _updateKusd(args.rawParams!)
-                                    : _updateKusd(JsonEncoder.withIndent('  ')
+                                _updateKusd(args.rawParams != null
+                                    ? args.rawParams!
+                                    : JsonEncoder.withIndent('  ')
                                         .convert(args.params)),
                                 style: TextStyle(
                                     fontSize: 14, color: Colors.white),
@@ -822,10 +822,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           Container(
                             margin: EdgeInsets.only(left: 40),
                             child: Text(
-                              args.rawParams != null
+                              _updateKusd(args.rawParams != null
                                   ? args.rawParams!
                                   : JsonEncoder.withIndent('  ')
-                                      .convert(args.params),
+                                      .convert(args.params)),
                               style: TextStyle(fontSize: 14),
                             ),
                           )
