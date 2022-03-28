@@ -27,6 +27,7 @@ import 'package:polkawallet_ui/components/v3/plugin/pluginSliderTrackShape.dart'
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
 import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
 import 'package:polkawallet_ui/pages/qrSenderPage.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
@@ -274,15 +275,21 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   void _updateTxStatus(BuildContext context, String status) {
+    final TxConfirmParams args =
+        ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Theme.of(context).cardColor,
+        backgroundColor:
+            args.isPlugin ? Color(0xFF202020) : Theme.of(context).cardColor,
         content: ListTile(
           leading: CupertinoActivityIndicator(),
           title: Text(
             status,
-            style: TextStyle(color: Colors.black54),
+            style: TextStyle(
+                color: args.isPlugin
+                    ? PluginColorsDark.headline1
+                    : Colors.black54),
           ),
         ),
         duration: Duration(minutes: 5),
