@@ -24,7 +24,7 @@ class AddressTextFormField extends StatefulWidget {
   final PolkawalletApi api;
   final List<KeyPairData> localAccounts;
   final KeyPairData? initialValue;
-  final Function(KeyPairData?)? onChanged;
+  final Function(KeyPairData)? onChanged;
 
   final String? hintText;
   final TextStyle? hintStyle;
