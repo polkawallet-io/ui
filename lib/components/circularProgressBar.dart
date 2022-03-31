@@ -2,6 +2,78 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+class AnimationCircularProgressBar extends StatefulWidget {
+  AnimationCircularProgressBar(
+      {required this.lineColor,
+      required this.width,
+      required this.progress,
+      this.size = 96,
+      this.startAngle = pi / 2,
+      this.bgColor = Colors.transparent,
+      Key? key})
+      : super(key: key);
+  final double progress;
+  final double size;
+  List<Color> lineColor;
+  double width;
+  double startAngle;
+  Color bgColor;
+
+  @override
+  State<AnimationCircularProgressBar> createState() =>
+      AnimationCircularProgressBarState();
+}
+
+class AnimationCircularProgressBarState
+    extends State<AnimationCircularProgressBar> with TickerProviderStateMixin {
+  AnimationController? controller;
+  double animationNumber = 0;
+  late Animation<double> animation;
+
+  void _startAnimation(double progress) {
+    this.controller = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
+    animation =
+        Tween(begin: animationNumber, end: progress).animate(this.controller!);
+    animation.addListener(() {
+      setState(() {
+        animationNumber = animation.value;
+      });
+    });
+    Future.delayed(Duration(milliseconds: 150), () {
+      controller!.forward();
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant AnimationCircularProgressBar oldWidget) {
+    if (this.controller == null ||
+        (!this.controller!.isAnimating &&
+            oldWidget.progress != widget.progress)) {
+      _startAnimation(widget.progress);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: widget.size,
+      height: widget.size,
+      child: CustomPaint(
+        painter: CircularProgressBar(
+            startAngle: widget.startAngle,
+            width: widget.width,
+            lineColor: widget.lineColor,
+            progress: this.controller != null && this.controller!.isAnimating
+                ? animationNumber
+                : widget.progress,
+            bgColor: widget.bgColor),
+      ),
+    );
+  }
+}
+
 class CircularProgressBar extends CustomPainter {
   List<Color> lineColor;
   double width;
