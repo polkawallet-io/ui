@@ -313,9 +313,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     });
   }
 
-  dynamic _updateKusd(String value) {
-    // value = value.replaceAll("KUSD", "AUSD");
-    // value = value.replaceAll("kUSD", "aUSD");
+  dynamic _updateKUSD(String value) {
+    value = value.replaceAll("KUSD", "AUSD");
     return value;
   }
 
@@ -403,7 +402,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           text: key, isPlugin: true),
                                       Expanded(
                                           child: Text(
-                                        _updateKusd(content),
+                                        _updateKUSD(content),
                                         style: itemContentStyle,
                                       )),
                                     ],
@@ -516,7 +515,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             Container(
                               margin: EdgeInsets.only(left: 40),
                               child: Text(
-                                _updateKusd(args.rawParams != null
+                                _updateKUSD(args.rawParams != null
                                     ? args.rawParams!
                                     : JsonEncoder.withIndent('  ')
                                         .convert(args.params)),
@@ -827,7 +826,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           Container(
                             margin: EdgeInsets.only(left: 40),
                             child: Text(
-                              _updateKusd(args.rawParams != null
+                              _updateKUSD(args.rawParams != null
                                   ? args.rawParams!
                                   : JsonEncoder.withIndent('  ')
                                       .convert(args.params)),
