@@ -50,6 +50,11 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
       return null;
     }
 
+    // todo: eth address not support now
+    if (input.trim().startsWith('0x')) {
+      return null;
+    }
+
     // check if user input is valid address or indices
     final checkAddress = await widget.api.account.decodeAddress([input]);
     if (checkAddress == null) {
