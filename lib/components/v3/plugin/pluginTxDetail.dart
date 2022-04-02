@@ -162,6 +162,14 @@ class PluginTxDetail extends StatelessWidget {
                       content: Text(Fmt.address(hash),
                           style: TextStyle(color: Colors.white))),
                   labelStyle)),
+          Visibility(
+              visible: blockTime != null,
+              child: TxDetailItem(
+                  TxDetailInfoItem(
+                      label: 'Time',
+                      content: Text(blockTime!,
+                          style: TextStyle(color: Colors.white))),
+                  labelStyle)),
         ],
       ),
     ));

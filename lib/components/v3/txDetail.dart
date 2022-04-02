@@ -148,6 +148,11 @@ class TxDetail extends StatelessWidget {
                   TxDetailInfoItem(
                       label: 'Hash', content: Text(Fmt.address(hash))),
                   labelStyle)),
+          Visibility(
+              visible: blockTime != null,
+              child: TxDetailItem(
+                  TxDetailInfoItem(label: 'Time', content: Text(blockTime!)),
+                  labelStyle)),
         ],
       ),
     ));
