@@ -60,7 +60,7 @@ class _TabBarPluginState extends State<TabBarPlugin> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 12),
+      margin: EdgeInsets.symmetric(vertical: 8),
       child: Stack(
         alignment: Alignment.centerRight,
         children: [
