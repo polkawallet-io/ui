@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 
 class PluginPageTitleTaps extends StatelessWidget {
   PluginPageTitleTaps(
-      {this.names, this.activeTab, this.onTap, this.isSpaceBetween = false});
+      {this.names,
+      this.activeTab,
+      this.onTap,
+      this.isSpaceBetween = false,
+      this.itemPadding});
 
   final List<String>? names;
   final Function(int)? onTap;
   final int? activeTab;
   final bool isSpaceBetween;
+  final EdgeInsetsGeometry? itemPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,8 @@ class PluginPageTitleTaps extends StatelessWidget {
           int index = names!.indexOf(title);
           return GestureDetector(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+              padding: itemPadding ??
+                  EdgeInsets.symmetric(horizontal: 5, vertical: 2),
               margin: EdgeInsets.only(right: isSpaceBetween ? 0 : 26),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(const Radius.circular(6)),
