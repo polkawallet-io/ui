@@ -253,23 +253,25 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
   void _updateTxStatus(BuildContext context, String status) {
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor:
-            args.isPlugin ? Color(0xFF202020) : Theme.of(context).cardColor,
-        content: ListTile(
-          leading: CupertinoActivityIndicator(),
-          title: Text(
-            status,
-            style: TextStyle(
-                color: args.isPlugin
-                    ? PluginColorsDark.headline1
-                    : Colors.black54),
+    if (args.waitingWidget == null) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor:
+              args.isPlugin ? Color(0xFF202020) : Theme.of(context).cardColor,
+          content: ListTile(
+            leading: CupertinoActivityIndicator(),
+            title: Text(
+              status,
+              style: TextStyle(
+                  color: args.isPlugin
+                      ? PluginColorsDark.headline1
+                      : Colors.black54),
+            ),
           ),
-        ),
-        duration: Duration(minutes: 5),
-      ));
+          duration: Duration(minutes: 5),
+        ));
+      }
     }
   }
 
@@ -333,128 +335,141 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                 }),
           ),
           body: SafeArea(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+            child: args.waitingWidget != null && _submitting
+                ? args.waitingWidget!
+                : Column(
                     children: <Widget>[
-                      Column(
-                        children: [
-                          RoundedPluginCard(
-                            color: Color(0x24FFFFFF),
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(10)),
-                            padding: EdgeInsets.all(16),
-                            margin: EdgeInsets.only(bottom: 24),
-                            width: double.infinity,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      Expanded(
+                        child: ListView(
+                          padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+                          children: <Widget>[
+                            Column(
                               children: [
-                                ...args.txDisplayBold.keys.map((key) {
-                                  return Column(
+                                RoundedPluginCard(
+                                  color: Color(0x24FFFFFF),
+                                  borderRadius: const BorderRadius.all(
+                                      const Radius.circular(10)),
+                                  padding: EdgeInsets.all(16),
+                                  margin: EdgeInsets.only(bottom: 24),
+                                  width: double.infinity,
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      _ConfirmItemLabel(
-                                          text: key, isPlugin: true),
-                                      args.txDisplayBold[key] ?? Container(),
+                                      ...args.txDisplayBold.keys.map((key) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            _ConfirmItemLabel(
+                                                text: key, isPlugin: true),
+                                            args.txDisplayBold[key] ??
+                                                Container(),
+                                          ],
+                                        );
+                                      }).toList(),
+                                      ...args.txDisplay.keys.map((key) {
+                                        final content = args.txDisplay[key]
+                                                    .runtimeType ==
+                                                String
+                                            ? args.txDisplay[key]
+                                            : jsonEncode(args.txDisplay[key]);
+                                        return Row(
+                                          children: [
+                                            _ConfirmItemLabel(
+                                                text: key, isPlugin: true),
+                                            Expanded(
+                                                child: Text(
+                                              _updateKUSD(content),
+                                              style: itemContentStyle,
+                                            )),
+                                          ],
+                                        );
+                                      }).toList(),
                                     ],
-                                  );
-                                }).toList(),
-                                ...args.txDisplay.keys.map((key) {
-                                  final content =
-                                      args.txDisplay[key].runtimeType == String
-                                          ? args.txDisplay[key]
-                                          : jsonEncode(args.txDisplay[key]);
-                                  return Row(
+                                  ),
+                                ),
+                                RoundedPluginCard(
+                                  color: Color(0x24FFFFFF),
+                                  borderRadius: const BorderRadius.all(
+                                      const Radius.circular(10)),
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
                                     children: [
-                                      _ConfirmItemLabel(
-                                          text: key, isPlugin: true),
-                                      Expanded(
-                                          child: Text(
-                                        _updateKUSD(content),
-                                        style: itemContentStyle,
-                                      )),
-                                    ],
-                                  );
-                                }).toList(),
-                              ],
-                            ),
-                          ),
-                          RoundedPluginCard(
-                            color: Color(0x24FFFFFF),
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(10)),
-                            padding: EdgeInsets.all(16),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        child: _ConfirmItemLabel(
-                                      text: dic["tx.from"] ?? '',
-                                      isPlugin: true,
-                                    )),
-                                    AddressIcon(
-                                      widget.keyring.current.address,
-                                      svg: widget.keyring.current.icon,
-                                      size: 24,
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 8),
-                                      child: Text(
-                                        Fmt.address(
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              child: _ConfirmItemLabel(
+                                            text: dic["tx.from"] ?? '',
+                                            isPlugin: true,
+                                          )),
+                                          AddressIcon(
                                             widget.keyring.current.address,
-                                            pad: 8),
-                                        style: itemContentStyle,
+                                            svg: widget.keyring.current.icon,
+                                            size: 24,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 8),
+                                            child: Text(
+                                              Fmt.address(
+                                                  widget
+                                                      .keyring.current.address,
+                                                  pad: 8),
+                                              style: itemContentStyle,
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                        child: _ConfirmItemLabel(
-                                      text: dic["tx.network"] ?? '',
-                                      isPlugin: true,
-                                    )),
-                                    Visibility(
-                                        visible: isNetworkConnected,
-                                        child: Container(
-                                            height: 44,
-                                            width: 24,
-                                            margin: EdgeInsets.only(right: 8),
-                                            child: widget.plugin.basic.icon)),
-                                    !isNetworkConnected
-                                        ? Text(
-                                            dic['tx.network.no']!,
-                                            style: itemContentStyle,
-                                          )
-                                        : Text(
-                                            widget.plugin.basic.name!,
-                                            style: itemContentStyle,
-                                          )
-                                  ],
-                                ),
-                                Visibility(
-                                  visible: _fee != null,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                          child: _ConfirmItemLabel(
-                                        text: dic["tx.fee"] ?? '',
-                                        isPlugin: true,
-                                      )),
-                                      Text(
-                                        '${Fmt.balance(
-                                          (_fee?.partialFee ?? 0).toString(),
-                                          decimals,
-                                          length: 6,
-                                        )} $symbol',
-                                        style: TextStyle(
-                                          fontFamily: 'TitilliumWeb',
-                                          color: Theme.of(context).errorColor,
+                                      Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                              child: _ConfirmItemLabel(
+                                            text: dic["tx.network"] ?? '',
+                                            isPlugin: true,
+                                          )),
+                                          Visibility(
+                                              visible: isNetworkConnected,
+                                              child: Container(
+                                                  height: 44,
+                                                  width: 24,
+                                                  margin:
+                                                      EdgeInsets.only(right: 8),
+                                                  child: widget
+                                                      .plugin.basic.icon)),
+                                          !isNetworkConnected
+                                              ? Text(
+                                                  dic['tx.network.no']!,
+                                                  style: itemContentStyle,
+                                                )
+                                              : Text(
+                                                  widget.plugin.basic.name!,
+                                                  style: itemContentStyle,
+                                                )
+                                        ],
+                                      ),
+                                      Visibility(
+                                        visible: _fee != null,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Expanded(
+                                                child: _ConfirmItemLabel(
+                                              text: dic["tx.fee"] ?? '',
+                                              isPlugin: true,
+                                            )),
+                                            Text(
+                                              '${Fmt.balance(
+                                                (_fee?.partialFee ?? 0)
+                                                    .toString(),
+                                                decimals,
+                                                length: 6,
+                                              )} $symbol',
+                                              style: TextStyle(
+                                                fontFamily: 'TitilliumWeb',
+                                                color: Theme.of(context)
+                                                    .errorColor,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -462,168 +477,173 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Image.asset(
-                              "packages/polkawallet_ui/assets/images/divider.png")),
-                      CollapsedContainer(
-                        title: dic['tx.params'] ?? '',
-                        isPlugin: true,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${args.module}.${args.call}',
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.white),
+                            Padding(
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                                child: Image.asset(
+                                    "packages/polkawallet_ui/assets/images/divider.png")),
+                            CollapsedContainer(
+                              title: dic['tx.params'] ?? '',
+                              isPlugin: true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${args.module}.${args.call}',
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.white),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 40),
+                                    child: Text(
+                                      _updateKUSD(args.rawParams != null
+                                          ? args.rawParams!
+                                          : JsonEncoder.withIndent('  ')
+                                              .convert(args.params)),
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.white),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 40),
-                              child: Text(
-                                _updateKUSD(args.rawParams != null
-                                    ? args.rawParams!
-                                    : JsonEncoder.withIndent('  ')
-                                        .convert(args.params)),
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.white),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 16),
-                        child: CollapsedContainer(
-                          title: dicAcc['advanced'] ?? '',
-                          isPlugin: true,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 64,
-                                    child: Text(dic['tx.tip']!,
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                  TapTooltip(
-                                    message: dic['tx.tip.brief']!,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          '${Fmt.token(_tipValue, decimals)} $symbol',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white),
-                                        ),
+                              margin: EdgeInsets.only(top: 16),
+                              child: CollapsedContainer(
+                                title: dicAcc['advanced'] ?? '',
+                                isPlugin: true,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: <Widget>[
                                         Container(
-                                          padding: EdgeInsets.only(left: 8),
-                                          child: Icon(
-                                            Icons.info,
-                                            color: Colors.white,
-                                            size: 16,
+                                          width: 64,
+                                          child: Text(dic['tx.tip']!,
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                        TapTooltip(
+                                          message: dic['tx.tip.brief']!,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '${Fmt.token(_tipValue, decimals)} $symbol',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white),
+                                              ),
+                                              Container(
+                                                padding:
+                                                    EdgeInsets.only(left: 8),
+                                                child: Icon(
+                                                  Icons.info,
+                                                  color: Colors.white,
+                                                  size: 16,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text('0',
-                                      style: TextStyle(color: Colors.white)),
-                                  Expanded(
-                                    child: SliderTheme(
-                                        data: SliderThemeData(
-                                          trackHeight: 12,
-                                          activeTrackColor: Color(0xFFFF7849),
-                                          inactiveTrackColor:
-                                              Colors.transparent,
-                                          overlayColor: Colors.transparent,
-                                          trackShape:
-                                              const PluginSliderTrackShape(),
-                                          thumbShape:
-                                              const PluginSliderThumbShape(),
+                                    Row(
+                                      children: <Widget>[
+                                        Text('0',
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Expanded(
+                                          child: SliderTheme(
+                                              data: SliderThemeData(
+                                                trackHeight: 12,
+                                                activeTrackColor:
+                                                    Color(0xFFFF7849),
+                                                inactiveTrackColor:
+                                                    Colors.transparent,
+                                                overlayColor:
+                                                    Colors.transparent,
+                                                trackShape:
+                                                    const PluginSliderTrackShape(),
+                                                thumbShape:
+                                                    const PluginSliderThumbShape(),
+                                              ),
+                                              child: Slider(
+                                                min: 0,
+                                                max: 19,
+                                                divisions: 19,
+                                                value: _tip,
+                                                onChanged: _submitting
+                                                    ? null
+                                                    : _onTipChanged,
+                                              )),
                                         ),
-                                        child: Slider(
-                                          min: 0,
-                                          max: 19,
-                                          divisions: 19,
-                                          value: _tip,
-                                          onChanged: _submitting
-                                              ? null
-                                              : _onTipChanged,
-                                        )),
-                                  ),
-                                  Text('1',
-                                      style: TextStyle(color: Colors.white))
-                                ],
-                              )
-                            ],
-                          ),
-                          onCollapse: (collapsed) {
-                            if (!collapsed) {
-                              setState(() {
-                                _tip = 0;
-                                _tipValue = BigInt.zero;
-                              });
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Visibility(
-                    visible: isNetworkConnected && !isObservation,
-                    child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: PluginButton(
-                                submitting: _submitting,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .button
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .textSelectionTheme
-                                            .selectionColor),
-                                title: dic['cancel']!,
-                                backgroundColor: Colors.white,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ),
-                            Container(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: Builder(
-                                builder: (BuildContext context) {
-                                  return PluginButton(
-                                    submitting: _submitting,
-                                    title: dic['tx.submit']!,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        ?.copyWith(color: Colors.black),
-                                    onPressed: !isNetworkMatch || _submitting
-                                        ? null
-                                        : () => _showPasswordDialog(context),
-                                  );
+                                        Text('1',
+                                            style:
+                                                TextStyle(color: Colors.white))
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                onCollapse: (collapsed) {
+                                  if (!collapsed) {
+                                    setState(() {
+                                      _tip = 0;
+                                      _tipValue = BigInt.zero;
+                                    });
+                                  }
                                 },
                               ),
                             ),
                           ],
-                        )))
-              ],
-            ),
+                        ),
+                      ),
+                      Visibility(
+                          visible: isNetworkConnected && !isObservation,
+                          child: Padding(
+                              padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: PluginButton(
+                                      submitting: _submitting,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .button
+                                          ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .textSelectionTheme
+                                                  .selectionColor),
+                                      title: dic['cancel']!,
+                                      backgroundColor: Colors.white,
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: Builder(
+                                      builder: (BuildContext context) {
+                                        return PluginButton(
+                                          submitting: _submitting,
+                                          title: dic['tx.submit']!,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              ?.copyWith(color: Colors.black),
+                                          onPressed: !isNetworkMatch ||
+                                                  _submitting
+                                              ? null
+                                              : () =>
+                                                  _showPasswordDialog(context),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )))
+                    ],
+                  ),
           ),
         ),
         onWillPop: () {
@@ -645,113 +665,124 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
           ),
         ),
         body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+          child: args.waitingWidget != null && _submitting
+              ? args.waitingWidget!
+              : Column(
                   children: <Widget>[
-                    Column(
-                      children: [
-                        InnerShadowBGCar(
-                          padding: EdgeInsets.only(left: 16),
-                          margin: EdgeInsets.only(bottom: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    Expanded(
+                      child: ListView(
+                        padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+                        children: <Widget>[
+                          Column(
                             children: [
-                              ...args.txDisplayBold.keys.map((key) {
-                                return Column(
+                              InnerShadowBGCar(
+                                padding: EdgeInsets.only(left: 16),
+                                margin: EdgeInsets.only(bottom: 24),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    _ConfirmItemLabel(text: key),
-                                    args.txDisplayBold[key] ?? Container(),
+                                    ...args.txDisplayBold.keys.map((key) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          _ConfirmItemLabel(text: key),
+                                          args.txDisplayBold[key] ??
+                                              Container(),
+                                        ],
+                                      );
+                                    }).toList(),
+                                    ...args.txDisplay.keys.map((key) {
+                                      final content =
+                                          args.txDisplay[key].runtimeType ==
+                                                  String
+                                              ? args.txDisplay[key]
+                                              : jsonEncode(args.txDisplay[key]);
+                                      return Row(
+                                        children: [
+                                          _ConfirmItemLabel(text: key),
+                                          Expanded(
+                                              child: Text(
+                                            content,
+                                            style: itemContentStyle,
+                                          )),
+                                        ],
+                                      );
+                                    }).toList(),
                                   ],
-                                );
-                              }).toList(),
-                              ...args.txDisplay.keys.map((key) {
-                                final content =
-                                    args.txDisplay[key].runtimeType == String
-                                        ? args.txDisplay[key]
-                                        : jsonEncode(args.txDisplay[key]);
-                                return Row(
+                                ),
+                              ),
+                              InnerShadowBGCar(
+                                padding: EdgeInsets.only(left: 16, right: 16),
+                                child: Column(
                                   children: [
-                                    _ConfirmItemLabel(text: key),
-                                    Expanded(
-                                        child: Text(
-                                      content,
-                                      style: itemContentStyle,
-                                    )),
-                                  ],
-                                );
-                              }).toList(),
-                            ],
-                          ),
-                        ),
-                        InnerShadowBGCar(
-                          padding: EdgeInsets.only(left: 16, right: 16),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: _ConfirmItemLabel(
-                                          text: dic["tx.from"] ?? '')),
-                                  AddressIcon(
-                                    widget.keyring.current.address,
-                                    svg: widget.keyring.current.icon,
-                                    size: 24,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 8),
-                                    child: Text(
-                                      Fmt.address(
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            child: _ConfirmItemLabel(
+                                                text: dic["tx.from"] ?? '')),
+                                        AddressIcon(
                                           widget.keyring.current.address,
-                                          pad: 8),
-                                      style: itemContentStyle,
+                                          svg: widget.keyring.current.icon,
+                                          size: 24,
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 8),
+                                          child: Text(
+                                            Fmt.address(
+                                                widget.keyring.current.address,
+                                                pad: 8),
+                                            style: itemContentStyle,
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                      child: _ConfirmItemLabel(
-                                          text: dic["tx.network"] ?? '')),
-                                  Visibility(
-                                      visible: isNetworkConnected,
-                                      child: Container(
-                                          height: 44,
-                                          width: 24,
-                                          margin: EdgeInsets.only(right: 8),
-                                          child: args.chainFromIcon ??
-                                              Container())),
-                                  !isNetworkConnected
-                                      ? Text(
-                                          dic['tx.network.no']!,
-                                          style: itemContentStyle,
-                                        )
-                                      : Text(
-                                          args.chainFrom,
-                                          style: itemContentStyle,
-                                        )
-                                ],
-                              ),
-                              Visibility(
-                                visible: _fee != null,
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                        child: _ConfirmItemLabel(
-                                            text: dic["tx.fee"] ?? '')),
-                                    Text(
-                                      '${Fmt.balance(
-                                        (_fee?.partialFee ?? 0).toString(),
-                                        decimals,
-                                        length: 6,
-                                      )} $symbol',
-                                      style: TextStyle(
-                                        fontFamily: 'TitilliumWeb',
-                                        color: Theme.of(context).errorColor,
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                            child: _ConfirmItemLabel(
+                                                text: dic["tx.network"] ?? '')),
+                                        Visibility(
+                                            visible: isNetworkConnected,
+                                            child: Container(
+                                                height: 44,
+                                                width: 24,
+                                                margin:
+                                                    EdgeInsets.only(right: 8),
+                                                child: args.chainFromIcon ??
+                                                    Container())),
+                                        !isNetworkConnected
+                                            ? Text(
+                                                dic['tx.network.no']!,
+                                                style: itemContentStyle,
+                                              )
+                                            : Text(
+                                                args.chainFrom,
+                                                style: itemContentStyle,
+                                              )
+                                      ],
+                                    ),
+                                    Visibility(
+                                      visible: _fee != null,
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                              child: _ConfirmItemLabel(
+                                                  text: dic["tx.fee"] ?? '')),
+                                          Text(
+                                            '${Fmt.balance(
+                                              (_fee?.partialFee ?? 0)
+                                                  .toString(),
+                                              decimals,
+                                              length: 6,
+                                            )} $symbol',
+                                            style: TextStyle(
+                                              fontFamily: 'TitilliumWeb',
+                                              color:
+                                                  Theme.of(context).errorColor,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -759,153 +790,157 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    Divider(height: 24),
-                    CollapsedContainer(
-                      title: dic['tx.params'] ?? '',
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${args.module}.${args.call}',
-                            style: TextStyle(fontSize: 14),
+                          Divider(height: 24),
+                          CollapsedContainer(
+                            title: dic['tx.params'] ?? '',
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${args.module}.${args.call}',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 40),
+                                  child: Text(
+                                    _updateKUSD(args.rawParams != null
+                                        ? args.rawParams!
+                                        : JsonEncoder.withIndent('  ')
+                                            .convert(args.params)),
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 40),
-                            child: Text(
-                              _updateKUSD(args.rawParams != null
-                                  ? args.rawParams!
-                                  : JsonEncoder.withIndent('  ')
-                                      .convert(args.params)),
-                              style: TextStyle(fontSize: 14),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 16),
-                      child: CollapsedContainer(
-                        title: dicAcc['advanced'] ?? '',
-                        child: Column(
-                          children: [
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 64,
-                                  child: Text(dic['tx.tip']!),
-                                ),
-                                TapTooltip(
-                                  message: dic['tx.tip.brief']!,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${Fmt.token(_tipValue, decimals)} $symbol',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context)
-                                                .toggleableActiveColor),
-                                      ),
+                            margin: EdgeInsets.only(top: 16),
+                            child: CollapsedContainer(
+                              title: dicAcc['advanced'] ?? '',
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: <Widget>[
                                       Container(
-                                        padding: EdgeInsets.only(left: 8),
-                                        child: Icon(
-                                          Icons.info,
-                                          color: Theme.of(context)
-                                              .unselectedWidgetColor,
-                                          size: 16,
+                                        width: 64,
+                                        child: Text(dic['tx.tip']!),
+                                      ),
+                                      TapTooltip(
+                                        message: dic['tx.tip.brief']!,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              '${Fmt.token(_tipValue, decimals)} $symbol',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .toggleableActiveColor),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(left: 8),
+                                              child: Icon(
+                                                Icons.info,
+                                                color: Theme.of(context)
+                                                    .unselectedWidgetColor,
+                                                size: 16,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text('0'),
-                                Expanded(
-                                  child: SliderTheme(
-                                      data: SliderThemeData(
-                                          trackHeight: 16,
-                                          activeTrackColor: Theme.of(context)
-                                              .toggleableActiveColor,
-                                          inactiveTrackColor: Color(0xFFE3DED8),
-                                          overlayColor: Colors.transparent,
-                                          thumbShape:
-                                              SliderThumbShape(_image ?? null)),
-                                      child: Slider(
-                                        min: 0,
-                                        max: 19,
-                                        divisions: 19,
-                                        value: _tip,
-                                        onChanged:
-                                            _submitting ? null : _onTipChanged,
-                                      )),
-                                ),
-                                Text('1')
-                              ],
-                            )
-                          ],
-                        ),
-                        onCollapse: (collapsed) {
-                          if (!collapsed) {
-                            setState(() {
-                              _tip = 0;
-                              _tipValue = BigInt.zero;
-                            });
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Visibility(
-                  visible: isNetworkConnected && !isObservation,
-                  child: Padding(
-                      padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Button(
-                              submitting: _submitting,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .textSelectionTheme
-                                          .selectionColor),
-                              title: dic['cancel']!,
-                              isBlueBg: false,
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Builder(
-                              builder: (BuildContext context) {
-                                return Button(
-                                  submitting: _submitting,
-                                  title: dic['tx.submit']!,
-                                  style: Theme.of(context).textTheme.button,
-                                  onPressed: !isNetworkMatch || _submitting
-                                      ? null
-                                      : () => _showPasswordDialog(context),
-                                );
+                                  Row(
+                                    children: <Widget>[
+                                      Text('0'),
+                                      Expanded(
+                                        child: SliderTheme(
+                                            data: SliderThemeData(
+                                                trackHeight: 16,
+                                                activeTrackColor:
+                                                    Theme.of(context)
+                                                        .toggleableActiveColor,
+                                                inactiveTrackColor:
+                                                    Color(0xFFE3DED8),
+                                                overlayColor:
+                                                    Colors.transparent,
+                                                thumbShape: SliderThumbShape(
+                                                    _image ?? null)),
+                                            child: Slider(
+                                              min: 0,
+                                              max: 19,
+                                              divisions: 19,
+                                              value: _tip,
+                                              onChanged: _submitting
+                                                  ? null
+                                                  : _onTipChanged,
+                                            )),
+                                      ),
+                                      Text('1')
+                                    ],
+                                  )
+                                ],
+                              ),
+                              onCollapse: (collapsed) {
+                                if (!collapsed) {
+                                  setState(() {
+                                    _tip = 0;
+                                    _tipValue = BigInt.zero;
+                                  });
+                                }
                               },
                             ),
                           ),
                         ],
-                      )))
-            ],
-          ),
+                      ),
+                    ),
+                    Visibility(
+                        visible: isNetworkConnected && !isObservation,
+                        child: Padding(
+                            padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Button(
+                                    submitting: _submitting,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .button
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .textSelectionTheme
+                                                .selectionColor),
+                                    title: dic['cancel']!,
+                                    isBlueBg: false,
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  child: Builder(
+                                    builder: (BuildContext context) {
+                                      return Button(
+                                        submitting: _submitting,
+                                        title: dic['tx.submit']!,
+                                        style:
+                                            Theme.of(context).textTheme.button,
+                                        onPressed: !isNetworkMatch ||
+                                                _submitting
+                                            ? null
+                                            : () =>
+                                                _showPasswordDialog(context),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )))
+                  ],
+                ),
         ),
       ),
       onWillPop: () {
@@ -934,21 +969,21 @@ class _ConfirmItemLabel extends StatelessWidget {
 }
 
 class XcmTxConfirmParams {
-  XcmTxConfirmParams({
-    this.module,
-    this.call,
-    this.txDisplay = const {},
-    this.txDisplayBold = const {},
-    this.params,
-    this.rawParams,
-    this.isUnsigned,
-    this.txTitle,
-    this.txName,
-    this.isPlugin = false,
-    required this.chainFrom,
-    this.chainFromIcon,
-    required this.feeToken,
-  });
+  XcmTxConfirmParams(
+      {this.module,
+      this.call,
+      this.txDisplay = const {},
+      this.txDisplayBold = const {},
+      this.params,
+      this.rawParams,
+      this.isUnsigned,
+      this.txTitle,
+      this.txName,
+      this.isPlugin = false,
+      required this.chainFrom,
+      this.chainFromIcon,
+      required this.feeToken,
+      this.waitingWidget});
   final String? module;
   final String? call;
   final List? params;
@@ -962,4 +997,5 @@ class XcmTxConfirmParams {
   final String chainFrom;
   final Widget? chainFromIcon;
   final String feeToken;
+  final Widget? waitingWidget;
 }
