@@ -26,8 +26,8 @@ class PluginTokenIcon extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: size, child: tokenIcons[pair[0]]),
-            SizedBox(width: size, child: tokenIcons[pair[1]])
+            PluginTokenIcon(pair[0], tokenIcons, size: size),
+            PluginTokenIcon(pair[1], tokenIcons, size: size)
           ],
         ),
         width: size * 2 + 4,
@@ -52,13 +52,21 @@ class PluginTokenIcon extends StatelessWidget {
     return SizedBox(
         child: Stack(
           children: [
-            tokenIcons[id.toUpperCase()] ??
-                CircleAvatar(
-                    child: Text((symbol ?? id).substring(
-                        0,
-                        (symbol ?? id).length > 2
-                            ? 2
-                            : (symbol ?? id).length))),
+            Container(
+                decoration: ShapeDecoration(
+                  color: Colors.black.withAlpha(100),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusDirectional.circular(size)),
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(size),
+                    child: tokenIcons[id.toUpperCase()] ??
+                        CircleAvatar(
+                            child: Text((symbol ?? id).substring(
+                                0,
+                                (symbol ?? id).length > 2
+                                    ? 2
+                                    : (symbol ?? id).length))))),
             Visibility(
                 visible: !isHighlighted,
                 child: Container(
