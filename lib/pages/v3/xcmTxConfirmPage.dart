@@ -434,15 +434,15 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                                   width: 24,
                                                   margin:
                                                       EdgeInsets.only(right: 8),
-                                                  child: widget
-                                                      .plugin.basic.icon)),
+                                                  child: args.chainFromIcon ??
+                                                      Container())),
                                           !isNetworkConnected
                                               ? Text(
                                                   dic['tx.network.no']!,
                                                   style: itemContentStyle,
                                                 )
                                               : Text(
-                                                  widget.plugin.basic.name!,
+                                                  args.chainFrom,
                                                   style: itemContentStyle,
                                                 )
                                         ],
