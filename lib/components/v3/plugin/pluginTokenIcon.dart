@@ -54,7 +54,7 @@ class PluginTokenIcon extends StatelessWidget {
           children: [
             Container(
                 decoration: ShapeDecoration(
-                  color: Colors.black.withAlpha(100),
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusDirectional.circular(size)),
                 ),
