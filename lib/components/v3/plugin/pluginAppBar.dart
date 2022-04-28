@@ -11,6 +11,7 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.centerTitle = true,
       this.leading,
       this.titleTextStyle,
+      this.isShowLeading = true,
       this.actions})
       : super(key: key);
 
@@ -19,6 +20,7 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final bool? centerTitle;
   final Widget? leading;
+  final bool isShowLeading;
   final TextStyle? titleTextStyle;
   final List<Widget>? actions;
 
@@ -26,6 +28,7 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: title,
+      automaticallyImplyLeading: false,
       titleTextStyle: titleTextStyle ??
           Theme.of(context)
               .appBarTheme
@@ -35,13 +38,15 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: toolbarHeight,
       centerTitle: centerTitle,
       leading: leading ??
-          PluginIconButton(
-            icon: SvgPicture.asset(
-              "packages/polkawallet_ui/assets/images/icon_back_24.svg",
-              color: Colors.black,
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+          (isShowLeading
+              ? PluginIconButton(
+                  icon: SvgPicture.asset(
+                    "packages/polkawallet_ui/assets/images/icon_back_24.svg",
+                    color: Colors.black,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              : null),
       actions: actions,
     );
   }
