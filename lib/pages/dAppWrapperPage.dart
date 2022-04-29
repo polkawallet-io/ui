@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/webviewWithExtension.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/iconButton.dart' as v3;
+import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginLoadingWidget.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
 import 'package:polkawallet_ui/pages/walletExtensionSignPage.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -26,34 +30,56 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
 
   bool _isWillClose = false;
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildScaffold(
+      {Function? onBack, Widget? body, Function()? actionOnPressed}) {
+    if (ModalRoute.of(context)!.settings.arguments is Map &&
+        (ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]) {
+      final String url =
+          (ModalRoute.of(context)!.settings.arguments as Map)["url"];
+      return PluginScaffold(
+        appBar: PluginAppBar(
+          title: Text(url),
+          leading: PluginIconButton(
+            icon: SvgPicture.asset(
+              "packages/polkawallet_ui/assets/images/icon_back_24.svg",
+              color: Colors.black,
+            ),
+            onPressed: () {
+              onBack!();
+            },
+          ),
+          actions: [
+            Container(
+              margin: EdgeInsets.only(right: 14),
+              child: PluginIconButton(
+                onPressed: actionOnPressed,
+                icon: Icon(
+                  CupertinoIcons.clear,
+                  color: Colors.black,
+                  size: 16,
+                ),
+              ),
+            )
+          ],
+        ),
+        body: body,
+      );
+    }
     final String url = ModalRoute.of(context)!.settings.arguments as String;
-    return WillPopScope(
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
             title: Text(
               url,
               style: TextStyle(fontSize: 16),
             ),
             leading: BackBtn(
-              onBack: () async {
-                final canGoBack = await _controller?.canGoBack();
-                if (canGoBack ?? false) {
-                  _controller?.goBack();
-                } else {
-                  Navigator.of(context).pop();
-                }
-              },
+              onBack: onBack,
             ),
             actions: [
               Container(
                 margin: EdgeInsets.only(right: 14),
                 child: v3.IconButton(
-                  onPressed: () {
-                    _isWillClose = true;
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: actionOnPressed,
                   icon: Icon(
                     CupertinoIcons.clear,
                     color: Theme.of(context).unselectedWidgetColor,
@@ -63,6 +89,31 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               )
             ],
             centerTitle: true),
+        body: body);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String url = "";
+    if (ModalRoute.of(context)!.settings.arguments is Map) {
+      url = (ModalRoute.of(context)!.settings.arguments as Map)["url"];
+    } else {
+      url = ModalRoute.of(context)!.settings.arguments as String;
+    }
+    return WillPopScope(
+      child: _buildScaffold(
+        onBack: () async {
+          final canGoBack = await _controller?.canGoBack();
+          if (canGoBack ?? false) {
+            _controller?.goBack();
+          } else {
+            Navigator.of(context).pop();
+          }
+        },
+        actionOnPressed: () {
+          _isWillClose = true;
+          Navigator.of(context).pop();
+        },
         body: SafeArea(
           child: Stack(
             children: [
@@ -95,7 +146,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               ),
               Visibility(
                   visible: _loading,
-                  child: Center(child: CupertinoActivityIndicator()))
+                  child: Center(child: PluginLoadingWidget()))
             ],
           ),
         ),
