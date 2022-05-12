@@ -10,6 +10,7 @@ import 'package:polkawallet_ui/components/v3/iconButton.dart' as v3;
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginLoadingWidget.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
+import 'package:polkawallet_ui/pages/walletExtensionConnectPage.dart';
 import 'package:polkawallet_ui/pages/walletExtensionSignPage.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -131,16 +132,22 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                     _controller = controller;
                   });
                 },
+                onConnectRequest: (req) async {
+                  final approve = (await Navigator.of(context).pushNamed(
+                      WalletExtensionConnectPage.route,
+                      arguments: req) as bool?);
+                  return approve;
+                },
                 onSignBytesRequest: (req) async {
                   final signed = (await Navigator.of(context).pushNamed(
                       WalletExtensionSignPage.route,
-                      arguments: req) as ExtensionSignResult);
+                      arguments: req) as ExtensionSignResult?);
                   return signed;
                 },
                 onSignExtrinsicRequest: (req) async {
                   final signed = (await Navigator.of(context).pushNamed(
                       WalletExtensionSignPage.route,
-                      arguments: req) as ExtensionSignResult);
+                      arguments: req) as ExtensionSignResult?);
                   return signed;
                 },
               ),

@@ -63,6 +63,12 @@ const Map<String, String> enCommon = {
   'nominate.over': 'Oversubscribed',
   'nominate.inactive': 'Inactive',
   'nominate.waiting': 'Waiting',
+  'dApp.auth': 'Authorize',
+  'dApp.connect': 'is requesting access to wallet accounts.',
+  'dApp.connect.tip':
+      'Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts.',
+  'dApp.connect.allow': 'Allow Access',
+  'dApp.connect.reject': 'Reject',
 };
 
 const Map<String, String> zhCommon = {
@@ -126,4 +132,9 @@ const Map<String, String> zhCommon = {
   'nominate.over': '超额认购',
   'nominate.inactive': '不活跃',
   'nominate.waiting': '等待',
+  'dApp.auth': '授权',
+  'dApp.connect': '正在请求访问钱包账户。',
+  'dApp.connect.tip': '请在信任该网站的情况下选择允许访问，授权后该网站可以访问您的钱包地址。',
+  'dApp.connect.allow': '允许访问',
+  'dApp.connect.reject': '拒绝',
 };
