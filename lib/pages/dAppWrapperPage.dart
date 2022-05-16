@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
+import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/webviewWithExtension.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/iconButton.dart' as v3;
+import 'package:polkawallet_ui/components/v3/plugin/pluginBottomSheetContainer.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginLoadingWidget.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginOutlinedButtonSmall.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
-import 'package:polkawallet_ui/pages/walletExtensionConnectPage.dart';
 import 'package:polkawallet_ui/pages/walletExtensionSignPage.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
+import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DAppWrapperPage extends StatefulWidget {
@@ -93,6 +97,95 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         body: body);
   }
 
+  Future<bool> _onConnectRequest(DAppConnectParam params) async {
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+    final uri = Uri.parse(params.url ?? '');
+    final res = await showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return PluginBottomSheetContainer(
+          height: MediaQuery.of(context).size.height / 2,
+          title: Text(
+            dic['dApp.auth']!,
+            style: Theme.of(context)
+                .textTheme
+                .headline3!
+                .copyWith(color: Colors.white, fontSize: 16),
+          ),
+          content: Column(
+            children: [
+              Expanded(
+                  child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 24, bottom: 16),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(
+                          '${uri.scheme}://${uri.host}/favicon.ico',
+                          width: 50,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      uri.host,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(16),
+                      child: Text(
+                        dic['dApp.connect.tip']!,
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+              Container(
+                margin: EdgeInsets.fromLTRB(24, 0, 24, 40),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: PluginOutlinedButtonSmall(
+                        margin: EdgeInsets.only(right: 12),
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        content: dic['dApp.connect.reject']!,
+                        fontSize: 16,
+                        color: Color(0xFFD8D8D8),
+                        active: true,
+                        onPressed: () => Navigator.of(context).pop(false),
+                      ),
+                    ),
+                    Expanded(
+                      child: PluginOutlinedButtonSmall(
+                        margin: EdgeInsets.only(left: 12),
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        content: dic['dApp.connect.allow']!,
+                        fontSize: 16,
+                        color: PluginColorsDark.primary,
+                        active: true,
+                        onPressed: () => Navigator.of(context).pop(true),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+      context: context,
+    );
+    return res ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     String url = "";
@@ -132,12 +225,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                     _controller = controller;
                   });
                 },
-                onConnectRequest: (req) async {
-                  final approve = (await Navigator.of(context).pushNamed(
-                      WalletExtensionConnectPage.route,
-                      arguments: req) as bool?);
-                  return approve;
-                },
+                onConnectRequest: _onConnectRequest,
                 onSignBytesRequest: (req) async {
                   final signed = (await Navigator.of(context).pushNamed(
                       WalletExtensionSignPage.route,
