@@ -50,7 +50,7 @@ const Map<String, String> enCommon = {
   'pass.error.text': 'Failed to unlock account, please check password.',
   'pass.checking': 'Checking password...',
   'submit.sign': 'Sign',
-  'submit.sign.tx': 'Sign Tx',
+  'submit.sign.tx': 'Sign Transaction',
   'submit.sign.msg': 'Sign Message',
   'submit.signer': 'Signer',
   'exit.confirm': 'Do you want to exit the App?',
