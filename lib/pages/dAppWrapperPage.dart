@@ -215,6 +215,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
     });
     final res = await showModalBottomSheet(
       isDismissible: false,
+      enableDrag: false,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return PluginBottomSheetContainer(
