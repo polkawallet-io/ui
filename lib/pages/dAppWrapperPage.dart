@@ -22,10 +22,13 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DAppWrapperPage extends StatefulWidget {
-  DAppWrapperPage(this.plugin, this.keyring, {this.getPassword});
+  DAppWrapperPage(this.plugin, this.keyring,
+      {this.getPassword, this.checkAuth, this.updateAuth});
   final PolkawalletPlugin plugin;
   final Keyring keyring;
   final Future<String?> Function(BuildContext, KeyPairData)? getPassword;
+  final bool Function(String)? checkAuth;
+  final Function(String)? updateAuth;
 
   static const String route = '/extension/app';
 
@@ -105,6 +108,11 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
   Future<bool> _onConnectRequest(DAppConnectParam params) async {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
     final uri = Uri.parse(params.url ?? '');
+
+    if (widget.checkAuth != null && widget.checkAuth!(uri.host)) {
+      return true;
+    }
+
     final res = await showModalBottomSheet(
       isDismissible: false,
       enableDrag: false,
@@ -189,6 +197,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
       },
       context: context,
     );
+    if (res == true && widget.updateAuth != null) {
+      widget.updateAuth!(uri.host);
+    }
     return res ?? false;
   }
 
@@ -387,6 +398,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 onConnectRequest: _onConnectRequest,
                 onSignBytesRequest: _onSignRequest,
                 onSignExtrinsicRequest: _onSignRequest,
+                checkAuth: widget.checkAuth,
               ),
               Visibility(
                   visible: _loading,
