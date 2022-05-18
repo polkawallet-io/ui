@@ -305,7 +305,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                         onPressed: _signing
                             ? null
                             : () async {
-                                final res = await _doSign(acc);
+                                final res = await _doSign(acc, params);
                                 if (res != null) {
                                   Navigator.of(context).pop(res);
                                 }
@@ -324,24 +324,23 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
     return res;
   }
 
-  Future<ExtensionSignResult?> _doSign(KeyPairData acc) async {
+  Future<ExtensionSignResult?> _doSign(
+      KeyPairData acc, SignAsExtensionParam params) async {
     setState(() {
       _signing = true;
     });
     final password = await widget.getPassword!(context, acc);
     if (password == null) return null;
 
-    final args =
-        ModalRoute.of(context)!.settings.arguments as SignAsExtensionParam;
     final res =
-        await widget.plugin.sdk.api.keyring.signAsExtension(password, args);
+        await widget.plugin.sdk.api.keyring.signAsExtension(password, params);
     if (mounted) {
       setState(() {
         _signing = false;
       });
     }
     return ExtensionSignResult.fromJson({
-      'id': args.id,
+      'id': params.id,
       'signature': res?.signature,
     });
   }
