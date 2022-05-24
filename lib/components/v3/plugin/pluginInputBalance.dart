@@ -297,7 +297,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             ],
           ),
           Container(
-            padding: EdgeInsets.only(left: 8, right: 6, top: 5, bottom: 5),
+            padding: EdgeInsets.only(left: 16, right: 12, top: 12, bottom: 12),
             decoration: BoxDecoration(
                 color: Color(_hasFocus ? 0x4cFFFFFF : 0x24FFFFFF),
                 borderRadius: BorderRadius.only(
