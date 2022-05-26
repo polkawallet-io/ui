@@ -1,9 +1,8 @@
 ## [0.4.6] - 20220526.
 
-* bump polkawallet_sdk: 0.4.5.
+* bump polkawallet_sdk: 0.4.6.
 * update dapp sign ui.
 * add dapp auth ui.
-
 
 ## [0.4.5] - 20220424.
 
