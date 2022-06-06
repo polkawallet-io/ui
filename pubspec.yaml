@@ -1,6 +1,6 @@
 name: polkawallet_ui
 description: Common used Widgets for polkawallet app.
-version: 0.4.6
+version: 0.4.7
 homepage: https://polkawallet.io
 
 environment:
@@ -10,15 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: ^0.23.0+1
+  flutter_svg: ^1.0.3
   permission_handler: ^7.2.0
   dropdown_search: ^0.6.3
   url_launcher: ^6.0.4
   intl: ^0.17.0
   qr_flutter_fork: ^4.0.0
   flutter_qr_scan: ^1.0.7
-  polkawallet_sdk: ^0.4.6
-  webview_flutter: ^3.0.0
+  polkawallet_sdk: ^0.4.7
+  webview_flutter: ^3.0.4
   skeleton_loader: ^2.0.0+4
   flutter_screenutil: ^5.0.0+2
   scrollable_positioned_list: ^0.2.3

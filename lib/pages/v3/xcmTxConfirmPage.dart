@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
+import 'package:polkawallet_sdk/plugin/store/balances.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
@@ -308,8 +309,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final isNetworkMatch = widget.plugin.networkState.genesisHash ==
         widget.plugin.basic.genesisHash;
 
-    final symbol = args.feeToken;
-    final int decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
+    final symbol = args.feeToken.symbol;
+    final decimals = args.feeToken.decimals!;
 
     final bool isObservation = widget.keyring.current.observation ?? false;
 
@@ -996,6 +997,6 @@ class XcmTxConfirmParams {
   final bool isPlugin;
   final String chainFrom;
   final Widget? chainFromIcon;
-  final String feeToken;
+  final TokenBalanceData feeToken;
   final Widget? waitingWidget;
 }

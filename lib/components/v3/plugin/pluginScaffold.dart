@@ -16,19 +16,11 @@ class PluginScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: [0.0, 1.0],
-              colors: [Color(0xFF27292F), Color(0xFF202020)])),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        extendBodyBehindAppBar: extendBodyBehindAppBar,
-        appBar: appBar,
-        body: body,
-      ),
+    return Scaffold(
+      backgroundColor: Color(0xFF212224),
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      appBar: appBar,
+      body: body,
     );
   }
 }
