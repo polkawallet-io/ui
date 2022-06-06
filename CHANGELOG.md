@@ -1,3 +1,8 @@
+## [0.4.7] - 20220606.
+
+* bump polkawallet_sdk: 0.4.7.
+* dependencies upgrade.
+
 ## [0.4.6] - 20220526.
 
 * bump polkawallet_sdk: 0.4.6.
