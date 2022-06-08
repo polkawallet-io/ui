@@ -230,8 +230,7 @@ class TextFormField extends FormField<String> {
         'behavior related to the maxLength limit. '
         'This feature was deprecated after v1.25.0-5.0.pre.',
       )
-          bool maxLengthEnforced = true,
-      MaxLengthEnforcement? maxLengthEnforcement,
+          MaxLengthEnforcement? maxLengthEnforcement,
       int? maxLines = 1,
       int? minLines,
       bool expands = false,
@@ -273,11 +272,6 @@ class TextFormField extends FormField<String> {
           autovalidate == false ||
               autovalidate == true && autovalidateMode == null,
           'autovalidate and autovalidateMode should not be used together.',
-        ),
-        assert(maxLengthEnforced != null),
-        assert(
-          maxLengthEnforced || maxLengthEnforcement == null,
-          'maxLengthEnforced is deprecated, use only maxLengthEnforcement',
         ),
         assert(scrollPadding != null),
         assert(maxLines == null || maxLines > 0),
@@ -401,7 +395,6 @@ class TextFormField extends FormField<String> {
                                       ? SmartQuotesType.disabled
                                       : SmartQuotesType.enabled),
                               enableSuggestions: enableSuggestions,
-                              maxLengthEnforced: maxLengthEnforced,
                               maxLengthEnforcement: maxLengthEnforcement,
                               maxLines: maxLines,
                               minLines: minLines,
@@ -1437,6 +1430,7 @@ class InputDecorationV3 extends InputDecoration {
   /// by the new values.
   InputDecorationV3 copyWith({
     Widget? icon,
+    Color? iconColor,
     Widget? label,
     String? labelText,
     TextStyle? labelStyle,
@@ -1452,6 +1446,7 @@ class InputDecorationV3 extends InputDecoration {
     TextStyle? errorStyle,
     int? errorMaxLines,
     FloatingLabelBehavior? floatingLabelBehavior,
+    FloatingLabelAlignment? floatingLabelAlignment,
     bool? isCollapsed,
     bool? isDense,
     EdgeInsetsGeometry? contentPadding,
@@ -1460,10 +1455,12 @@ class InputDecorationV3 extends InputDecoration {
     String? prefixText,
     BoxConstraints? prefixIconConstraints,
     TextStyle? prefixStyle,
+    Color? prefixIconColor,
     Widget? suffixIcon,
     Widget? suffix,
     String? suffixText,
     TextStyle? suffixStyle,
+    Color? suffixIconColor,
     BoxConstraints? suffixIconConstraints,
     Widget? counter,
     String? counterText,
