@@ -62,7 +62,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
       });
     });
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _getTxFee();
     });
   }
