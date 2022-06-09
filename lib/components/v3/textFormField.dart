@@ -618,6 +618,7 @@ class InputDecorationV3 extends InputDecoration {
     this.semanticCounterText,
     this.alignLabelWithHint,
     this.constraints,
+    this.floatingLabelAlignment = FloatingLabelAlignment.start,
   })  : assert(enabled != null),
         assert(!(label != null && labelText != null),
             'Declaring both label and labelText is not supported.'),
@@ -631,7 +632,8 @@ class InputDecorationV3 extends InputDecoration {
   /// This type of input decoration does not include a border by default.
   ///
   /// Sets the [isCollapsed] property to true.
-  const InputDecorationV3.collapsed({
+  const InputDecorationV3.collapsed(
+    this.floatingLabelAlignment, {
     required this.hintText,
     this.floatingLabelBehavior,
     this.hintStyle,
@@ -1425,6 +1427,8 @@ class InputDecorationV3 extends InputDecoration {
   /// is null then the decorator will fill the available width with
   /// a default height based on text size.
   final BoxConstraints? constraints;
+
+  final FloatingLabelAlignment? floatingLabelAlignment;
 
   /// Creates a copy of this input decoration with the given fields replaced
   /// by the new values.
