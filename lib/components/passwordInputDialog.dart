@@ -60,7 +60,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.userPass != null) {
         _submit(widget.userPass!);
       }

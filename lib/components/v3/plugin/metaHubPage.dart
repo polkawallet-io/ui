@@ -52,7 +52,7 @@ class _MetaHubPageState extends State<MetaHubPage>
     widget.metaItems.forEach((element) {
       _titles.add(element.title);
     });
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _startAnimation();
     });
     super.initState();
