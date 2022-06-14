@@ -101,7 +101,7 @@ class BgContainer extends StatelessWidget {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(3)),
+                                    topLeft: Radius.circular(2)),
                                 color:
                                     backgroundColor ?? PluginColorsDark.primary,
                               ),
@@ -111,7 +111,7 @@ class BgContainer extends StatelessWidget {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(3)),
+                                    bottomLeft: Radius.circular(2)),
                                 color:
                                     backgroundColor ?? PluginColorsDark.primary,
                               ),
@@ -147,7 +147,7 @@ class BgContainer extends StatelessWidget {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.only(
-                                    bottomRight: Radius.circular(3)),
+                                    bottomRight: Radius.circular(2)),
                                 color:
                                     backgroundColor ?? PluginColorsDark.primary,
                               ),

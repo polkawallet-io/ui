@@ -9,7 +9,7 @@ class PluginTagCard extends StatelessWidget {
       this.padding,
       this.titleTag,
       this.child,
-      this.radius = const Radius.circular(4),
+      this.radius = const Radius.circular(8),
       this.backgroundColor = const Color(0xFF3c3d40)})
       : super(key: key);
 

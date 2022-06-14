@@ -304,10 +304,10 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             decoration: BoxDecoration(
                 color: Color(_hasFocus ? 0x4cFFFFFF : 0x24FFFFFF),
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(widget.titleTag != null ? 0 : 6),
-                    bottomLeft: Radius.circular(6),
-                    topRight: Radius.circular(6),
-                    bottomRight: Radius.circular(6))),
+                    topLeft: Radius.circular(widget.titleTag != null ? 0 : 4),
+                    bottomLeft: Radius.circular(4),
+                    topRight: Radius.circular(4),
+                    bottomRight: Radius.circular(4))),
             child: Row(
               children: [
                 Expanded(
