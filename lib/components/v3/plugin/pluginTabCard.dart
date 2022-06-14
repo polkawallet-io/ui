@@ -33,7 +33,6 @@ class _PluginTabCardState extends State<PluginTabCard> {
               },
               child: PluginTextTag(
                 margin: EdgeInsets.only(right: 3),
-                padding: EdgeInsets.zero,
                 title: widget.datas[index],
                 style: Theme.of(context).textTheme.headline4?.copyWith(
                     fontWeight: FontWeight.w600,

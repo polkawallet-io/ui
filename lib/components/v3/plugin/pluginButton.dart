@@ -77,6 +77,7 @@ class BgContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sWidth = 20.0;
     return Container(
       width: width,
       height: height,
@@ -86,23 +87,73 @@ class BgContainer extends StatelessWidget {
           Container(
             width: width,
             height: height,
-            child: Row(
+            child: Stack(
               children: [
-                SvgPicture.asset(
-                  'packages/polkawallet_ui/assets/images/bg_plugin_left.svg',
-                  color: backgroundColor ?? PluginColorsDark.primary,
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: SizedBox(
+                        width: sWidth,
+                        height: height,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(3)),
+                                color:
+                                    backgroundColor ?? PluginColorsDark.primary,
+                              ),
+                            )),
+                            Expanded(
+                                child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(3)),
+                                color:
+                                    backgroundColor ?? PluginColorsDark.primary,
+                              ),
+                            ))
+                          ],
+                        ))),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: sWidth - 1),
+                  width: width,
                   height: height,
-                  fit: BoxFit.fill,
-                ),
-                Expanded(
-                    child: Container(
                   color: backgroundColor ?? PluginColorsDark.primary,
-                )),
-                SvgPicture.asset(
-                    "packages/polkawallet_ui/assets/images/bg_plugin_right.svg",
-                    color: backgroundColor ?? PluginColorsDark.primary,
-                    height: height,
-                    fit: BoxFit.fill),
+                ),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                        width: sWidth,
+                        height: height,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                child: Container(
+                              width: double.infinity,
+                              decoration: ShapeDecoration(
+                                color:
+                                    backgroundColor ?? PluginColorsDark.primary,
+                                shape: BeveledRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(15))),
+                              ),
+                            )),
+                            Expanded(
+                                child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    bottomRight: Radius.circular(3)),
+                                color:
+                                    backgroundColor ?? PluginColorsDark.primary,
+                              ),
+                            ))
+                          ],
+                        ))),
               ],
             ),
           ),

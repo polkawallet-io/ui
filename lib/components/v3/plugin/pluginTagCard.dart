@@ -28,7 +28,6 @@ class PluginTagCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           PluginTextTag(
-            padding: EdgeInsets.zero,
             title: titleTag!,
             backgroundColor: PluginColorsDark.headline1,
           ),

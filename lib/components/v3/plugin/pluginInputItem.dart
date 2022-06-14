@@ -25,7 +25,6 @@ class PluginInputItem extends StatelessWidget {
         children: [
           label != null
               ? PluginTextTag(
-                  padding: EdgeInsets.zero,
                   title: label!,
                   style: labelStyle,
                   backgroundColor: labelBgColor,

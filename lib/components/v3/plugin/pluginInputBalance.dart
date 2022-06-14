@@ -270,7 +270,6 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             children: [
               widget.titleTag != null
                   ? PluginTextTag(
-                      padding: EdgeInsets.zero,
                       title: widget.titleTag!,
                       backgroundColor: widget.enabled
                           ? PluginColorsDark.headline1

@@ -24,7 +24,7 @@ class PluginTextTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.bottomCenter,
+      alignment: Alignment.bottomLeft,
       child: TagBgContainer(
         margin: margin,
         padding: padding,
@@ -64,29 +64,15 @@ class TagBgContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: padding,
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 10),
       height: height,
       margin: margin,
-      child: Row(
-        children: [
-          SvgPicture.asset(
-              'packages/polkawallet_ui/assets/images/plugin_tag_bg_left.svg',
-              color: backgroundColor ?? PluginColorsDark.headline1,
-              height: height,
-              fit: BoxFit.fill),
-          Container(
-            padding: EdgeInsets.only(left: 5),
-            height: height,
-            color: backgroundColor ?? PluginColorsDark.headline1,
-            child: child,
-          ),
-          SvgPicture.asset(
-              "packages/polkawallet_ui/assets/images/plugin_tag_bg_right.svg",
-              color: backgroundColor ?? PluginColorsDark.headline1,
-              height: height,
-              fit: BoxFit.fill),
-        ],
+      decoration: ShapeDecoration(
+        color: backgroundColor ?? PluginColorsDark.headline1,
+        shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.only(topRight: Radius.circular(10))),
       ),
+      child: child,
     );
   }
 }
