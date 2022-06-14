@@ -141,6 +141,25 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                           '${uri.scheme}://${uri.host}/favicon.ico',
                           width: 50,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            if ((ModalRoute.of(context)!.settings.arguments
+                                    is Map) &&
+                                (ModalRoute.of(context)!.settings.arguments
+                                        as Map)["icon"] !=
+                                    null) {
+                              return ((ModalRoute.of(context)!
+                                          .settings
+                                          .arguments as Map)["icon"] as String)
+                                      .contains('.svg')
+                                  ? SvgPicture.network((ModalRoute.of(context)!
+                                      .settings
+                                      .arguments as Map)["icon"])
+                                  : Image.network((ModalRoute.of(context)!
+                                      .settings
+                                      .arguments as Map)["icon"]);
+                            }
+                            return Container();
+                          },
                         ),
                       ),
                     ),

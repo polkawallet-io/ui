@@ -50,12 +50,18 @@ class AddressFormItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(UI.accountName(context, account!)),
+              Text(
+                UI.accountName(context, account!),
+                style: Theme.of(context).textTheme.headline5,
+              ),
               Visibility(
                   visible: isShowSubtitle,
                   child: Text(
                     Fmt.address(account!.address),
-                    style: TextStyle(fontSize: 14, color: color ?? grey),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(color: color ?? grey, fontSize: 10),
                   ))
             ],
           ),
