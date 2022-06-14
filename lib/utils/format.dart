@@ -67,6 +67,10 @@ class Fmt {
       return BigInt.zero;
     }
     if (raw.contains(',') || raw.contains('.')) {
+      if (raw.contains('e')) {
+        // eg. 1.63e+25
+        return BigInt.from(double.parse(raw));
+      }
       return BigInt.from(NumberFormat(",##0.000").parse(raw));
     } else {
       return BigInt.parse(raw);
