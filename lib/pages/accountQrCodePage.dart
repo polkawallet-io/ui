@@ -92,7 +92,7 @@ class AccountQrCodePage extends StatelessWidget {
                     width: qrWidth,
                     child: Text(keyring.current.address!,
                         style: TextStyle(
-                            fontSize: 12,
+                            fontSize: UI.getTextSize(12, context),
                             fontFamily: "SF_Pro",
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context)
@@ -107,7 +107,7 @@ class AccountQrCodePage extends StatelessWidget {
                               .getDic(i18n_full_dic_ui, 'common')?['copy'] ??
                           "",
                       style: TextStyle(
-                          fontSize: 22,
+                          fontSize: UI.getTextSize(22, context),
                           fontFamily: "TitilliumWeb",
                           fontWeight: FontWeight.w600,
                           color: Colors.white),

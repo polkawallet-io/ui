@@ -6,6 +6,7 @@ import 'package:polkawallet_ui/components/addressFormItem.dart';
 import 'package:polkawallet_ui/components/textTag.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 import 'package:qr_flutter_fork/qr_flutter_fork.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
@@ -45,7 +46,7 @@ class QrSignerPage extends StatelessWidget {
                     dic['uos.warn'],
                     padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
                     color: Colors.red,
-                    fontSize: 16,
+                    fontSize: UI.getTextSize(16, context),
                   ),
                 ),
                 Padding(

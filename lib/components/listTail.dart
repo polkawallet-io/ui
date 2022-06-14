@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginLoadingWidget.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class ListTail extends StatelessWidget {
   ListTail(
@@ -24,14 +25,14 @@ class ListTail extends StatelessWidget {
                   ? Text(
                       dic!['list.loading']!,
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: UI.getTextSize(16, context),
                           color: color ?? Theme.of(context).disabledColor),
                     )
                   : PluginLoadingWidget()
               : Text(
                   isEmpty! ? dic!['list.empty']! : dic!['list.end']!,
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: UI.getTextSize(16, context),
                       color: color ?? Theme.of(context).disabledColor),
                 ),
         )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:polkawallet_ui/components/v3/plugin/tabBarPlugin.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class MetaHubPage extends StatefulWidget {
   MetaHubPage(
@@ -208,7 +209,7 @@ class _MetaHubPageState extends State<MetaHubPage>
                                       .textTheme
                                       .headline3
                                       ?.copyWith(
-                                          fontSize: 24,
+                                          fontSize: UI.getTextSize(24, context),
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xFFFF8E66)))
                               .width,
@@ -220,7 +221,7 @@ class _MetaHubPageState extends State<MetaHubPage>
                                     .textTheme
                                     .headline3
                                     ?.copyWith(
-                                        fontSize: 24,
+                                        fontSize: UI.getTextSize(24, context),
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xFFFF8E66)),
                               ),
@@ -279,7 +280,8 @@ class _MetaHubPageState extends State<MetaHubPage>
                                 style: Theme.of(context)
                                     .appBarTheme
                                     .titleTextStyle
-                                    ?.copyWith(fontSize: 16),
+                                    ?.copyWith(
+                                        fontSize: UI.getTextSize(16, context)),
                               )),
                         )
                       ],

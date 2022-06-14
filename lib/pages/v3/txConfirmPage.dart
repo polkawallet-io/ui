@@ -30,6 +30,7 @@ import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class TxConfirmPage extends StatefulWidget {
   const TxConfirmPage(this.plugin, this.keyring, this.getPassword,
@@ -509,8 +510,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           children: [
                             Text(
                               '${args.module}.${args.call}',
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: UI.getTextSize(14, context),
+                                  color: Colors.white),
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 40),
@@ -520,7 +522,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                     : JsonEncoder.withIndent('  ')
                                         .convert(args.params)),
                                 style: TextStyle(
-                                    fontSize: 14, color: Colors.white),
+                                    fontSize: UI.getTextSize(14, context),
+                                    color: Colors.white),
                               ),
                             )
                           ],
@@ -821,7 +824,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         children: [
                           Text(
                             '${args.module}.${args.call}',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(
+                                fontSize: UI.getTextSize(14, context)),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 40),
@@ -830,7 +834,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   ? args.rawParams!
                                   : JsonEncoder.withIndent('  ')
                                       .convert(args.params)),
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(
+                                  fontSize: UI.getTextSize(14, context)),
                             ),
                           )
                         ],

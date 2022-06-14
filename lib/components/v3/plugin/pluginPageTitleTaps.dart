@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginPageTitleTaps extends StatelessWidget {
   PluginPageTitleTaps(
@@ -42,7 +43,7 @@ class PluginPageTitleTaps extends StatelessWidget {
                   Text(
                     title,
                     style: Theme.of(context).textTheme.headline3?.copyWith(
-                        fontSize: 18,
+                        fontSize: UI.getTextSize(18, context),
                         color: activeTab == index
                             ? Colors.white
                             : Color(0x88FFFFFF)),

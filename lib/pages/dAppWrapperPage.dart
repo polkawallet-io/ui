@@ -19,6 +19,7 @@ import 'package:polkawallet_ui/pages/walletExtensionSignPage.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DAppWrapperPage extends StatefulWidget {
@@ -83,7 +84,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         appBar: AppBar(
             title: Text(
               url,
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: UI.getTextSize(16, context)),
             ),
             leading: BackBtn(
               onBack: onBack,
@@ -122,10 +123,8 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           height: MediaQuery.of(context).size.height / 2,
           title: Text(
             dic['dApp.auth']!,
-            style: Theme.of(context)
-                .textTheme
-                .headline3!
-                .copyWith(color: Colors.white, fontSize: 16),
+            style: Theme.of(context).textTheme.headline3!.copyWith(
+                color: Colors.white, fontSize: UI.getTextSize(16, context)),
           ),
           content: Column(
             children: [
@@ -167,14 +166,16 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                       uri.host,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: UI.getTextSize(18, context),
                           fontWeight: FontWeight.bold),
                     ),
                     Container(
                       margin: EdgeInsets.all(16),
                       child: Text(
                         dic['dApp.connect.tip']!,
-                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        style: TextStyle(
+                            fontSize: UI.getTextSize(14, context),
+                            color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -190,7 +191,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                         margin: EdgeInsets.only(right: 12),
                         padding: EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.reject']!,
-                        fontSize: 16,
+                        fontSize: UI.getTextSize(16, context),
                         color: Color(0xFFD8D8D8),
                         active: true,
                         onPressed: () => Navigator.of(context).pop(false),
@@ -201,7 +202,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                         margin: EdgeInsets.only(left: 12),
                         padding: EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.allow']!,
-                        fontSize: 16,
+                        fontSize: UI.getTextSize(16, context),
                         color: PluginColorsDark.primary,
                         active: true,
                         onPressed: () => Navigator.of(context).pop(true),
@@ -254,10 +255,8 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
             dic[params.msgType == WalletExtensionSignPage.signTypeExtrinsic
                 ? 'submit.sign.tx'
                 : 'submit.sign.msg']!,
-            style: Theme.of(context)
-                .textTheme
-                .headline3!
-                .copyWith(color: Colors.white, fontSize: 16),
+            style: Theme.of(context).textTheme.headline3!.copyWith(
+                color: Colors.white, fontSize: UI.getTextSize(16, context)),
           ),
           content: Column(
             children: [
@@ -318,7 +317,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                         margin: EdgeInsets.only(right: 12),
                         padding: EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.reject']!,
-                        fontSize: 16,
+                        fontSize: UI.getTextSize(16, context),
                         color: Color(0xFFD8D8D8),
                         active: true,
                         onPressed: () => Navigator.of(context).pop(),
@@ -329,7 +328,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                         margin: EdgeInsets.only(left: 12),
                         padding: EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.confirm']!,
-                        fontSize: 16,
+                        fontSize: UI.getTextSize(16, context),
                         color: PluginColorsDark.primary,
                         active: !_signing,
                         onPressed: _signing

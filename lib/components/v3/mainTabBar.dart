@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class MainTabBar extends StatelessWidget {
   MainTabBar({required this.tabs, this.activeTab, this.onTap});
@@ -31,7 +32,7 @@ class MainTabBar extends StatelessWidget {
                 Text(
                   key,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: UI.getTextSize(16, context),
                     fontWeight: FontWeight.w600,
                     fontFamily: 'TitilliumWeb',
                     color: activeTab == index

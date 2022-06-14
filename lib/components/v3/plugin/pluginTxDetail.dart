@@ -41,7 +41,7 @@ class PluginTxDetail extends StatelessWidget {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final labelStyle = TextStyle(
       color: Colors.white,
-      fontSize: 16,
+      fontSize: UI.getTextSize(16, context),
       fontFamily: 'TitilliumWeb',
       fontWeight: FontWeight.w600,
     );
@@ -96,7 +96,7 @@ class PluginTxDetail extends StatelessWidget {
                             color: success!
                                 ? Color(0xFF81FEB9)
                                 : PluginColorsDark.primary,
-                            fontSize: 14,
+                            fontSize: UI.getTextSize(14, context),
                             fontFamily: 'TitilliumWeb',
                             fontWeight: FontWeight.w400,
                           ),
@@ -227,7 +227,7 @@ class PluginTxDetail extends StatelessWidget {
                   child: PluginButton(
                 title: 'Polkascan',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: UI.getTextSize(20, context),
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                     fontFamily: "TitilliumWeb"),

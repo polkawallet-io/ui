@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 export 'package:flutter/services.dart' show SmartQuotesType, SmartDashesType;
 
@@ -360,7 +361,8 @@ class TextFormField extends FormField<String> {
                                   errorText: null,
                                   label: null,
                                   hintStyle: TextStyle(
-                                      fontSize: 16,
+                                      fontSize:
+                                          UI.getTextSize(16, field.context),
                                       fontFamily: "TitilliumWeb",
                                       color: Color(0x77565554)),
                                   suffix: decoration!.suffix != null

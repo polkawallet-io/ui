@@ -106,7 +106,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                     ?.copyWith(
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xFF26282D),
-                                        fontSize: 18)),
+                                        fontSize: UI.getTextSize(18, context))),
                           ),
                           Align(
                               alignment: Alignment.centerRight,
@@ -184,7 +184,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                                     .headline6
                                                     ?.copyWith(
                                                         color: Colors.white,
-                                                        fontSize: 14,
+                                                        fontSize:
+                                                            UI.getTextSize(
+                                                                14, context),
                                                         fontWeight:
                                                             FontWeight.w600),
                                               ),
@@ -195,7 +197,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                                     .headline6
                                                     ?.copyWith(
                                                         color: Colors.white,
-                                                        fontSize: 10,
+                                                        fontSize:
+                                                            UI.getTextSize(
+                                                                10, context),
                                                         fontWeight:
                                                             FontWeight.w300),
                                               ),

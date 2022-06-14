@@ -29,7 +29,7 @@ class _JumpToBrowserLinkState extends State<JumpToBrowserLink> {
                 widget.text ?? widget.url,
                 style: TextStyle(
                     color: widget.color ?? Theme.of(context).primaryColor,
-                    fontSize: 14),
+                    fontSize: UI.getTextSize(14, context)),
               ),
             ),
             Icon(Icons.open_in_new,

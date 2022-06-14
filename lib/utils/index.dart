@@ -147,4 +147,14 @@ class UI {
       });
     }
   }
+
+  static double getTextSize(double size, BuildContext context,
+      {Locale? locale}) {
+    final localeTextSize =
+        ((locale ?? I18n.of(context)?.locale)?.toString().contains('zh') ??
+                false)
+            ? 1.5
+            : 0.0;
+    return size - localeTextSize;
+  }
 }

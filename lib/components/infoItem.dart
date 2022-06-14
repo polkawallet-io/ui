@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/tapTooltip.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class InfoItem extends StatelessWidget {
   InfoItem({
@@ -41,17 +42,21 @@ class InfoItem extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(left: 4),
                       child: Text(title!,
-                          style: TextStyle(fontSize: 12, color: titleColor)),
+                          style: TextStyle(
+                              fontSize: UI.getTextSize(12, context),
+                              color: titleColor)),
                     )
                   ],
                 )),
               ),
             )
-          : Text(title!, style: TextStyle(fontSize: 12, color: titleColor)),
+          : Text(title!,
+              style: TextStyle(
+                  fontSize: UI.getTextSize(12, context), color: titleColor)),
       Text(
         content ?? '-',
         style: TextStyle(
-          fontSize: 14,
+          fontSize: UI.getTextSize(14, context),
           fontWeight: FontWeight.bold,
           color: textColor,
         ),

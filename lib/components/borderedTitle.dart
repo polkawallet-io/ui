@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class BorderedTitle extends StatelessWidget {
   BorderedTitle({this.title, this.lineWidth = 6});
@@ -20,7 +20,9 @@ class BorderedTitle extends StatelessWidget {
         Text(
           title!,
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black54),
+              fontWeight: FontWeight.bold,
+              fontSize: UI.getTextSize(20, context),
+              color: Colors.black54),
         )
       ],
     );

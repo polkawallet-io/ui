@@ -139,7 +139,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
                       ? item.name!
                       : UI.accountDisplayNameString(item.address, accInfo),
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: UI.getTextSize(12, context),
                     color: Theme.of(context).unselectedWidgetColor,
                   ),
                 ),
