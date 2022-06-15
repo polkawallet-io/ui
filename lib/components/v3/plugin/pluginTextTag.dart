@@ -25,20 +25,23 @@ class PluginTextTag extends StatelessWidget {
     return Container(
       alignment: Alignment.bottomLeft,
       child: TagBgContainer(
-        margin: margin,
-        padding: padding,
-        height: height,
-        backgroundColor: backgroundColor,
-        child: child ??
-            Center(
-                child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: style ??
-                  Theme.of(context).textTheme.headline4?.copyWith(
-                      fontWeight: FontWeight.w600, color: Color(0xFF212123)),
-            )),
-      ),
+          margin: margin,
+          padding: padding,
+          height: height,
+          backgroundColor: backgroundColor,
+          child: child ??
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: style ??
+                        Theme.of(context).textTheme.headline4?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF212123)),
+                  )
+                ],
+              )),
     );
   }
 }
