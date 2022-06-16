@@ -49,7 +49,7 @@ class PluginTxDetail extends StatelessWidget {
     var list = <Widget>[
       Container(
         margin: EdgeInsets.all(16),
-        height: 180,
+        height: success != null ? 180 : 160,
         width: double.infinity,
         child: Stack(
           alignment: Alignment.topCenter,
@@ -60,7 +60,7 @@ class PluginTxDetail extends StatelessWidget {
                 height: double.infinity,
                 decoration: BoxDecoration(
                     color: Color.fromARGB(255, 68, 70, 73),
-                    borderRadius: BorderRadius.all(Radius.circular(16)))),
+                    borderRadius: BorderRadius.all(Radius.circular(10)))),
             Image.asset(
                 'packages/polkawallet_ui/assets/images/bg_detail_circle.png',
                 width: 90,
@@ -90,17 +90,19 @@ class PluginTxDetail extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         infoItems![0].content!,
-                        Text(
-                          '$action ${success! ? dic!['success'] : dic!['fail']}',
-                          style: TextStyle(
-                            color: success!
-                                ? Color(0xFF81FEB9)
-                                : PluginColorsDark.primary,
-                            fontSize: UI.getTextSize(14, context),
-                            fontFamily: 'TitilliumWeb',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
+                        success != null
+                            ? Text(
+                                '$action ${success! ? dic!['success'] : dic!['fail']}',
+                                style: TextStyle(
+                                  color: success!
+                                      ? Color(0xFF81FEB9)
+                                      : PluginColorsDark.primary,
+                                  fontSize: UI.getTextSize(14, context),
+                                  fontFamily: 'TitilliumWeb',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              )
+                            : Container()
                       ],
                     ))
                   ],
@@ -114,7 +116,7 @@ class PluginTxDetail extends StatelessWidget {
     bool isShowDivider = false;
     list.add(RoundedPluginCard(
       margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-      borderRadius: const BorderRadius.all(const Radius.circular(14)),
+      borderRadius: const BorderRadius.all(const Radius.circular(8)),
       child: Column(
         children: [
           ...infoItems!.map((i) {
@@ -132,7 +134,7 @@ class PluginTxDetail extends StatelessWidget {
               visible: fee != null,
               child: TxDetailItem(
                   TxDetailInfoItem(
-                      label: dic['tx.fee'],
+                      label: dic?['tx.fee'],
                       content: Text(
                         fee ?? "",
                         style: TextStyle(color: Colors.white),
@@ -281,6 +283,7 @@ class TxDetailItem extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Divider(
+                  color: Color(0xFFFFFF).withOpacity(0.14),
                   height: 1,
                 ))),
         Padding(
