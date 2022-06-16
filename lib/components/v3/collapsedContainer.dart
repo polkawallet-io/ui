@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class CollapsedContainer extends StatefulWidget {
   CollapsedContainer(
@@ -31,7 +32,7 @@ class _CollapsedContainerState extends State<CollapsedContainer> {
               Text(
                 widget.title,
                 style: TextStyle(
-                    fontFamily: 'TitilliumWeb',
+                    fontFamily: UI.getFontFamily('TitilliumWeb', context),
                     color: widget.isPlugin ? Colors.white : null,
                     fontWeight: widget.isPlugin ? FontWeight.w600 : null),
               ),

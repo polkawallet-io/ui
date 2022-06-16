@@ -316,7 +316,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final bool isObservation = widget.keyring.current.observation ?? false;
 
     final itemContentStyle = TextStyle(
-        fontFamily: 'TitilliumWeb',
+        fontFamily: UI.getFontFamily('TitilliumWeb', context),
         color: args.isPlugin
             ? Colors.white
             : Theme.of(context).unselectedWidgetColor);
@@ -466,7 +466,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                                 length: 6,
                                               )} $symbol',
                                               style: TextStyle(
-                                                fontFamily: 'TitilliumWeb',
+                                                fontFamily: UI.getFontFamily(
+                                                    'TitilliumWeb', context),
                                                 color: Theme.of(context)
                                                     .errorColor,
                                               ),
@@ -781,7 +782,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                               length: 6,
                                             )} $symbol',
                                             style: TextStyle(
-                                              fontFamily: 'TitilliumWeb',
+                                              fontFamily: UI.getFontFamily(
+                                                  'TitilliumWeb', context),
                                               color:
                                                   Theme.of(context).errorColor,
                                             ),
@@ -967,7 +969,7 @@ class _ConfirmItemLabel extends StatelessWidget {
       width: 88,
       child: Text(text,
           style: TextStyle(
-              fontFamily: 'TitilliumWeb',
+              fontFamily: UI.getFontFamily('TitilliumWeb', context),
               color: this.isPlugin ? Colors.white : null)),
       alignment: AlignmentDirectional.centerStart,
     );

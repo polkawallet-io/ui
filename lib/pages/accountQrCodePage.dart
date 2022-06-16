@@ -93,7 +93,7 @@ class AccountQrCodePage extends StatelessWidget {
                     child: Text(keyring.current.address!,
                         style: TextStyle(
                             fontSize: UI.getTextSize(12, context),
-                            fontFamily: "SF_Pro",
+                            fontFamily: UI.getFontFamily('SF_Pro', context),
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context)
                                 .textSelectionTheme
@@ -108,7 +108,7 @@ class AccountQrCodePage extends StatelessWidget {
                           "",
                       style: TextStyle(
                           fontSize: UI.getTextSize(22, context),
-                          fontFamily: "TitilliumWeb",
+                          fontFamily: UI.getFontFamily('TitilliumWeb', context),
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
                       onPressed: () =>

@@ -363,7 +363,8 @@ class TextFormField extends FormField<String> {
                                   hintStyle: TextStyle(
                                       fontSize:
                                           UI.getTextSize(16, field.context),
-                                      fontFamily: "TitilliumWeb",
+                                      fontFamily: UI.getFontFamily(
+                                          'TitilliumWeb', context),
                                       color: Color(0x77565554)),
                                   suffix: decoration!.suffix != null
                                       ? Visibility(

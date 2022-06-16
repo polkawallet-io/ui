@@ -41,7 +41,7 @@ class TxDetail extends StatelessWidget {
     final labelStyle = TextStyle(
       color: Theme.of(context).textSelectionTheme.selectionColor,
       fontSize: UI.getTextSize(16, context),
-      fontFamily: 'TitilliumWeb',
+      fontFamily: UI.getFontFamily('TitilliumWeb', context),
       fontWeight: FontWeight.w600,
     );
 
@@ -95,7 +95,8 @@ class TxDetail extends StatelessWidget {
                                 ? Color(0xFF22BC5A)
                                 : Theme.of(context).disabledColor,
                             fontSize: UI.getTextSize(14, context),
-                            fontFamily: 'TitilliumWeb',
+                            fontFamily:
+                                UI.getFontFamily('TitilliumWeb', context),
                             fontWeight: FontWeight.w400,
                           ),
                         )
@@ -205,7 +206,7 @@ class TxDetail extends StatelessWidget {
                     fontSize: UI.getTextSize(20, context),
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
-                    fontFamily: "TitilliumWeb"),
+                    fontFamily: UI.getFontFamily('TitilliumWeb', context)),
                 isBlueBg: true,
                 onPressed: () async {
                   await UI.launchURL(pnLink);

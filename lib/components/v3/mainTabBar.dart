@@ -34,7 +34,7 @@ class MainTabBar extends StatelessWidget {
                   style: TextStyle(
                     fontSize: UI.getTextSize(16, context),
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'TitilliumWeb',
+                    fontFamily: UI.getFontFamily('TitilliumWeb', context),
                     color: activeTab == index
                         ? Colors.white
                         : Theme.of(context).unselectedWidgetColor,

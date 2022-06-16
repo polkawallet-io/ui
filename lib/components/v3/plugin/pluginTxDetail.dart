@@ -42,7 +42,7 @@ class PluginTxDetail extends StatelessWidget {
     final labelStyle = TextStyle(
       color: Colors.white,
       fontSize: UI.getTextSize(16, context),
-      fontFamily: 'TitilliumWeb',
+      fontFamily: UI.getFontFamily('TitilliumWeb', context),
       fontWeight: FontWeight.w600,
     );
 
@@ -98,7 +98,8 @@ class PluginTxDetail extends StatelessWidget {
                                       ? Color(0xFF81FEB9)
                                       : PluginColorsDark.primary,
                                   fontSize: UI.getTextSize(14, context),
-                                  fontFamily: 'TitilliumWeb',
+                                  fontFamily:
+                                      UI.getFontFamily('TitilliumWeb', context),
                                   fontWeight: FontWeight.w400,
                                 ),
                               )
@@ -232,7 +233,7 @@ class PluginTxDetail extends StatelessWidget {
                     fontSize: UI.getTextSize(20, context),
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
-                    fontFamily: "TitilliumWeb"),
+                    fontFamily: UI.getFontFamily('TitilliumWeb', context)),
                 backgroundColor: PluginColorsDark.headline1,
                 onPressed: () async {
                   await UI.launchURL(pnLink);
