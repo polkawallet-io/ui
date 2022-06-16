@@ -155,6 +155,16 @@ class UI {
                 false)
             ? 1.5
             : 0.0;
-    return size - localeTextSize;
+    return size <= 12 ? size : (size - localeTextSize);
+  }
+
+  static String? getFontFamily(String fontFamilyEn, BuildContext context,
+      {String? fontFamilyZh, Locale? locale}) {
+    final fontFamilyLocale =
+        ((locale ?? I18n.of(context)?.locale)?.toString().contains('zh') ??
+                false)
+            ? fontFamilyZh
+            : fontFamilyEn;
+    return fontFamilyLocale;
   }
 }

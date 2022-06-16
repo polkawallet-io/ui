@@ -25,7 +25,7 @@ class PluginInputBalance extends StatefulWidget {
       this.onInputChange,
       this.onSetMax,
       this.enabled = true,
-      this.tokenBgColor = const Color(0xFFFC8156),
+      this.tokenBgColor = const Color(0xFFFF7849),
       this.marketPrices,
       this.tokenSelectTitle,
       this.tokenOptions,

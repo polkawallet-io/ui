@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 
 class PluginRadioButton extends StatelessWidget {
   const PluginRadioButton({Key? key, this.value = false}) : super(key: key);
@@ -10,7 +11,7 @@ class PluginRadioButton extends StatelessWidget {
       width: 14,
       height: 14,
       decoration: BoxDecoration(
-          color: value ? Color(0xFFFC8156) : Color(0x66FFFFFF),
+          color: value ? PluginColorsDark.primary : Color(0x66FFFFFF),
           borderRadius: BorderRadius.circular(7)),
       child: value
           ? Center(
