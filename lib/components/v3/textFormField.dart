@@ -364,7 +364,7 @@ class TextFormField extends FormField<String> {
                                       fontSize:
                                           UI.getTextSize(16, field.context),
                                       fontFamily: UI.getFontFamily(
-                                          'TitilliumWeb', context),
+                                          'TitilliumWeb', field.context),
                                       color: Color(0x77565554)),
                                   suffix: decoration!.suffix != null
                                       ? Visibility(
