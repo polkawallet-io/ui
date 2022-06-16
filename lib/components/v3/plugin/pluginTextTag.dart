@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 
 class PluginTextTag extends StatelessWidget {
@@ -26,18 +25,23 @@ class PluginTextTag extends StatelessWidget {
     return Container(
       alignment: Alignment.bottomLeft,
       child: TagBgContainer(
-        margin: margin,
-        padding: padding,
-        height: height,
-        backgroundColor: backgroundColor,
-        child: child ??
-            Text(
-              title,
-              style: style ??
-                  Theme.of(context).textTheme.headline4?.copyWith(
-                      fontWeight: FontWeight.w600, color: Color(0xFF212123)),
-            ),
-      ),
+          margin: margin,
+          padding: padding,
+          height: height,
+          backgroundColor: backgroundColor,
+          child: child ??
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: style ??
+                        Theme.of(context).textTheme.headline4?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF212123)),
+                  )
+                ],
+              )),
     );
   }
 }
@@ -64,7 +68,7 @@ class TagBgContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 10),
+      padding: padding ?? EdgeInsets.only(left: 7, right: 12),
       height: height,
       margin: margin,
       decoration: ShapeDecoration(
