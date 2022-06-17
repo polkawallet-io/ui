@@ -19,7 +19,8 @@ enum TransferIconType {
   add_provision,
   stake,
   unstake,
-  claim_rewards
+  claim_rewards,
+  expand_collateral
 }
 
 class TransferIcon extends StatelessWidget {
@@ -107,6 +108,8 @@ class TransferIcon extends StatelessWidget {
         return "packages/polkawallet_ui/assets/images/unstake.svg";
       case TransferIconType.claim_rewards:
         return "packages/polkawallet_ui/assets/images/reward.svg";
+      case TransferIconType.expand_collateral:
+        return "packages/polkawallet_ui/assets/images/expandcollateral.svg";
     }
   }
 }
