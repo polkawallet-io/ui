@@ -278,6 +278,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   void _updateTxStatus(BuildContext context, String status) {
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+    if (args.onStatusChange != null) {
+      args.onStatusChange!(status);
+    }
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
