@@ -23,6 +23,7 @@ dependencies:
   flutter_screenutil: ^5.0.0+2
   scrollable_positioned_list: ^0.2.3
   card_swiper: ^2.0.3
+  share_plus: ^4.0.9
   # simple_shadow: ^0.2.0
 
 #dependency_overrides:

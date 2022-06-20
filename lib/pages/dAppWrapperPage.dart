@@ -21,6 +21,7 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DAppWrapperPage extends StatefulWidget {
   DAppWrapperPage(this.plugin, this.keyring,
@@ -46,10 +47,15 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
 
   Widget _buildScaffold(
       {Function? onBack, Widget? body, Function()? actionOnPressed}) {
+    String url;
+    if (ModalRoute.of(context)!.settings.arguments is Map) {
+      url = (ModalRoute.of(context)!.settings.arguments as Map)["url"];
+    } else {
+      url = ModalRoute.of(context)!.settings.arguments as String;
+    }
     if (ModalRoute.of(context)!.settings.arguments is Map &&
-        (ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]) {
-      final String url =
-          (ModalRoute.of(context)!.settings.arguments as Map)["url"];
+        "${(ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]}" ==
+            "true") {
       return PluginScaffold(
         appBar: PluginAppBar(
           title: Text(url),
@@ -79,7 +85,6 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         body: body,
       );
     }
-    final String url = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
         appBar: AppBar(
             title: Text(
@@ -416,6 +421,28 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                     },
                     child: Text(
                       "刷新",
+                      style: TextStyle(color: Color(0xFF007AFE)),
+                    ),
+                  ),
+                  CupertinoActionSheetAction(
+                    onPressed: () {
+                      Navigator.pop(contextPopup);
+                      Share.share(
+                          "https://polkawallet.io${DAppWrapperPage.route}?url=$url",
+                          subject: url);
+                    },
+                    child: Text(
+                      "转发",
+                      style: TextStyle(color: Color(0xFF007AFE)),
+                    ),
+                  ),
+                  CupertinoActionSheetAction(
+                    onPressed: () {
+                      Navigator.pop(contextPopup);
+                      UI.launchURL(url);
+                    },
+                    child: Text(
+                      "在浏览器中打开",
                       style: TextStyle(color: Color(0xFF007AFE)),
                     ),
                   ),
