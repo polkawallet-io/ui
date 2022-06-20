@@ -575,9 +575,9 @@ class _PopupMenu<T> extends StatelessWidget {
         CurveTween(curve: Interval(0.0, unit * route.items.length));
 
     final Widget child = ConstrainedBox(
-      constraints: const BoxConstraints(
-        minWidth: _kMenuWidth,
-        maxWidth: _kMenuWidth,
+      constraints: BoxConstraints(
+        minWidth: route.itemWidth ?? _kMenuWidth,
+        maxWidth: route.itemWidth ?? _kMenuWidth,
       ),
       child: IntrinsicWidth(
         stepWidth: _kMenuWidthStep,
@@ -740,11 +740,13 @@ class _PopupMenuRoute<T> extends PopupRoute<T> {
     this.shape,
     this.color,
     required this.capturedThemes,
+    this.itemWidth,
   }) : itemSizes = List<Size?>.filled(items.length, null);
 
   final RelativeRect position;
   final List<PopupMenuEntry<T>> items;
   final List<Size?> itemSizes;
+  final double? itemWidth;
   final T? initialValue;
   final double? elevation;
   final String? semanticLabel;
@@ -877,6 +879,7 @@ Future<T?> showMenu<T>({
   ShapeBorder? shape,
   Color? color,
   bool useRootNavigator = false,
+  double? itemWidth,
 }) {
   assert(context != null);
   assert(position != null);
@@ -898,17 +901,17 @@ Future<T?> showMenu<T>({
   final NavigatorState navigator =
       Navigator.of(context, rootNavigator: useRootNavigator);
   return navigator.push(_PopupMenuRoute<T>(
-    position: position,
-    items: items,
-    initialValue: initialValue,
-    elevation: elevation,
-    semanticLabel: semanticLabel,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    shape: shape,
-    color: color,
-    capturedThemes:
-        InheritedTheme.capture(from: context, to: navigator.context),
-  ));
+      position: position,
+      items: items,
+      initialValue: initialValue,
+      elevation: elevation,
+      semanticLabel: semanticLabel,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      shape: shape,
+      color: color,
+      capturedThemes:
+          InheritedTheme.capture(from: context, to: navigator.context),
+      itemWidth: itemWidth));
 }
 
 /// Signature for the callback invoked when a menu item is selected. The
@@ -986,24 +989,25 @@ class PopupMenuButton<T> extends StatefulWidget {
   /// Creates a button that shows a popup menu.
   ///
   /// The [itemBuilder] argument must not be null.
-  const PopupMenuButton({
-    Key? key,
-    required this.itemBuilder,
-    this.initialValue,
-    this.onSelected,
-    this.onCanceled,
-    this.tooltip,
-    this.elevation,
-    this.padding = const EdgeInsets.all(8.0),
-    this.child,
-    this.icon,
-    this.iconSize,
-    this.offset = Offset.zero,
-    this.enabled = true,
-    this.shape,
-    this.color,
-    this.enableFeedback,
-  })  : assert(itemBuilder != null),
+  const PopupMenuButton(
+      {Key? key,
+      required this.itemBuilder,
+      this.initialValue,
+      this.onSelected,
+      this.onCanceled,
+      this.tooltip,
+      this.elevation,
+      this.padding = const EdgeInsets.all(8.0),
+      this.child,
+      this.icon,
+      this.iconSize,
+      this.offset = Offset.zero,
+      this.enabled = true,
+      this.shape,
+      this.color,
+      this.enableFeedback,
+      this.itemWidth})
+      : assert(itemBuilder != null),
         assert(offset != null),
         assert(enabled != null),
         assert(
@@ -1017,6 +1021,9 @@ class PopupMenuButton<T> extends StatefulWidget {
 
   /// The value of the menu item, if any, that should be highlighted when the menu opens.
   final T? initialValue;
+
+  /// The value of the menu item, if any, that should be highlighted when the menu opens.
+  final double? itemWidth;
 
   /// Called when the user selects a value from the popup menu created by this button.
   ///
@@ -1139,14 +1146,15 @@ class PopupMenuButtonState<T> extends State<PopupMenuButton<T>> {
     // Only show the menu if there is something to show
     if (items.isNotEmpty) {
       showMenu<T?>(
-        context: context,
-        elevation: widget.elevation ?? popupMenuTheme.elevation,
-        items: items,
-        initialValue: widget.initialValue,
-        position: position,
-        shape: widget.shape ?? popupMenuTheme.shape,
-        color: widget.color ?? popupMenuTheme.color,
-      ).then<void>((T? newValue) {
+              context: context,
+              elevation: widget.elevation ?? popupMenuTheme.elevation,
+              items: items,
+              initialValue: widget.initialValue,
+              position: position,
+              shape: widget.shape ?? popupMenuTheme.shape,
+              color: widget.color ?? popupMenuTheme.color,
+              itemWidth: widget.itemWidth)
+          .then<void>((T? newValue) {
         if (!mounted) return null;
         if (newValue == null) {
           widget.onCanceled?.call();
