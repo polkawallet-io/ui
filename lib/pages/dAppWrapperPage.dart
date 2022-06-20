@@ -68,9 +68,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               child: PluginIconButton(
                 onPressed: actionOnPressed,
                 icon: Icon(
-                  CupertinoIcons.clear,
+                  Icons.more_horiz,
                   color: Colors.black,
-                  size: 16,
+                  size: 18,
                 ),
               ),
             )
@@ -95,9 +95,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 child: v3.IconButton(
                   onPressed: actionOnPressed,
                   icon: Icon(
-                    CupertinoIcons.clear,
-                    color: Theme.of(context).unselectedWidgetColor,
-                    size: 16,
+                    Icons.more_horiz,
+                    color: Colors.black,
+                    size: 18,
                   ),
                 ),
               )
@@ -393,8 +393,53 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           }
         },
         actionOnPressed: () {
-          _isWillClose = true;
-          Navigator.of(context).pop();
+          final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+          showCupertinoModalPopup(
+            context: context,
+            builder: (contextPopup) {
+              return CupertinoActionSheet(
+                actions: <Widget>[
+                  CupertinoActionSheetAction(
+                    onPressed: () {
+                      Navigator.pop(contextPopup);
+                      UI.copyAndNotify(context, url);
+                    },
+                    child: Text(
+                      "复制连接",
+                      style: TextStyle(color: Color(0xFF007AFE)),
+                    ),
+                  ),
+                  CupertinoActionSheetAction(
+                    onPressed: () {
+                      Navigator.pop(contextPopup);
+                      _controller!.reload();
+                    },
+                    child: Text(
+                      "刷新",
+                      style: TextStyle(color: Color(0xFF007AFE)),
+                    ),
+                  ),
+                  CupertinoActionSheetAction(
+                    onPressed: () {
+                      Navigator.pop(contextPopup);
+                      _isWillClose = true;
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "关闭",
+                      style: TextStyle(color: Color(0xFF007AFE)),
+                    ),
+                  )
+                ],
+                cancelButton: CupertinoActionSheetAction(
+                  onPressed: () {
+                    Navigator.pop(contextPopup);
+                  },
+                  child: Text(dic['cancel']!),
+                ),
+              );
+            },
+          );
         },
         body: SafeArea(
           child: Stack(
