@@ -995,6 +995,7 @@ class PopupMenuButton<T> extends StatefulWidget {
       this.initialValue,
       this.onSelected,
       this.onCanceled,
+      this.onShow,
       this.tooltip,
       this.elevation,
       this.padding = const EdgeInsets.all(8.0),
@@ -1022,7 +1023,7 @@ class PopupMenuButton<T> extends StatefulWidget {
   /// The value of the menu item, if any, that should be highlighted when the menu opens.
   final T? initialValue;
 
-  /// The value of the menu item, if any, that should be highlighted when the menu opens.
+  /// The value of the menu itemWidth.
   final double? itemWidth;
 
   /// Called when the user selects a value from the popup menu created by this button.
@@ -1035,6 +1036,9 @@ class PopupMenuButton<T> extends StatefulWidget {
   ///
   /// If the user selects a value, [onSelected] is called instead.
   final PopupMenuCanceled? onCanceled;
+
+  /// Called when the popup menu show.
+  final PopupMenuCanceled? onShow;
 
   /// Text that describes the action that will occur when the button is pressed.
   ///
@@ -1162,6 +1166,7 @@ class PopupMenuButtonState<T> extends State<PopupMenuButton<T>> {
         }
         widget.onSelected?.call(newValue);
       });
+      widget.onShow?.call();
     }
   }
 

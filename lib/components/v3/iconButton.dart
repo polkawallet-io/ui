@@ -3,12 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IconButton extends StatelessWidget {
   const IconButton(
-      {Key? key, this.margin, this.icon, this.isBlueBg = false, this.onPressed})
+      {Key? key,
+      this.margin,
+      this.icon,
+      this.isBlueBg = false,
+      this.onPressed,
+      this.bgColor})
       : super(key: key);
 
   final EdgeInsetsGeometry? margin;
   final Widget? icon;
   final bool isBlueBg;
+  final Color? bgColor;
   final Function()? onPressed;
 
   @override
@@ -21,12 +27,17 @@ class IconButton extends StatelessWidget {
             margin: margin,
             width: 32.h,
             height: 32.h,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(!isBlueBg
-                        ? "packages/polkawallet_ui/assets/images/icon_bg_grey.png"
-                        : "packages/polkawallet_ui/assets/images/icon_bg_blue.png"),
-                    fit: BoxFit.fill)),
+            decoration: bgColor != null
+                ? BoxDecoration(
+                    color: bgColor,
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  )
+                : BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(!isBlueBg
+                            ? "packages/polkawallet_ui/assets/images/icon_bg_grey.png"
+                            : "packages/polkawallet_ui/assets/images/icon_bg_blue.png"),
+                        fit: BoxFit.fill)),
             child: Center(
               child: icon,
             ),
