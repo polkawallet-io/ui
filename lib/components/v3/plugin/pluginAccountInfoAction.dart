@@ -18,7 +18,9 @@ class PluginAccountInfoAction extends StatefulWidget {
       this.elevation,
       this.onSelected,
       this.nameStyle,
-      this.addressStyle});
+      this.addressStyle,
+      this.iconDefaultColor,
+      this.hasShadow = false});
   final Keyring keyring;
   final Offset? offset;
   final double? iconSize;
@@ -31,6 +33,8 @@ class PluginAccountInfoAction extends StatefulWidget {
   final void Function(String)? onSelected;
   final TextStyle? nameStyle;
   final TextStyle? addressStyle;
+  final Color? iconDefaultColor;
+  final bool? hasShadow;
 
   @override
   State<PluginAccountInfoAction> createState() =>
@@ -116,7 +120,10 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
               ];
             },
             icon: v3.IconButton(
-              bgColor: _isSelected ? Color(0xFFFF7849) : Colors.white,
+              hasShadow: widget.hasShadow,
+              bgColor: _isSelected
+                  ? Color(0xFFFF7849)
+                  : widget.iconDefaultColor ?? Colors.white,
               icon: AddressIcon(
                 widget.keyring.current.address,
                 svg: widget.keyring.current.icon,
