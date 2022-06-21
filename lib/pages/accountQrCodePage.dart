@@ -43,7 +43,6 @@ class AccountQrCodePage extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             RoundedCard(
-              color: Color(0xFFF8F5F2),
               margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
               child: Column(
                 children: <Widget>[

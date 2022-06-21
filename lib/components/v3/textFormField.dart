@@ -342,10 +342,29 @@ class TextFormField extends FormField<String> {
                           )
                         : Container(),
                     Stack(
+                      alignment: Alignment.center,
                       children: [
                         InnerShadowBGCar(
                             isWhite:
                                 (enabled ?? decoration!.enabled) ? true : false,
+                            child: Container(
+                              width: double.infinity,
+                              height: 11 + (maxLines ?? 1) * 21,
+                            )),
+                        Container(
+                          height: 11 + 16 + (maxLines ?? 1) * 21,
+                          decoration: hasFocus
+                              ? BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  border: Border.all(
+                                      width: 1.5,
+                                      color: Theme.of(field.context)
+                                          .toggleableActiveColor))
+                              : null,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
                             child: Row(
                               children: [
                                 Expanded(
@@ -423,18 +442,6 @@ class TextFormField extends FormField<String> {
                                     : Container()
                               ],
                             )),
-                        Container(
-                          height: 11 + 16 + (maxLines ?? 1) * 21,
-                          decoration: hasFocus
-                              ? BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  border: Border.all(
-                                      width: 1.5,
-                                      color: Theme.of(field.context)
-                                          .toggleableActiveColor))
-                              : null,
-                        ),
                       ],
                     ),
                     field.errorText != null && field.errorText!.isNotEmpty

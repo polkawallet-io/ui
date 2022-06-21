@@ -54,7 +54,7 @@ class TxDetail extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             Padding(
-                padding: EdgeInsets.only(top: 30),
+                padding: EdgeInsets.only(top: 31),
                 child: Image.asset(
                   'packages/polkawallet_ui/assets/images/bg_detail.png',
                   width: double.infinity,

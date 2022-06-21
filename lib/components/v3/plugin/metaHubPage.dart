@@ -126,24 +126,6 @@ class _MetaHubPageState extends State<MetaHubPage>
         50 -
         50;
     return Scaffold(
-        // appBar: PreferredSize(
-        //   child: Center(
-        //     child: Padding(
-        //       padding: EdgeInsets.only(
-        //           top: MediaQuery.of(context).padding.top, left: 16, right: 16),
-        //       child: TabBarPlugin(
-        //         datas: _titles,
-        //         controller: _tabBarPluginController,
-        //         onChange: (index) {
-        //           _swiperController.move(index);
-        //           _currentIndex = index;
-        //           _isTabBarOnClick = true;
-        //         },
-        //       ),
-        //     ),
-        //   ),
-        //   preferredSize: Size.fromHeight(71),
-        // ),
         body: SafeArea(
             child: Stack(children: [
       Container(
