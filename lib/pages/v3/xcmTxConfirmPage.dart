@@ -29,6 +29,7 @@ import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class XcmTxConfirmPage extends StatefulWidget {
   const XcmTxConfirmPage(this.plugin, this.keyring, this.getPassword,
@@ -315,7 +316,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final bool isObservation = widget.keyring.current.observation ?? false;
 
     final itemContentStyle = TextStyle(
-        fontFamily: 'TitilliumWeb',
+        fontFamily: UI.getFontFamily('TitilliumWeb', context),
         color: args.isPlugin
             ? Colors.white
             : Theme.of(context).unselectedWidgetColor);
@@ -465,7 +466,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                                 length: 6,
                                               )} $symbol',
                                               style: TextStyle(
-                                                fontFamily: 'TitilliumWeb',
+                                                fontFamily: UI.getFontFamily(
+                                                    'TitilliumWeb', context),
                                                 color: Theme.of(context)
                                                     .errorColor,
                                               ),
@@ -491,7 +493,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                   Text(
                                     '${args.module}.${args.call}',
                                     style: TextStyle(
-                                        fontSize: 14, color: Colors.white),
+                                        fontSize: UI.getTextSize(14, context),
+                                        color: Colors.white),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(left: 40),
@@ -501,7 +504,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                           : JsonEncoder.withIndent('  ')
                                               .convert(args.params)),
                                       style: TextStyle(
-                                          fontSize: 14, color: Colors.white),
+                                          fontSize: UI.getTextSize(14, context),
+                                          color: Colors.white),
                                     ),
                                   )
                                 ],
@@ -778,7 +782,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                               length: 6,
                                             )} $symbol',
                                             style: TextStyle(
-                                              fontFamily: 'TitilliumWeb',
+                                              fontFamily: UI.getFontFamily(
+                                                  'TitilliumWeb', context),
                                               color:
                                                   Theme.of(context).errorColor,
                                             ),
@@ -799,7 +804,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                               children: [
                                 Text(
                                   '${args.module}.${args.call}',
-                                  style: TextStyle(fontSize: 14),
+                                  style: TextStyle(
+                                      fontSize: UI.getTextSize(14, context)),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 40),
@@ -808,7 +814,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                         ? args.rawParams!
                                         : JsonEncoder.withIndent('  ')
                                             .convert(args.params)),
-                                    style: TextStyle(fontSize: 14),
+                                    style: TextStyle(
+                                        fontSize: UI.getTextSize(14, context)),
                                   ),
                                 )
                               ],
@@ -962,7 +969,7 @@ class _ConfirmItemLabel extends StatelessWidget {
       width: 88,
       child: Text(text,
           style: TextStyle(
-              fontFamily: 'TitilliumWeb',
+              fontFamily: UI.getFontFamily('TitilliumWeb', context),
               color: this.isPlugin ? Colors.white : null)),
       alignment: AlignmentDirectional.centerStart,
     );

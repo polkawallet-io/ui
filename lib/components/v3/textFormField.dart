@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 export 'package:flutter/services.dart' show SmartQuotesType, SmartDashesType;
 
@@ -360,8 +361,10 @@ class TextFormField extends FormField<String> {
                                   errorText: null,
                                   label: null,
                                   hintStyle: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: "TitilliumWeb",
+                                      fontSize:
+                                          UI.getTextSize(16, field.context),
+                                      fontFamily: UI.getFontFamily(
+                                          'TitilliumWeb', field.context),
                                       color: Color(0x77565554)),
                                   suffix: decoration!.suffix != null
                                       ? Visibility(
@@ -618,6 +621,7 @@ class InputDecorationV3 extends InputDecoration {
     this.semanticCounterText,
     this.alignLabelWithHint,
     this.constraints,
+    this.floatingLabelAlignment = FloatingLabelAlignment.start,
   })  : assert(enabled != null),
         assert(!(label != null && labelText != null),
             'Declaring both label and labelText is not supported.'),
@@ -631,7 +635,8 @@ class InputDecorationV3 extends InputDecoration {
   /// This type of input decoration does not include a border by default.
   ///
   /// Sets the [isCollapsed] property to true.
-  const InputDecorationV3.collapsed({
+  const InputDecorationV3.collapsed(
+    this.floatingLabelAlignment, {
     required this.hintText,
     this.floatingLabelBehavior,
     this.hintStyle,
@@ -1425,6 +1430,8 @@ class InputDecorationV3 extends InputDecoration {
   /// is null then the decorator will fill the available width with
   /// a default height based on text size.
   final BoxConstraints? constraints;
+
+  final FloatingLabelAlignment? floatingLabelAlignment;
 
   /// Creates a copy of this input decoration with the given fields replaced
   /// by the new values.

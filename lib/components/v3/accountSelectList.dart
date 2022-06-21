@@ -29,10 +29,9 @@ class AccountSelectList extends StatelessWidget {
               ),
               subtitle: Text(
                 Fmt.address(i.address),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    ?.copyWith(fontSize: 10, color: Color(0xFF908E8C)),
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                    fontSize: UI.getTextSize(10, context),
+                    color: Color(0xFF908E8C)),
               ),
               onTap: () => Navigator.of(context).pop(i),
             ));

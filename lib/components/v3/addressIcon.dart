@@ -46,7 +46,7 @@ class AddressIconTag extends StatelessWidget {
           child: Text(
             dic['nominate.$status']!,
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                fontSize: 8,
+                fontSize: UI.getTextSize(8, context),
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF3a3d40)),
           ),

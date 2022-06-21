@@ -85,7 +85,8 @@ class AccountInfo extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 16, top: 8),
                 child: Text(Fmt.address(address),
                     style: TextStyle(
-                        color: isPlugin ? Colors.white : null, fontSize: 14)),
+                        color: isPlugin ? Colors.white : null,
+                        fontSize: UI.getTextSize(14, context))),
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 8),

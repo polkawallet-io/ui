@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="52px" viewBox="0 0 16 52" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>画板</title>
-    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="画板" transform="translate(-171.000000, -24.000000)" fill="#FC8156">
-            <path d="M16,28 L16,72 C16,74.209139 17.790861,76 20,76 L183,76 C185.209139,76 187,74.209139 187,72 L187,40.2426407 C187,39.4469912 186.683929,38.6839295 186.12132,38.1213203 L172.87868,24.8786797 C172.316071,24.3160705 171.553009,24 170.757359,24 L20,24 C17.790861,24 16,25.790861 16,28 Z" id="路径-39备份-3"></path>
-        </g>
-    </g>
-</svg>

@@ -10,7 +10,8 @@ class Button extends StatelessWidget {
       this.icon,
       this.submitting = false,
       this.isBlueBg = true,
-      this.height})
+      this.height,
+      this.child})
       : super(key: key);
   final Function()? onPressed;
   final String title;
@@ -19,6 +20,7 @@ class Button extends StatelessWidget {
   final double? height;
   final TextStyle? style;
   final bool isBlueBg;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +32,21 @@ class Button extends StatelessWidget {
         height: height ?? 48,
         isBlueBg: isBlueBg,
         alignment: Alignment.center,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Visibility(
-              visible: submitting,
-              child: Container(
-                margin: EdgeInsets.only(right: 8),
-                child: CupertinoActivityIndicator(),
-              ),
+        child: child ??
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Visibility(
+                  visible: submitting,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 8),
+                    child: CupertinoActivityIndicator(),
+                  ),
+                ),
+                Text(title, style: style ?? Theme.of(context).textTheme.button),
+                icon != null ? icon! : Container(),
+              ],
             ),
-            Text(title, style: style ?? Theme.of(context).textTheme.button),
-            icon != null ? icon! : Container(),
-          ],
-        ),
       ),
     );
   }

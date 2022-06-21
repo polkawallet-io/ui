@@ -25,7 +25,6 @@ class PluginInputItem extends StatelessWidget {
         children: [
           label != null
               ? PluginTextTag(
-                  padding: EdgeInsets.zero,
                   title: label!,
                   style: labelStyle,
                   backgroundColor: labelBgColor,
@@ -39,10 +38,10 @@ class PluginInputItem extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: bgColor ?? Color(0x24FFFFFF),
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(label == null ? 6 : 0),
-                        bottomLeft: Radius.circular(6),
-                        topRight: Radius.circular(6),
-                        bottomRight: Radius.circular(6))),
+                        topLeft: Radius.circular(label == null ? 4 : 0),
+                        bottomLeft: Radius.circular(4),
+                        topRight: Radius.circular(4),
+                        bottomRight: Radius.circular(4))),
               ),
               child
             ],

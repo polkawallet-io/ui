@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class InfoItemRow extends StatelessWidget {
   InfoItemRow(this.label, this.content,
@@ -22,7 +23,7 @@ class InfoItemRow extends StatelessWidget {
       children: <Widget>[
         Text(
           label,
-          style: labelStyle ?? TextStyle(fontSize: 14),
+          style: labelStyle ?? TextStyle(fontSize: UI.getTextSize(14, context)),
         ),
         Expanded(
           child: Text(
@@ -31,7 +32,7 @@ class InfoItemRow extends StatelessWidget {
             style: contentStyle ??
                 (color != null || colorPrimary
                     ? TextStyle(
-                        fontSize: 18,
+                        fontSize: UI.getTextSize(18, context),
                         fontWeight: FontWeight.bold,
                         color: color ?? Theme.of(context).primaryColor,
                       )

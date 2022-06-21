@@ -25,7 +25,7 @@ class PluginInputBalance extends StatefulWidget {
       this.onInputChange,
       this.onSetMax,
       this.enabled = true,
-      this.tokenBgColor = const Color(0xFFFC8156),
+      this.tokenBgColor = const Color(0xFFFF7849),
       this.marketPrices,
       this.tokenSelectTitle,
       this.tokenOptions,
@@ -106,7 +106,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                     ?.copyWith(
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xFF26282D),
-                                        fontSize: 18)),
+                                        fontSize: UI.getTextSize(18, context))),
                           ),
                           Align(
                               alignment: Alignment.centerRight,
@@ -184,7 +184,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                                     .headline6
                                                     ?.copyWith(
                                                         color: Colors.white,
-                                                        fontSize: 14,
+                                                        fontSize:
+                                                            UI.getTextSize(
+                                                                14, context),
                                                         fontWeight:
                                                             FontWeight.w600),
                                               ),
@@ -195,7 +197,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                                     .headline6
                                                     ?.copyWith(
                                                         color: Colors.white,
-                                                        fontSize: 10,
+                                                        fontSize:
+                                                            UI.getTextSize(
+                                                                10, context),
                                                         fontWeight:
                                                             FontWeight.w300),
                                               ),
@@ -270,7 +274,6 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             children: [
               widget.titleTag != null
                   ? PluginTextTag(
-                      padding: EdgeInsets.zero,
                       title: widget.titleTag!,
                       backgroundColor: widget.enabled
                           ? PluginColorsDark.headline1
@@ -301,10 +304,10 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             decoration: BoxDecoration(
                 color: Color(_hasFocus ? 0x4cFFFFFF : 0x24FFFFFF),
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(widget.titleTag != null ? 0 : 6),
-                    bottomLeft: Radius.circular(6),
-                    topRight: Radius.circular(6),
-                    bottomRight: Radius.circular(6))),
+                    topLeft: Radius.circular(widget.titleTag != null ? 0 : 4),
+                    bottomLeft: Radius.circular(4),
+                    topRight: Radius.circular(4),
+                    bottomRight: Radius.circular(4))),
             child: Row(
               children: [
                 Expanded(

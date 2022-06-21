@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class CardButton extends StatelessWidget {
   CardButton({this.onPressed, required this.text, required this.icon, Key? key})
@@ -35,7 +36,8 @@ class CardButton extends StatelessWidget {
                 Text(
                   text,
                   style: Theme.of(context).textTheme.headline6!.copyWith(
-                      fontWeight: FontWeight.w600, fontFamily: "TitilliumWeb"),
+                      fontWeight: FontWeight.w600,
+                      fontFamily: UI.getFontFamily('TitilliumWeb', context)),
                 ),
               ],
             ),

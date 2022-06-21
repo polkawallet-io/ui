@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginTextTag.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginTabCard extends StatefulWidget {
   PluginTabCard(this.datas, this.onChange, this.initIndex,
@@ -33,12 +34,13 @@ class _PluginTabCardState extends State<PluginTabCard> {
               },
               child: PluginTextTag(
                 margin: EdgeInsets.only(right: 3),
-                padding: EdgeInsets.zero,
                 title: widget.datas[index],
                 style: Theme.of(context).textTheme.headline4?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF212123),
-                    fontSize: widget.initIndex == index ? 16 : 14),
+                    fontSize: widget.initIndex == index
+                        ? UI.getTextSize(16, context)
+                        : UI.getTextSize(14, context)),
                 height: widget.initIndex == index ? 28 : 25,
                 backgroundColor: widget.initIndex == index
                     ? PluginColorsDark.headline1

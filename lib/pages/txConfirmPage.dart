@@ -16,6 +16,7 @@ import 'package:polkawallet_ui/pages/accountListPage.dart';
 import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class TxConfirmPage extends StatefulWidget {
   const TxConfirmPage(this.plugin, this.keyring, this.getPassword,
@@ -547,7 +548,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           Text(
                                             '${_fee!.weight} Weight',
                                             style: TextStyle(
-                                              fontSize: 13,
+                                              fontSize:
+                                                  UI.getTextSize(13, context),
                                               color: Theme.of(context)
                                                   .unselectedWidgetColor,
                                             ),

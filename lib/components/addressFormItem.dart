@@ -71,7 +71,9 @@ class AddressFormItem extends StatelessWidget {
                         visible: isShowSubtitle,
                         child: Text(
                           Fmt.address(account!.address),
-                          style: TextStyle(fontSize: 14, color: color ?? grey),
+                          style: TextStyle(
+                              fontSize: UI.getTextSize(14, context),
+                              color: color ?? grey),
                         ))
                   ],
                 ),

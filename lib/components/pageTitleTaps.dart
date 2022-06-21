@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class PageTitleTabs extends StatelessWidget {
   PageTitleTabs({this.names, this.activeTab, this.onTab});
@@ -21,7 +22,7 @@ class PageTitleTabs extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      fontSize: 20,
+                      fontSize: UI.getTextSize(20, context),
                       color: activeTab == index
                           ? Theme.of(context).cardColor
                           : Colors.white70,

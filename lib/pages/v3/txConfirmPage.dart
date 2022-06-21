@@ -30,6 +30,7 @@ import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class TxConfirmPage extends StatefulWidget {
   const TxConfirmPage(this.plugin, this.keyring, this.getPassword,
@@ -277,6 +278,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   void _updateTxStatus(BuildContext context, String status) {
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+    if (args.onStatusChange != null) {
+      args.onStatusChange!(status);
+    }
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -341,7 +345,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     bool isUnsigned = args.isUnsigned ?? false;
 
     final itemContentStyle = TextStyle(
-        fontFamily: 'TitilliumWeb',
+        fontFamily: UI.getFontFamily('TitilliumWeb', context),
         color: args.isPlugin
             ? Colors.white
             : Theme.of(context).unselectedWidgetColor);
@@ -485,7 +489,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           length: 6,
                                         )} $symbol',
                                         style: TextStyle(
-                                          fontFamily: 'TitilliumWeb',
+                                          fontFamily: UI.getFontFamily(
+                                              'TitilliumWeb', context),
                                           color: Theme.of(context).errorColor,
                                         ),
                                       ),
@@ -509,8 +514,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           children: [
                             Text(
                               '${args.module}.${args.call}',
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: UI.getTextSize(14, context),
+                                  color: Colors.white),
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 40),
@@ -520,7 +526,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                     : JsonEncoder.withIndent('  ')
                                         .convert(args.params)),
                                 style: TextStyle(
-                                    fontSize: 14, color: Colors.white),
+                                    fontSize: UI.getTextSize(14, context),
+                                    color: Colors.white),
                               ),
                             )
                           ],
@@ -801,7 +808,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                         length: 6,
                                       )} $symbol',
                                       style: TextStyle(
-                                        fontFamily: 'TitilliumWeb',
+                                        fontFamily: UI.getFontFamily(
+                                            'TitilliumWeb', context),
                                         color: Theme.of(context).errorColor,
                                       ),
                                     ),
@@ -821,7 +829,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         children: [
                           Text(
                             '${args.module}.${args.call}',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(
+                                fontSize: UI.getTextSize(14, context)),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 40),
@@ -830,7 +839,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   ? args.rawParams!
                                   : JsonEncoder.withIndent('  ')
                                       .convert(args.params)),
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(
+                                  fontSize: UI.getTextSize(14, context)),
                             ),
                           )
                         ],
@@ -994,7 +1004,7 @@ class _ConfirmItemLabel extends StatelessWidget {
       width: 88,
       child: Text(text,
           style: TextStyle(
-              fontFamily: 'TitilliumWeb',
+              fontFamily: UI.getFontFamily('TitilliumWeb', context),
               color: this.isPlugin ? Colors.white : null)),
       alignment: AlignmentDirectional.centerStart,
     );

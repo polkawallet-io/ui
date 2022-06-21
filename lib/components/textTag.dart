@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class TextTag extends StatelessWidget {
   TextTag(this.text, {this.margin, this.padding, this.color, this.fontSize});
@@ -14,7 +15,7 @@ class TextTag extends StatelessWidget {
       child: Text(
         text!,
         style: TextStyle(
-          fontSize: fontSize ?? 10,
+          fontSize: fontSize ?? UI.getTextSize(10, context),
           color: Theme.of(context).cardColor,
         ),
       ),

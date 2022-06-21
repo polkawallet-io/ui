@@ -40,8 +40,8 @@ class TxDetail extends StatelessWidget {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final labelStyle = TextStyle(
       color: Theme.of(context).textSelectionTheme.selectionColor,
-      fontSize: 16,
-      fontFamily: 'TitilliumWeb',
+      fontSize: UI.getTextSize(16, context),
+      fontFamily: UI.getFontFamily('TitilliumWeb', context),
       fontWeight: FontWeight.w600,
     );
 
@@ -94,8 +94,9 @@ class TxDetail extends StatelessWidget {
                             color: success!
                                 ? Color(0xFF22BC5A)
                                 : Theme.of(context).disabledColor,
-                            fontSize: 14,
-                            fontFamily: 'TitilliumWeb',
+                            fontSize: UI.getTextSize(14, context),
+                            fontFamily:
+                                UI.getFontFamily('TitilliumWeb', context),
                             fontWeight: FontWeight.w400,
                           ),
                         )
@@ -202,10 +203,10 @@ class TxDetail extends StatelessWidget {
                   child: Button(
                 title: 'Polkascan',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: UI.getTextSize(20, context),
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
-                    fontFamily: "TitilliumWeb"),
+                    fontFamily: UI.getFontFamily('TitilliumWeb', context)),
                 isBlueBg: true,
                 onPressed: () async {
                   await UI.launchURL(pnLink);

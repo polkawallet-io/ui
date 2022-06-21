@@ -3,10 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CupertinoSwitch extends StatelessWidget {
   const CupertinoSwitch(
-      {required this.value, required this.onChanged, Key? key})
+      {required this.value,
+      required this.onChanged,
+      this.isPlugin = false,
+      Key? key})
       : super(key: key);
   final bool value;
   final ValueChanged<bool>? onChanged;
+  final bool isPlugin;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class CupertinoSwitch extends StatelessWidget {
         this.onChanged!(!this.value);
       },
       child: Image.asset(
-        "packages/polkawallet_ui/assets/images/switch_${this.value ? 'open' : 'close'}.png",
+        "packages/polkawallet_ui/assets/images/${isPlugin ? 'plugin_' : ''}switch_${this.value ? 'open' : 'close'}.png",
         width: 42.w,
       ),
     );
