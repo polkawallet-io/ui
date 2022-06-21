@@ -134,8 +134,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
               padding: EdgeInsets.only(bottom: 3),
               child: Text(
                 widget.labelText ?? "",
-                style: labelStyle?.copyWith(
-                    fontWeight: hasFocus ? FontWeight.w600 : FontWeight.w400),
+                style: labelStyle,
               ),
             )
           : Container(),
@@ -189,7 +188,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                     hintText: widget.hintText,
                     hintStyle: widget.hintStyle,
                     errorStyle: widget.errorStyle,
-                    suffixIcon: GestureDetector(
+                    suffix: GestureDetector(
                       onTap: () async {
                         var res = await Navigator.of(context).pushNamed(
                           AccountListPage.route,
@@ -200,12 +199,10 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                           widget.onChanged!(res as KeyPairData);
                         }
                       },
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(12, 12, 0, 12),
-                        child: SvgPicture.asset(
-                          "packages/polkawallet_ui/assets/images/icon_user.svg",
-                          color: Theme.of(context).disabledColor,
-                        ),
+                      child: SvgPicture.asset(
+                        "packages/polkawallet_ui/assets/images/icon_user.svg",
+                        height: 24,
+                        color: Theme.of(context).disabledColor,
                       ),
                     ),
                   ),

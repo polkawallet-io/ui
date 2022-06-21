@@ -28,8 +28,8 @@ class RoundedCard extends StatelessWidget {
         color: this.color ?? Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
-            color: Color(0x30000000),
-            blurRadius: 2.0, // has the effect of softening the shadow
+            color: Color(0x24000000),
+            blurRadius: 1.0, // has the effect of softening the shadow
             spreadRadius: 0.0, // has the effect of extending the shadow
             offset: Offset(
               1.0, // horizontal, move right 10

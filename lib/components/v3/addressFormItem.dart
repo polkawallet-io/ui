@@ -80,22 +80,8 @@ class AddressFormItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Visibility(visible: label != null, child: Text(label ?? "")),
-        isGreyBg
-            ? InnerShadowBGCar(padding: EdgeInsets.only(left: 8), child: child)
-            : Container(
-                margin: this.margin ?? EdgeInsets.only(top: 4, bottom: 4),
-                padding: EdgeInsets.all(8),
-                decoration: isGreyBg
-                    ? BoxDecoration(
-                        color: Color(0xFFE3DED8),
-                        borderRadius: BorderRadius.all(Radius.circular(10)))
-                    : BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                                "packages/polkawallet_ui/assets/images/bg_input.png"),
-                            fit: BoxFit.fill)),
-                child: child,
-              )
+        InnerShadowBGCar(
+            padding: EdgeInsets.only(left: 8), child: child, isWhite: !isGreyBg)
       ],
     );
 

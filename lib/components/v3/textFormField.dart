@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:polkawallet_ui/components/v3/innerShadow.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 export 'package:flutter/services.dart' show SmartQuotesType, SmartDashesType;
@@ -56,6 +57,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           });
         },
         child: TextFormField(
+          key: Key("1"),
           controller: widget.controller,
           focusNode: widget.focusNode,
           onChanged: widget.onChanged,
@@ -335,102 +337,106 @@ class TextFormField extends FormField<String> {
                                 ? decoration?.label
                                 : Text(
                                     decoration?.labelText ?? "",
-                                    style: labelStyle?.copyWith(
-                                        fontWeight: hasFocus
-                                            ? FontWeight.w600
-                                            : FontWeight.w400),
+                                    style: labelStyle,
                                   ),
                           )
                         : Container(),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(
-                            16, hasFocus ? 0 : 4, 16, hasFocus ? 4 : 0),
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    "packages/polkawallet_ui/assets/images/bg_input${hasFocus ? '_select' : ''}${maxLines == 3 ? '_x2' : ''}.png"),
-                                fit: BoxFit.fill)),
-                        child: Stack(
-                          alignment: Alignment.centerRight,
-                          children: [
-                            TextField(
-                              restorationId: restorationId,
-                              controller: state._effectiveController,
-                              focusNode: focusNode,
-                              decoration: effectiveDecoration.copyWith(
-                                  errorText: null,
-                                  label: null,
-                                  hintStyle: TextStyle(
-                                      fontSize:
-                                          UI.getTextSize(16, field.context),
-                                      fontFamily: UI.getFontFamily(
-                                          'TitilliumWeb', field.context),
-                                      color: Color(0x77565554)),
-                                  suffix: decoration!.suffix != null
-                                      ? Visibility(
-                                          child: decoration.suffix!,
-                                          visible: false,
-                                          maintainSize: true,
-                                          maintainState: true,
-                                          maintainAnimation: true)
-                                      : null),
-                              keyboardType: keyboardType,
-                              textInputAction: textInputAction,
-                              style: style,
-                              strutStyle: strutStyle,
-                              textAlign: textAlign,
-                              textAlignVertical: textAlignVertical,
-                              textDirection: textDirection,
-                              textCapitalization: textCapitalization,
-                              autofocus: autofocus,
-                              toolbarOptions: toolbarOptions,
-                              readOnly: readOnly,
-                              showCursor: showCursor,
-                              obscuringCharacter: obscuringCharacter,
-                              obscureText: obscureText,
-                              autocorrect: autocorrect,
-                              smartDashesType: smartDashesType ??
-                                  (obscureText
-                                      ? SmartDashesType.disabled
-                                      : SmartDashesType.enabled),
-                              smartQuotesType: smartQuotesType ??
-                                  (obscureText
-                                      ? SmartQuotesType.disabled
-                                      : SmartQuotesType.enabled),
-                              enableSuggestions: enableSuggestions,
-                              maxLengthEnforcement: maxLengthEnforcement,
-                              maxLines: maxLines,
-                              minLines: minLines,
-                              expands: expands,
-                              maxLength: null,
-                              onChanged: onChangedHandler,
-                              onTap: onTap,
-                              onEditingComplete: onEditingComplete,
-                              onSubmitted: onFieldSubmitted,
-                              inputFormatters: inputFormatters,
-                              enabled: enabled ?? decoration.enabled,
-                              cursorWidth: 2,
-                              cursorHeight: 20,
-                              cursorRadius: cursorRadius,
-                              cursorColor:
-                                  Theme.of(field.context).toggleableActiveColor,
-                              scrollPadding: scrollPadding,
-                              scrollPhysics: scrollPhysics,
-                              keyboardAppearance: keyboardAppearance,
-                              enableInteractiveSelection:
-                                  enableInteractiveSelection,
-                              selectionControls: selectionControls,
-                              buildCounter: buildCounter,
-                              autofillHints: autofillHints,
-                              scrollController: scrollController,
-                              enableIMEPersonalizedLearning:
-                                  enableIMEPersonalizedLearning,
-                            ),
-                            decoration.suffix != null
-                                ? decoration.suffix!
-                                : Container()
-                          ],
-                        )),
+                    Stack(
+                      children: [
+                        InnerShadowBGCar(
+                            isWhite:
+                                (enabled ?? decoration!.enabled) ? true : false,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: TextField(
+                                  restorationId: restorationId,
+                                  controller: state._effectiveController,
+                                  focusNode: focusNode,
+                                  decoration: effectiveDecoration.copyWith(
+                                      errorText: null,
+                                      label: null,
+                                      isDense: true,
+                                      contentPadding:
+                                          EdgeInsets.symmetric(vertical: 5.5),
+                                      hintStyle: TextStyle(
+                                          fontSize:
+                                              UI.getTextSize(16, field.context),
+                                          fontFamily: UI.getFontFamily(
+                                              'TitilliumWeb', field.context),
+                                          color: Color(0x77565554)),
+                                      suffix: null),
+                                  keyboardType: keyboardType,
+                                  textInputAction: textInputAction,
+                                  style: style,
+                                  strutStyle: strutStyle,
+                                  textAlign: textAlign,
+                                  textAlignVertical: textAlignVertical,
+                                  textDirection: textDirection,
+                                  textCapitalization: textCapitalization,
+                                  autofocus: autofocus,
+                                  toolbarOptions: toolbarOptions,
+                                  readOnly: readOnly,
+                                  showCursor: showCursor,
+                                  obscuringCharacter: obscuringCharacter,
+                                  obscureText: obscureText,
+                                  autocorrect: autocorrect,
+                                  smartDashesType: smartDashesType ??
+                                      (obscureText
+                                          ? SmartDashesType.disabled
+                                          : SmartDashesType.enabled),
+                                  smartQuotesType: smartQuotesType ??
+                                      (obscureText
+                                          ? SmartQuotesType.disabled
+                                          : SmartQuotesType.enabled),
+                                  enableSuggestions: enableSuggestions,
+                                  maxLengthEnforcement: maxLengthEnforcement,
+                                  maxLines: maxLines,
+                                  minLines: minLines,
+                                  expands: expands,
+                                  maxLength: null,
+                                  onChanged: onChangedHandler,
+                                  onTap: onTap,
+                                  onEditingComplete: onEditingComplete,
+                                  onSubmitted: onFieldSubmitted,
+                                  inputFormatters: inputFormatters,
+                                  enabled: enabled ?? decoration!.enabled,
+                                  cursorWidth: 2,
+                                  cursorHeight: 20,
+                                  cursorRadius: cursorRadius,
+                                  cursorColor: Theme.of(field.context)
+                                      .toggleableActiveColor,
+                                  scrollPadding: scrollPadding,
+                                  scrollPhysics: scrollPhysics,
+                                  keyboardAppearance: keyboardAppearance,
+                                  enableInteractiveSelection:
+                                      enableInteractiveSelection,
+                                  selectionControls: selectionControls,
+                                  buildCounter: buildCounter,
+                                  autofillHints: autofillHints,
+                                  scrollController: scrollController,
+                                  enableIMEPersonalizedLearning:
+                                      enableIMEPersonalizedLearning,
+                                )),
+                                decoration!.suffix != null
+                                    ? decoration.suffix!
+                                    : Container()
+                              ],
+                            )),
+                        Container(
+                          height: 11 + 16 + (maxLines ?? 1) * 21,
+                          decoration: hasFocus
+                              ? BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  border: Border.all(
+                                      width: 1.5,
+                                      color: Theme.of(field.context)
+                                          .toggleableActiveColor))
+                              : null,
+                        ),
+                      ],
+                    ),
                     field.errorText != null && field.errorText!.isNotEmpty
                         ? Padding(
                             padding: EdgeInsets.only(top: 3),
@@ -1515,7 +1521,7 @@ class InputDecorationV3 extends InputDecoration {
       prefixIconConstraints:
           prefixIconConstraints ?? this.prefixIconConstraints,
       suffixIcon: suffixIcon ?? this.suffixIcon,
-      suffix: suffix ?? this.suffix,
+      suffix: suffix,
       suffixText: suffixText ?? this.suffixText,
       suffixStyle: suffixStyle ?? this.suffixStyle,
       suffixIconConstraints:

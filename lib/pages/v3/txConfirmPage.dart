@@ -892,7 +892,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           trackHeight: 16,
                                           activeTrackColor: Theme.of(context)
                                               .toggleableActiveColor,
-                                          inactiveTrackColor: Color(0xFFE3DED8),
+                                          inactiveTrackColor: Color(0xFFE4E4E3),
                                           overlayColor: Colors.transparent,
                                           thumbShape:
                                               SliderThumbShape(_image ?? null)),
