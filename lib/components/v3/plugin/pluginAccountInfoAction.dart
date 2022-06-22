@@ -47,8 +47,9 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(right: 6.w),
+        margin: EdgeInsets.only(right: 16.w),
         child: v3.PopupMenuButton(
+            iconSize: 30,
             offset: widget.offset ?? Offset(-10, 52),
             itemWidth: widget.itemWidth ?? 160.w,
             color: Theme.of(context).cardColor,
