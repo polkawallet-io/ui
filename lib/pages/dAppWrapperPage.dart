@@ -60,9 +60,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         appBar: PluginAppBar(
           title: Text(url),
           leading: PluginIconButton(
-            icon: SvgPicture.asset(
-              "packages/polkawallet_ui/assets/images/icon_back_24.svg",
-              color: Colors.black,
+            icon: Image.asset(
+              "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
+              width: 9,
             ),
             onPressed: () {
               onBack!();
