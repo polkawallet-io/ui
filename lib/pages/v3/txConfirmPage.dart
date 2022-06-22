@@ -18,6 +18,7 @@ import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/components/v3/collapsedContainer.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/components/v3/innerShadow.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
@@ -106,7 +107,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       await showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
             title: errorMsg != null
                 ? Icon(Icons.cancel, color: Colors.red, size: 32)
                 : Icon(Icons.check_circle, color: Colors.lightGreen, size: 32),
@@ -205,7 +206,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
             title: Text(dic['note']!),
             content: Text(
                 "<${args.module}.${args.call}> ${dic['tx.disabledCall']!}"),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/numberInputFormatter.dart';
@@ -19,7 +20,7 @@ class UI {
       builder: (BuildContext context) {
         final Map<String, String> dic =
             I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
-        return CupertinoAlertDialog(
+        return PolkawalletAlertDialog(
           title: Container(),
           content: Text('${dic['copy']} ${dic['success']}'),
         );

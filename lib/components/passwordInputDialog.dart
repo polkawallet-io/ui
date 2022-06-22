@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/api/api.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class PasswordInputDialog extends StatefulWidget {
@@ -40,7 +41,8 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
+            type: DialogType.warn,
             title: Text(dic!['pass.error']!),
             content: Text(dic['pass.error.text']!),
             actions: <Widget>[
@@ -77,7 +79,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
 
-    return CupertinoAlertDialog(
+    return PolkawalletAlertDialog(
       title: widget.title ?? Container(),
       content: Column(
         children: [

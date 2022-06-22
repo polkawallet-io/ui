@@ -12,6 +12,7 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/addressFormItem.dart';
 import 'package:polkawallet_ui/components/tapTooltip.dart';
 import 'package:polkawallet_ui/components/txButton.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/pages/accountListPage.dart';
 import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/format.dart';
@@ -103,7 +104,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       await showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
             title: errorMsg != null
                 ? Icon(Icons.cancel, color: Colors.red, size: 32)
                 : Icon(Icons.check_circle, color: Colors.lightGreen, size: 32),
@@ -148,7 +149,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
             title: Text(Fmt.address(widget.keyring.current.address)),
             content: Text(dic!['tx.proxy.invalid']!),
             actions: <Widget>[
@@ -236,7 +237,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
             title: Text(dic['note']!),
             content: Text(
                 "<${args.module}.${args.call}> ${dic['tx.disabledCall']!}"),
