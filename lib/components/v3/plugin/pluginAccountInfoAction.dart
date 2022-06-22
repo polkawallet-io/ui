@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/index.dart' as v3;
@@ -47,11 +46,11 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(right: 16.w),
+        margin: EdgeInsets.only(right: 16),
         child: v3.PopupMenuButton(
             iconSize: 30,
             offset: widget.offset ?? Offset(-10, 52),
-            itemWidth: widget.itemWidth ?? 160.w,
+            itemWidth: widget.itemWidth ?? 160,
             color: Theme.of(context).cardColor,
             padding: widget.padding ?? EdgeInsets.zero,
             elevation: widget.elevation ?? 3,
@@ -75,7 +74,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
               return <v3.PopupMenuEntry<String>>[
                 v3.PopupMenuItem(
                   value: "0",
-                  height: widget.itemHeight ?? 52.h,
+                  height: widget.itemHeight ?? 52,
                   padding: EdgeInsets.zero,
                   child: Row(
                     children: [
@@ -83,7 +82,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                         padding: EdgeInsets.fromLTRB(10, 0, 7, 0),
                         child: AddressIcon(widget.keyring.current.address,
                             svg: widget.keyring.current.icon,
-                            size: widget.itemIconSize ?? 30.w),
+                            size: widget.itemIconSize ?? 30),
                       ),
                       Expanded(
                         child: Column(
@@ -121,14 +120,15 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
               ];
             },
             icon: v3.IconButton(
-              hasShadow: widget.hasShadow,
+              padding: EdgeInsets.zero,
+              iconSize: 30,
               bgColor: _isSelected
                   ? Color(0xFFFF7849)
                   : widget.iconDefaultColor ?? Colors.white,
               icon: AddressIcon(
                 widget.keyring.current.address,
                 svg: widget.keyring.current.icon,
-                size: widget.iconSize ?? 22.w,
+                size: widget.iconSize ?? 22,
                 tapToCopy: false,
               ),
             )));
