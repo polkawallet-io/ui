@@ -490,9 +490,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 onSignExtrinsicRequest: _onSignRequest,
                 checkAuth: widget.checkAuth,
               ),
-              Visibility(
-                  visible: _loading,
-                  child: Center(child: PluginLoadingWidget()))
+              // Visibility(
+              //     visible: _loading,
+              //     child: Center(child: PluginLoadingWidget()))
             ],
           ),
         ),

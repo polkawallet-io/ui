@@ -40,9 +40,9 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: leading ??
           (isShowLeading
               ? PluginIconButton(
-                  icon: SvgPicture.asset(
-                    "packages/polkawallet_ui/assets/images/icon_back_24.svg",
-                    color: Colors.black,
+                  icon: Image.asset(
+                    "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
+                    width: 9,
                   ),
                   onPressed: () => Navigator.of(context).pop(),
                 )

@@ -20,7 +20,7 @@ class PluginIconButton extends StatelessWidget {
             borderRadius: const BorderRadius.all(const Radius.circular(8)),
             color: this.color,
           ),
-          child: icon,
+          child: Center(child: icon),
         ),
       ),
     );

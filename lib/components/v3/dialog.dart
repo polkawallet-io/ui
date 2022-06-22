@@ -128,6 +128,7 @@ class PolkawalletAlertDialog extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: 28, left: 60, right: 60),
             padding: EdgeInsets.only(top: 32),
+            width: double.infinity,
             decoration: BoxDecoration(
                 color: Color(0xFFF9F8F6),
                 borderRadius: BorderRadius.all(Radius.circular(14))),
