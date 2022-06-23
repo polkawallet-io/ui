@@ -48,7 +48,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
     return Container(
         margin: EdgeInsets.only(right: 16),
         child: v3.PopupMenuButton(
-            iconSize: 30,
+            iconSize: widget.iconSize ?? 30,
             offset: widget.offset ?? Offset(-10, 52),
             itemWidth: widget.itemWidth ?? 160,
             color: Theme.of(context).cardColor,
@@ -121,14 +121,14 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
             },
             icon: v3.IconButton(
               padding: EdgeInsets.zero,
-              iconSize: 30,
+              iconSize: widget.iconSize ?? 30,
               bgColor: _isSelected
                   ? Color(0xFFFF7849)
                   : widget.iconDefaultColor ?? Colors.white,
               icon: AddressIcon(
                 widget.keyring.current.address,
                 svg: widget.keyring.current.icon,
-                size: widget.iconSize ?? 22,
+                size: widget.iconSize != null ? widget.iconSize! * 0.7 : 22,
                 tapToCopy: false,
               ),
             )));
