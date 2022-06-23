@@ -160,6 +160,21 @@ const Color _kActionSheetPressedColor = Color(0xFFDFDEDD);
 const Color _kActionSheetCancelColor = Color(0xFFDFDEDD);
 const Color _kActionSheetActionColor = Color(0xFFF9F8F6);
 
+const TextStyle _kActionSheetTitleStyle = TextStyle(
+    fontFamily: 'TitilliumWeb',
+    inherit: false,
+    fontSize: 14.0,
+    fontWeight: FontWeight.w600,
+    textBaseline: TextBaseline.alphabetic,
+    color: Color(0xB2363737));
+const TextStyle _kActionSheetMessageStyle = TextStyle(
+    fontFamily: 'TitilliumWeb',
+    inherit: false,
+    fontSize: 10.0,
+    fontWeight: FontWeight.w400,
+    textBaseline: TextBaseline.alphabetic,
+    color: Color(0xB2363737));
+
 class PolkawalletActionSheet extends StatelessWidget {
   final Widget? title;
   final Widget? message;
@@ -227,8 +242,20 @@ class PolkawalletActionSheet extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 child: Column(
                                   children: [
-                                    this.title ?? Container(),
-                                    this.message ?? Container(),
+                                    this.title != null
+                                        ? DefaultTextStyle(
+                                            style: _kActionSheetTitleStyle,
+                                            textAlign: TextAlign.center,
+                                            child: this.title!,
+                                          )
+                                        : Container(),
+                                    this.message != null
+                                        ? DefaultTextStyle(
+                                            style: _kActionSheetMessageStyle,
+                                            textAlign: TextAlign.center,
+                                            child: this.message!,
+                                          )
+                                        : Container(),
                                   ],
                                 ),
                               ),
