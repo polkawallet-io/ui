@@ -384,7 +384,8 @@ class TextFormField extends FormField<String> {
                                           fontFamily: UI.getFontFamily(
                                               'TitilliumWeb', field.context),
                                           color: Color(0x77565554)),
-                                      suffix: null),
+                                      suffix: null,
+                                      suffixIcon: null),
                                   keyboardType: keyboardType,
                                   textInputAction: textInputAction,
                                   style: style,
@@ -439,7 +440,9 @@ class TextFormField extends FormField<String> {
                                 )),
                                 decoration!.suffix != null
                                     ? decoration.suffix!
-                                    : Container()
+                                    : decoration.suffixIcon != null
+                                        ? decoration.suffixIcon!
+                                        : Container()
                               ],
                             )),
                       ],
@@ -1527,7 +1530,7 @@ class InputDecorationV3 extends InputDecoration {
       prefixStyle: prefixStyle ?? this.prefixStyle,
       prefixIconConstraints:
           prefixIconConstraints ?? this.prefixIconConstraints,
-      suffixIcon: suffixIcon ?? this.suffixIcon,
+      suffixIcon: suffixIcon,
       suffix: suffix,
       suffixText: suffixText ?? this.suffixText,
       suffixStyle: suffixStyle ?? this.suffixStyle,
