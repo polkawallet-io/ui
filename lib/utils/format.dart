@@ -17,7 +17,6 @@ class Fmt {
   static String blockToTime(int? blocks, int blockDuration,
       {String locale = 'en'}) {
     if (blocks == null) return '~';
-    print(locale);
 
     final blocksOfMin = 60000 ~/ blockDuration;
     final blocksOfHour = 3600000 ~/ blockDuration;

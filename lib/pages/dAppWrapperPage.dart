@@ -9,6 +9,7 @@ import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.da
 import 'package:polkawallet_sdk/webviewWithExtension/webviewWithExtension.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/components/v3/iconButton.dart' as v3;
 import 'package:polkawallet_ui/components/v3/plugin/pluginBottomSheetContainer.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
@@ -402,29 +403,27 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           showCupertinoModalPopup(
             context: context,
             builder: (contextPopup) {
-              return CupertinoActionSheet(
+              return PolkawalletActionSheet(
                 actions: <Widget>[
-                  CupertinoActionSheetAction(
+                  PolkawalletActionSheetAction(
                     onPressed: () {
                       Navigator.pop(contextPopup);
                       UI.copyAndNotify(context, url);
                     },
                     child: Text(
                       "复制连接",
-                      style: TextStyle(color: Color(0xFF007AFE)),
                     ),
                   ),
-                  CupertinoActionSheetAction(
+                  PolkawalletActionSheetAction(
                     onPressed: () {
                       Navigator.pop(contextPopup);
                       _controller!.reload();
                     },
                     child: Text(
                       "刷新",
-                      style: TextStyle(color: Color(0xFF007AFE)),
                     ),
                   ),
-                  CupertinoActionSheetAction(
+                  PolkawalletActionSheetAction(
                     onPressed: () {
                       Navigator.pop(contextPopup);
                       Share.share(
@@ -433,20 +432,18 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                     },
                     child: Text(
                       "转发",
-                      style: TextStyle(color: Color(0xFF007AFE)),
                     ),
                   ),
-                  CupertinoActionSheetAction(
+                  PolkawalletActionSheetAction(
                     onPressed: () {
                       Navigator.pop(contextPopup);
                       UI.launchURL(url);
                     },
                     child: Text(
                       "在浏览器中打开",
-                      style: TextStyle(color: Color(0xFF007AFE)),
                     ),
                   ),
-                  CupertinoActionSheetAction(
+                  PolkawalletActionSheetAction(
                     onPressed: () {
                       Navigator.pop(contextPopup);
                       _isWillClose = true;
@@ -454,11 +451,10 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                     },
                     child: Text(
                       "关闭",
-                      style: TextStyle(color: Color(0xFF007AFE)),
                     ),
                   )
                 ],
-                cancelButton: CupertinoActionSheetAction(
+                cancelButton: PolkawalletActionSheetAction(
                   onPressed: () {
                     Navigator.pop(contextPopup);
                   },

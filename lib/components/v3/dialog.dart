@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum DialogType { warn, inform }
@@ -140,6 +144,347 @@ class PolkawalletAlertDialog extends StatelessWidget {
           Image.asset('packages/polkawallet_ui/assets/images/${type.name}.png',
               width: 56)
         ],
+      ),
+    );
+  }
+}
+
+const double _kBlurAmount = 20.0;
+const double _kCornerRadius = 8.0;
+const Color _kActionSheetButtonDividerColor = Color(0xFFABABAB);
+
+const double _kActionSheetEdgeHorizontalPadding = 8.0;
+const double _kActionSheetEdgeVerticalPadding = 10.0;
+const double _kActionSheetCancelButtonPadding = 8.0;
+const Color _kActionSheetPressedColor = Color(0xFFDFDEDD);
+const Color _kActionSheetCancelColor = Color(0xFFDFDEDD);
+const Color _kActionSheetActionColor = Color(0xFFF9F8F6);
+
+class PolkawalletActionSheet extends StatelessWidget {
+  final Widget? title;
+  final Widget? message;
+  final List<Widget> actions;
+  final Widget? cancelButton;
+
+  const PolkawalletActionSheet({
+    Key? key,
+    this.title,
+    this.message,
+    required this.actions,
+    this.cancelButton,
+  }) : super(key: key);
+
+  Widget _buildActions() {
+    return _CupertinoActionSheetButton(
+      children: actions,
+      onTapBgColor: _kActionSheetPressedColor,
+      bgColor: _kActionSheetActionColor,
+    );
+  }
+
+  Widget _buildCancelButton() {
+    final double cancelPadding =
+        actions != null ? _kActionSheetCancelButtonPadding : 0.0;
+    return Padding(
+      padding: EdgeInsets.only(top: cancelPadding),
+      child: _CupertinoActionCancelSheetButton(
+        child: cancelButton,
+        onTapBgColor: _kActionSheetPressedColor,
+        bgColor: _kActionSheetCancelColor,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    assert(debugCheckHasMediaQuery(context));
+
+    final List<Widget> children = <Widget>[
+      Flexible(
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          child: BackdropFilter(
+            filter:
+                ImageFilter.blur(sigmaX: _kBlurAmount, sigmaY: _kBlurAmount),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                this.title != null || this.message != null
+                    ? Semantics(
+                        button: true,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              color: _kActionSheetActionColor,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 10.0,
+                              ),
+                              child: DefaultTextStyle(
+                                style: _kActionSheetActionStyle,
+                                textAlign: TextAlign.center,
+                                child: Column(
+                                  children: [
+                                    this.title ?? Container(),
+                                    this.message ?? Container(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Divider(
+                                height: 0.5,
+                                color: _kActionSheetButtonDividerColor)
+                          ],
+                        ),
+                      )
+                    : Container(),
+                _buildActions()
+              ],
+            ),
+            // child: _CupertinoDialogRenderWidget(
+            //   contentSection: Builder(builder: _buildContent),
+            //   actionsSection: _buildActions(),
+            //   dividerColor: _kActionSheetButtonDividerColor,
+            //   isActionSheet: true,
+            // ),
+          ),
+        ),
+      ),
+      if (cancelButton != null) _buildCancelButton(),
+    ];
+
+    final Orientation orientation = MediaQuery.of(context).orientation;
+    final double actionSheetWidth;
+    if (orientation == Orientation.portrait) {
+      actionSheetWidth = MediaQuery.of(context).size.width -
+          (_kActionSheetEdgeHorizontalPadding * 2);
+    } else {
+      actionSheetWidth = MediaQuery.of(context).size.height -
+          (_kActionSheetEdgeHorizontalPadding * 2);
+    }
+
+    return SafeArea(
+      child: ScrollConfiguration(
+        // A CupertinoScrollbar is built-in below
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: Semantics(
+          namesRoute: true,
+          scopesRoute: true,
+          explicitChildNodes: true,
+          label: 'Alert',
+          child: CupertinoUserInterfaceLevel(
+            data: CupertinoUserInterfaceLevelData.elevated,
+            child: Container(
+              width: actionSheetWidth,
+              margin: const EdgeInsets.symmetric(
+                horizontal: _kActionSheetEdgeHorizontalPadding,
+                vertical: _kActionSheetEdgeVerticalPadding,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: children,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CupertinoActionSheetButton extends StatefulWidget {
+  _CupertinoActionSheetButton(
+      {Key? key,
+      this.children,
+      required this.onTapBgColor,
+      required this.bgColor})
+      : super(key: key);
+
+  final List<Widget>? children;
+  final Color onTapBgColor;
+  final Color bgColor;
+
+  @override
+  State<_CupertinoActionSheetButton> createState() =>
+      __CupertinoActionSheetButtonState();
+}
+
+class __CupertinoActionSheetButtonState
+    extends State<_CupertinoActionSheetButton> {
+  int isBeingPressedIndex = -1;
+
+  void _onTapDown(int index) {
+    setState(() {
+      isBeingPressedIndex = index;
+    });
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    setState(() {
+      isBeingPressedIndex = -1;
+    });
+  }
+
+  void _onTapCancel() {
+    setState(() {
+      isBeingPressedIndex = -1;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          final Color backgroundColor = isBeingPressedIndex == index
+              ? widget.onTapBgColor
+              : widget.bgColor;
+          return GestureDetector(
+            excludeFromSemantics: true,
+            onTapDown: (details) {
+              _onTapDown(index);
+            },
+            onTapUp: _onTapUp,
+            onTapCancel: _onTapCancel,
+            child: Container(
+              decoration: BoxDecoration(
+                color: backgroundColor,
+              ),
+              child: widget.children![index],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) =>
+            Divider(height: 0.5, color: _kActionSheetButtonDividerColor),
+        itemCount: widget.children?.length ?? 0);
+  }
+}
+
+class _CupertinoActionCancelSheetButton extends StatefulWidget {
+  const _CupertinoActionCancelSheetButton(
+      {Key? key, this.child, required this.onTapBgColor, required this.bgColor})
+      : super(key: key);
+
+  final Widget? child;
+  final Color onTapBgColor;
+  final Color bgColor;
+
+  @override
+  _CupertinoActionCancelSheetButtonState createState() =>
+      _CupertinoActionCancelSheetButtonState();
+}
+
+class _CupertinoActionCancelSheetButtonState
+    extends State<_CupertinoActionCancelSheetButton> {
+  bool isBeingPressed = false;
+
+  void _onTapDown(TapDownDetails event) {
+    setState(() {
+      isBeingPressed = true;
+    });
+  }
+
+  void _onTapUp(TapUpDetails event) {
+    setState(() {
+      isBeingPressed = false;
+    });
+  }
+
+  void _onTapCancel() {
+    setState(() {
+      isBeingPressed = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Color backgroundColor =
+        isBeingPressed ? widget.onTapBgColor : widget.bgColor;
+    return GestureDetector(
+      excludeFromSemantics: true,
+      onTapDown: _onTapDown,
+      onTapUp: _onTapUp,
+      onTapCancel: _onTapCancel,
+      child: Container(
+        decoration: BoxDecoration(
+          color: CupertinoDynamicColor.resolve(backgroundColor, context),
+          borderRadius: const BorderRadius.all(Radius.circular(_kCornerRadius)),
+        ),
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+const TextStyle _kActionSheetActionStyle = TextStyle(
+    fontFamily: 'SF_Pro',
+    inherit: false,
+    fontSize: 17.0,
+    fontWeight: FontWeight.w400,
+    textBaseline: TextBaseline.alphabetic,
+    color: Color(0xFF363737));
+
+const double _kActionSheetButtonHeight = 56.0;
+
+class PolkawalletActionSheetAction extends StatelessWidget {
+  const PolkawalletActionSheetAction({
+    Key? key,
+    required this.onPressed,
+    this.isDefaultAction = false,
+    required this.child,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  /// Whether this action is the default choice in the action sheet.
+  ///
+  /// Default buttons have bold text.
+  final bool isDefaultAction;
+
+  /// The widget below this widget in the tree.
+  ///
+  /// Typically a [Text] widget.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    TextStyle style = _kActionSheetActionStyle;
+
+    if (isDefaultAction) {
+      style = style.copyWith(color: Color(0xFFFF7849));
+    }
+
+    return MouseRegion(
+      cursor: onPressed != null && kIsWeb
+          ? SystemMouseCursors.click
+          : MouseCursor.defer,
+      child: GestureDetector(
+        onTap: onPressed,
+        behavior: HitTestBehavior.opaque,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minHeight: _kActionSheetButtonHeight,
+          ),
+          child: Semantics(
+            button: true,
+            child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(
+                vertical: 16.0,
+                horizontal: 10.0,
+              ),
+              child: DefaultTextStyle(
+                style: style,
+                textAlign: TextAlign.center,
+                child: child,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
