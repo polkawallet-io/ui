@@ -9,11 +9,9 @@ import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.da
 import 'package:polkawallet_sdk/webviewWithExtension/webviewWithExtension.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
-import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/components/v3/iconButton.dart' as v3;
 import 'package:polkawallet_ui/components/v3/plugin/pluginBottomSheetContainer.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
-import 'package:polkawallet_ui/components/v3/plugin/pluginLoadingWidget.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginOutlinedButtonSmall.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
 import 'package:polkawallet_ui/pages/walletExtensionSignPage.dart';
@@ -60,24 +58,43 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
       return PluginScaffold(
         appBar: PluginAppBar(
           title: Text(url),
-          leading: PluginIconButton(
-            icon: Image.asset(
-              "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
-              width: 9,
-            ),
-            onPressed: () {
-              onBack!();
-            },
+          leadingWidth: 88,
+          leading: Row(
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(left: 16, right: 12),
+                  child: PluginIconButton(
+                    icon: Image.asset(
+                      "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
+                      width: 9,
+                    ),
+                    onPressed: () {
+                      onBack!();
+                    },
+                  )),
+              PluginIconButton(
+                icon: Icon(
+                  Icons.close,
+                  size: 15,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  _isWillClose = true;
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
           ),
           actions: [
             Container(
-              margin: EdgeInsets.only(right: 14),
+              margin: EdgeInsets.only(right: 16),
               child: PluginIconButton(
                 onPressed: actionOnPressed,
+                color: Colors.transparent,
                 icon: Icon(
                   Icons.more_horiz,
-                  color: Colors.black,
-                  size: 18,
+                  color: PluginColorsDark.headline1,
+                  size: 25,
                 ),
               ),
             )
@@ -383,8 +400,12 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
   @override
   Widget build(BuildContext context) {
     String url = "";
+    String name = "";
+    String icon = "";
     if (ModalRoute.of(context)!.settings.arguments is Map) {
       url = (ModalRoute.of(context)!.settings.arguments as Map)["url"];
+      name = (ModalRoute.of(context)!.settings.arguments as Map)["name"] ?? "";
+      icon = (ModalRoute.of(context)!.settings.arguments as Map)["icon"] ?? "";
     } else {
       url = ModalRoute.of(context)!.settings.arguments as String;
     }
@@ -399,68 +420,10 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           }
         },
         actionOnPressed: () {
-          final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
           showCupertinoModalPopup(
             context: context,
             builder: (contextPopup) {
-              return PolkawalletActionSheet(
-                actions: <Widget>[
-                  PolkawalletActionSheetAction(
-                    onPressed: () {
-                      Navigator.pop(contextPopup);
-                      UI.copyAndNotify(context, url);
-                    },
-                    child: Text(
-                      "复制连接",
-                    ),
-                  ),
-                  PolkawalletActionSheetAction(
-                    onPressed: () {
-                      Navigator.pop(contextPopup);
-                      _controller!.reload();
-                    },
-                    child: Text(
-                      "刷新",
-                    ),
-                  ),
-                  PolkawalletActionSheetAction(
-                    onPressed: () {
-                      Navigator.pop(contextPopup);
-                      Share.share(
-                          "https://polkawallet.io${DAppWrapperPage.route}?url=$url",
-                          subject: url);
-                    },
-                    child: Text(
-                      "转发",
-                    ),
-                  ),
-                  PolkawalletActionSheetAction(
-                    onPressed: () {
-                      Navigator.pop(contextPopup);
-                      UI.launchURL(url);
-                    },
-                    child: Text(
-                      "在浏览器中打开",
-                    ),
-                  ),
-                  PolkawalletActionSheetAction(
-                    onPressed: () {
-                      Navigator.pop(contextPopup);
-                      _isWillClose = true;
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "关闭",
-                    ),
-                  )
-                ],
-                cancelButton: PolkawalletActionSheetAction(
-                  onPressed: () {
-                    Navigator.pop(contextPopup);
-                  },
-                  child: Text(dic['cancel']!),
-                ),
-              );
+              return MoreInfo(url, _controller!, icon, name);
             },
           );
         },
@@ -507,6 +470,166 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         }
       },
     );
+  }
+}
+
+class MoreInfo extends StatelessWidget {
+  MoreInfo(this._url, this._controller, this._icon, this._name, {Key? key})
+      : super(key: key);
+  WebViewController _controller;
+  String _url;
+  String _name;
+  String _icon;
+
+  Widget buildItem(
+      String icon, String name, Function onTap, BuildContext context) {
+    return Container(
+        width: 56,
+        child: Column(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              margin: EdgeInsets.only(bottom: 6),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  color: Color(0xFF414244)),
+              child: Center(child: Image.asset(icon, width: 40)),
+            ),
+            Text(
+              name,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  ?.copyWith(color: PluginColorsDark.headline1),
+            )
+          ],
+        ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final uri = Uri.parse(_url);
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+    return ClipRRect(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+            bottomLeft: Radius.circular(33),
+            bottomRight: Radius.circular(33)),
+        child: Container(
+          height: 304,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(12),
+                color: Color(0xFF36383B),
+                height: 64,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Row(
+                      children: [
+                        ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(40)),
+                            child: Image.network(
+                              '${uri.scheme}://${uri.host}/favicon.ico',
+                              width: 40,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                if (_icon.isNotEmpty) {
+                                  return _icon.contains('.svg')
+                                      ? SvgPicture.network(
+                                          (ModalRoute.of(context)!
+                                              .settings
+                                              .arguments as Map)["icon"])
+                                      : Image.network((ModalRoute.of(context)!
+                                          .settings
+                                          .arguments as Map)["icon"]);
+                                }
+                                return Container();
+                              },
+                            )),
+                        Padding(
+                          padding: EdgeInsets.only(left: 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline4
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: PluginColorsDark.headline1),
+                              ),
+                              Text(
+                                _url,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(
+                                        color: PluginColorsDark.headline1),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )),
+                    GestureDetector(
+                      child: Icon(
+                        Icons.close,
+                        size: 18,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                color: Color(0xFF212224),
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildItem('packages/polkawallet_ui/assets/images/Share.png',
+                        dic["dApp.share"]!, () {
+                      Navigator.pop(context);
+                      Share.share(
+                          "https://polkawallet.io${DAppWrapperPage.route}?url=$_url",
+                          subject: _url);
+                    }, context),
+                    buildItem(
+                        'packages/polkawallet_ui/assets/images/copyLink.png',
+                        dic["dApp.copylink"]!, () {
+                      Navigator.pop(context);
+                      UI.copyAndNotify(context, _url);
+                    }, context),
+                    buildItem(
+                        'packages/polkawallet_ui/assets/images/refresh.png',
+                        dic["dApp.refresh"]!, () {
+                      Navigator.pop(context);
+                      _controller.reload();
+                    }, context),
+                    buildItem(
+                        'packages/polkawallet_ui/assets/images/browser.png',
+                        dic["dApp.browser"]!, () {
+                      Navigator.pop(context);
+                      UI.launchURL(_url);
+                    }, context),
+                  ],
+                ),
+              ))
+            ],
+          ),
+        ));
   }
 }
 

@@ -70,6 +70,10 @@ const Map<String, String> enCommon = {
   'dApp.connect.reject': 'Reject',
   'dApp.confirm.title': 'Transaction & Sign',
   'dApp.confirm': 'Confirm',
+  'dApp.share': 'Share',
+  'dApp.refresh': 'Refresh',
+  'dApp.copylink': 'Copy Link',
+  'dApp.browser': 'Open in browser',
 };
 
 const Map<String, String> zhCommon = {
@@ -139,4 +143,8 @@ const Map<String, String> zhCommon = {
   'dApp.connect.reject': '拒绝',
   'dApp.confirm.title': '交易 & 签名',
   'dApp.confirm': '确认',
+  'dApp.share': '分享',
+  'dApp.refresh': '刷新',
+  'dApp.copylink': '复制链接',
+  'dApp.browser': '打开默认浏览器',
 };

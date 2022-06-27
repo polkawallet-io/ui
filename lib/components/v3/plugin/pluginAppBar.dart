@@ -12,6 +12,7 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leading,
       this.titleTextStyle,
       this.isShowLeading = true,
+      this.leadingWidth,
       this.actions})
       : super(key: key);
 
@@ -23,6 +24,7 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isShowLeading;
   final TextStyle? titleTextStyle;
   final List<Widget>? actions;
+  final double? leadingWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor,
       toolbarHeight: toolbarHeight,
       centerTitle: centerTitle,
+      leadingWidth: leadingWidth,
       leading: leading ??
           (isShowLeading
               ? PluginIconButton(
