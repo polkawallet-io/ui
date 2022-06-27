@@ -109,9 +109,25 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               url,
               style: TextStyle(fontSize: UI.getTextSize(16, context)),
             ),
-            leading: BackBtn(
-              onBack: onBack,
-            ),
+            leadingWidth: 92,
+            leading: Row(children: [
+              Padding(
+                  padding: EdgeInsets.only(left: 16, right: 12),
+                  child: BackBtn(
+                    onBack: onBack,
+                  )),
+              v3.IconButton(
+                icon: Icon(
+                  Icons.close,
+                  size: 15,
+                  color: Theme.of(context).textSelectionTheme.selectionColor,
+                ),
+                onPressed: () {
+                  _isWillClose = true;
+                  Navigator.of(context).pop();
+                },
+              )
+            ]),
             actions: [
               Container(
                 margin: EdgeInsets.only(right: 14),
@@ -119,7 +135,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                   onPressed: actionOnPressed,
                   icon: Icon(
                     Icons.more_horiz,
-                    color: Colors.black,
+                    color: Theme.of(context).textSelectionTheme.selectionColor,
                     size: 18,
                   ),
                 ),
