@@ -74,8 +74,8 @@ class PolkawalletAlertDialog extends StatelessWidget {
         padding: EdgeInsets.only(
           left: _kActionSheetContentHorizontalPadding,
           right: _kActionSheetContentHorizontalPadding,
-          bottom: title == null ? _kActionSheetContentVerticalPadding : 22.0,
-          top: title == null ? _kActionSheetContentVerticalPadding : 0.0,
+          bottom: 22.0,
+          top: 0.0,
         ),
         child: DefaultTextStyle(
           style: _kCupertinoDialogContentStyle,
