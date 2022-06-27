@@ -26,7 +26,7 @@ class PluginInputBalance extends StatefulWidget {
       this.onSetMax,
       this.enabled = true,
       this.tokenBgColor = const Color(0xFFFF7849),
-      this.marketPrices,
+      this.getMarketPrice,
       this.tokenSelectTitle,
       this.tokenOptions,
       this.tokenViewFunction,
@@ -44,7 +44,7 @@ class PluginInputBalance extends StatefulWidget {
   final Function(BigInt)? onSetMax;
   final String Function(String)? tokenViewFunction;
   final Color tokenBgColor;
-  final Map<String?, double>? marketPrices;
+  final double Function(String)? getMarketPrice;
   final String? tokenSelectTitle;
   final List<TokenBalanceData?>? tokenOptions;
   final bool enabled;
@@ -191,7 +191,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                                             FontWeight.w600),
                                               ),
                                               Text(
-                                                '≈\$ ${Fmt.priceFloor((widget.marketPrices![widget.tokenOptions![index]!.symbol] ?? 0) * Fmt.balanceDouble(widget.tokenOptions![index]!.amount!, widget.tokenOptions![index]!.decimals!), lengthMax: 4)}',
+                                                '≈\$ ${Fmt.priceFloor(widget.getMarketPrice!(widget.tokenOptions![index]!.symbol ?? '') * Fmt.balanceDouble(widget.tokenOptions![index]!.amount!, widget.tokenOptions![index]!.decimals!), lengthMax: 4)}',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline6
@@ -252,15 +252,15 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
     final colorGray = Theme.of(context).unselectedWidgetColor;
 
     bool priceVisible =
-        widget.marketPrices != null && widget.inputCtrl!.text.isNotEmpty;
+        widget.getMarketPrice != null && widget.inputCtrl!.text.isNotEmpty;
     double inputAmount = 0;
     try {
-      inputAmount = double.parse(widget.inputCtrl!.text.trim());
+      inputAmount = Fmt.balanceDouble(widget.inputCtrl!.text.trim(), 0);
     } catch (e) {
       priceVisible = false;
     }
     final price = priceVisible
-        ? (widget.marketPrices?[widget.balance!.symbol] ?? 0) * inputAmount
+        ? widget.getMarketPrice!(widget.balance!.symbol ?? '') * inputAmount
         : null;
 
     return Container(
