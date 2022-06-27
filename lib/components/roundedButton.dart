@@ -49,11 +49,13 @@ class RoundedButton extends StatelessWidget {
         ? Theme.of(context).dividerColor
         : (color ?? Theme.of(context).hoverColor);
 
-    return RaisedButton(
-      padding: EdgeInsets.all(0),
-      // color: color ?? Theme.of(context).primaryColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius)),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.all(0),
+        // color: color ?? Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius)),
+      ),
       child: Ink(
         decoration: BoxDecoration(
             gradient: LinearGradient(

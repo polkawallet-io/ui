@@ -115,8 +115,9 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
                 Expanded(
                   child: Container(
                     color: _submitting ? Colors.black12 : Colors.orange,
-                    child: FlatButton(
-                      padding: EdgeInsets.all(16),
+                    child: TextButton(
+                      // padding: EdgeInsets.all(16),
+                      style: TextButton.styleFrom(padding: EdgeInsets.all(16)),
                       child: Text(dic['cancel']!,
                           style: TextStyle(color: Colors.white)),
                       onPressed: () {
@@ -130,8 +131,10 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
                     color: _submitting
                         ? Theme.of(context).disabledColor
                         : Theme.of(context).primaryColor,
-                    child: FlatButton(
-                      padding: EdgeInsets.all(16),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.all(16),
+                      ),
                       child: Text(
                         dic['submit.sign']!,
                         style: TextStyle(color: Colors.white),
