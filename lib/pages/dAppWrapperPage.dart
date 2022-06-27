@@ -423,7 +423,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           showCupertinoModalPopup(
             context: context,
             builder: (contextPopup) {
-              return MoreInfo(url, _controller!, icon, name);
+              return MoreInfo(url, _controller!, icon, name, context);
             },
           );
         },
@@ -474,38 +474,46 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
 }
 
 class MoreInfo extends StatelessWidget {
-  MoreInfo(this._url, this._controller, this._icon, this._name, {Key? key})
+  MoreInfo(
+      this._url, this._controller, this._icon, this._name, this._fatherContext,
+      {Key? key})
       : super(key: key);
   WebViewController _controller;
   String _url;
   String _name;
   String _icon;
+  BuildContext _fatherContext;
 
   Widget buildItem(
       String icon, String name, Function onTap, BuildContext context) {
-    return Container(
-        width: 56,
-        child: Column(
-          children: [
-            Container(
-              width: 56,
-              height: 56,
-              margin: EdgeInsets.only(bottom: 6),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  color: Color(0xFF414244)),
-              child: Center(child: Image.asset(icon, width: 40)),
-            ),
-            Text(
-              name,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  ?.copyWith(color: PluginColorsDark.headline1),
-            )
-          ],
-        ));
+    return GestureDetector(
+      child: Container(
+          width: 56,
+          child: Column(
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                margin: EdgeInsets.only(bottom: 6),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    color: Color(0xFF414244)),
+                child: Center(child: Image.asset(icon, width: 40)),
+              ),
+              Text(
+                name,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(color: PluginColorsDark.headline1),
+              )
+            ],
+          )),
+      onTap: () {
+        onTap();
+      },
+    );
   }
 
   @override
@@ -544,12 +552,17 @@ class MoreInfo extends StatelessWidget {
                                       ? SvgPicture.network(
                                           (ModalRoute.of(context)!
                                               .settings
-                                              .arguments as Map)["icon"])
-                                      : Image.network((ModalRoute.of(context)!
-                                          .settings
-                                          .arguments as Map)["icon"]);
+                                              .arguments as Map)["icon"],
+                                          width: 40)
+                                      : Image.network(
+                                          (ModalRoute.of(context)!
+                                              .settings
+                                              .arguments as Map)["icon"],
+                                          width: 40);
                                 }
-                                return Container();
+                                return Image.asset(
+                                    "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
+                                    width: 40);
                               },
                             )),
                         Padding(
@@ -610,7 +623,7 @@ class MoreInfo extends StatelessWidget {
                         'packages/polkawallet_ui/assets/images/copyLink.png',
                         dic["dApp.copylink"]!, () {
                       Navigator.pop(context);
-                      UI.copyAndNotify(context, _url);
+                      UI.copyAndNotify(_fatherContext, _url);
                     }, context),
                     buildItem(
                         'packages/polkawallet_ui/assets/images/refresh.png',

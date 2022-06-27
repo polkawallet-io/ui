@@ -46,7 +46,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
             title: Text(dic!['pass.error']!),
             content: Text(dic['pass.error.text']!),
             actions: <Widget>[
-              CupertinoButton(
+              PolkawalletActionSheetAction(
                 child: Text(dic['ok']!),
                 onPressed: () => Navigator.of(context).pop(),
               ),
@@ -101,13 +101,14 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
         ],
       ),
       actions: <Widget>[
-        CupertinoButton(
+        PolkawalletActionSheetAction(
           child: Text(dic['cancel']!),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        CupertinoButton(
+        PolkawalletActionSheetAction(
+          isDefaultAction: true,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

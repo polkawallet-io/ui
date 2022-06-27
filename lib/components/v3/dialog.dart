@@ -465,7 +465,7 @@ class PolkawalletActionSheetAction extends StatelessWidget {
     required this.child,
   }) : super(key: key);
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// Whether this action is the default choice in the action sheet.
   ///

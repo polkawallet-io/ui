@@ -115,7 +115,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 I18n.of(context)!
                     .getDic(i18n_full_dic_ui, 'common')!['success']!),
             actions: <Widget>[
-              CupertinoButton(
+              PolkawalletActionSheetAction(
                 child: Text(I18n.of(context)!
                     .getDic(i18n_full_dic_ui, 'common')!['ok']!),
                 onPressed: () => Navigator.of(context).pop(),
@@ -211,7 +211,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
             content: Text(
                 "<${args.module}.${args.call}> ${dic['tx.disabledCall']!}"),
             actions: <Widget>[
-              CupertinoButton(
+              PolkawalletActionSheetAction(
                 child: Text(
                   dic['cancel']!,
                   style: TextStyle(
