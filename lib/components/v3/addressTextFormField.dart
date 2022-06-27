@@ -19,6 +19,8 @@ class AddressTextFormField extends StatefulWidget {
       this.errorStyle,
       this.labelText,
       this.labelStyle,
+      this.onFocusChange,
+      this.isClean = false,
       Key? key})
       : super(key: key);
   final PolkawalletApi api;
@@ -31,6 +33,9 @@ class AddressTextFormField extends StatefulWidget {
   final TextStyle? errorStyle;
   final String? labelText;
   final TextStyle? labelStyle;
+
+  void Function(bool)? onFocusChange;
+  final bool isClean;
 
   @override
   _AddressTextFormFieldState createState() => _AddressTextFormFieldState();
@@ -153,24 +158,62 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
               setState(() {
                 this.hasFocus = hasFocus;
               });
+              if (widget.onFocusChange != null) {
+                widget.onFocusChange!(hasFocus);
+              }
             }
           },
           child: !hasFocus &&
                   widget.initialValue != null &&
                   validatorError == null
               ? GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      hasFocus = true;
-                    });
-                    Future.delayed(const Duration(milliseconds: 100), () {
-                      FocusScope.of(context).requestFocus(_commentFocus);
-                    });
-                  },
-                  child: AddressFormItem(
-                    widget.initialValue,
-                    margin: EdgeInsets.zero,
-                    isGreyBg: false,
+                  onTap: widget.isClean
+                      ? null
+                      : () {
+                          setState(() {
+                            hasFocus = true;
+                          });
+                          Future.delayed(const Duration(milliseconds: 100), () {
+                            FocusScope.of(context).requestFocus(_commentFocus);
+                          });
+                          if (widget.onFocusChange != null) {
+                            widget.onFocusChange!(hasFocus);
+                          }
+                        },
+                  child: Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      AddressFormItem(
+                        widget.initialValue,
+                        margin: EdgeInsets.zero,
+                        isGreyBg: false,
+                      ),
+                      Visibility(
+                          visible: widget.isClean,
+                          child: GestureDetector(
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 16),
+                                child: Icon(
+                                  Icons.cancel,
+                                  size: 18,
+                                  color:
+                                      Theme.of(context).unselectedWidgetColor,
+                                )),
+                            onTap: () {
+                              setState(() {
+                                hasFocus = true;
+                              });
+                              Future.delayed(const Duration(milliseconds: 100),
+                                  () {
+                                FocusScope.of(context)
+                                    .requestFocus(_commentFocus);
+                              });
+                              if (widget.onFocusChange != null) {
+                                widget.onFocusChange!(hasFocus);
+                              }
+                            },
+                          ))
+                    ],
                   ))
               : v3.TextInputWidget(
                   controller: _controller,
