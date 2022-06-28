@@ -751,12 +751,16 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                         Visibility(
                                             visible: isNetworkConnected,
                                             child: Container(
-                                                height: 44,
+                                                height: 24,
                                                 width: 24,
-                                                margin:
-                                                    EdgeInsets.only(right: 8),
-                                                child: args.chainFromIcon ??
-                                                    Container())),
+                                                margin: EdgeInsets.only(
+                                                    right: 8,
+                                                    top: 10,
+                                                    bottom: 10),
+                                                child: Center(
+                                                  child: args.chainFromIcon ??
+                                                      Container(),
+                                                ))),
                                         !isNetworkConnected
                                             ? Text(
                                                 dic['tx.network.no']!,
