@@ -626,8 +626,27 @@ class MoreInfo extends StatelessWidget {
                     buildItem('packages/polkawallet_ui/assets/images/Share.png',
                         dic["dApp.share"]!, () {
                       Navigator.pop(context);
+                      String data = "url=$_url";
+                      if (ModalRoute.of(context)!.settings.arguments is Map) {
+                        var name = (ModalRoute.of(context)!.settings.arguments
+                            as Map)["name"];
+                        if (name != null) {
+                          data = "$data&name=$name";
+                        }
+                        var icon = (ModalRoute.of(context)!.settings.arguments
+                            as Map)["icon"];
+                        if (icon != null) {
+                          data = "$data&icon=$icon";
+                        }
+                        var isPlugin = (ModalRoute.of(context)!
+                            .settings
+                            .arguments as Map)["isPlugin"];
+                        if (isPlugin != null) {
+                          data = "$data&isPlugin=$isPlugin";
+                        }
+                      }
                       Share.share(
-                          "https://polkawallet.io${DAppWrapperPage.route}?url=$_url",
+                          "https://polkawallet.io${DAppWrapperPage.route}?$data",
                           subject: _url);
                     }, context),
                     buildItem(
