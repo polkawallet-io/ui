@@ -255,7 +255,8 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
         widget.getMarketPrice != null && widget.inputCtrl!.text.isNotEmpty;
     double inputAmount = 0;
     try {
-      inputAmount = Fmt.balanceDouble(widget.inputCtrl!.text.trim(), 0);
+      inputAmount =
+          double.parse(widget.inputCtrl!.text.trim().replaceAll(",", ""));
     } catch (e) {
       priceVisible = false;
     }
