@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
@@ -27,14 +28,13 @@ class UI {
       },
     );
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.of(context).pop();
     });
   }
 
   static String accountName(BuildContext context, KeyPairData acc) {
-    return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}' +
-        '${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
+    return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
   }
 
   static Widget accountDisplayName(String? address, Map? accInfo,
@@ -62,20 +62,20 @@ class UI {
         hasId
             ? Container(
                 width: 14,
-                margin: EdgeInsets.only(right: 4),
+                margin: const EdgeInsets.only(right: 4),
                 child: good
-                    ? Icon(
+                    ? const Icon(
                         Icons.check_circle,
                         size: 16,
                         color: Colors.lightGreen,
                       )
-                    : Icon(
+                    : const Icon(
                         Icons.remove_circle,
                         size: 16,
                         color: Colors.grey,
                       ),
               )
-            : Container(width: 1, height: 2),
+            : const SizedBox(width: 1, height: 2),
         expand
             ? Expanded(
                 child: Text(accountDisplayNameString(address, accInfo),
@@ -125,20 +125,24 @@ class UI {
         try {
           await launch(url);
         } catch (err) {
-          print(err);
+          if (kDebugMode) {
+            print(err);
+          }
         }
       } else {
-        print('Could not launch $url');
+        if (kDebugMode) {
+          print('Could not launch $url');
+        }
       }
     });
   }
 
-  static const Duration _KDelay = Duration(milliseconds: 500);
+  static const Duration _kDelay = Duration(milliseconds: 500);
   static var enable = true;
 
   static throttle(
     Function func, {
-    Duration delay = _KDelay,
+    Duration delay = _kDelay,
   }) {
     if (enable) {
       func();

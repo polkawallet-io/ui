@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/api/types/balanceData.dart';
@@ -38,10 +39,10 @@ class Fmt {
   }
 
   static String address(String? addr, {int pad = 6}) {
-    if (addr == null || addr.length == 0) {
+    if (addr == null || addr.isEmpty) {
       return 'address';
     }
-    return addr.substring(0, pad) + '...' + addr.substring(addr.length - pad);
+    return '${addr.substring(0, pad)}...${addr.substring(addr.length - pad)}';
   }
 
   static bool isAddress(String txt) {
@@ -62,7 +63,7 @@ class Fmt {
   /// number transform 1:
   /// from raw <String> of Api data to <BigInt>
   static BigInt balanceInt(String? raw) {
-    if (raw == null || raw.length == 0) {
+    if (raw == null || raw.isEmpty) {
       return BigInt.zero;
     }
     if (raw.contains(',') || raw.contains('.')) {
@@ -107,7 +108,7 @@ class Fmt {
     int decimals, {
     int length = 4,
   }) {
-    if (raw == null || raw.length == 0) {
+    if (raw == null || raw.isEmpty) {
       return '~';
     }
     return doubleFormat(bigIntToDouble(balanceInt(raw), decimals),
@@ -147,7 +148,9 @@ class Fmt {
         v = double.parse(value);
       }
     } catch (err) {
-      print('Fmt.tokenInt() error: ${err.toString()}');
+      if (kDebugMode) {
+        print('Fmt.tokenInt() error: ${err.toString()}');
+      }
     }
     return BigInt.from(v * pow(10, decimals));
   }
@@ -167,7 +170,10 @@ class Fmt {
     final double price = (value * x).ceilToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
-    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}";
+    return NumberFormat(
+            ",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals",
+            "en_US")
+        .format(price);
   }
 
   /// number transform 6:
@@ -185,7 +191,10 @@ class Fmt {
     final double price = (value * x).floorToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
-    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}";
+    return NumberFormat(
+            ",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals",
+            "en_US")
+        .format(price);
   }
 
   /// number transform 7:
@@ -270,11 +279,11 @@ class PriceFormatter {
     var suffix = [' ', 'k', 'M', 'B', 'T', 'P', 'E'];
     if (price < 1000) {
       this.price = price;
-      this.unit = '';
+      unit = '';
     } else {
       for (int i = 1; i < suffix.length && price >= 1000; price /= 1000, i++) {
         this.price = price / 1000;
-        this.unit = suffix[i];
+        unit = suffix[i];
       }
     }
   }

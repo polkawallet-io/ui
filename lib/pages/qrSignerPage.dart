@@ -11,7 +11,7 @@ import 'package:qr_flutter_fork/qr_flutter_fork.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
 class QrSignerPage extends StatelessWidget {
-  QrSignerPage(this.plugin, this.keyring);
+  const QrSignerPage(this.plugin, this.keyring, {Key? key}) : super(key: key);
 
   static const String route = 'tx/uos/signer';
 
@@ -30,7 +30,7 @@ class QrSignerPage extends StatelessWidget {
           leading: BackBtn()),
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,16 +41,16 @@ class QrSignerPage extends StatelessWidget {
                   svg: keyring.current.icon,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.only(top: 8),
                   child: TextTag(
                     dic['uos.warn'],
-                    padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                     color: Colors.red,
                     fontSize: UI.getTextSize(16, context),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 16, bottom: 8),
+                  padding: const EdgeInsets.only(top: 16, bottom: 8),
                   child: Text(dic['uos.push']!),
                 ),
                 QrImage(data: text as String, size: screenWidth - 24),

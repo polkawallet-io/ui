@@ -13,6 +13,7 @@ class NumberInputFormatter implements TextInputFormatter {
       // Something not right with regex string.
       assert(false, e.toString());
     }
+    return null;
   }
 
   @override

@@ -15,11 +15,12 @@ import 'package:polkawallet_ui/components/v3/index.dart' as v3;
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
 class AccountQrCodePage extends StatelessWidget {
-  AccountQrCodePage(this.plugin, this.keyring);
+  const AccountQrCodePage(this.plugin, this.keyring, {Key? key})
+      : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
 
-  static final String route = '/assets/receive';
+  static const String route = '/assets/receive';
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +37,7 @@ class AccountQrCodePage extends StatelessWidget {
           elevation: 0,
           title: Text(dic['receive']!),
           centerTitle: true,
-          leading: Container(
-            child: BackBtn(),
-          )),
+          leading: BackBtn()),
       body: SafeArea(
         child: ListView(
           children: <Widget>[
@@ -49,7 +48,7 @@ class AccountQrCodePage extends StatelessWidget {
                   Visibility(
                       visible: keyring.current.observation ?? false,
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                        margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                         child: TextTag(dic['warn.external'],
                             color: Theme.of(context).errorColor),
                       )),
@@ -72,16 +71,16 @@ class AccountQrCodePage extends StatelessWidget {
                           Theme.of(context).textSelectionTheme.selectionColor!),
                   accInfo != null && accInfo['accountIndex'] != null
                       ? Padding(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: Text(accInfo['accountIndex']),
                         )
                       : Container(),
                   Container(
-                    margin: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
                     child: QrImage(
                       data: codeAddress,
                       size: qrWidth + 24,
-                      embeddedImage: AssetImage(
+                      embeddedImage: const AssetImage(
                           'packages/polkawallet_ui/assets/images/app.png'),
                       embeddedImageStyle: QrEmbeddedImageStyle(
                           size: Size(qrWidth / 3.875, qrWidth / 3.875)),
@@ -100,7 +99,7 @@ class AccountQrCodePage extends StatelessWidget {
                   ),
                   Container(
                     width: qrWidth,
-                    padding: EdgeInsets.only(top: 16, bottom: 24),
+                    padding: const EdgeInsets.only(top: 16, bottom: 24),
                     child: v3.Button(
                       title: I18n.of(context)!
                               .getDic(i18n_full_dic_ui, 'common')?['copy'] ??

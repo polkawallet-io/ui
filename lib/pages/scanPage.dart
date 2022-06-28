@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qr_scan/qrcode_reader_view.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -8,11 +9,11 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class ScanPage extends StatelessWidget {
-  ScanPage(this.plugin, this.keyring);
+  ScanPage(this.plugin, this.keyring, {Key? key}) : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
 
-  static final String route = '/account/scan';
+  static const String route = '/account/scan';
 
   final GlobalKey<QrcodeReaderViewState> _qrViewKey = GlobalKey();
 
@@ -25,19 +26,19 @@ class ScanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Future onScan(String? txt, String? rawData) async {
       String address = '';
-      final String data = txt!.trim();
+      final String? data = txt?.trim();
       if (data != null) {
         if (data.contains("polkawallet.io")) {
           final paths = data.toString().split("polkawallet.io");
-          Map<dynamic, dynamic> args = Map<dynamic, dynamic>();
+          Map<dynamic, dynamic> args = <dynamic, dynamic>{};
           if (paths.length > 1) {
             final pathDatas = paths[1].split("?");
             if (pathDatas.length > 1) {
               final datas = pathDatas[1].split("&");
-              datas.forEach((element) {
+              for (var element in datas) {
                 args[element.split("=")[0]] =
                     Uri.decodeComponent(element.split("=")[1]);
-              });
+              }
             }
             Navigator.of(context).pop();
             Navigator.of(context).pushNamed(pathDatas[0], arguments: args);
@@ -47,7 +48,9 @@ class ScanPage extends StatelessWidget {
         List<String> ls = data.split(':');
 
         if (ls[0] == 'wc') {
-          print('walletconnect pairing uri detected.');
+          if (kDebugMode) {
+            print('walletconnect pairing uri detected.');
+          }
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.rawData,
             rawData: data,
@@ -62,8 +65,10 @@ class ScanPage extends StatelessWidget {
           }
         }
 
-        if (address.length > 0) {
-          print('address detected in Qr');
+        if (address.isNotEmpty) {
+          if (kDebugMode) {
+            print('address detected in Qr');
+          }
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.address,
             address: ls.length == 4
@@ -71,7 +76,9 @@ class ScanPage extends StatelessWidget {
                 : QRCodeAddressResult(['', address, '', '']),
           ));
         } else if (Fmt.isHexString(data)) {
-          print('hex detected in Qr');
+          if (kDebugMode) {
+            print('hex detected in Qr');
+          }
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.hex,
             hex: data,
@@ -81,7 +88,9 @@ class ScanPage extends StatelessWidget {
             (rawData.endsWith('ec') ||
                 rawData.endsWith('ec11') ||
                 rawData.endsWith('0'))) {
-          print('rawBytes detected in Qr');
+          if (kDebugMode) {
+            print('rawBytes detected in Qr');
+          }
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.rawData,
             rawData: rawData,
