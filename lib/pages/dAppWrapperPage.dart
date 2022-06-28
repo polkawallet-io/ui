@@ -418,10 +418,13 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
     String url = "";
     String name = "";
     String icon = "";
+    String isPlugin = "";
     if (ModalRoute.of(context)!.settings.arguments is Map) {
       url = (ModalRoute.of(context)!.settings.arguments as Map)["url"];
       name = (ModalRoute.of(context)!.settings.arguments as Map)["name"] ?? "";
       icon = (ModalRoute.of(context)!.settings.arguments as Map)["icon"] ?? "";
+      isPlugin =
+          "${(ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]}";
     } else {
       url = ModalRoute.of(context)!.settings.arguments as String;
     }
@@ -439,7 +442,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           showCupertinoModalPopup(
             context: context,
             builder: (contextPopup) {
-              return MoreInfo(url, _controller!, icon, name, context);
+              return MoreInfo(url, _controller!, icon, name, isPlugin, context);
             },
           );
         },
@@ -490,14 +493,15 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
 }
 
 class MoreInfo extends StatelessWidget {
-  MoreInfo(
-      this._url, this._controller, this._icon, this._name, this._fatherContext,
+  MoreInfo(this._url, this._controller, this._icon, this._name, this._isPlugin,
+      this._fatherContext,
       {Key? key})
       : super(key: key);
   WebViewController _controller;
   String _url;
   String _name;
   String _icon;
+  String _isPlugin;
   BuildContext _fatherContext;
 
   Widget buildItem(
@@ -627,24 +631,16 @@ class MoreInfo extends StatelessWidget {
                         dic["dApp.share"]!, () {
                       Navigator.pop(context);
                       String data = "url=$_url";
-                      if (ModalRoute.of(context)!.settings.arguments is Map) {
-                        var name = (ModalRoute.of(context)!.settings.arguments
-                            as Map)["name"];
-                        if (name != null) {
-                          data = "$data&name=$name";
-                        }
-                        var icon = (ModalRoute.of(context)!.settings.arguments
-                            as Map)["icon"];
-                        if (icon != null) {
-                          data = "$data&icon=$icon";
-                        }
-                        var isPlugin = (ModalRoute.of(context)!
-                            .settings
-                            .arguments as Map)["isPlugin"];
-                        if (isPlugin != null) {
-                          data = "$data&isPlugin=$isPlugin";
-                        }
+                      if (_name.trim().isNotEmpty) {
+                        data = "$data&name=$_name";
                       }
+                      if (_icon.trim().isNotEmpty) {
+                        data = "$data&icon=$_icon";
+                      }
+                      if (_isPlugin.trim().isNotEmpty) {
+                        data = "$data&isPlugin=$_isPlugin";
+                      }
+                      print(data);
                       Share.share(
                           "https://polkawallet.io${DAppWrapperPage.route}?$data",
                           subject: _url);
