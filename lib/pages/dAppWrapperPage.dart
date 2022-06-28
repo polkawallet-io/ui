@@ -564,17 +564,12 @@ class MoreInfo extends StatelessWidget {
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 if (_icon.isNotEmpty) {
-                                  return _icon.contains('.svg')
-                                      ? SvgPicture.network(
-                                          (ModalRoute.of(context)!
-                                              .settings
-                                              .arguments as Map)["icon"],
-                                          width: 40)
-                                      : Image.network(
-                                          (ModalRoute.of(context)!
-                                              .settings
-                                              .arguments as Map)["icon"],
-                                          width: 40);
+                                  return Container(
+                                      width: 40,
+                                      height: 40,
+                                      child: _icon.contains('.svg')
+                                          ? SvgPicture.network(_icon, width: 40)
+                                          : Image.network(_icon, width: 40));
                                 }
                                 return Image.asset(
                                     "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
