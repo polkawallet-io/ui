@@ -555,34 +555,37 @@ class MoreInfo extends StatelessWidget {
                     Expanded(
                         child: Row(
                       children: [
-                        ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(40)),
-                            child: Image.network(
-                              '${uri.scheme}://${uri.host}/favicon.ico',
-                              width: 40,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                if (_icon.isNotEmpty) {
-                                  return Container(
-                                      width: 40,
-                                      height: 40,
-                                      child: _icon.contains('.svg')
-                                          ? SvgPicture.network(_icon, width: 40)
-                                          : Image.network(_icon, width: 40));
-                                }
-                                return Image.asset(
-                                    "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
-                                    width: 40);
-                              },
-                            )),
+                        // ClipRRect(
+                        //     borderRadius:
+                        //         const BorderRadius.all(Radius.circular(40)),
+                        //     child:
+                        Image.network(
+                          '${uri.scheme}://${uri.host}/favicon.ico',
+                          width: 40,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            if (_icon.isNotEmpty) {
+                              return Container(
+                                  width: 40,
+                                  height: 40,
+                                  child: _icon.contains('.svg')
+                                      ? SvgPicture.network(_icon, width: 40)
+                                      : Image.network(_icon, width: 40));
+                            }
+                            return Image.asset(
+                                "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
+                                width: 40);
+                          },
+                          // )
+                        ),
                         Padding(
                           padding: EdgeInsets.only(left: 12),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                _name,
+                                _name.length > 0 ? _name : uri.host,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline4
