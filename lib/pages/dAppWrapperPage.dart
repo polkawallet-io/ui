@@ -538,10 +538,7 @@ class MoreInfo extends StatelessWidget {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
     return ClipRRect(
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(12),
-            topRight: Radius.circular(12),
-            bottomLeft: Radius.circular(33),
-            bottomRight: Radius.circular(33)),
+            topLeft: Radius.circular(12), topRight: Radius.circular(12)),
         child: Container(
           height: 304,
           child: Column(
