@@ -111,7 +111,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
         builder: (BuildContext context) {
           return PolkawalletAlertDialog(
             type: errorMsg != null ? DialogType.warn : DialogType.inform,
-            content: Text(errorMsg ??
+            title: Text(errorMsg ??
                 I18n.of(context)!
                     .getDic(i18n_full_dic_ui, 'common')!['success']!),
             actions: <Widget>[
