@@ -419,10 +419,13 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
     String url = "";
     String name = "";
     String icon = "";
+    String isPlugin = "";
     if (ModalRoute.of(context)!.settings.arguments is Map) {
       url = (ModalRoute.of(context)!.settings.arguments as Map)["url"];
       name = (ModalRoute.of(context)!.settings.arguments as Map)["name"] ?? "";
       icon = (ModalRoute.of(context)!.settings.arguments as Map)["icon"] ?? "";
+      isPlugin =
+          "${(ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]}";
     } else {
       url = ModalRoute.of(context)!.settings.arguments as String;
     }
@@ -441,7 +444,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           showCupertinoModalPopup(
             context: context,
             builder: (contextPopup) {
-              return MoreInfo(url, _controller!, icon, name, context);
+              return MoreInfo(url, _controller!, icon, name, isPlugin, context);
             },
           );
         },
@@ -490,14 +493,15 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
 }
 
 class MoreInfo extends StatelessWidget {
-  const MoreInfo(
-      this._url, this._controller, this._icon, this._name, this._fatherContext,
+  const MoreInfo(this._url, this._controller, this._icon, this._name,
+      this._isPlugin, this._fatherContext,
       {Key? key})
       : super(key: key);
   final WebViewController _controller;
   final String _url;
   final String _name;
   final String _icon;
+  final String _isPlugin;
   final BuildContext _fatherContext;
 
   Widget buildItem(
@@ -538,10 +542,7 @@ class MoreInfo extends StatelessWidget {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
     return ClipRRect(
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(12),
-            topRight: Radius.circular(12),
-            bottomLeft: Radius.circular(33),
-            bottomRight: Radius.circular(33)),
+            topLeft: Radius.circular(12), topRight: Radius.circular(12)),
         child: SizedBox(
           height: 304,
           child: Column(
@@ -555,34 +556,38 @@ class MoreInfo extends StatelessWidget {
                     Expanded(
                         child: Row(
                       children: [
-                        ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(40)),
-                            child: Image.network(
-                              '${uri.scheme}://${uri.host}/favicon.ico',
-                              width: 40,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                if (_icon.isNotEmpty) {
-                                  return SizedBox(
-                                      width: 40,
-                                      height: 40,
-                                      child: _icon.contains('.svg')
-                                          ? SvgPicture.network(_icon, width: 40)
-                                          : Image.network(_icon, width: 40));
-                                }
-                                return Image.asset(
-                                    "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
-                                    width: 40);
-                              },
-                            )),
+                        // ClipRRect(
+                        //     borderRadius:
+                        //         const BorderRadius.all(Radius.circular(40)),
+                        //     child:
+                        Image.network(
+                          '${uri.scheme}://${uri.host}/favicon.ico',
+                          width: 40,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            if (_icon.isNotEmpty) {
+                              return SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: _icon.contains('.svg')
+                                      ? SvgPicture.network(_icon, width: 40)
+                                      : Image.network(_icon, width: 40));
+                            }
+                            return Image.asset(
+                                "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
+                                width: 40);
+                          },
+                          // )
+                        ),
+
                         Padding(
                           padding: const EdgeInsets.only(left: 12),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                _name,
+                                _name.isNotEmpty ? _name : uri.host,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline4
@@ -627,8 +632,19 @@ class MoreInfo extends StatelessWidget {
                     buildItem('packages/polkawallet_ui/assets/images/Share.png',
                         dic["dApp.share"]!, () {
                       Navigator.pop(context);
+                      String data = "url=$_url";
+                      if (_name.trim().isNotEmpty) {
+                        data = "$data&name=$_name";
+                      }
+                      if (_icon.trim().isNotEmpty) {
+                        data = "$data&icon=$_icon";
+                      }
+                      if (_isPlugin.trim().isNotEmpty) {
+                        data = "$data&isPlugin=$_isPlugin";
+                      }
+                      debugPrint(data);
                       Share.share(
-                          "https://polkawallet.io${DAppWrapperPage.route}?url=$_url",
+                          "https://polkawallet.io${DAppWrapperPage.route}?$data",
                           subject: _url);
                     }, context),
                     buildItem(

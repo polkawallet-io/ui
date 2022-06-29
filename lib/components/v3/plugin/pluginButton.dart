@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 
 class PluginButton extends StatelessWidget {
@@ -119,7 +118,7 @@ class BgContainer extends StatelessWidget {
                           ],
                         ))),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: sWidth - 1),
+                  margin: const EdgeInsets.symmetric(horizontal: sWidth),
                   width: width,
                   height: height,
                   color: backgroundColor ?? PluginColorsDark.primary,
