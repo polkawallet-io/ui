@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class JumpToBrowserLink extends StatefulWidget {
-  JumpToBrowserLink(this.url, {this.text, this.mainAxisAlignment, this.color});
+  const JumpToBrowserLink(this.url,
+      {Key? key, this.text, this.mainAxisAlignment, this.color})
+      : super(key: key);
 
   final String? text;
   final String url;
@@ -11,7 +12,7 @@ class JumpToBrowserLink extends StatefulWidget {
   final Color? color;
 
   @override
-  _JumpToBrowserLinkState createState() => _JumpToBrowserLinkState();
+  createState() => _JumpToBrowserLinkState();
 }
 
 class _JumpToBrowserLinkState extends State<JumpToBrowserLink> {
@@ -24,7 +25,7 @@ class _JumpToBrowserLinkState extends State<JumpToBrowserLink> {
               widget.mainAxisAlignment ?? MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 4),
+              padding: const EdgeInsets.only(right: 4),
               child: Text(
                 widget.text ?? widget.url,
                 style: TextStyle(

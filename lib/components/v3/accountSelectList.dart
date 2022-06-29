@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
@@ -9,7 +8,7 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class AccountSelectList extends StatelessWidget {
-  AccountSelectList(this.plugin, this.list);
+  const AccountSelectList(this.plugin, this.list, {Key? key}) : super(key: key);
 
   final PolkawalletPlugin plugin;
   final List<KeyPairData>? list;
@@ -31,7 +30,7 @@ class AccountSelectList extends StatelessWidget {
                 Fmt.address(i.address),
                 style: Theme.of(context).textTheme.headline5?.copyWith(
                     fontSize: UI.getTextSize(10, context),
-                    color: Color(0xFF908E8C)),
+                    color: const Color(0xFF908E8C)),
               ),
               onTap: () => Navigator.of(context).pop(i),
             ));

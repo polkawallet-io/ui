@@ -99,9 +99,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
   void _onTxFinish(BuildContext context, Map? res, String? errorMsg) async {
     if (res != null) {
-      if (kDebugMode) {
-        print('callback triggered, blockHash: ${res['hash']}');
-      }
+      debugPrint('callback triggered, blockHash: ${res['hash']}');
     }
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
@@ -290,9 +288,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     TxConfirmParams args,
   ) async {
     final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
-    if (kDebugMode) {
-      print('show qr');
-    }
+
+    debugPrint('show qr');
+
     final signed = await Navigator.of(context).pushNamed(
       QrSenderPage.route,
       arguments: QrSenderPageParams(

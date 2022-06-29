@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,6 @@ import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
-import 'package:polkawallet_ui/components/roundedButton.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/pages/scanPage.dart';
@@ -46,9 +43,9 @@ class _QrSenderPageState extends State<QrSenderPage> {
 
     final Map? res = await widget.plugin.sdk.api.uos
         .makeQrCode(args.txInfo, args.params!, rawParam: args.rawParams);
-    if (kDebugMode) {
-      print('make qr code');
-    }
+
+    debugPrint('make qr code');
+
     setState(() {
       _qrPayload =
           Uint8List.fromList(List<int>.from(Map.of(res!['qrPayload']).values));

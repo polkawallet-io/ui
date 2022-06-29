@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class MainTabBar extends StatelessWidget {
-  MainTabBar({required this.tabs, this.activeTab, this.onTap});
+  const MainTabBar({Key? key, required this.tabs, this.activeTab, this.onTap}) : super(key: key);
 
   final Map<String, bool> tabs;
   final Function(int)? onTap;
@@ -45,7 +45,7 @@ class MainTabBar extends StatelessWidget {
                     child: Container(
                       width: 9,
                       height: 9,
-                      margin: EdgeInsets.only(left: 5),
+                      margin: const EdgeInsets.only(left: 5),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.5),
                           color: Theme.of(context).errorColor),

@@ -6,7 +6,7 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class AddressFormItem extends StatelessWidget {
-  AddressFormItem(
+  const AddressFormItem(
     this.account, {
     this.label,
     this.svg,
@@ -66,8 +66,8 @@ class AddressFormItem extends StatelessWidget {
           ),
         ),
         Visibility(
-            visible: this.rightIcon != null || onTap != null,
-            child: this.rightIcon ??
+            visible: rightIcon != null || onTap != null,
+            child: rightIcon ??
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 18,
@@ -81,7 +81,9 @@ class AddressFormItem extends StatelessWidget {
       children: <Widget>[
         Visibility(visible: label != null, child: Text(label ?? "")),
         InnerShadowBGCar(
-            padding: EdgeInsets.only(left: 8), child: child, isWhite: !isGreyBg)
+            padding: const EdgeInsets.only(left: 8),
+            isWhite: !isGreyBg,
+            child: child)
       ],
     );
 

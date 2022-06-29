@@ -16,10 +16,10 @@ class CupertinoSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        this.onChanged!(!this.value);
+        onChanged!(!value);
       },
       child: Image.asset(
-        "packages/polkawallet_ui/assets/images/${isPlugin ? 'plugin_' : ''}switch_${this.value ? 'open' : 'close'}.png",
+        "packages/polkawallet_ui/assets/images/${isPlugin ? 'plugin_' : ''}switch_${value ? 'open' : 'close'}.png",
         width: 42.w,
       ),
     );

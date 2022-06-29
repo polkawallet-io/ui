@@ -4,7 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InnerShadowBGCar extends StatelessWidget {
   InnerShadowBGCar(
-      {@required this.child, this.margin, this.padding, this.isWhite = false});
+      {Key? key,
+      @required this.child,
+      this.margin,
+      this.padding,
+      this.isWhite = false})
+      : super(key: key);
   Widget? child;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
@@ -13,12 +18,12 @@ class InnerShadowBGCar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: this.margin ?? EdgeInsets.zero,
+      padding: margin ?? EdgeInsets.zero,
       child: Column(
         children: [
           _InnerShadowTop(isWhite),
           Container(
-            padding: this.padding ?? EdgeInsets.only(left: 16.w, right: 16.w),
+            padding: padding ?? EdgeInsets.only(left: 16.w, right: 16.w),
             width: double.infinity,
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -36,11 +41,11 @@ class InnerShadowBGCar extends StatelessWidget {
 }
 
 class _InnerShadowTop extends StatelessWidget {
-  _InnerShadowTop(this.isWhite);
+  const _InnerShadowTop(this.isWhite);
   final bool isWhite;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Image.asset(
           'packages/polkawallet_ui/assets/images/bg_input_top${isWhite ? "_white" : ""}.png'),
@@ -49,11 +54,11 @@ class _InnerShadowTop extends StatelessWidget {
 }
 
 class _InnerShadowBottom extends StatelessWidget {
-  _InnerShadowBottom(this.isWhite);
+  const _InnerShadowBottom(this.isWhite);
   final bool isWhite;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Image.asset(
           'packages/polkawallet_ui/assets/images/bg_input_bottom${isWhite ? "_white" : ""}.png'),

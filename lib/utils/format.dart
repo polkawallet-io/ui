@@ -148,9 +148,7 @@ class Fmt {
         v = double.parse(value);
       }
     } catch (err) {
-      if (kDebugMode) {
-        print('Fmt.tokenInt() error: ${err.toString()}');
-      }
+      debugPrint('Fmt.tokenInt() error: ${err.toString()}');
     }
     return BigInt.from(v * pow(10, decimals));
   }

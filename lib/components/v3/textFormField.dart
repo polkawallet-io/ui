@@ -42,7 +42,7 @@ class TextInputWidget extends StatefulWidget {
   TextStyle? style;
 
   @override
-  _TextInputWidgetState createState() => _TextInputWidgetState();
+  createState() => _TextInputWidgetState();
 }
 
 class _TextInputWidgetState extends State<TextInputWidget> {
@@ -57,7 +57,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           });
         },
         child: TextFormField(
-          key: Key("1"),
+          key: const Key("1"),
           controller: widget.controller,
           focusNode: widget.focusNode,
           onChanged: widget.onChanged,
@@ -71,7 +71,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           inputFormatters: widget.inputFormatters,
           keyboardType: widget.keyboardType,
           style: widget.style,
-          hasFocus: this.hasFocus,
+          hasFocus: hasFocus,
         ));
   }
 }
@@ -263,27 +263,18 @@ class TextFormField extends FormField<String> {
       bool enableIMEPersonalizedLearning = true,
       bool hasFocus = false})
       : assert(initialValue == null || controller == null),
-        assert(textAlign != null),
-        assert(autofocus != null),
-        assert(readOnly != null),
-        assert(obscuringCharacter != null && obscuringCharacter.length == 1),
-        assert(obscureText != null),
-        assert(autocorrect != null),
-        assert(enableSuggestions != null),
-        assert(autovalidate != null),
+        assert(obscuringCharacter.length == 1),
         assert(
           autovalidate == false ||
               autovalidate == true && autovalidateMode == null,
           'autovalidate and autovalidateMode should not be used together.',
         ),
-        assert(scrollPadding != null),
         assert(maxLines == null || maxLines > 0),
         assert(minLines == null || minLines > 0),
         assert(
           (maxLines == null) || (minLines == null) || (maxLines >= minLines),
           "minLines can't be greater than maxLines",
         ),
-        assert(expands != null),
         assert(
           !expands || (maxLines == null && minLines == null),
           'minLines and maxLines must be null when expands is true.',
@@ -293,8 +284,7 @@ class TextFormField extends FormField<String> {
         // assert(maxLength == null ||
         //     maxLength == TextField.noMaxLength ||
         //     maxLength > 0),
-        assert(enableInteractiveSelection != null),
-        assert(enableIMEPersonalizedLearning != null),
+
         super(
           key: key,
           restorationId: restorationId,
@@ -318,7 +308,7 @@ class TextFormField extends FormField<String> {
               }
             }
 
-            final TextStyle? errorStyle = effectiveDecoration.errorStyle ??
+            final TextStyle errorStyle = effectiveDecoration.errorStyle ??
                 Theme.of(field.context)
                     .textTheme
                     .caption!
@@ -332,13 +322,12 @@ class TextFormField extends FormField<String> {
                   children: [
                     decoration?.label != null || decoration?.labelText != null
                         ? Padding(
-                            padding: EdgeInsets.only(bottom: 3),
-                            child: decoration?.label != null
-                                ? decoration?.label
-                                : Text(
-                                    decoration?.labelText ?? "",
-                                    style: labelStyle,
-                                  ),
+                            padding: const EdgeInsets.only(bottom: 3),
+                            child: decoration?.label ??
+                                Text(
+                                  decoration?.labelText ?? "",
+                                  style: labelStyle,
+                                ),
                           )
                         : Container(),
                     Stack(
@@ -347,7 +336,7 @@ class TextFormField extends FormField<String> {
                         InnerShadowBGCar(
                             isWhite:
                                 (enabled ?? decoration!.enabled) ? true : false,
-                            child: Container(
+                            child: SizedBox(
                               width: double.infinity,
                               height: 11 + (maxLines ?? 1) * 21,
                             )),
@@ -355,8 +344,8 @@ class TextFormField extends FormField<String> {
                           height: 11 + 16 + (maxLines ?? 1) * 21,
                           decoration: hasFocus
                               ? BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8)),
                                   border: Border.all(
                                       width: 1.5,
                                       color: Theme.of(field.context)
@@ -364,7 +353,7 @@ class TextFormField extends FormField<String> {
                               : null,
                         ),
                         Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Row(
                               children: [
                                 Expanded(
@@ -377,13 +366,14 @@ class TextFormField extends FormField<String> {
                                       label: null,
                                       isDense: true,
                                       contentPadding:
-                                          EdgeInsets.symmetric(vertical: 5.5),
+                                          const EdgeInsets.symmetric(
+                                              vertical: 5.5),
                                       hintStyle: TextStyle(
                                           fontSize:
                                               UI.getTextSize(16, field.context),
                                           fontFamily: UI.getFontFamily(
                                               'TitilliumWeb', field.context),
-                                          color: Color(0x77565554)),
+                                          color: const Color(0x77565554)),
                                       suffix: null,
                                       suffixIcon: null),
                                   keyboardType: keyboardType,
@@ -449,7 +439,7 @@ class TextFormField extends FormField<String> {
                     ),
                     field.errorText != null && field.errorText!.isNotEmpty
                         ? Padding(
-                            padding: EdgeInsets.only(top: 3),
+                            padding: const EdgeInsets.only(top: 3),
                             child: Text(
                               field.errorText!,
                               style: errorStyle,
@@ -551,8 +541,9 @@ class _TextFormFieldState extends FormFieldState<String> {
   void didChange(String? value) {
     super.didChange(value);
 
-    if (_effectiveController.text != value)
+    if (_effectiveController.text != value) {
       _effectiveController.text = value ?? '';
+    }
   }
 
   @override
@@ -571,8 +562,9 @@ class _TextFormFieldState extends FormFieldState<String> {
     // notifications for changes originating from within this class -- for
     // example, the reset() method. In such cases, the FormField value will
     // already have been set.
-    if (_effectiveController.text != value)
+    if (_effectiveController.text != value) {
       didChange(_effectiveController.text);
+    }
   }
 }
 
@@ -638,8 +630,7 @@ class InputDecorationV3 extends InputDecoration {
     this.alignLabelWithHint,
     this.constraints,
     this.floatingLabelAlignment = FloatingLabelAlignment.start,
-  })  : assert(enabled != null),
-        assert(!(label != null && labelText != null),
+  })  : assert(!(label != null && labelText != null),
             'Declaring both label and labelText is not supported.'),
         assert(!(prefix != null && prefixText != null),
             'Declaring both prefix and prefixText is not supported.'),
@@ -663,8 +654,7 @@ class InputDecorationV3 extends InputDecoration {
     this.hoverColor,
     this.border = InputBorder.none,
     this.enabled = true,
-  })  : assert(enabled != null),
-        icon = null,
+  })  : icon = null,
         label = null,
         labelText = null,
         labelStyle = null,
@@ -1698,6 +1688,7 @@ class InputDecorationV3 extends InputDecoration {
       alignLabelWithHint,
       constraints,
     ];
+    return Object.hashAll(values);
     return hashList(values);
   }
 

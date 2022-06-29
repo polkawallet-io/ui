@@ -11,13 +11,13 @@ class Checkbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? EdgeInsets.only(left: 16, right: 10),
+      padding: padding ?? const EdgeInsets.only(left: 16, right: 10),
       child: GestureDetector(
         onTap: () {
-          this.onChanged!(!this.value);
+          onChanged!(!value);
         },
         child: Image.asset(
-          "packages/polkawallet_ui/assets/images/checkbox_${this.value ? 'true' : 'false'}.png",
+          "packages/polkawallet_ui/assets/images/checkbox_${value ? 'true' : 'false'}.png",
           width: 16,
         ),
       ),

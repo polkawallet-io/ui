@@ -130,9 +130,7 @@ class UI {
           }
         }
       } else {
-        if (kDebugMode) {
-          print('Could not launch $url');
-        }
+        debugPrint('Could not launch $url');
       }
     });
   }

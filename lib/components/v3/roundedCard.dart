@@ -21,12 +21,11 @@ class RoundedCard extends StatelessWidget {
     return Container(
       margin: margin,
       padding: padding,
-      child: child,
       decoration: BoxDecoration(
         border: border,
-        borderRadius: const BorderRadius.all(const Radius.circular(10)),
-        color: this.color ?? Theme.of(context).cardColor,
-        boxShadow: [
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        color: color ?? Theme.of(context).cardColor,
+        boxShadow: const [
           BoxShadow(
             color: Color(0x24000000),
             blurRadius: 1.0, // has the effect of softening the shadow
@@ -38,6 +37,7 @@ class RoundedCard extends StatelessWidget {
           )
         ],
       ),
+      child: child,
     );
   }
 }

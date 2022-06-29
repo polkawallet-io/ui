@@ -1,14 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class InfoItemRow extends StatelessWidget {
-  InfoItemRow(this.label, this.content,
-      {this.colorPrimary = false,
+  const InfoItemRow(this.label, this.content,
+      {Key? key,
+      this.colorPrimary = false,
       this.color,
       this.labelStyle,
       this.contentStyle,
-      this.crossAxisAlignment = CrossAxisAlignment.center});
+      this.crossAxisAlignment = CrossAxisAlignment.center})
+      : super(key: key);
   final String label;
   final String? content;
   final Color? color;
@@ -19,7 +20,7 @@ class InfoItemRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: this.crossAxisAlignment,
+      crossAxisAlignment: crossAxisAlignment,
       children: <Widget>[
         Text(
           label,

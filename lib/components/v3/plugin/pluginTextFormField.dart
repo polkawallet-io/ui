@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginInputItem.dart';
 
 class PluginTextFormField extends StatelessWidget {
-  PluginTextFormField(
-      {this.label,
+  const PluginTextFormField(
+      {Key? key,
+      this.label,
       this.hintText,
       this.inputFormatters,
       this.controller,
@@ -14,7 +15,8 @@ class PluginTextFormField extends StatelessWidget {
       this.onChanged,
       this.suffix,
       this.keyboardType,
-      this.autovalidateMode});
+      this.autovalidateMode})
+      : super(key: key);
   final String? label;
   final String? hintText;
   final List<TextInputFormatter>? inputFormatters;
@@ -37,7 +39,7 @@ class PluginTextFormField extends StatelessWidget {
             border: InputBorder.none,
             hintText: hintText,
             hintStyle: Theme.of(context).textTheme.headline5?.copyWith(
-                color: Color(0xFFBCBCBC), fontWeight: FontWeight.w300),
+                color: const Color(0xFFBCBCBC), fontWeight: FontWeight.w300),
             suffixIcon: suffix,
           ),
           style: Theme.of(context)

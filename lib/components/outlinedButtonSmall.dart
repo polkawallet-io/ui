@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OutlinedButtonSmall extends StatelessWidget {
-  OutlinedButtonSmall(
+  const OutlinedButtonSmall(
       {this.content,
       this.active = false,
       this.color,
@@ -20,13 +20,14 @@ class OutlinedButtonSmall extends StatelessWidget {
     Color grey = Theme.of(context).unselectedWidgetColor;
     Color white = Theme.of(context).cardColor;
     return GestureDetector(
+      onTap: onPressed as void Function()?,
       child: Container(
-        margin: margin ?? EdgeInsets.only(right: 8),
-        padding: padding ?? EdgeInsets.fromLTRB(12, 4, 12, 4),
+        margin: margin ?? const EdgeInsets.only(right: 8),
+        padding: padding ?? const EdgeInsets.fromLTRB(12, 4, 12, 4),
         decoration: BoxDecoration(
           color: active ? primary : white,
           border: Border.all(color: active ? primary : grey),
-          borderRadius: BorderRadius.all(Radius.circular(80)),
+          borderRadius: const BorderRadius.all(Radius.circular(80)),
         ),
         child: Text(
           content!,
@@ -34,7 +35,6 @@ class OutlinedButtonSmall extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
-      onTap: onPressed as void Function()?,
     );
   }
 }

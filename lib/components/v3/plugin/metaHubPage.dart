@@ -4,7 +4,7 @@ import 'package:polkawallet_ui/components/v3/plugin/tabBarPlugin.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class MetaHubPage extends StatefulWidget {
-  MetaHubPage(
+  const MetaHubPage(
       {required this.pluginName,
       required this.metaItems,
       this.colors = const [Color(0xFFE40C5A), Color(0xFFFF4C3C)],
@@ -15,7 +15,7 @@ class MetaHubPage extends StatefulWidget {
   final List<MetaHubItem> metaItems;
 
   @override
-  _MetaHubPageState createState() => _MetaHubPageState();
+  createState() => _MetaHubPageState();
 }
 
 class _MetaHubPageState extends State<MetaHubPage>
@@ -33,26 +33,26 @@ class _MetaHubPageState extends State<MetaHubPage>
   late Animation<double> animation;
 
   void _startAnimation() {
-    this.controller = AnimationController(
+    controller = AnimationController(
         duration: const Duration(milliseconds: 700), vsync: this);
     animation = Tween(begin: 0.0, end: 1.0)
         .chain(CurveTween(curve: Curves.easeInOutQuint))
-        .animate(this.controller!);
+        .animate(controller!);
     animation.addListener(() {
       setState(() {
         animationNumber = animation.value;
       });
     });
-    Future.delayed(Duration(milliseconds: 150), () {
+    Future.delayed(const Duration(milliseconds: 150), () {
       controller!.forward();
     });
   }
 
   @override
   void initState() {
-    widget.metaItems.forEach((element) {
+    for (var element in widget.metaItems) {
       _titles.add(element.title);
-    });
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _startAnimation();
     });
@@ -75,7 +75,7 @@ class _MetaHubPageState extends State<MetaHubPage>
                       MediaQuery.of(context).padding.top -
                       MediaQuery.of(context).padding.bottom) /
                   2,
-              decoration: new BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(
@@ -83,9 +83,11 @@ class _MetaHubPageState extends State<MetaHubPage>
                 ),
               ),
               alignment: Alignment.bottomCenter,
-              child: Container(
+              child: SizedBox(
+                height: 65,
+                width: double.infinity,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 14),
+                  padding: const EdgeInsets.only(left: 16, right: 14),
                   child: TabBarPlugin(
                     datas: _titles,
                     controller: _tabBarPluginController,
@@ -96,8 +98,6 @@ class _MetaHubPageState extends State<MetaHubPage>
                     },
                   ),
                 ),
-                height: 65,
-                width: double.infinity,
               ),
             )));
   }
@@ -139,7 +139,7 @@ class _MetaHubPageState extends State<MetaHubPage>
             bottom: 60),
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
                     "packages/polkawallet_ui/assets/images/metaHub_bg.png"),
@@ -151,11 +151,11 @@ class _MetaHubPageState extends State<MetaHubPage>
                 colors: [Color(0xFF4D5458), Color(0xFF191A22)])),
         child: Swiper(
           outer: true,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           controller: _swiperController,
           itemBuilder: (context, index) {
             return Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(
                           "packages/polkawallet_ui/assets/images/metaHub_item_bg.png"),
@@ -166,16 +166,16 @@ class _MetaHubPageState extends State<MetaHubPage>
                   Container(
                     width: double.infinity,
                     height: double.infinity,
-                    padding: EdgeInsets.all(19),
+                    padding: const EdgeInsets.all(19),
                     margin: EdgeInsets.only(
                         left: 10,
                         right: 10,
                         top: 7,
                         bottom: 65 / 553 * itemHeight),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topLeft: const Radius.circular(10),
-                            topRight: const Radius.circular(10)),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -193,8 +193,9 @@ class _MetaHubPageState extends State<MetaHubPage>
                                       ?.copyWith(
                                           fontSize: UI.getTextSize(24, context),
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFFFF8E66)))
+                                          color: const Color(0xFFFF8E66)))
                               .width,
+                          margin: const EdgeInsets.only(bottom: 24),
                           child: Column(
                             children: [
                               Text(
@@ -205,16 +206,15 @@ class _MetaHubPageState extends State<MetaHubPage>
                                     ?.copyWith(
                                         fontSize: UI.getTextSize(24, context),
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xFFFF8E66)),
+                                        color: const Color(0xFFFF8E66)),
                               ),
-                              Divider(
+                              const Divider(
                                 height: 4,
                                 thickness: 4,
                                 color: Color(0xFFFF8E66),
                               )
                             ],
                           ),
-                          margin: EdgeInsets.only(bottom: 24),
                         ),
                         Expanded(child: widget.metaItems[index].context)
                       ],
@@ -226,13 +226,13 @@ class _MetaHubPageState extends State<MetaHubPage>
                     margin: EdgeInsets.only(
                         right: 34 / 288 * itemWidth,
                         bottom: 15 / 553 * itemHeight),
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topLeft: const Radius.circular(2),
-                            topRight: const Radius.circular(6),
-                            bottomLeft: const Radius.circular(2),
-                            bottomRight: const Radius.circular(2)),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(2),
+                            topRight: Radius.circular(6),
+                            bottomLeft: Radius.circular(2),
+                            bottomRight: Radius.circular(2)),
                         color: Color(0xFF0B0B0B)),
                     child: Row(
                       children: [
@@ -244,10 +244,10 @@ class _MetaHubPageState extends State<MetaHubPage>
                                     gradient: LinearGradient(
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
-                                        stops: [0.0, 1.0],
+                                        stops: const [0.0, 1.0],
                                         colors: widget.colors)))),
                         Padding(
-                          padding: EdgeInsets.only(left: 7),
+                          padding: const EdgeInsets.only(left: 7),
                           child: ShaderMask(
                               shaderCallback: (Rect bounds) {
                                 return LinearGradient(
@@ -295,7 +295,7 @@ class _MetaHubPageState extends State<MetaHubPage>
   }
 
   static Size boundingTextSize(String text, TextStyle? style) {
-    if (text == null || text.isEmpty) {
+    if (text.isEmpty) {
       return Size.zero;
     }
     final TextPainter textPainter = TextPainter(

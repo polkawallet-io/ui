@@ -40,7 +40,6 @@ class DAppWrapperPage extends StatefulWidget {
 
 class _DAppWrapperPageState extends State<DAppWrapperPage> {
   WebViewController? _controller;
-  bool _loading = true;
   bool _signing = false;
 
   bool _isWillClose = false;
@@ -63,7 +62,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           leading: Row(
             children: [
               Padding(
-                  padding: EdgeInsets.only(left: 16, right: 12),
+                  padding: const EdgeInsets.only(left: 16, right: 12),
                   child: PluginIconButton(
                     icon: Image.asset(
                       "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
@@ -275,13 +274,13 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
             .address;
     final acc = widget.keyring.keyPairs.firstWhere((acc) {
       bool matched = false;
-      widget.keyring.store.pubKeyAddressMap.values.forEach((e) {
+      for (var e in widget.keyring.store.pubKeyAddressMap.values) {
         e.forEach((k, v) {
           if (acc.pubKey == k && address == v) {
             matched = true;
           }
         });
-      });
+      }
       return matched;
     });
     final res = await showModalBottomSheet(
@@ -454,9 +453,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 url,
                 widget.keyring,
                 onPageFinished: (url) {
-                  setState(() {
-                    _loading = false;
-                  });
+                  setState(() {});
                 },
                 onWebViewCreated: (controller) {
                   setState(() {
@@ -506,7 +503,7 @@ class MoreInfo extends StatelessWidget {
   Widget buildItem(
       String icon, String name, Function onTap, BuildContext context) {
     return GestureDetector(
-      child: Container(
+      child: SizedBox(
           width: 56,
           child: Column(
             children: [
@@ -567,7 +564,7 @@ class MoreInfo extends StatelessWidget {
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 if (_icon.isNotEmpty) {
-                                  return Container(
+                                  return SizedBox(
                                       width: 40,
                                       height: 40,
                                       child: _icon.contains('.svg')
@@ -707,7 +704,7 @@ class SignInfoItemRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width / 4,
           child: Text(
             label,
@@ -719,7 +716,7 @@ class SignInfoItemRow extends StatelessWidget {
         ),
         Expanded(
             child: Container(
-          margin: EdgeInsets.only(bottom: 6),
+          margin: const EdgeInsets.only(bottom: 6),
           child: Text(
             content,
             style: Theme.of(context)

@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 /// A material design tooltip.
 ///
@@ -55,8 +54,7 @@ class TapTooltip extends StatefulWidget {
     this.waitDuration,
     this.showDuration,
     this.child,
-  })  : assert(message != null),
-        super(key: key);
+  }) : super(key: key);
 
   /// The text to display in the tooltip.
   final String message;
@@ -146,7 +144,7 @@ class TapTooltip extends StatefulWidget {
   final Duration? showDuration;
 
   @override
-  _TooltipState createState() => _TooltipState();
+  createState() => _TooltipState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -446,9 +444,7 @@ class _TooltipPositionDelegate extends SingleChildLayoutDelegate {
     required this.target,
     required this.verticalOffset,
     required this.preferBelow,
-  })  : assert(target != null),
-        assert(verticalOffset != null),
-        assert(preferBelow != null);
+  });
 
   /// The offset of the target the tooltip is positioned near in the global
   /// coordinate system.

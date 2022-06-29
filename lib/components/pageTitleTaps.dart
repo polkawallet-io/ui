@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PageTitleTabs extends StatelessWidget {
-  PageTitleTabs({this.names, this.activeTab, this.onTab});
+  const PageTitleTabs({Key? key, this.names, this.activeTab, this.onTab})
+      : super(key: key);
 
   final List<String>? names;
   final Function(int)? onTab;

@@ -1,5 +1,4 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/api/api.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
@@ -8,7 +7,7 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class AddressInputField extends StatefulWidget {
-  AddressInputField(
+  const AddressInputField(
     this.api,
     this.localAccounts, {
     this.label,
@@ -23,12 +22,12 @@ class AddressInputField extends StatefulWidget {
   final Function(KeyPairData?)? onChanged;
 
   @override
-  _AddressInputFieldState createState() => _AddressInputFieldState();
+  createState() => _AddressInputFieldState();
 }
 
 class _AddressInputFieldState extends State<AddressInputField> {
-  Map _addressIndexMap = {};
-  Map _addressIconsMap = {};
+  final Map _addressIndexMap = {};
+  final Map _addressIconsMap = {};
 
   Map? _getAddressInfo(KeyPairData acc) {
     return acc.indexInfo ?? _addressIndexMap[acc.address];
@@ -77,7 +76,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
     // fetch address info if it's a new address
     final res = await widget.api.account.getAddressIcons([acc.address]);
     if (res != null) {
-      if (res.length > 0) {
+      if (res.isNotEmpty) {
         acc.icon = res[0][1];
         setState(() {
           _addressIconsMap.addAll({acc.address: res[0][1]});
@@ -85,9 +84,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
       }
 
       // The indices query too slow, so we use address as account name
-      if (acc.name == null) {
-        acc.name = Fmt.address(acc.address);
-      }
+      acc.name ??= Fmt.address(acc.address);
       // final addressInfo =
       //     await widget.api.account.queryIndexInfo([acc.address]);
       // if (addressInfo != null && addressInfo.length > 0) {
@@ -121,7 +118,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
     }
     final Map? accInfo = _getAddressInfo(item);
     return Container(
-      padding: EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.only(top: 8),
       child: Row(
         children: [
           AddressIcon(item.address,
@@ -129,7 +126,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
               svg: item.icon ?? _addressIconsMap[item.address],
               tapToCopy: false),
           Padding(
-            padding: EdgeInsets.only(left: 8),
+            padding: const EdgeInsets.only(left: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -155,7 +152,7 @@ class _AddressInputFieldState extends State<AddressInputField> {
       BuildContext context, KeyPairData item, bool isSelected) {
     final Map? accInfo = _getAddressInfo(item);
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: !isSelected
           ? null
           : BoxDecoration(
@@ -185,13 +182,13 @@ class _AddressInputFieldState extends State<AddressInputField> {
     return DropdownSearch<KeyPairData>(
       mode: Mode.DIALOG,
       isFilteredOnline: true,
-      popupSafeArea: PopupSafeArea(top: true, bottom: true),
+      popupSafeArea: const PopupSafeArea(top: true, bottom: true),
       showSearchBox: true,
       showSelectedItem: true,
       autoFocusSearchBox: true,
       searchBoxDecoration: InputDecoration(
-        border: OutlineInputBorder(),
-        contentPadding: EdgeInsets.fromLTRB(12, 12, 8, 0),
+        border: const OutlineInputBorder(),
+        contentPadding: const EdgeInsets.fromLTRB(12, 12, 8, 0),
         labelText: widget.label,
       ),
       label: widget.label,

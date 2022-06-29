@@ -21,8 +21,8 @@ class PluginItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RoundedPluginCard(
-      padding: this.padding,
-      margin: this.margin,
+      padding: padding,
+      margin: margin,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -32,7 +32,7 @@ class PluginItemCard extends StatelessWidget {
               // SimpleShadow(
               //   child:
               Text(
-                this.title,
+                title,
                 style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
                     fontSize: UI.getTextSize(16, context), color: Colors.white),
               ),
@@ -42,18 +42,18 @@ class PluginItemCard extends StatelessWidget {
               //   sigma: 4, // Default: 2
               // ),
               Visibility(
-                  visible: this.icon != null,
+                  visible: icon != null,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 6),
-                    child: this.icon != null ? this.icon : Container(),
+                    padding: const EdgeInsets.only(left: 6),
+                    child: icon ?? Container(),
                   ))
             ],
           ),
-          this.describe != null
+          describe != null
               ? Padding(
-                  padding: EdgeInsets.only(top: 3, right: 43),
+                  padding: const EdgeInsets.only(top: 3, right: 43),
                   child: Text(
-                    this.describe!,
+                    describe!,
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         fontSize: UI.getTextSize(11, context),
                         color: Colors.white),

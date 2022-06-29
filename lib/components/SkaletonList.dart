@@ -49,8 +49,8 @@ class SkaletionRow extends StatelessWidget {
                                   Container(
                                     width: 10,
                                     height: 10,
-                                    margin: EdgeInsets.only(right: 3),
-                                    decoration: BoxDecoration(
+                                    margin: const EdgeInsets.only(right: 3),
+                                    decoration: const BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10 / 2))),
@@ -61,7 +61,7 @@ class SkaletionRow extends StatelessWidget {
                                       color: Colors.white),
                                 ],
                               ),
-                              SizedBox(height: 3.5),
+                              const SizedBox(height: 3.5),
                               Container(
                                   width: 50, height: 15, color: Colors.white),
                             ],
@@ -113,13 +113,13 @@ class SkaletonList extends StatelessWidget {
     final childWidget = SkeletonLoader(
       builder: child ??
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Row(
               children: <Widget>[
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 30,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     children: <Widget>[
@@ -128,7 +128,7 @@ class SkaletonList extends StatelessWidget {
                         height: 10,
                         color: Colors.white,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Container(
                         width: double.infinity,
                         height: 12,
@@ -147,13 +147,13 @@ class SkaletonList extends StatelessWidget {
       direction: direction,
     );
 
-    final card = !this.isPlugin
+    final card = !isPlugin
         ? RoundedCard(
-            margin: itemMargin ?? EdgeInsets.only(bottom: 16),
+            margin: itemMargin ?? const EdgeInsets.only(bottom: 16),
             padding: itemPadding,
             child: childWidget)
         : RoundedPluginCard(
-            margin: itemMargin ?? EdgeInsets.only(bottom: 16),
+            margin: itemMargin ?? const EdgeInsets.only(bottom: 16),
             padding: itemPadding,
             child: childWidget);
 
@@ -161,7 +161,7 @@ class SkaletonList extends StatelessWidget {
         shrinkWrap: shrinkWrap,
         physics: physics,
         padding:
-            this.padding ?? EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         itemCount: items,
         itemBuilder: (BuildContext context, int index) {
           return card;

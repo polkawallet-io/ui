@@ -38,16 +38,16 @@ class AddressTextFormField extends StatefulWidget {
   final bool isClean;
 
   @override
-  _AddressTextFormFieldState createState() => _AddressTextFormFieldState();
+  createState() => _AddressTextFormFieldState();
 }
 
 class _AddressTextFormFieldState extends State<AddressTextFormField> {
   final TextEditingController _controller = TextEditingController();
-  Map _addressIndexMap = {};
-  Map _addressIconsMap = {};
+  final Map _addressIndexMap = {};
+  final Map _addressIconsMap = {};
   String? validatorError;
   bool hasFocus = false;
-  FocusNode _commentFocus = FocusNode();
+  final FocusNode _commentFocus = FocusNode();
 
   Future<KeyPairData?> _getAccountFromInput(String input) async {
     // return local account list if input empty
@@ -97,7 +97,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
     // fetch address info if it's a new address
     final res = await widget.api.account.getAddressIcons([acc.address]);
     if (res != null) {
-      if (res.length > 0) {
+      if (res.isNotEmpty) {
         acc.icon = res[0][1];
         setState(() {
           _addressIconsMap.addAll({acc.address: res[0][1]});
@@ -105,9 +105,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
       }
 
       // The indices query too slow, so we use address as account name
-      if (acc.name == null) {
-        acc.name = Fmt.address(acc.address);
-      }
+      acc.name ??= Fmt.address(acc.address);
     }
     return acc;
   }
@@ -136,7 +134,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       widget.labelText != null
           ? Padding(
-              padding: EdgeInsets.only(bottom: 3),
+              padding: const EdgeInsets.only(bottom: 3),
               child: Text(
                 widget.labelText ?? "",
                 style: labelStyle,
@@ -192,7 +190,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                           visible: widget.isClean,
                           child: GestureDetector(
                             child: Padding(
-                                padding: EdgeInsets.only(right: 16),
+                                padding: const EdgeInsets.only(right: 16),
                                 child: Icon(
                                   Icons.cancel,
                                   size: 18,
@@ -220,7 +218,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                   focusNode: _commentFocus,
                   onChanged: (value) {
                     if (validatorError != null &&
-                        _controller.text.trim().toString().length == 0) {
+                        _controller.text.trim().toString().isEmpty) {
                       setState(() {
                         validatorError = null;
                       });
@@ -250,7 +248,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                     ),
                   ),
                   validator: (value) {
-                    if (value!.trim().length > 0) {
+                    if (value!.trim().isNotEmpty) {
                       return validatorError;
                     }
                     return null;

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -86,7 +85,7 @@ class AccountQrCodePage extends StatelessWidget {
                           size: Size(qrWidth / 3.875, qrWidth / 3.875)),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: qrWidth,
                     child: Text(keyring.current.address!,
                         style: TextStyle(

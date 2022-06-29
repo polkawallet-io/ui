@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,7 +9,8 @@ enum NomStatus { active, over, inactive, waiting }
 
 class AddressIconTag extends StatelessWidget {
   const AddressIconTag(this.address, this.nomStatus,
-      {this.size, this.svg, this.tapToCopy = true, this.decoration});
+      {Key? key, this.size, this.svg, this.tapToCopy = true, this.decoration})
+      : super(key: key);
   final String? address;
   final String? svg;
   final double? size;
@@ -28,27 +28,27 @@ class AddressIconTag extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         AddressIcon(
-          this.address,
-          size: this.size,
-          svg: this.svg,
-          tapToCopy: this.tapToCopy,
-          decoration: this.decoration,
+          address,
+          size: size,
+          svg: svg,
+          tapToCopy: tapToCopy,
+          decoration: decoration,
         ),
         Container(
           margin: EdgeInsets.only(top: (size ?? defaultSize) - 5),
-          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(const Radius.circular(2)),
+            borderRadius: const BorderRadius.all(Radius.circular(2)),
             color: nomStatus == NomStatus.active || nomStatus == NomStatus.over
-                ? Color(0xFF81FEB9)
-                : Color(0xFFB9B9B9),
+                ? const Color(0xFF81FEB9)
+                : const Color(0xFFB9B9B9),
           ),
           child: Text(
             dic['nominate.$status']!,
             style: Theme.of(context).textTheme.headline6?.copyWith(
                 fontSize: UI.getTextSize(8, context),
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF3a3d40)),
+                color: const Color(0xFF3a3d40)),
           ),
         )
       ],
@@ -57,8 +57,9 @@ class AddressIconTag extends StatelessWidget {
 }
 
 class AddressIcon extends StatelessWidget {
-  AddressIcon(this.address,
-      {this.size, this.svg, this.tapToCopy = true, this.decoration});
+  const AddressIcon(this.address,
+      {Key? key, this.size, this.svg, this.tapToCopy = true, this.decoration})
+      : super(key: key);
   final String? address;
   final String? svg;
   final double? size;
@@ -69,6 +70,7 @@ class AddressIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: tapToCopy ? () => UI.copyAndNotify(context, address) : null,
       child: Container(
         width: size ?? defaultSize,
         height: size ?? defaultSize,
@@ -86,7 +88,6 @@ class AddressIcon extends StatelessWidget {
               )
             : SvgPicture.string(svg!),
       ),
-      onTap: tapToCopy ? () => UI.copyAndNotify(context, address) : null,
     );
   }
 }

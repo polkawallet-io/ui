@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart' hide IconButton;
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_ui/components/v3/iconButton.dart';
 
 class BackBtn extends StatelessWidget {
-  BackBtn({this.onBack, this.margin, Key? key}) : super(key: key);
+  const BackBtn({this.onBack, this.margin, Key? key}) : super(key: key);
 
   final Function? onBack;
   final EdgeInsetsGeometry? margin;

@@ -7,8 +7,9 @@ import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class PasswordInputDialog extends StatefulWidget {
-  PasswordInputDialog(this.api,
-      {this.account, this.userPass, this.title, this.content});
+  const PasswordInputDialog(this.api,
+      {Key? key, this.account, this.userPass, this.title, this.content})
+      : super(key: key);
 
   final PolkawalletApi api;
   final KeyPairData? account;
@@ -17,11 +18,11 @@ class PasswordInputDialog extends StatefulWidget {
   final Widget? content;
 
   @override
-  _PasswordInputDialog createState() => _PasswordInputDialog();
+  createState() => _PasswordInputDialog();
 }
 
 class _PasswordInputDialog extends State<PasswordInputDialog> {
-  final TextEditingController _passCtrl = new TextEditingController();
+  final TextEditingController _passCtrl = TextEditingController();
 
   bool _submitting = false;
 
@@ -36,6 +37,7 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
         _submitting = false;
       });
     }
+    if (!mounted) return;
     if (!passed) {
       final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
       showCupertinoDialog(
@@ -84,11 +86,11 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
       content: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(top: 4),
             child: widget.content ?? Container(),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 12),
+            padding: const EdgeInsets.only(top: 12),
             child: _submitting
                 ? Text(dic['pass.checking']!)
                 : CupertinoTextField(
@@ -109,15 +111,16 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
         ),
         PolkawalletActionSheetAction(
           isDefaultAction: true,
+          onPressed: _submitting ? null : () => _submit(_passCtrl.text.trim()),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Visibility(
-                  visible: _submitting, child: CupertinoActivityIndicator()),
+                  visible: _submitting,
+                  child: const CupertinoActivityIndicator()),
               Text(dic['ok']!)
             ],
           ),
-          onPressed: _submitting ? null : () => _submit(_passCtrl.text.trim()),
         ),
       ],
     );

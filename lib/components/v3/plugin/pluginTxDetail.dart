@@ -13,7 +13,7 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginTxDetail extends StatelessWidget {
-  PluginTxDetail({
+  const PluginTxDetail({Key? key,
     this.success,
     this.networkName,
     this.action,
@@ -24,7 +24,7 @@ class PluginTxDetail extends StatelessWidget {
     this.blockNum,
     this.infoItems,
     required this.current,
-  });
+  }) : super(key: key);
 
   final bool? success;
   final String? networkName;
@@ -48,26 +48,26 @@ class PluginTxDetail extends StatelessWidget {
 
     var list = <Widget>[
       Container(
-        margin: EdgeInsets.all(16),
+        margin: const EdgeInsets.all(16),
         height: success != null ? 180 : 160,
         width: double.infinity,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
             Container(
-                margin: EdgeInsets.only(top: 30),
+                margin: const EdgeInsets.only(top: 30),
                 width: double.infinity,
                 height: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 68, 70, 73),
                     borderRadius: BorderRadius.all(Radius.circular(10)))),
             Image.asset(
                 'packages/polkawallet_ui/assets/images/bg_detail_circle.png',
                 width: 90,
-                color: Color.fromARGB(255, 68, 70, 73),
+                color: const Color.fromARGB(255, 68, 70, 73),
                 fit: BoxFit.contain),
             Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Column(
                   children: [
                     AddressIcon(
@@ -80,10 +80,10 @@ class PluginTxDetail extends StatelessWidget {
                               color: Theme.of(context).toggleableActiveColor,
                               width: 3),
                           borderRadius:
-                              BorderRadius.all(Radius.circular(55 / 2.0))),
+                              const BorderRadius.all(Radius.circular(55 / 2.0))),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(top: 3),
+                        padding: const EdgeInsets.only(top: 3),
                         child: Text(current.name!, style: labelStyle)),
                     Expanded(
                         child: Column(
@@ -95,7 +95,7 @@ class PluginTxDetail extends StatelessWidget {
                                 '$action ${success! ? dic!['success'] : dic!['fail']}',
                                 style: TextStyle(
                                   color: success!
-                                      ? Color(0xFF81FEB9)
+                                      ? const Color(0xFF81FEB9)
                                       : PluginColorsDark.primary,
                                   fontSize: UI.getTextSize(14, context),
                                   fontFamily:
@@ -116,7 +116,7 @@ class PluginTxDetail extends StatelessWidget {
     int index = 0;
     bool isShowDivider = false;
     list.add(RoundedPluginCard(
-      margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       borderRadius: const BorderRadius.all(const Radius.circular(8)),
       child: Column(
         children: [
@@ -138,7 +138,7 @@ class PluginTxDetail extends StatelessWidget {
                       label: dic?['tx.fee'],
                       content: Text(
                         fee ?? "",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       )),
                   labelStyle)),
           Visibility(
@@ -147,7 +147,7 @@ class PluginTxDetail extends StatelessWidget {
                   TxDetailInfoItem(
                       label: 'Event',
                       content: Text(eventId ?? "",
-                          style: TextStyle(color: Colors.white))),
+                          style: const TextStyle(color: Colors.white))),
                   labelStyle)),
           Visibility(
               visible: blockNum != null,
@@ -155,7 +155,7 @@ class PluginTxDetail extends StatelessWidget {
                   TxDetailInfoItem(
                       label: 'Block',
                       content: Text('#$blockNum',
-                          style: TextStyle(color: Colors.white))),
+                          style: const TextStyle(color: Colors.white))),
                   labelStyle)),
           Visibility(
               visible: hash != null,
@@ -164,7 +164,7 @@ class PluginTxDetail extends StatelessWidget {
                       copyText: Fmt.address(hash),
                       label: 'Hash',
                       content: Text(Fmt.address(hash),
-                          style: TextStyle(color: Colors.white))),
+                          style: const TextStyle(color: Colors.white))),
                   labelStyle)),
           Visibility(
               visible: blockTime != null,
@@ -172,7 +172,7 @@ class PluginTxDetail extends StatelessWidget {
                   TxDetailInfoItem(
                       label: 'Time',
                       content: Text(blockTime!,
-                          style: TextStyle(color: Colors.white))),
+                          style: const TextStyle(color: Colors.white))),
                   labelStyle)),
         ],
       ),
@@ -185,7 +185,7 @@ class PluginTxDetail extends StatelessWidget {
     final snLink =
         'https://${networkName!.toLowerCase()}.subscan.io/extrinsic/$hash';
     Widget links = Padding(
-        padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: PluginButton(
           title: 'Subscan',
           style: Theme.of(context)
@@ -204,7 +204,7 @@ class PluginTxDetail extends StatelessWidget {
         ));
     if (pnLink != null) {
       links = Padding(
-          padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: Row(
             children: [
               Expanded(
@@ -219,7 +219,7 @@ class PluginTxDetail extends StatelessWidget {
                   await UI.launchURL(snLink);
                 },
                 icon: Container(
-                    margin: EdgeInsets.only(left: 3),
+                    margin: const EdgeInsets.only(left: 3),
                     child: SvgPicture.asset(
                       "packages/polkawallet_ui/assets/images/icon_share.svg",
                       width: 24,
@@ -240,7 +240,7 @@ class PluginTxDetail extends StatelessWidget {
                   await UI.launchURL(pnLink);
                 },
                 icon: Container(
-                    margin: EdgeInsets.only(left: 3),
+                    margin: const EdgeInsets.only(left: 3),
                     child: SvgPicture.asset(
                       "packages/polkawallet_ui/assets/images/icon_share.svg",
                       width: 24,
@@ -262,8 +262,8 @@ class PluginTxDetail extends StatelessWidget {
       appBar: PluginAppBar(title: Text(dic['detail']!), centerTitle: true),
       body: SafeArea(
         child: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.only(bottom: 32),
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 32),
           children: _buildListView(context),
         ),
       ),
@@ -272,7 +272,7 @@ class PluginTxDetail extends StatelessWidget {
 }
 
 class TxDetailItem extends StatelessWidget {
-  TxDetailItem(this.i, this.labelStyle, {this.isShowDivider = true});
+  const TxDetailItem(this.i, this.labelStyle, {Key? key, this.isShowDivider = true}) : super(key: key);
   final TxDetailInfoItem i;
   final TextStyle labelStyle;
   final bool isShowDivider;
@@ -283,26 +283,26 @@ class TxDetailItem extends StatelessWidget {
         Visibility(
             visible: isShowDivider,
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Divider(
-                  color: Color(0xFFFFFF).withOpacity(0.14),
+                  color: const Color(0xFFFFFFFF).withOpacity(0.14),
                   height: 1,
                 ))),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
               Expanded(flex: 0, child: Text(i.label!, style: labelStyle)),
               Expanded(
                   child: Container(
-                margin: EdgeInsets.only(left: 16),
+                margin: const EdgeInsets.only(left: 16),
                 alignment: Alignment.centerRight,
                 child: i.content!,
               )),
               i.copyText != null
                   ? GestureDetector(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 8),
+                        padding: const EdgeInsets.only(left: 8),
                         child: Image.asset(
                           'packages/polkawallet_ui/assets/images/copy.png',
                           width: 16,

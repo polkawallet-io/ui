@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 
 class PluginButton extends StatelessWidget {
-  PluginButton(
+  const PluginButton(
       {Key? key,
       this.onPressed,
       this.title = "",
@@ -25,7 +25,7 @@ class PluginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       onPressed: !submitting ? onPressed : null,
       child: BgContainer(
         double.infinity,
@@ -38,8 +38,8 @@ class PluginButton extends StatelessWidget {
             Visibility(
               visible: submitting,
               child: Container(
-                margin: EdgeInsets.only(right: 8),
-                child: CupertinoActivityIndicator(),
+                margin: const EdgeInsets.only(right: 8),
+                child: const CupertinoActivityIndicator(),
               ),
             ),
             Text(title,
@@ -47,7 +47,7 @@ class PluginButton extends StatelessWidget {
                     Theme.of(context)
                         .textTheme
                         .button
-                        ?.copyWith(color: Color(0xFF17161F))),
+                        ?.copyWith(color: const Color(0xFF17161F))),
             icon != null ? icon! : Container(),
           ],
         ),
@@ -77,14 +77,14 @@ class BgContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sWidth = 20.0;
-    return Container(
+    const sWidth = 20.0;
+    return SizedBox(
       width: width,
       height: height,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Container(
+          SizedBox(
             width: width,
             height: height,
             child: Stack(
@@ -119,7 +119,7 @@ class BgContainer extends StatelessWidget {
                           ],
                         ))),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: sWidth - 1),
+                  margin: const EdgeInsets.symmetric(horizontal: sWidth - 1),
                   width: width,
                   height: height,
                   color: backgroundColor ?? PluginColorsDark.primary,
@@ -137,7 +137,7 @@ class BgContainer extends StatelessWidget {
                               decoration: ShapeDecoration(
                                 color:
                                     backgroundColor ?? PluginColorsDark.primary,
-                                shape: BeveledRectangleBorder(
+                                shape: const BeveledRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(15))),
                               ),

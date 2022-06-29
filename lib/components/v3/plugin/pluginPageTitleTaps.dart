@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginPageTitleTaps extends StatelessWidget {
-  PluginPageTitleTaps(
-      {this.names,
+  const PluginPageTitleTaps(
+      {Key? key,
+      this.names,
       this.activeTab,
       this.onTap,
       this.isSpaceBetween = false,
       this.isReadDot,
-      this.itemPadding});
+      this.itemPadding})
+      : super(key: key);
 
   final List<String>? names;
   final List<bool>? isReadDot;
@@ -30,12 +32,13 @@ class PluginPageTitleTaps extends StatelessWidget {
           return GestureDetector(
             child: Container(
               padding: itemPadding ??
-                  EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
               margin: EdgeInsets.only(right: isSpaceBetween ? 0 : 26),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(const Radius.circular(6)),
-                color:
-                    activeTab == index ? Color(0x24FFFFFF) : Colors.transparent,
+                borderRadius: const BorderRadius.all(Radius.circular(6)),
+                color: activeTab == index
+                    ? const Color(0x24FFFFFF)
+                    : Colors.transparent,
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,14 +49,14 @@ class PluginPageTitleTaps extends StatelessWidget {
                         fontSize: UI.getTextSize(18, context),
                         color: activeTab == index
                             ? Colors.white
-                            : Color(0x88FFFFFF)),
+                            : const Color(0x88FFFFFF)),
                   ),
                   Visibility(
                       visible: isReadDot != null && isReadDot![index],
                       child: Container(
                         width: 9,
                         height: 9,
-                        margin: EdgeInsets.only(left: 2),
+                        margin: const EdgeInsets.only(left: 2),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.5),
                             color: Theme.of(context).errorColor),

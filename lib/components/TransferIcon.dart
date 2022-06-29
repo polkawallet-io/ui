@@ -24,7 +24,7 @@ enum TransferIconType {
 }
 
 class TransferIcon extends StatelessWidget {
-  TransferIcon(
+  const TransferIcon(
       {Key? key,
       this.size = 32,
       this.type = TransferIconType.rollIn,
@@ -38,9 +38,9 @@ class TransferIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: this.size,
-      height: this.size,
+    return SizedBox(
+      width: size,
+      height: size,
       child: Container(
           width: double.infinity,
           height: double.infinity,
@@ -60,13 +60,13 @@ class TransferIcon extends StatelessWidget {
       case TransferIconType.rollOut:
         return Theme.of(context).toggleableActiveColor;
       case TransferIconType.fine:
-        return Color(0xFFCE623C);
+        return const Color(0xFFCE623C);
       case TransferIconType.earn:
-        return Color(0xFFD7BC75);
+        return const Color(0xFFD7BC75);
       case TransferIconType.rollIn:
-        return Color(0xFF7AC074);
+        return const Color(0xFF7AC074);
       case TransferIconType.failure:
-        return Color(0xFF979797);
+        return const Color(0xFF979797);
       default:
         return Colors.white;
     }

@@ -54,7 +54,7 @@ class PolkawalletAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [];
-    if (this.title != null) {
+    if (title != null) {
       children.add(Padding(
         padding: const EdgeInsets.only(
           left: _kActionSheetContentHorizontalPadding,
@@ -69,9 +69,9 @@ class PolkawalletAlertDialog extends StatelessWidget {
         ),
       ));
     }
-    if (this.content != null) {
+    if (content != null) {
       children.add(Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: _kActionSheetContentHorizontalPadding,
           right: _kActionSheetContentHorizontalPadding,
           bottom: 22.0,
@@ -84,43 +84,41 @@ class PolkawalletAlertDialog extends StatelessWidget {
         ),
       ));
     }
-    if (this.actions.length > 0) {
+    if (this.actions.isNotEmpty) {
       children.add(Column(
         children: [
-          Divider(height: 1),
-          Container(
-            child: Row(
-              children: [
-                ...this.actions.map((e) {
-                  final index = this.actions.indexOf(e);
-                  return index == 0
-                      ? Expanded(
-                          child: DefaultTextStyle(
-                          style: _kCupertinoDialogActionStyle,
-                          textAlign: TextAlign.center,
-                          child: e,
-                        ))
-                      : Expanded(
-                          child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 1),
-                              child: Container(
-                                  width: 0.5,
-                                  height: 45,
-                                  color: Theme.of(context).dividerColor),
-                            ),
-                            Expanded(
-                                child: DefaultTextStyle(
-                              style: _kCupertinoDialogActionStyle,
-                              textAlign: TextAlign.center,
-                              child: e,
-                            ))
-                          ],
-                        ));
-                }).toList()
-              ],
-            ),
+          const Divider(height: 1),
+          Row(
+            children: [
+              ...actions.map((e) {
+                final index = actions.indexOf(e);
+                return index == 0
+                    ? Expanded(
+                        child: DefaultTextStyle(
+                        style: _kCupertinoDialogActionStyle,
+                        textAlign: TextAlign.center,
+                        child: e,
+                      ))
+                    : Expanded(
+                        child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 1),
+                            child: Container(
+                                width: 0.5,
+                                height: 45,
+                                color: Theme.of(context).dividerColor),
+                          ),
+                          Expanded(
+                              child: DefaultTextStyle(
+                            style: _kCupertinoDialogActionStyle,
+                            textAlign: TextAlign.center,
+                            child: e,
+                          ))
+                        ],
+                      ));
+              }).toList()
+            ],
           )
         ],
       ));
@@ -130,10 +128,10 @@ class PolkawalletAlertDialog extends StatelessWidget {
         alignment: AlignmentDirectional.topCenter,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 28, left: 60, right: 60),
-            padding: EdgeInsets.only(top: 32),
+            margin: const EdgeInsets.only(top: 28, left: 60, right: 60),
+            padding: const EdgeInsets.only(top: 32),
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Color(0xFFF9F8F6),
                 borderRadius: BorderRadius.all(Radius.circular(14))),
             child: Column(
@@ -191,21 +189,21 @@ class PolkawalletActionSheet extends StatelessWidget {
 
   Widget _buildActions() {
     return _CupertinoActionSheetButton(
-      children: actions,
       onTapBgColor: _kActionSheetPressedColor,
       bgColor: _kActionSheetActionColor,
+      children: actions,
     );
   }
 
   Widget _buildCancelButton() {
     final double cancelPadding =
-        actions != null ? _kActionSheetCancelButtonPadding : 0.0;
+        actions.isNotEmpty ? _kActionSheetCancelButtonPadding : 0.0;
     return Padding(
       padding: EdgeInsets.only(top: cancelPadding),
       child: _CupertinoActionCancelSheetButton(
-        child: cancelButton,
         onTapBgColor: _kActionSheetPressedColor,
         bgColor: _kActionSheetCancelColor,
+        child: cancelButton,
       ),
     );
   }
@@ -224,7 +222,7 @@ class PolkawalletActionSheet extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                this.title != null || this.message != null
+                title != null || message != null
                     ? Semantics(
                         button: true,
                         child: Column(
@@ -242,25 +240,25 @@ class PolkawalletActionSheet extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 child: Column(
                                   children: [
-                                    this.title != null
+                                    title != null
                                         ? DefaultTextStyle(
                                             style: _kActionSheetTitleStyle,
                                             textAlign: TextAlign.center,
-                                            child: this.title!,
+                                            child: title!,
                                           )
                                         : Container(),
-                                    this.message != null
+                                    message != null
                                         ? DefaultTextStyle(
                                             style: _kActionSheetMessageStyle,
                                             textAlign: TextAlign.center,
-                                            child: this.message!,
+                                            child: message!,
                                           )
                                         : Container(),
                                   ],
                                 ),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                                 height: 0.5,
                                 color: _kActionSheetButtonDividerColor)
                           ],
@@ -323,7 +321,7 @@ class PolkawalletActionSheet extends StatelessWidget {
 }
 
 class _CupertinoActionSheetButton extends StatefulWidget {
-  _CupertinoActionSheetButton(
+  const _CupertinoActionSheetButton(
       {Key? key,
       this.children,
       required this.onTapBgColor,
@@ -365,7 +363,7 @@ class __CupertinoActionSheetButtonState
   Widget build(BuildContext context) {
     return ListView.separated(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final Color backgroundColor = isBeingPressedIndex == index
               ? widget.onTapBgColor
@@ -386,7 +384,7 @@ class __CupertinoActionSheetButtonState
           );
         },
         separatorBuilder: (context, index) =>
-            Divider(height: 0.5, color: _kActionSheetButtonDividerColor),
+            const Divider(height: 0.5, color: _kActionSheetButtonDividerColor),
         itemCount: widget.children?.length ?? 0);
   }
 }
@@ -482,7 +480,7 @@ class PolkawalletActionSheetAction extends StatelessWidget {
     TextStyle style = _kActionSheetActionStyle;
 
     if (isDefaultAction) {
-      style = style.copyWith(color: Color(0xFFFF7849));
+      style = style.copyWith(color: const Color(0xFFFF7849));
     }
 
     return MouseRegion(

@@ -17,7 +17,7 @@ class PluginScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF212224),
+      backgroundColor: const Color(0xFF212224),
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       appBar: appBar,
       body: body,
