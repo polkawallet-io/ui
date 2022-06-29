@@ -102,9 +102,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
 
   void _onTxFinish(BuildContext context, Map? res, String? errorMsg) async {
     if (res != null) {
-      if (kDebugMode) {
-        print('callback triggered, blockHash: ${res['hash']}');
-      }
+      debugPrint('callback triggered, blockHash: ${res['hash']}');
     }
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     await showCupertinoDialog(
@@ -225,7 +223,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     widget.plugin.sdk.webView!.addMsgHandler(msgId, onStatusChange);
     final code =
         'keyring.sendTx($jsApi, ${jsonEncode(txInfo)}, $params, "$password", "$msgId")';
-    // print(code);
+    // debugPrint(code);
     final dynamic res = await widget.plugin.sdk.webView!.evalJavascript(code);
     widget.plugin.sdk.webView!.removeMsgHandler(msgId);
 

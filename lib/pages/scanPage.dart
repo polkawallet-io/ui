@@ -48,9 +48,7 @@ class ScanPage extends StatelessWidget {
         List<String> ls = data.split(':');
 
         if (ls[0] == 'wc') {
-          if (kDebugMode) {
-            print('walletconnect pairing uri detected.');
-          }
+          debugPrint('walletconnect pairing uri detected.');
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.rawData,
             rawData: data,
@@ -66,9 +64,7 @@ class ScanPage extends StatelessWidget {
         }
 
         if (address.isNotEmpty) {
-          if (kDebugMode) {
-            print('address detected in Qr');
-          }
+          debugPrint('address detected in Qr');
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.address,
             address: ls.length == 4
@@ -76,9 +72,7 @@ class ScanPage extends StatelessWidget {
                 : QRCodeAddressResult(['', address, '', '']),
           ));
         } else if (Fmt.isHexString(data)) {
-          if (kDebugMode) {
-            print('hex detected in Qr');
-          }
+          debugPrint('hex detected in Qr');
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.hex,
             hex: data,
@@ -88,9 +82,7 @@ class ScanPage extends StatelessWidget {
             (rawData.endsWith('ec') ||
                 rawData.endsWith('ec11') ||
                 rawData.endsWith('0'))) {
-          if (kDebugMode) {
-            print('rawBytes detected in Qr');
-          }
+          debugPrint('rawBytes detected in Qr');
           Navigator.of(context).pop(QRCodeResult(
             type: QRCodeResultType.rawData,
             rawData: rawData,

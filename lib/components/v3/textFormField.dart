@@ -1689,7 +1689,6 @@ class InputDecorationV3 extends InputDecoration {
       constraints,
     ];
     return Object.hashAll(values);
-    return hashList(values);
   }
 
   @override
