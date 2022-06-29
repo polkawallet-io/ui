@@ -119,7 +119,7 @@ class BgContainer extends StatelessWidget {
                           ],
                         ))),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: sWidth - 1),
+                  margin: EdgeInsets.symmetric(horizontal: sWidth),
                   width: width,
                   height: height,
                   color: backgroundColor ?? PluginColorsDark.primary,
