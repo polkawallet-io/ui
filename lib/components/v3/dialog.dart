@@ -74,7 +74,7 @@ class PolkawalletAlertDialog extends StatelessWidget {
         padding: EdgeInsets.only(
           left: _kActionSheetContentHorizontalPadding,
           right: _kActionSheetContentHorizontalPadding,
-          bottom: 22.0,
+          bottom: 0.0,
           top: 0.0,
         ),
         child: DefaultTextStyle(
@@ -85,45 +85,49 @@ class PolkawalletAlertDialog extends StatelessWidget {
       ));
     }
     if (this.actions.length > 0) {
-      children.add(Column(
-        children: [
-          Divider(height: 1),
-          Container(
-            child: Row(
-              children: [
-                ...this.actions.map((e) {
-                  final index = this.actions.indexOf(e);
-                  return index == 0
-                      ? Expanded(
-                          child: DefaultTextStyle(
-                          style: _kCupertinoDialogActionStyle,
-                          textAlign: TextAlign.center,
-                          child: e,
-                        ))
-                      : Expanded(
-                          child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 1),
-                              child: Container(
-                                  width: 0.5,
-                                  height: 45,
-                                  color: Theme.of(context).dividerColor),
-                            ),
-                            Expanded(
-                                child: DefaultTextStyle(
+      children.add(Padding(
+          padding: EdgeInsets.only(
+            top: 22.0,
+          ),
+          child: Column(
+            children: [
+              Divider(height: 1),
+              Container(
+                child: Row(
+                  children: [
+                    ...this.actions.map((e) {
+                      final index = this.actions.indexOf(e);
+                      return index == 0
+                          ? Expanded(
+                              child: DefaultTextStyle(
                               style: _kCupertinoDialogActionStyle,
                               textAlign: TextAlign.center,
                               child: e,
                             ))
-                          ],
-                        ));
-                }).toList()
-              ],
-            ),
-          )
-        ],
-      ));
+                          : Expanded(
+                              child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 1),
+                                  child: Container(
+                                      width: 0.5,
+                                      height: 45,
+                                      color: Theme.of(context).dividerColor),
+                                ),
+                                Expanded(
+                                    child: DefaultTextStyle(
+                                  style: _kCupertinoDialogActionStyle,
+                                  textAlign: TextAlign.center,
+                                  child: e,
+                                ))
+                              ],
+                            ));
+                    }).toList()
+                  ],
+                ),
+              )
+            ],
+          )));
     }
     return Center(
       child: Stack(

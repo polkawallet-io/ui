@@ -172,7 +172,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
       final res = await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
-      _onTxFinish(context, null, err.toString());
+      _onTxFinish(context, null, err.toString().split(":")[1]);
     }
     if (mounted) {
       setState(() {
