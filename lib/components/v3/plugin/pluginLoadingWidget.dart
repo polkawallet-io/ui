@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PluginLoadingWidget extends StatefulWidget {
-  PluginLoadingWidget({Key? key}) : super(key: key);
+  const PluginLoadingWidget({Key? key}) : super(key: key);
 
   @override
-  _PluginLoadingWidgetState createState() => _PluginLoadingWidgetState();
+  createState() => _PluginLoadingWidgetState();
 }
 
 class _PluginLoadingWidgetState extends State<PluginLoadingWidget>
@@ -15,7 +15,7 @@ class _PluginLoadingWidgetState extends State<PluginLoadingWidget>
   @override
   void initState() {
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+        vsync: this, duration: const Duration(milliseconds: 1000));
     _controller.forward();
 
     _listener = (status) {
@@ -36,15 +36,15 @@ class _PluginLoadingWidgetState extends State<PluginLoadingWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 24,
       height: 24,
       child: RotationTransition(
+        turns: _controller..addStatusListener(_listener),
         child: Image.asset(
           "packages/polkawallet_ui/assets/images/loading.png",
           width: 24,
         ),
-        turns: _controller..addStatusListener(_listener),
       ),
     );
   }

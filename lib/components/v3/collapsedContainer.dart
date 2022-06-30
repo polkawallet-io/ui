@@ -1,21 +1,22 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class CollapsedContainer extends StatefulWidget {
-  CollapsedContainer(
-      {required this.child,
+  const CollapsedContainer(
+      {Key? key,
+      required this.child,
       this.title = '',
       this.onCollapse,
-      this.isPlugin = false});
+      this.isPlugin = false})
+      : super(key: key);
   final Widget child;
   final String title;
   final Function(bool)? onCollapse;
   final bool isPlugin;
   @override
-  _CollapsedContainerState createState() => _CollapsedContainerState();
+  createState() => _CollapsedContainerState();
 }
 
 class _CollapsedContainerState extends State<CollapsedContainer> {

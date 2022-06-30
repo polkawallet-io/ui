@@ -6,8 +6,9 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginAccountInfoAction extends StatefulWidget {
-  PluginAccountInfoAction(this.keyring,
-      {this.offset,
+  const PluginAccountInfoAction(this.keyring,
+      {Key? key,
+      this.offset,
       this.itemWidth,
       this.iconSize,
       this.itemHeight,
@@ -19,7 +20,8 @@ class PluginAccountInfoAction extends StatefulWidget {
       this.nameStyle,
       this.addressStyle,
       this.iconDefaultColor,
-      this.hasShadow = false});
+      this.hasShadow = false})
+      : super(key: key);
   final Keyring keyring;
   final Offset? offset;
   final double? iconSize;
@@ -46,16 +48,16 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(right: 16),
+        margin: const EdgeInsets.only(right: 16),
         child: v3.PopupMenuButton(
             iconSize: widget.iconSize ?? 30,
-            offset: widget.offset ?? Offset(-10, 52),
+            offset: widget.offset ?? const Offset(-10, 52),
             itemWidth: widget.itemWidth ?? 160,
             color: Theme.of(context).cardColor,
             padding: widget.padding ?? EdgeInsets.zero,
             elevation: widget.elevation ?? 3,
             shape: widget.shape ??
-                RoundedRectangleBorder(
+                const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -79,7 +81,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 7, 0),
+                        padding: const EdgeInsets.fromLTRB(10, 0, 7, 0),
                         child: AddressIcon(widget.keyring.current.address,
                             svg: widget.keyring.current.icon,
                             size: widget.itemIconSize ?? 30),
@@ -89,7 +91,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 3),
                               child: Text(
                                 UI.accountName(context, widget.keyring.current),
                                 overflow: TextOverflow.ellipsis,
@@ -123,7 +125,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
               padding: EdgeInsets.zero,
               iconSize: widget.iconSize ?? 30,
               bgColor: _isSelected
-                  ? Color(0xFFFF7849)
+                  ? const Color(0xFFFF7849)
                   : widget.iconDefaultColor ?? Colors.white,
               icon: AddressIcon(
                 widget.keyring.current.address,

@@ -38,7 +38,7 @@ class PluginTextTag extends StatelessWidget {
                     style: style ??
                         Theme.of(context).textTheme.headline4?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFF212123)),
+                            color: const Color(0xFF212123)),
                   )
                 ],
               )),
@@ -68,12 +68,12 @@ class TagBgContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: padding ?? EdgeInsets.only(left: 7, right: 12),
+      padding: padding ?? const EdgeInsets.only(left: 7, right: 12),
       height: height,
       margin: margin,
       decoration: ShapeDecoration(
         color: backgroundColor ?? PluginColorsDark.headline1,
-        shape: BeveledRectangleBorder(
+        shape: const BeveledRectangleBorder(
             borderRadius: BorderRadius.only(topRight: Radius.circular(10))),
       ),
       child: child,

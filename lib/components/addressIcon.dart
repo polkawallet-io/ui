@@ -5,12 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class AddressIcon extends StatelessWidget {
-  AddressIcon(this.address,
-      {this.size,
+  const AddressIcon(this.address,
+      {Key? key, this.size,
       this.svg,
       this.tapToCopy = true,
       this.borderColor,
-      this.borderWidth = 0.5});
+      this.borderWidth = 0.5}) : super(key: key);
   final String? address;
   final String? svg;
   final double? size;
@@ -21,6 +21,7 @@ class AddressIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: tapToCopy ? () => UI.copyAndNotify(context, address) : null,
       child: Container(
         width: size ?? 40,
         height: size ?? 40,
@@ -38,7 +39,6 @@ class AddressIcon extends StatelessWidget {
               )
             : SvgPicture.string(svg!),
       ),
-      onTap: tapToCopy ? () => UI.copyAndNotify(context, address) : null,
     );
   }
 }

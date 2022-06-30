@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
-  Button(
+  const Button(
       {Key? key,
       this.onPressed,
       this.title = "",
@@ -25,7 +25,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       onPressed: !submitting ? onPressed : null,
       child: BgContainer(
         double.infinity,
@@ -39,8 +39,8 @@ class Button extends StatelessWidget {
                 Visibility(
                   visible: submitting,
                   child: Container(
-                    margin: EdgeInsets.only(right: 8),
-                    child: CupertinoActivityIndicator(),
+                    margin: const EdgeInsets.only(right: 8),
+                    child: const CupertinoActivityIndicator(),
                   ),
                 ),
                 Text(title, style: style ?? Theme.of(context).textTheme.button),
@@ -73,27 +73,27 @@ class BgContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Container(
+          SizedBox(
             width: width,
             child: Row(
               children: [
                 Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_left.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_left.png",
                   fit: BoxFit.fill,
                 ),
                 Expanded(
                     child: Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_center.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_center.png",
                   fit: BoxFit.fill,
                 )),
                 Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${this.isBlueBg ? "blue" : "grey"}_right.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_right.png",
                   fit: BoxFit.fill,
                 ),
               ],

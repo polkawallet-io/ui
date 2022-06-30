@@ -12,7 +12,7 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginInputBalance extends StatefulWidget {
-  PluginInputBalance(
+  const PluginInputBalance(
       {this.titleTag,
       Key? key,
       this.inputCtrl,
@@ -51,7 +51,7 @@ class PluginInputBalance extends StatefulWidget {
   final String? text; //enabled is false  To be valid
 
   @override
-  _PluginInputBalanceState createState() => _PluginInputBalanceState();
+  createState() => _PluginInputBalanceState();
 }
 
 class _PluginInputBalanceState extends State<PluginInputBalance> {
@@ -66,7 +66,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
         return StatefulBuilder(
           builder: (BuildContext context, setBottomSheet) {
             return Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -81,14 +81,14 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24)),
                 ),
                 child: Column(
                   children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(24),
                             topRight: Radius.circular(24)),
@@ -105,7 +105,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                     .headline5
                                     ?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFF26282D),
+                                        color: const Color(0xFF26282D),
                                         fontSize: UI.getTextSize(18, context))),
                           ),
                           Align(
@@ -114,7 +114,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                 onTap: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Padding(
+                                child: const Padding(
                                   padding: EdgeInsets.only(right: 15),
                                   child: Icon(
                                     Icons.close,
@@ -128,17 +128,17 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                     ),
                     Expanded(
                         child: Container(
-                            color: Color(0xFFBDBEBE),
-                            padding:
-                                EdgeInsets.only(top: 35, left: 16, right: 16),
+                            color: const Color(0xFFBDBEBE),
+                            padding: const EdgeInsets.only(
+                                top: 35, left: 16, right: 16),
                             child: ListView.builder(
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 itemCount: widget.tokenOptions?.length,
                                 itemBuilder: (context, index) {
                                   final symbol =
                                       widget.tokenOptions![index]!.symbol!;
                                   return Container(
-                                      margin: EdgeInsets.only(bottom: 16),
+                                      margin: const EdgeInsets.only(bottom: 16),
                                       decoration: BoxDecoration(
                                           color: Color(selecIndex == index
                                               ? 0x88555555
@@ -211,19 +211,19 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                           },
                                         ),
                                         onTapDown: (details) {
-                                          print("onTapDown");
+                                          debugPrint("onTapDown");
                                           setBottomSheet(() {
                                             selecIndex = index;
                                           });
                                         },
                                         onTapUp: (details) {
-                                          print("onTapUp");
+                                          debugPrint("onTapUp");
                                           setBottomSheet(() {
                                             selecIndex = -1;
                                           });
                                         },
                                         onTapCancel: () {
-                                          print("onTapCancel");
+                                          debugPrint("onTapCancel");
                                           setBottomSheet(() {
                                             selecIndex = -1;
                                           });
@@ -284,7 +284,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
               widget.onSetMax != null && widget.enabled
                   ? GestureDetector(
                       child: Padding(
-                        padding: EdgeInsets.only(right: 6),
+                        padding: const EdgeInsets.only(right: 6),
                         child: Text(
                           dic['max']!,
                           style: Theme.of(context)
@@ -301,14 +301,15 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             ],
           ),
           Container(
-            padding: EdgeInsets.only(left: 16, right: 12, top: 12, bottom: 12),
+            padding:
+                const EdgeInsets.only(left: 16, right: 12, top: 12, bottom: 12),
             decoration: BoxDecoration(
                 color: Color(_hasFocus ? 0x4cFFFFFF : 0x24FFFFFF),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(widget.titleTag != null ? 0 : 4),
-                    bottomLeft: Radius.circular(4),
-                    topRight: Radius.circular(4),
-                    bottomRight: Radius.circular(4))),
+                    bottomLeft: const Radius.circular(4),
+                    topRight: const Radius.circular(4),
+                    bottomRight: const Radius.circular(4))),
             child: Row(
               children: [
                 Expanded(
@@ -334,18 +335,19 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                 .textTheme
                                 .headline5
                                 ?.copyWith(
-                                    color: Color(0xFFBCBCBC),
+                                    color: const Color(0xFFBCBCBC),
                                     fontWeight: FontWeight.w300),
-                            errorStyle: TextStyle(height: 0.3),
+                            errorStyle: const TextStyle(height: 0.3),
                             border: InputBorder.none,
                             suffix: _hasFocus &&
                                     widget.inputCtrl!.text.isNotEmpty
                                 ? GestureDetector(
+                                    onTap: widget.onClear as void Function()?,
                                     child: Padding(
-                                        padding: EdgeInsets.only(right: 4),
+                                        padding:
+                                            const EdgeInsets.only(right: 4),
                                         child: Icon(Icons.cancel,
                                             size: 16, color: colorGray)),
-                                    onTap: widget.onClear as void Function()?,
                                   )
                                 : null,
                           ),
@@ -359,8 +361,8 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                             UI.decimalInputFormatter(widget.balance!.decimals!)!
                           ],
                           controller: widget.inputCtrl,
-                          keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                           onChanged: (value) {
                             try {
                               double.parse(value);
@@ -376,7 +378,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                       Visibility(
                           visible: priceVisible,
                           child: Padding(
-                              padding: EdgeInsets.only(top: 2),
+                              padding: const EdgeInsets.only(top: 2),
                               child: Text(
                                 '≈ \$ ${Fmt.priceFloor(price)}',
                                 style: Theme.of(context)
@@ -389,12 +391,19 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                               )))
                     ])),
                 GestureDetector(
+                  onTap: widget.onTokenChange != null &&
+                          widget.enabled &&
+                          (widget.tokenOptions?.length ?? 0) > 0
+                      ? () async {
+                          _tokenChangeAction();
+                        }
+                      : null,
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                         color: widget.enabled
                             ? widget.tokenBgColor
-                            : Color(0x4DFFFFFF),
+                            : const Color(0x4DFFFFFF),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(3))),
                     child: PluginCurrencyWithIcon(
@@ -411,27 +420,20 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           .textTheme
                           .headline5
                           ?.copyWith(
-                              color: Color(0xFF212123),
+                              color: const Color(0xFF212123),
                               fontWeight: FontWeight.w600),
                       trailing: widget.onTokenChange != null &&
                               widget.enabled &&
                               (widget.tokenOptions?.length ?? 0) > 0
                           ? Padding(
-                              padding: EdgeInsets.only(left: 2),
+                              padding: const EdgeInsets.only(left: 2),
                               child: SvgPicture.asset(
                                 "packages/polkawallet_ui/assets/images/triangle_bottom.svg",
-                                color: Color(0x8026282D),
+                                color: const Color(0x8026282D),
                               ))
                           : null,
                     ),
                   ),
-                  onTap: widget.onTokenChange != null &&
-                          widget.enabled &&
-                          (widget.tokenOptions?.length ?? 0) > 0
-                      ? () async {
-                          _tokenChangeAction();
-                        }
-                      : null,
                 )
               ],
             ),

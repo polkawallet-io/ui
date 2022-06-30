@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TokenIcon extends StatelessWidget {
-  TokenIcon(this.id, this.tokenIcons, {this.size = 32, this.symbol});
+  const TokenIcon(this.id, this.tokenIcons,
+      {Key? key, this.size = 32, this.symbol})
+      : super(key: key);
   final String id;
   final String? symbol;
   final Map<String, Widget> tokenIcons;
@@ -13,6 +14,7 @@ class TokenIcon extends StatelessWidget {
       final distance = size / 2;
       final pair = id.toUpperCase().split('-');
       return SizedBox(
+        width: size + distance,
         child: Stack(
           children: [
             Container(
@@ -22,23 +24,22 @@ class TokenIcon extends StatelessWidget {
             TokenIcon(pair[0], tokenIcons, size: size)
           ],
         ),
-        width: size + distance,
       );
     }
     return SizedBox(
+      width: size,
+      height: size,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(size / 2),
         child: tokenIcons[id.toUpperCase()] != null
             ? Container(
-                child: tokenIcons[id.toUpperCase()],
                 color: Theme.of(context).dividerColor,
+                child: tokenIcons[id.toUpperCase()],
               )
             : CircleAvatar(
                 child: Text((symbol ?? id).substring(
                     0, (symbol ?? id).length > 2 ? 2 : (symbol ?? id).length))),
       ),
-      width: size,
-      height: size,
     );
   }
 }

@@ -6,7 +6,7 @@ class PluginSliderThumbShape extends SliderComponentShape {
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size(25, 17);
+    return const Size(25, 17);
   }
 
   @override
@@ -31,7 +31,7 @@ class PluginSliderThumbShape extends SliderComponentShape {
                 rrect.bottom + 1, 6.0, 6.0),
           )
           ..close(),
-        Color(0x80FFFFFF),
+        const Color(0x80FFFFFF),
         0.5,
         true);
     canvas.drawRRect(

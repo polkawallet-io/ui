@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class BorderedTitle extends StatelessWidget {
-  BorderedTitle({this.title, this.lineWidth = 6});
+  const BorderedTitle({Key? key, this.title, this.lineWidth = 6})
+      : super(key: key);
   final String? title;
   final double lineWidth;
   @override
@@ -12,7 +13,7 @@ class BorderedTitle extends StatelessWidget {
         Container(
           width: lineWidth,
           height: 18,
-          margin: EdgeInsets.only(right: 8),
+          margin: const EdgeInsets.only(right: 8),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
               color: Theme.of(context).primaryColor),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
 
 class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -55,6 +54,5 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      Size.fromHeight(this.toolbarHeight ?? kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(toolbarHeight ?? kToolbarHeight);
 }

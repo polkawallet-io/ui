@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/api/types/recoveryInfo.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
@@ -21,16 +22,17 @@ import 'package:polkawallet_ui/utils/index.dart';
 
 class TxConfirmPage extends StatefulWidget {
   const TxConfirmPage(this.plugin, this.keyring, this.getPassword,
-      {this.txDisabledCalls});
+      {Key? key, this.txDisabledCalls})
+      : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
   final Future<Map<dynamic, dynamic>>? txDisabledCalls;
   final Future<String> Function(BuildContext, KeyPairData) getPassword;
 
-  static final String route = '/tx/confirm';
+  static const String route = '/tx/confirm';
 
   @override
-  _TxConfirmPageState createState() => _TxConfirmPageState();
+  createState() => _TxConfirmPageState();
 }
 
 class _TxConfirmPageState extends State<TxConfirmPage> {
@@ -56,7 +58,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         _recoveryInfo = recoveryInfo;
       });
     }
-
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     final sender = TxSenderData(
@@ -127,7 +128,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     List proxies = await (widget.plugin.sdk.api.recovery
             .queryRecoveryProxies([_proxyAccount!.address!])
         as FutureOr<List<dynamic>>);
-    print(proxies);
+    if (kDebugMode) {
+      print(proxies);
+    }
     return proxies[0] == widget.keyring.current.address;
   }
 
@@ -281,7 +284,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     TxConfirmParams args,
   ) async {
     final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
-    print('show qr');
+    debugPrint('show qr');
     final signed = await Navigator.of(context).pushNamed(
       QrSenderPage.route,
       arguments: QrSenderPageParams(
@@ -310,13 +313,13 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: Theme.of(context).cardColor,
       content: ListTile(
-        leading: CupertinoActivityIndicator(),
+        leading: const CupertinoActivityIndicator(),
         title: Text(
           status,
-          style: TextStyle(color: Colors.black54),
+          style: const TextStyle(color: Colors.black54),
         ),
       ),
-      duration: Duration(minutes: 5),
+      duration: const Duration(minutes: 5),
     ));
   }
 
@@ -343,7 +346,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
     final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
     // todo: update this check with sdk 0.1.7
-    final isNetworkMatch = true;
+    const isNetworkMatch = true;
     // final isNetworkMatch = widget.plugin.networkState.genesisHash ==
     //     widget.plugin.basic.genesisHash;
 
@@ -370,10 +373,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
             children: <Widget>[
               Expanded(
                 child: ListView(
-                  padding: EdgeInsets.only(bottom: 24),
+                  padding: const EdgeInsets.only(bottom: 24),
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Text(
                         dic['tx.submit']!,
                         style: Theme.of(context).textTheme.headline4,
@@ -382,7 +385,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     isUnsigned
                         ? Container()
                         : Padding(
-                            padding: EdgeInsets.only(left: 16, right: 16),
+                            padding: const EdgeInsets.only(left: 16, right: 16),
                             child: AddressFormItem(
                               widget.keyring.current,
                               label: dic["tx.from"],
@@ -392,16 +395,16 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             isObservation &&
                             _recoveryInfo?.address != null,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 16, right: 16),
+                          padding: const EdgeInsets.only(left: 16, right: 16),
                           child: Row(
                             children: [
                               TapTooltip(
                                 message: dic['tx.proxy.brief']!,
-                                child: Icon(Icons.info_outline, size: 16),
+                                child: const Icon(Icons.info_outline, size: 16),
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 4),
+                                  padding: const EdgeInsets.only(left: 4),
                                   child: Text(dic['tx.proxy']!),
                                 ),
                               ),
@@ -415,7 +418,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     _proxyAccount != null
                         ? GestureDetector(
                             child: Padding(
-                              padding: EdgeInsets.only(left: 16, right: 16),
+                              padding:
+                                  const EdgeInsets.only(left: 16, right: 16),
                               child: AddressFormItem(
                                 _proxyAccount,
                                 label: dicAcc["proxy"],
@@ -425,16 +429,16 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           )
                         : Container(),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                       child: Row(
                         children: <Widget>[
-                          Container(width: 64, child: Text(dic["tx.network"]!)),
+                          SizedBox(width: 64, child: Text(dic["tx.network"]!)),
                           Visibility(
                               visible: isNetworkConnected,
                               child: Container(
                                   width: 28,
                                   height: 28,
-                                  margin: EdgeInsets.only(right: 8),
+                                  margin: const EdgeInsets.only(right: 8),
                                   child: widget.plugin.basic.icon)),
                           Expanded(
                               child: !isNetworkConnected
@@ -444,25 +448,25 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Row(
                         children: <Widget>[
-                          Container(width: 64, child: Text(dic["tx.call"]!)),
+                          SizedBox(width: 64, child: Text(dic["tx.call"]!)),
                           Text('${args.module}.${args.call}'),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 16, right: 16),
+                      padding: const EdgeInsets.only(left: 16, right: 16),
                       child: Row(
                         children: <Widget>[
-                          Container(width: 64, child: Text(dic["detail"]!)),
-                          Container(
+                          SizedBox(width: 64, child: Text(dic["detail"]!)),
+                          SizedBox(
                             width:
                                 MediaQuery.of(context).copyWith().size.width -
                                     120,
                             child: Text(
-                              JsonEncoder.withIndent('  ')
+                              const JsonEncoder.withIndent('  ')
                                   .convert(args.txDisplay),
                             ),
                           ),
@@ -470,13 +474,13 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 16),
+                      padding: const EdgeInsets.only(left: 16),
                       child: GestureDetector(
                         child: Padding(
-                          padding: EdgeInsets.only(top: 8),
+                          padding: const EdgeInsets.only(top: 8),
                           child: Row(
                             children: <Widget>[
-                              Text('Params'),
+                              const Text('Params'),
                               Icon(
                                 _paramsExpanded
                                     ? Icons.arrow_drop_up
@@ -497,17 +501,18 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     Visibility(
                         visible: _paramsExpanded,
                         child: Container(
-                          margin: EdgeInsets.only(left: 80),
+                          margin: const EdgeInsets.only(left: 80),
                           child: Text(
                             args.rawParams != null
                                 ? args.rawParams!
-                                : JsonEncoder.withIndent('  ')
+                                : const JsonEncoder.withIndent('  ')
                                     .convert(args.params),
                           ),
                         )),
                     Container(
-                      margin: EdgeInsets.only(left: 16, top: 8, right: 16),
-                      child: Divider(),
+                      margin:
+                          const EdgeInsets.only(left: 16, top: 8, right: 16),
+                      child: const Divider(),
                     ),
                     Visibility(
                         visible: !isUnsigned,
@@ -522,16 +527,17 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 length: 6,
                               );
                               return Padding(
-                                padding: EdgeInsets.only(left: 16, right: 16),
+                                padding:
+                                    const EdgeInsets.only(left: 16, right: 16),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
-                                      margin: EdgeInsets.only(top: 8),
+                                      margin: const EdgeInsets.only(top: 8),
                                       width: 64,
                                       child: Text(dic["tx.fee"]!),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 8),
+                                      margin: const EdgeInsets.only(top: 8),
                                       width: MediaQuery.of(context)
                                               .copyWith()
                                               .size
@@ -565,10 +571,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           },
                         )),
                     Padding(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.only(top: 8),
                       child: GestureDetector(
                         child: Padding(
-                          padding: EdgeInsets.only(left: 8, top: 8),
+                          padding: const EdgeInsets.only(left: 8, top: 8),
                           child: Row(
                             children: <Widget>[
                               Icon(
@@ -599,10 +605,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     Visibility(
                         visible: _tipExpanded,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                           child: Row(
                             children: <Widget>[
-                              Container(
+                              SizedBox(
                                 width: 64,
                                 child: Text(dic['tx.tip']!),
                               ),
@@ -622,10 +628,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     Visibility(
                         visible: _tipExpanded,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 16, right: 16),
+                          padding: const EdgeInsets.only(left: 16, right: 16),
                           child: Row(
                             children: <Widget>[
-                              Text('0'),
+                              const Text('0'),
                               Expanded(
                                 child: Slider(
                                   min: 0,
@@ -635,7 +641,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   onChanged: _submitting ? null : _onTipChanged,
                                 ),
                               ),
-                              Text('1')
+                              const Text('1')
                             ],
                           ),
                         ))
@@ -651,9 +657,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           color: _submitting ? Colors.black12 : Colors.orange,
                           child: TextButton(
                             child: Container(
-                              padding: EdgeInsets.only(top: 6, bottom: 6),
+                              padding: const EdgeInsets.only(top: 6, bottom: 6),
                               child: Text(dic['cancel']!,
-                                  style: TextStyle(color: Colors.white)),
+                                  style: const TextStyle(color: Colors.white)),
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -669,20 +675,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           child: Builder(
                             builder: (BuildContext context) {
                               return TextButton(
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 6, bottom: 6),
-                                  child: Text(
-                                    isUnsigned
-                                        ? dic['tx.no.sign']!
-                                        : (isObservation &&
-                                                    _proxyAccount == null) ||
-                                                isProxyObservation
-                                            ? dic['tx.qr']!
-                                            // dicAcc['observe.invalid']
-                                            : dic['tx.submit']!,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
                                 onPressed: !isNetworkMatch
                                     ? null
                                     : isUnsigned
@@ -696,6 +688,21 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                                 ? null
                                                 : () => _showPasswordDialog(
                                                     context),
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.only(top: 6, bottom: 6),
+                                  child: Text(
+                                    isUnsigned
+                                        ? dic['tx.no.sign']!
+                                        : (isObservation &&
+                                                    _proxyAccount == null) ||
+                                                isProxyObservation
+                                            ? dic['tx.qr']!
+                                            // dicAcc['observe.invalid']
+                                            : dic['tx.submit']!,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
                               );
                             },
                           ),

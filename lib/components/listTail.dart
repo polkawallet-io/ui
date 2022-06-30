@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginLoadingWidget.dart';
@@ -7,7 +6,12 @@ import 'package:polkawallet_ui/utils/index.dart';
 
 class ListTail extends StatelessWidget {
   ListTail(
-      {this.isEmpty, this.isLoading, this.isShowLoadText = false, this.color});
+      {Key? key,
+      this.isEmpty,
+      this.isLoading,
+      this.isShowLoadText = false,
+      this.color})
+      : super(key: key);
   final bool? isLoading;
   final bool? isEmpty;
   late bool isShowLoadText;
@@ -19,9 +23,9 @@ class ListTail extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: isLoading!
-              ? this.isShowLoadText
+              ? isShowLoadText
                   ? Text(
                       dic!['list.loading']!,
                       style: TextStyle(

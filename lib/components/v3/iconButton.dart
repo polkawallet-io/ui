@@ -27,17 +27,17 @@ class IconButton extends StatelessWidget {
       child: GestureDetector(
           onTap: onPressed,
           child: Container(
-            padding: padding ?? EdgeInsets.only(right: 2, bottom: 1),
+            padding: padding ?? const EdgeInsets.only(right: 2, bottom: 1),
             margin: margin,
             width: iconSize ?? 32.h,
             height: iconSize ?? 32.h,
             decoration: bgColor != null
                 ? BoxDecoration(
                     color: bgColor,
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                     boxShadow: [
                       BoxShadow(
-                        offset: Offset(1, 1),
+                        offset: const Offset(1, 1),
                         blurRadius: 1,
                         spreadRadius: 0, //阴影范围
                         color: Colors.black.withOpacity(0.33), //阴影颜色

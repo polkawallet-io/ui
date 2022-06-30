@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_ui/components/addressIcon.dart';
@@ -6,15 +5,17 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class AddressFormItem extends StatelessWidget {
-  AddressFormItem(this.account,
-      {this.label,
+  const AddressFormItem(this.account,
+      {Key? key,
+      this.label,
       this.svg,
       this.onTap,
       this.isShowSubtitle = true,
       this.color,
       this.borderWidth = 0.5,
       this.imageRight = 8.0,
-      this.margin});
+      this.margin})
+      : super(key: key);
   final String? label;
   final String? svg;
   final bool isShowSubtitle;
@@ -34,17 +35,17 @@ class AddressFormItem extends StatelessWidget {
         Visibility(
             visible: label != null,
             child: Container(
-              margin: EdgeInsets.only(top: 4),
+              margin: const EdgeInsets.only(top: 4),
               child: Text(
                 label ?? "",
                 style: TextStyle(color: grey),
               ),
             )),
         Container(
-          margin: this.margin ?? EdgeInsets.only(top: 4, bottom: 4),
-          padding: EdgeInsets.all(8),
+          margin: margin ?? const EdgeInsets.only(top: 4, bottom: 4),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
             border: Border.all(
                 color: color ?? Theme.of(context).disabledColor,
                 width: borderWidth),

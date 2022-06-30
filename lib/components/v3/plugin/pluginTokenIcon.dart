@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PluginTokenIcon extends StatelessWidget {
-  PluginTokenIcon(this.id, this.tokenIcons,
-      {this.size = 19,
+  const PluginTokenIcon(this.id, this.tokenIcons,
+      {Key? key,
+      this.size = 19,
       this.symbol,
       this.isHighlighted = true,
-      this.isFold = false});
+      this.isFold = false})
+      : super(key: key);
   final String id;
   final String? symbol;
   final Map<String, Widget> tokenIcons;
@@ -18,11 +20,12 @@ class PluginTokenIcon extends StatelessWidget {
     if (id.contains('-') && !isFold) {
       final pair = id.replaceAll(" LP", "").toUpperCase().split('-');
       return Container(
-        padding: EdgeInsets.all(1),
+        padding: const EdgeInsets.all(1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(size / 2)),
-          color: Color(0xFFFF7849),
+          color: const Color(0xFFFF7849),
         ),
+        width: size * 2 + 4,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -30,12 +33,12 @@ class PluginTokenIcon extends StatelessWidget {
             PluginTokenIcon(pair[1], tokenIcons, size: size)
           ],
         ),
-        width: size * 2 + 4,
       );
     } else if (id.contains('-')) {
       final distance = size / 2;
       final pair = id.replaceAll(" LP", "").toUpperCase().split('-');
       return SizedBox(
+        width: size + distance,
         child: Stack(
           children: [
             Container(
@@ -45,7 +48,6 @@ class PluginTokenIcon extends StatelessWidget {
             PluginTokenIcon(pair[0], tokenIcons, size: size)
           ],
         ),
-        width: size + distance,
       );
     }
 
@@ -76,7 +78,7 @@ class PluginTokenIcon extends StatelessWidget {
                 height: size,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(size / 2)),
-                  color: Color(0x33000000),
+                  color: const Color(0x33000000),
                 ),
               ))
         ],

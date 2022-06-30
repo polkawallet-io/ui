@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/tapTooltip.dart';
 
 class PluginInfoItem extends StatelessWidget {
-  PluginInfoItem(
-      {this.title,
+  const PluginInfoItem(
+      {Key? key,
+      this.title,
       this.content,
       this.style,
       this.titleStyle,
@@ -13,7 +13,8 @@ class PluginInfoItem extends StatelessWidget {
       this.lowTitle = false,
       this.titleToolTip,
       this.contentCrossAxisAlignment,
-      this.isExpanded = true});
+      this.isExpanded = true})
+      : super(key: key);
   final String? title;
   final String? content;
   final TextStyle? style;
@@ -35,25 +36,23 @@ class PluginInfoItem extends StatelessWidget {
             ?.copyWith(color: Colors.white, fontWeight: FontWeight.w600);
     final List<Widget> res = [
       titleToolTip != null
-          ? Container(
-              child: TapTooltip(
-                message: titleToolTip!,
-                child: Center(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.info,
-                      color: Theme.of(context).disabledColor,
-                      size: 14,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 4),
-                      child: Text(title!, style: titleStyleCopy),
-                    )
-                  ],
-                )),
-              ),
+          ? TapTooltip(
+              message: titleToolTip!,
+              child: Center(
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.info,
+                    color: Theme.of(context).disabledColor,
+                    size: 14,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 4),
+                    child: Text(title!, style: titleStyleCopy),
+                  )
+                ],
+              )),
             )
           : Text(title!, style: titleStyleCopy),
       Text(
@@ -79,8 +78,7 @@ class PluginInfoItem extends StatelessWidget {
               ],
             ),
           )
-        : Container(
-            child: Column(
+        : Column(
             crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
             children: [
               Column(
@@ -89,6 +87,6 @@ class PluginInfoItem extends StatelessWidget {
                 children: lowTitle ? res.reversed.toList() : res,
               )
             ],
-          ));
+          );
   }
 }

@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/v3/roundedCard.dart';
 
 class EntryPageCard extends StatelessWidget {
-  EntryPageCard(this.title, this.brief, this.icon, {this.color});
+  const EntryPageCard(this.title, this.brief, this.icon, {Key? key, this.color})
+      : super(key: key);
 
   final Widget icon;
   final String title;
@@ -22,8 +22,7 @@ class EntryPageCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: color ?? Theme.of(context).primaryColor,
               borderRadius: const BorderRadius.only(
-                  topLeft: const Radius.circular(8),
-                  bottomLeft: const Radius.circular(8)),
+                  topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
             ),
             child: Center(child: icon),
           ),
@@ -31,7 +30,7 @@ class EntryPageCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(left: 8, bottom: 8),
+                padding: const EdgeInsets.only(left: 8, bottom: 8),
                 child: Text(
                   title,
                   style: Theme.of(context)
@@ -41,7 +40,7 @@ class EntryPageCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 8),
+                padding: const EdgeInsets.only(left: 8),
                 width: MediaQuery.of(context).size.width / 2,
                 child: Text(
                   brief,

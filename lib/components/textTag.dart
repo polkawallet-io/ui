@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
@@ -12,18 +11,18 @@ class TextTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin ?? const EdgeInsets.all(2),
+      padding: padding ?? const EdgeInsets.fromLTRB(4, 2, 4, 2),
+      decoration: BoxDecoration(
+        color: color ?? Theme.of(context).primaryColor,
+        borderRadius: const BorderRadius.all(Radius.circular(4)),
+      ),
       child: Text(
         text!,
         style: TextStyle(
           fontSize: fontSize ?? UI.getTextSize(10, context),
           color: Theme.of(context).cardColor,
         ),
-      ),
-      margin: margin ?? EdgeInsets.all(2),
-      padding: padding ?? EdgeInsets.fromLTRB(4, 2, 4, 2),
-      decoration: BoxDecoration(
-        color: color ?? Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(4)),
       ),
     );
   }

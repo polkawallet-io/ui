@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PluginOutlinedButtonSmall extends StatelessWidget {
-  PluginOutlinedButtonSmall(
-      {this.content,
+  const PluginOutlinedButtonSmall(
+      {Key? key,
+      this.content,
       this.active = false,
       this.color,
       this.margin,
@@ -12,7 +13,8 @@ class PluginOutlinedButtonSmall extends StatelessWidget {
       this.activeTextcolor,
       this.unActiveTextcolor,
       this.minSize = 33,
-      this.fontSize});
+      this.fontSize})
+      : super(key: key);
   final String? content;
   final bool active;
   final Color? color;
@@ -25,19 +27,20 @@ class PluginOutlinedButtonSmall extends StatelessWidget {
   final double? minSize;
   @override
   Widget build(BuildContext context) {
-    final bgColor =
-        active ? (color ?? Theme.of(context).primaryColor) : Color(0xFF737675);
+    final bgColor = active
+        ? (color ?? Theme.of(context).primaryColor)
+        : const Color(0xFF737675);
     final textColor = active
-        ? activeTextcolor ?? Color(0xFF26272C)
-        : unActiveTextcolor ?? Color(0xaa26272C);
+        ? activeTextcolor ?? const Color(0xFF26272C)
+        : unActiveTextcolor ?? const Color(0xaa26272C);
     return Container(
-        margin: margin ?? EdgeInsets.only(right: 8),
+        margin: margin ?? const EdgeInsets.only(right: 8),
         child: CupertinoButton(
             onPressed: onPressed as void Function()?,
             color: bgColor,
-            disabledColor: Color(0xFF737675),
+            disabledColor: const Color(0xFF737675),
             minSize: minSize,
-            borderRadius: BorderRadius.all(Radius.circular(6)),
+            borderRadius: const BorderRadius.all(Radius.circular(6)),
             padding: padding ?? EdgeInsets.zero,
             child: Text(
               content!,

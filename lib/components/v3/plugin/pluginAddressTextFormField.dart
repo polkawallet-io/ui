@@ -12,7 +12,7 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginAddressTextFormField extends StatefulWidget {
-  PluginAddressTextFormField(this.api, this.localAccounts,
+  const PluginAddressTextFormField(this.api, this.localAccounts,
       {this.initialValue,
       this.onChanged,
       this.hintText,
@@ -34,18 +34,17 @@ class PluginAddressTextFormField extends StatefulWidget {
   final TextStyle? labelStyle;
 
   @override
-  _PluginAddressTextFormFieldState createState() =>
-      _PluginAddressTextFormFieldState();
+  createState() => _PluginAddressTextFormFieldState();
 }
 
 class _PluginAddressTextFormFieldState
     extends State<PluginAddressTextFormField> {
   final TextEditingController _controller = TextEditingController();
-  Map _addressIndexMap = {};
-  Map _addressIconsMap = {};
+  final Map _addressIndexMap = {};
+  final Map _addressIconsMap = {};
   String? validatorError;
   bool hasFocus = false;
-  FocusNode _commentFocus = FocusNode();
+  final FocusNode _commentFocus = FocusNode();
 
   Future<KeyPairData?> _getAccountFromInput(String input) async {
     // return local account list if input empty
@@ -90,7 +89,7 @@ class _PluginAddressTextFormFieldState
     // fetch address info if it's a new address
     final res = await widget.api.account.getAddressIcons([acc.address]);
     if (res != null) {
-      if (res.length > 0) {
+      if (res.isNotEmpty) {
         acc.icon = res[0][1];
         setState(() {
           _addressIconsMap.addAll({acc.address: res[0][1]});
@@ -98,9 +97,7 @@ class _PluginAddressTextFormFieldState
       }
 
       // The indices query too slow, so we use address as account name
-      if (acc.name == null) {
-        acc.name = Fmt.address(acc.address);
-      }
+      acc.name ??= Fmt.address(acc.address);
     }
     return acc;
   }
@@ -124,8 +121,6 @@ class _PluginAddressTextFormFieldState
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
-    final labelStyle =
-        widget.labelStyle ?? Theme.of(context).textTheme.bodyText1;
     return Focus(
       onFocusChange: (hasFocus) async {
         if (!hasFocus) {
@@ -162,7 +157,7 @@ class _PluginAddressTextFormFieldState
           : PluginTextFormField(
               controller: _controller,
               focusNode: _commentFocus,
-              padding: EdgeInsets.fromLTRB(8, 2, 4, 2),
+              padding: const EdgeInsets.fromLTRB(8, 2, 4, 2),
               label: widget.labelText,
               suffix: GestureDetector(
                 onTap: () async {
@@ -176,7 +171,7 @@ class _PluginAddressTextFormFieldState
                   }
                 },
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(4, 10, 0, 10),
+                  padding: const EdgeInsets.fromLTRB(4, 10, 0, 10),
                   child: SvgPicture.asset(
                     "packages/polkawallet_ui/assets/images/icon_user.svg",
                     color: PluginColorsDark.headline2,
@@ -185,7 +180,7 @@ class _PluginAddressTextFormFieldState
               ),
               onChanged: (value) {
                 if (validatorError != null &&
-                    _controller.text.trim().toString().length == 0) {
+                    _controller.text.trim().toString().isEmpty) {
                   setState(() {
                     validatorError = null;
                   });
@@ -193,7 +188,7 @@ class _PluginAddressTextFormFieldState
               },
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
-                if (value!.trim().length > 0) {
+                if (value!.trim().isNotEmpty) {
                   return validatorError;
                 }
                 return null;

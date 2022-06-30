@@ -17,8 +17,8 @@ class PluginIconButton extends StatelessWidget {
           width: 30,
           height: 30,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(const Radius.circular(8)),
-            color: this.color,
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: color,
           ),
           child: Center(child: icon),
         ),

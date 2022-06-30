@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class InfoItemRow extends StatelessWidget {
-  InfoItemRow(
+  const InfoItemRow(
     this.label,
     this.content, {
+    Key? key,
     this.labelStyle,
     this.contentStyle,
-  });
+  }) : super(key: key);
   final String label;
   final String? content;
   final TextStyle? labelStyle;
@@ -15,7 +16,7 @@ class InfoItemRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: <Widget>[
           Text(

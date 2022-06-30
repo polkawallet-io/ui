@@ -23,8 +23,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DAppWrapperPage extends StatefulWidget {
-  DAppWrapperPage(this.plugin, this.keyring,
-      {this.getPassword, this.checkAuth, this.updateAuth});
+  const DAppWrapperPage(this.plugin, this.keyring,
+      {Key? key, this.getPassword, this.checkAuth, this.updateAuth})
+      : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
   final Future<String?> Function(BuildContext, KeyPairData)? getPassword;
@@ -34,7 +35,7 @@ class DAppWrapperPage extends StatefulWidget {
   static const String route = '/extension/app';
 
   @override
-  _DAppWrapperPageState createState() => _DAppWrapperPageState();
+  createState() => _DAppWrapperPageState();
 }
 
 class _DAppWrapperPageState extends State<DAppWrapperPage> {
@@ -42,7 +43,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
   bool _loading = true;
   bool _signing = false;
 
-  bool _isWillClose = false;
+  final bool _isWillClose = false;
 
   Widget _buildScaffold(
       {Function? onBack, Widget? body, Function()? actionOnPressed}) {
@@ -59,23 +60,21 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         leading: Row(
           children: [
             Padding(
-                padding: EdgeInsets.only(left: 26, right: 25),
+                padding: const EdgeInsets.only(left: 26, right: 25),
                 child: GestureDetector(
-                  child: Container(
-                      child: Image.asset(
+                  child: Image.asset(
                     "packages/polkawallet_ui/assets/images/icon_back_dapp.png",
                     width: 9,
-                  )),
+                  ),
                   onTap: () {
                     onBack!();
                   },
                 )),
             GestureDetector(
-              child: Container(
-                  child: Image.asset(
+              child: Image.asset(
                 "packages/polkawallet_ui/assets/images/dapp_clean.png",
                 width: 14,
-              )),
+              ),
               onTap: () {
                 onBack!();
               },
@@ -84,11 +83,11 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         ),
         actions: [
           Container(
-            margin: EdgeInsets.only(right: 16),
+            margin: const EdgeInsets.only(right: 16),
             child: PluginIconButton(
               onPressed: actionOnPressed,
               color: Colors.transparent,
-              icon: Icon(
+              icon: const Icon(
                 Icons.more_horiz,
                 color: PluginColorsDark.headline1,
                 size: 25,
@@ -128,7 +127,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 24, bottom: 16),
+                      margin: const EdgeInsets.only(top: 24, bottom: 16),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
@@ -165,7 +164,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                           fontWeight: FontWeight.bold),
                     ),
                     Container(
-                      margin: EdgeInsets.all(16),
+                      margin: const EdgeInsets.all(16),
                       child: Text(
                         dic['dApp.connect.tip']!,
                         style: TextStyle(
@@ -178,24 +177,24 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 ),
               )),
               Container(
-                margin: EdgeInsets.fromLTRB(24, 0, 24, 40),
+                margin: const EdgeInsets.fromLTRB(24, 0, 24, 40),
                 child: Row(
                   children: [
                     Expanded(
                       child: PluginOutlinedButtonSmall(
-                        margin: EdgeInsets.only(right: 12),
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.only(right: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.reject']!,
                         fontSize: UI.getTextSize(16, context),
-                        color: Color(0xFFD8D8D8),
+                        color: const Color(0xFFD8D8D8),
                         active: true,
                         onPressed: () => Navigator.of(context).pop(false),
                       ),
                     ),
                     Expanded(
                       child: PluginOutlinedButtonSmall(
-                        margin: EdgeInsets.only(left: 12),
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.only(left: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.allow']!,
                         fontSize: UI.getTextSize(16, context),
                         color: PluginColorsDark.primary,
@@ -258,14 +257,14 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               Expanded(
                   child: SingleChildScrollView(
                 child: Container(
-                  margin: EdgeInsets.all(24),
+                  margin: const EdgeInsets.all(24),
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(bottom: 6),
+                        padding: const EdgeInsets.only(bottom: 6),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width / 4,
                               child: Text(
                                 dic['submit.signer']!,
@@ -278,7 +277,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(right: 4),
+                              margin: const EdgeInsets.only(right: 4),
                               child:
                                   AddressIcon(address, svg: acc.icon, size: 18),
                             ),
@@ -304,24 +303,24 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 ),
               )),
               Container(
-                margin: EdgeInsets.fromLTRB(24, 0, 24, 40),
+                margin: const EdgeInsets.fromLTRB(24, 0, 24, 40),
                 child: Row(
                   children: [
                     Expanded(
                       child: PluginOutlinedButtonSmall(
-                        margin: EdgeInsets.only(right: 12),
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.only(right: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.reject']!,
                         fontSize: UI.getTextSize(16, context),
-                        color: Color(0xFFD8D8D8),
+                        color: const Color(0xFFD8D8D8),
                         active: true,
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
                     Expanded(
                       child: PluginOutlinedButtonSmall(
-                        margin: EdgeInsets.only(left: 12),
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.only(left: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.confirm']!,
                         fontSize: UI.getTextSize(16, context),
                         color: PluginColorsDark.primary,
@@ -449,29 +448,29 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
 }
 
 class MoreInfo extends StatelessWidget {
-  MoreInfo(this._url, this._controller, this._icon, this._name, this._isPlugin,
-      this._fatherContext,
+  const MoreInfo(this._url, this._controller, this._icon, this._name,
+      this._isPlugin, this._fatherContext,
       {Key? key})
       : super(key: key);
-  WebViewController _controller;
-  String _url;
-  String _name;
-  String _icon;
-  String _isPlugin;
-  BuildContext _fatherContext;
+  final WebViewController _controller;
+  final String _url;
+  final String _name;
+  final String _icon;
+  final String _isPlugin;
+  final BuildContext _fatherContext;
 
   Widget buildItem(
       String icon, String name, Function onTap, BuildContext context) {
     return GestureDetector(
-      child: Container(
+      child: SizedBox(
           width: 56,
           child: Column(
             children: [
               Container(
                 width: 56,
                 height: 56,
-                margin: EdgeInsets.only(bottom: 6),
-                decoration: BoxDecoration(
+                margin: const EdgeInsets.only(bottom: 6),
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                     color: Color(0xFF414244)),
                 child: Center(child: Image.asset(icon, width: 40)),
@@ -504,8 +503,8 @@ class MoreInfo extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.all(12),
-                color: Color(0xFF36383B),
+                padding: const EdgeInsets.all(12),
+                color: const Color(0xFF36383B),
                 height: 64,
                 child: Row(
                   children: [
@@ -521,7 +520,7 @@ class MoreInfo extends StatelessWidget {
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 if (_icon.isNotEmpty) {
-                                  return Container(
+                                  return SizedBox(
                                       width: 40,
                                       height: 40,
                                       child: _icon.contains('.svg')
@@ -534,13 +533,13 @@ class MoreInfo extends StatelessWidget {
                               },
                             )),
                         Padding(
-                          padding: EdgeInsets.only(left: 12),
+                          padding: const EdgeInsets.only(left: 12),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                _name.length > 0 ? _name : uri.host,
+                                _name.isNotEmpty ? _name : uri.host,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline4
@@ -562,7 +561,7 @@ class MoreInfo extends StatelessWidget {
                       ],
                     )),
                     GestureDetector(
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         size: 18,
                         color: Colors.white,
@@ -576,8 +575,9 @@ class MoreInfo extends StatelessWidget {
               ),
               Expanded(
                   child: Container(
-                color: Color(0xFF212224),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+                color: const Color(0xFF212224),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -594,7 +594,7 @@ class MoreInfo extends StatelessWidget {
                       if (_isPlugin.trim().isNotEmpty) {
                         data = "$data&isPlugin=$_isPlugin";
                       }
-                      print(data);
+                      debugPrint(data);
                       Share.share(
                           "https://polkawallet.io${DAppWrapperPage.route}?$data",
                           subject: _url);
@@ -627,7 +627,7 @@ class MoreInfo extends StatelessWidget {
 }
 
 class SignExtrinsicInfo extends StatelessWidget {
-  SignExtrinsicInfo(this.msg);
+  const SignExtrinsicInfo(this.msg, {Key? key}) : super(key: key);
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {
@@ -647,7 +647,7 @@ class SignExtrinsicInfo extends StatelessWidget {
 }
 
 class SignBytesInfo extends StatelessWidget {
-  SignBytesInfo(this.msg);
+  const SignBytesInfo(this.msg, {Key? key}) : super(key: key);
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {
@@ -664,7 +664,7 @@ class SignBytesInfo extends StatelessWidget {
 }
 
 class SignInfoItemRow extends StatelessWidget {
-  SignInfoItemRow(this.label, this.content);
+  const SignInfoItemRow(this.label, this.content, {Key? key}) : super(key: key);
   final String label;
   final String content;
   @override
@@ -672,7 +672,7 @@ class SignInfoItemRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width / 4,
           child: Text(
             label,
@@ -684,7 +684,7 @@ class SignInfoItemRow extends StatelessWidget {
         ),
         Expanded(
             child: Container(
-          margin: EdgeInsets.only(bottom: 6),
+          margin: const EdgeInsets.only(bottom: 6),
           child: Text(
             content,
             style: Theme.of(context)

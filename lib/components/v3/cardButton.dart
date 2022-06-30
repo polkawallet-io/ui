@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class CardButton extends StatelessWidget {
-  CardButton({this.onPressed, required this.text, required this.icon, Key? key})
+  const CardButton(
+      {this.onPressed, required this.text, required this.icon, Key? key})
       : super(key: key);
   final Function()? onPressed;
   final String text;
@@ -20,7 +21,7 @@ class CardButton extends StatelessWidget {
         },
         child: Container(
           padding: EdgeInsets.only(top: 3.h, bottom: 10, right: 3),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.transparent,
             image: DecorationImage(
                 image: AssetImage(
@@ -28,19 +29,17 @@ class CardButton extends StatelessWidget {
                 fit: BoxFit.fill),
           ),
           alignment: Alignment.center,
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                icon,
-                Text(
-                  text,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontFamily: UI.getFontFamily('TitilliumWeb', context)),
-                ),
-              ],
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              icon,
+              Text(
+                text,
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontFamily: UI.getFontFamily('TitilliumWeb', context)),
+              ),
+            ],
           ),
         ));
   }

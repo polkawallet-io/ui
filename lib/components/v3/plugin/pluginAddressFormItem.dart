@@ -8,12 +8,14 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginAddressFormItem extends StatelessWidget {
-  PluginAddressFormItem(
-      {this.label,
+  const PluginAddressFormItem(
+      {Key? key,
+      this.label,
       this.svg,
       this.onTap,
       required this.account,
-      this.isDisable = true});
+      this.isDisable = true})
+      : super(key: key);
 
   final String? label;
   final KeyPairData account;
@@ -25,14 +27,14 @@ class PluginAddressFormItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = PluginInputItem(
       label: label,
-      labelBgColor: this.isDisable ? PluginColorsDark.disableTagBg : null,
-      bgColor: this.isDisable ? PluginColorsDark.disableBg : null,
+      labelBgColor: isDisable ? PluginColorsDark.disableTagBg : null,
+      bgColor: isDisable ? PluginColorsDark.disableBg : null,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Row(
           children: [
             Container(
-              margin: EdgeInsets.only(right: 8),
+              margin: const EdgeInsets.only(right: 8),
               child: AddressIcon(
                 account.address,
                 svg: svg ?? account.icon,
@@ -42,7 +44,7 @@ class PluginAddressFormItem extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.symmetric(vertical: 4),
+                margin: const EdgeInsets.symmetric(vertical: 4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -51,13 +53,13 @@ class PluginAddressFormItem extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline4?.copyWith(
                           fontWeight: FontWeight.w600,
                           height: 1.3,
-                          color: Color(0xCCFFFFFF)),
+                          color: const Color(0xCCFFFFFF)),
                     ),
                     Text(
                       Fmt.address(account.address),
                       style: TextStyle(
                           fontSize: UI.getTextSize(12, context),
-                          color: Color(0xCCFFFFFF)),
+                          color: const Color(0xCCFFFFFF)),
                     )
                   ],
                 ),
@@ -65,7 +67,7 @@ class PluginAddressFormItem extends StatelessWidget {
             ),
             Visibility(
                 visible: onTap != null,
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_forward_ios,
                   size: 18,
                   color: Colors.white,
@@ -81,7 +83,7 @@ class PluginAddressFormItem extends StatelessWidget {
       child: content,
       onTap: () {
         if (onTap != null) {
-          this.onTap!();
+          onTap!();
         }
       },
     );
