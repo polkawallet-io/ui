@@ -65,10 +65,7 @@ class PolkawalletAlertDialog extends StatelessWidget {
         child: DefaultTextStyle(
           style: _kCupertinoDialogTitleStyle,
           textAlign: TextAlign.center,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: 50),
-            child: title!,
-          ),
+          child: title!,
         ),
       ));
     }

@@ -52,97 +52,53 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
     } else {
       url = ModalRoute.of(context)!.settings.arguments as String;
     }
-    if (ModalRoute.of(context)!.settings.arguments is Map &&
-        "${(ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]}" ==
-            "true") {
-      return PluginScaffold(
-        appBar: PluginAppBar(
-          title: Text(url),
-          leadingWidth: 88,
-          leading: Row(
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(left: 16, right: 12),
-                  child: PluginIconButton(
-                    icon: Image.asset(
-                      "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
-                      width: 9,
-                    ),
-                    onPressed: () {
-                      onBack!();
-                    },
+    return PluginScaffold(
+      appBar: PluginAppBar(
+        title: Text(url),
+        leadingWidth: 88,
+        leading: Row(
+          children: [
+            Padding(
+                padding: EdgeInsets.only(left: 26, right: 25),
+                child: GestureDetector(
+                  child: Container(
+                      child: Image.asset(
+                    "packages/polkawallet_ui/assets/images/icon_back_dapp.png",
+                    width: 9,
                   )),
-              PluginIconButton(
-                icon: Icon(
-                  Icons.close,
-                  size: 15,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  _isWillClose = true;
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          ),
-          actions: [
-            Container(
-              margin: EdgeInsets.only(right: 16),
-              child: PluginIconButton(
-                onPressed: actionOnPressed,
-                color: Colors.transparent,
-                icon: Icon(
-                  Icons.more_horiz,
-                  color: PluginColorsDark.headline1,
-                  size: 25,
-                ),
-              ),
-            )
+                  onTap: () {
+                    onBack!();
+                  },
+                )),
+            GestureDetector(
+              child: Container(
+                  child: Image.asset(
+                "packages/polkawallet_ui/assets/images/dapp_clean.png",
+                width: 14,
+              )),
+              onTap: () {
+                onBack!();
+              },
+            ),
           ],
         ),
-        body: body,
-      );
-    }
-    return Scaffold(
-        appBar: AppBar(
-            title: Text(
-              url,
-              style: TextStyle(fontSize: UI.getTextSize(16, context)),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 16),
+            child: PluginIconButton(
+              onPressed: actionOnPressed,
+              color: Colors.transparent,
+              icon: Icon(
+                Icons.more_horiz,
+                color: PluginColorsDark.headline1,
+                size: 25,
+              ),
             ),
-            leadingWidth: 92,
-            leading: Row(children: [
-              Padding(
-                  padding: EdgeInsets.only(left: 16, right: 12),
-                  child: BackBtn(
-                    onBack: onBack,
-                  )),
-              v3.IconButton(
-                icon: Icon(
-                  Icons.close,
-                  size: 15,
-                  color: Theme.of(context).textSelectionTheme.selectionColor,
-                ),
-                onPressed: () {
-                  _isWillClose = true;
-                  Navigator.of(context).pop();
-                },
-              )
-            ]),
-            actions: [
-              Container(
-                margin: EdgeInsets.only(right: 14),
-                child: v3.IconButton(
-                  onPressed: actionOnPressed,
-                  icon: Icon(
-                    Icons.more_horiz,
-                    color: Theme.of(context).textSelectionTheme.selectionColor,
-                    size: 18,
-                  ),
-                ),
-              )
-            ],
-            centerTitle: true),
-        body: body);
+          )
+        ],
+      ),
+      body: body,
+    );
   }
 
   Future<bool> _onConnectRequest(DAppConnectParam params) async {
@@ -556,29 +512,27 @@ class MoreInfo extends StatelessWidget {
                     Expanded(
                         child: Row(
                       children: [
-                        // ClipRRect(
-                        //     borderRadius:
-                        //         const BorderRadius.all(Radius.circular(40)),
-                        //     child:
-                        Image.network(
-                          '${uri.scheme}://${uri.host}/favicon.ico',
-                          width: 40,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            if (_icon.isNotEmpty) {
-                              return Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: _icon.contains('.svg')
-                                      ? SvgPicture.network(_icon, width: 40)
-                                      : Image.network(_icon, width: 40));
-                            }
-                            return Image.asset(
-                                "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
-                                width: 40);
-                          },
-                          // )
-                        ),
+                        ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                            child: Image.network(
+                              '${uri.scheme}://${uri.host}/favicon.ico',
+                              width: 40,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                if (_icon.isNotEmpty) {
+                                  return Container(
+                                      width: 40,
+                                      height: 40,
+                                      child: _icon.contains('.svg')
+                                          ? SvgPicture.network(_icon, width: 40)
+                                          : Image.network(_icon, width: 40));
+                                }
+                                return Image.asset(
+                                    "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
+                                    width: 40);
+                              },
+                            )),
                         Padding(
                           padding: EdgeInsets.only(left: 12),
                           child: Column(
