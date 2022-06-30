@@ -65,7 +65,10 @@ class PolkawalletAlertDialog extends StatelessWidget {
         child: DefaultTextStyle(
           style: _kCupertinoDialogTitleStyle,
           textAlign: TextAlign.center,
-          child: title!,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 50),
+            child: title!,
+          ),
         ),
       ));
     }
@@ -80,7 +83,10 @@ class PolkawalletAlertDialog extends StatelessWidget {
         child: DefaultTextStyle(
           style: _kCupertinoDialogContentStyle,
           textAlign: TextAlign.center,
-          child: content!,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 50),
+            child: content!,
+          ),
         ),
       ));
     }
@@ -454,7 +460,7 @@ class _CupertinoActionCancelSheetButtonState
 const TextStyle _kActionSheetActionStyle = TextStyle(
     fontFamily: 'SF_Pro',
     inherit: false,
-    fontSize: 17.0,
+    fontSize: 16.0,
     fontWeight: FontWeight.w400,
     textBaseline: TextBaseline.alphabetic,
     color: Color(0xFF363737));
