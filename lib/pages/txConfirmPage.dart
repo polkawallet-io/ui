@@ -50,8 +50,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     if (_fee?.partialFee != null && !reload) {
       return _fee!.partialFee.toString();
     }
-    final TxConfirmParams args =
-        ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     if (widget.plugin.basic.name == 'kusama' &&
         (widget.keyring.current.observation ?? false)) {
       final recoveryInfo = await widget.plugin.sdk.api.recovery
@@ -60,7 +58,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         _recoveryInfo = recoveryInfo;
       });
     }
-
+    final TxConfirmParams args =
+        ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
     final txInfo =
@@ -99,33 +98,30 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
   void _onTxFinish(BuildContext context, Map? res, String? errorMsg) async {
     if (res != null) {
-      debugPrint('callback triggered, blockHash: ${res['hash']}');
+      print('callback triggered, blockHash: ${res['hash']}');
     }
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-
-    await showCupertinoDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return PolkawalletAlertDialog(
-          title: errorMsg != null
-              ? const Icon(Icons.cancel, color: Colors.red, size: 32)
-              : const Icon(Icons.check_circle,
-                  color: Colors.lightGreen, size: 32),
-          content: Text(errorMsg ??
-              I18n.of(context)!
-                  .getDic(i18n_full_dic_ui, 'common')!['success']!),
-          actions: <Widget>[
-            PolkawalletActionSheetAction(
-              child: Text(
-                  I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!['ok']!),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-      },
-    );
-    if (!mounted) return;
-    Navigator.of(context).pop(res);
+    if (mounted) {
+      await showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return PolkawalletAlertDialog(
+            type: errorMsg != null ? DialogType.warn : DialogType.inform,
+            title: Text(errorMsg ??
+                I18n.of(context)!
+                    .getDic(i18n_full_dic_ui, 'common')!['success']!),
+            actions: <Widget>[
+              PolkawalletActionSheetAction(
+                child: Text(I18n.of(context)!
+                    .getDic(i18n_full_dic_ui, 'common')!['ok']!),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        },
+      );
+      Navigator.of(context).pop(res);
+    }
   }
 
   Future<bool> _validateProxy() async {
@@ -225,7 +221,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
           : await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
-      _onTxFinish(context, null, err.toString());
+      _onTxFinish(context, null, err.toString().split(":")[1]);
     }
     if (mounted) {
       setState(() {
@@ -288,9 +284,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     TxConfirmParams args,
   ) async {
     final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
-
     debugPrint('show qr');
-
     final signed = await Navigator.of(context).pushNamed(
       QrSenderPage.route,
       arguments: QrSenderPageParams(

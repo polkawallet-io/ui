@@ -74,54 +74,63 @@ class PolkawalletAlertDialog extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: _kActionSheetContentHorizontalPadding,
           right: _kActionSheetContentHorizontalPadding,
-          bottom: 22.0,
+          bottom: 0.0,
           top: 0.0,
         ),
         child: DefaultTextStyle(
           style: _kCupertinoDialogContentStyle,
           textAlign: TextAlign.center,
-          child: content!,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 50),
+            child: content!,
+          ),
         ),
       ));
     }
-    if (this.actions.isNotEmpty) {
-      children.add(Column(
-        children: [
-          const Divider(height: 1),
-          Row(
+
+    if (actions.isNotEmpty) {
+      children.add(Padding(
+          padding: const EdgeInsets.only(
+            top: 22.0,
+          ),
+          child: Column(
             children: [
-              ...actions.map((e) {
-                final index = actions.indexOf(e);
-                return index == 0
-                    ? Expanded(
-                        child: DefaultTextStyle(
-                        style: _kCupertinoDialogActionStyle,
-                        textAlign: TextAlign.center,
-                        child: e,
-                      ))
-                    : Expanded(
-                        child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 1),
-                            child: Container(
-                                width: 0.5,
-                                height: 45,
-                                color: Theme.of(context).dividerColor),
-                          ),
-                          Expanded(
-                              child: DefaultTextStyle(
+              const Divider(height: 1),
+              Row(
+                children: [
+                  ...actions.map((e) {
+                    final index = actions.indexOf(e);
+                    return index == 0
+                        ? Expanded(
+                            child: DefaultTextStyle(
                             style: _kCupertinoDialogActionStyle,
                             textAlign: TextAlign.center,
                             child: e,
                           ))
-                        ],
-                      ));
-              }).toList()
+                        : Expanded(
+                            child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 1),
+                                child: Container(
+                                    width: 0.5,
+                                    height: 45,
+                                    color: Theme.of(context).dividerColor),
+                              ),
+                              Expanded(
+                                  child: DefaultTextStyle(
+                                style: _kCupertinoDialogActionStyle,
+                                textAlign: TextAlign.center,
+                                child: e,
+                              ))
+                            ],
+                          ));
+                  }).toList()
+                ],
+              )
             ],
-          )
-        ],
-      ));
+          )));
     }
     return Center(
       child: Stack(
@@ -448,7 +457,7 @@ class _CupertinoActionCancelSheetButtonState
 const TextStyle _kActionSheetActionStyle = TextStyle(
     fontFamily: 'SF_Pro',
     inherit: false,
-    fontSize: 17.0,
+    fontSize: 16.0,
     fontWeight: FontWeight.w400,
     textBaseline: TextBaseline.alphabetic,
     color: Color(0xFF363737));

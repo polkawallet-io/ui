@@ -40,9 +40,10 @@ class DAppWrapperPage extends StatefulWidget {
 
 class _DAppWrapperPageState extends State<DAppWrapperPage> {
   WebViewController? _controller;
+  bool _loading = true;
   bool _signing = false;
 
-  bool _isWillClose = false;
+  final bool _isWillClose = false;
 
   Widget _buildScaffold(
       {Function? onBack, Widget? body, Function()? actionOnPressed}) {
@@ -52,97 +53,51 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
     } else {
       url = ModalRoute.of(context)!.settings.arguments as String;
     }
-    if (ModalRoute.of(context)!.settings.arguments is Map &&
-        "${(ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]}" ==
-            "true") {
-      return PluginScaffold(
-        appBar: PluginAppBar(
-          title: Text(url),
-          leadingWidth: 88,
-          leading: Row(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 12),
-                  child: PluginIconButton(
-                    icon: Image.asset(
-                      "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
-                      width: 9,
-                    ),
-                    onPressed: () {
-                      onBack!();
-                    },
-                  )),
-              PluginIconButton(
-                icon: const Icon(
-                  Icons.close,
-                  size: 15,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  _isWillClose = true;
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          ),
-          actions: [
-            Container(
-              margin: const EdgeInsets.only(right: 16),
-              child: PluginIconButton(
-                onPressed: actionOnPressed,
-                color: Colors.transparent,
-                icon: const Icon(
-                  Icons.more_horiz,
-                  color: PluginColorsDark.headline1,
-                  size: 25,
-                ),
+    return PluginScaffold(
+      appBar: PluginAppBar(
+        title: Text(url),
+        leadingWidth: 88,
+        leading: Row(
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(left: 26, right: 25),
+                child: GestureDetector(
+                  child: Image.asset(
+                    "packages/polkawallet_ui/assets/images/icon_back_dapp.png",
+                    width: 9,
+                  ),
+                  onTap: () {
+                    onBack!();
+                  },
+                )),
+            GestureDetector(
+              child: Image.asset(
+                "packages/polkawallet_ui/assets/images/dapp_clean.png",
+                width: 14,
               ),
-            )
+              onTap: () {
+                onBack!();
+              },
+            ),
           ],
         ),
-        body: body,
-      );
-    }
-    return Scaffold(
-        appBar: AppBar(
-            title: Text(
-              url,
-              style: TextStyle(fontSize: UI.getTextSize(16, context)),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 16),
+            child: PluginIconButton(
+              onPressed: actionOnPressed,
+              color: Colors.transparent,
+              icon: const Icon(
+                Icons.more_horiz,
+                color: PluginColorsDark.headline1,
+                size: 25,
+              ),
             ),
-            leadingWidth: 92,
-            leading: Row(children: [
-              Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 12),
-                  child: BackBtn(
-                    onBack: onBack,
-                  )),
-              v3.IconButton(
-                icon: Icon(
-                  Icons.close,
-                  size: 15,
-                  color: Theme.of(context).textSelectionTheme.selectionColor,
-                ),
-                onPressed: () {
-                  _isWillClose = true;
-                  Navigator.of(context).pop();
-                },
-              )
-            ]),
-            actions: [
-              Container(
-                margin: const EdgeInsets.only(right: 14),
-                child: v3.IconButton(
-                  onPressed: actionOnPressed,
-                  icon: Icon(
-                    Icons.more_horiz,
-                    color: Theme.of(context).textSelectionTheme.selectionColor,
-                    size: 18,
-                  ),
-                ),
-              )
-            ],
-            centerTitle: true),
-        body: body);
+          )
+        ],
+      ),
+      body: body,
+    );
   }
 
   Future<bool> _onConnectRequest(DAppConnectParam params) async {
@@ -274,13 +229,13 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
             .address;
     final acc = widget.keyring.keyPairs.firstWhere((acc) {
       bool matched = false;
-      for (var e in widget.keyring.store.pubKeyAddressMap.values) {
+      widget.keyring.store.pubKeyAddressMap.values.forEach((e) {
         e.forEach((k, v) {
           if (acc.pubKey == k && address == v) {
             matched = true;
           }
         });
-      }
+      });
       return matched;
     });
     final res = await showModalBottomSheet(
@@ -375,7 +330,6 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                             : () async {
                                 final res = await _doSign(acc, params);
                                 if (res != null) {
-                                  if (!mounted) return;
                                   Navigator.of(context).pop(res);
                                 }
                               },
@@ -436,7 +390,6 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           if (canGoBack ?? false) {
             _controller?.goBack();
           } else {
-            if (!mounted) return;
             Navigator.of(context).pop();
           }
         },
@@ -456,7 +409,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 url,
                 widget.keyring,
                 onPageFinished: (url) {
-                  setState(() {});
+                  setState(() {
+                    _loading = false;
+                  });
                 },
                 onWebViewCreated: (controller) {
                   setState(() {
@@ -543,7 +498,7 @@ class MoreInfo extends StatelessWidget {
     return ClipRRect(
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(12), topRight: Radius.circular(12)),
-        child: SizedBox(
+        child: Container(
           height: 304,
           child: Column(
             children: [
@@ -556,30 +511,27 @@ class MoreInfo extends StatelessWidget {
                     Expanded(
                         child: Row(
                       children: [
-                        // ClipRRect(
-                        //     borderRadius:
-                        //         const BorderRadius.all(Radius.circular(40)),
-                        //     child:
-                        Image.network(
-                          '${uri.scheme}://${uri.host}/favicon.ico',
-                          width: 40,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            if (_icon.isNotEmpty) {
-                              return SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: _icon.contains('.svg')
-                                      ? SvgPicture.network(_icon, width: 40)
-                                      : Image.network(_icon, width: 40));
-                            }
-                            return Image.asset(
-                                "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
-                                width: 40);
-                          },
-                          // )
-                        ),
-
+                        ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                            child: Image.network(
+                              '${uri.scheme}://${uri.host}/favicon.ico',
+                              width: 40,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                if (_icon.isNotEmpty) {
+                                  return SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: _icon.contains('.svg')
+                                          ? SvgPicture.network(_icon, width: 40)
+                                          : Image.network(_icon, width: 40));
+                                }
+                                return Image.asset(
+                                    "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
+                                    width: 40);
+                              },
+                            )),
                         Padding(
                           padding: const EdgeInsets.only(left: 12),
                           child: Column(
