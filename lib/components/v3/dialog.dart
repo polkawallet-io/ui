@@ -90,8 +90,8 @@ class PolkawalletAlertDialog extends StatelessWidget {
 
     if (actions.isNotEmpty) {
       children.add(Padding(
-          padding: const EdgeInsets.only(
-            top: 22.0,
+          padding: EdgeInsets.only(
+            top: content != null ? 0.0 : 22.0,
           ),
           child: Column(
             children: [
