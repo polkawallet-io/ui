@@ -1,5 +1,5 @@
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
@@ -68,7 +68,9 @@ class _QrSenderPageState extends State<QrSenderPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-          title: Text(dic['tx.qr']!), centerTitle: true, leading: BackBtn()),
+          title: Text(dic['tx.qr']!),
+          centerTitle: true,
+          leading: const BackBtn()),
       body: SafeArea(
         child: FutureBuilder(
           future: _getQrCodeData(context),

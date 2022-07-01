@@ -22,10 +22,10 @@ class PluginCurrencyWithIcon extends StatelessWidget {
     return Row(
       mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
       children: <Widget>[
-        Container(
-          padding: const EdgeInsets.only(right: 2),
-          child: icon,
-        ),
+        // Container(
+        //   padding: const EdgeInsets.only(right: 2),
+        //   child: icon,
+        // ),
         Expanded(
           flex: 0,
           child: Text(

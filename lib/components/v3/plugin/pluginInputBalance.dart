@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/plugin/store/balances.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/currencyWithIcon.dart';
@@ -281,30 +280,22 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           : PluginColorsDark.headline3,
                     )
                   : Container(),
-              widget.onSetMax != null && widget.enabled
-                  ? GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 6),
-                        child: Text(
-                          dic['max']!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              ?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      onTap: () => widget.onSetMax!(max),
-                    )
-                  : Container()
+              Expanded(
+                  child: Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                    '${dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
+                    style: Theme.of(context).textTheme.headline6?.copyWith(
+                        fontWeight: FontWeight.w300, color: Colors.white)),
+              )),
             ],
           ),
           Container(
             padding:
                 const EdgeInsets.only(left: 16, right: 12, top: 12, bottom: 12),
             decoration: BoxDecoration(
-                color: Color(_hasFocus ? 0x4cFFFFFF : 0x24FFFFFF),
+                color: Color(_hasFocus ? 0x3DFFFFFF : 0x1AFFFFFF),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(widget.titleTag != null ? 0 : 4),
                     bottomLeft: const Radius.circular(4),
@@ -329,14 +320,14 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
-                            hintText:
-                                '${dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
-                            hintStyle: Theme.of(context)
-                                .textTheme
-                                .headline5
-                                ?.copyWith(
-                                    color: const Color(0xFFBCBCBC),
-                                    fontWeight: FontWeight.w300),
+                            // hintText:
+                            //     '${dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
+                            // hintStyle: Theme.of(context)
+                            //     .textTheme
+                            //     .headline5
+                            //     ?.copyWith(
+                            //         color: Color(0xFFBCBCBC),
+                            //         fontWeight: FontWeight.w300),
                             errorStyle: const TextStyle(height: 0.3),
                             border: InputBorder.none,
                             suffix: _hasFocus &&
@@ -355,7 +346,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                               .textTheme
                               .headline4
                               ?.copyWith(
-                                  color: Colors.white,
+                                  color: _hasFocus
+                                      ? Colors.white
+                                      : const Color(0xFFBCBCBC),
                                   fontWeight: FontWeight.w600),
                           inputFormatters: [
                             UI.decimalInputFormatter(widget.balance!.decimals!)!
@@ -376,7 +369,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                         ),
                       ),
                       Visibility(
-                          visible: priceVisible,
+                          visible: priceVisible && _hasFocus,
                           child: Padding(
                               padding: const EdgeInsets.only(top: 2),
                               child: Text(
@@ -398,43 +391,60 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           _tokenChangeAction();
                         }
                       : null,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: widget.enabled
-                            ? widget.tokenBgColor
-                            : const Color(0x4DFFFFFF),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(3))),
-                    child: PluginCurrencyWithIcon(
-                      widget.tokenViewFunction != null
-                          ? widget.tokenViewFunction!(widget.balance!.symbol!)
-                          : widget.balance!.symbol!,
-                      PluginTokenIcon(
-                        widget.balance!.symbol!,
-                        widget.tokenIconsMap!,
-                        isHighlighted: widget.enabled,
-                        isFold: true,
-                      ),
-                      textStyle: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          ?.copyWith(
-                              color: const Color(0xFF212123),
-                              fontWeight: FontWeight.w600),
-                      trailing: widget.onTokenChange != null &&
-                              widget.enabled &&
-                              (widget.tokenOptions?.length ?? 0) > 0
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 2),
-                              child: SvgPicture.asset(
-                                "packages/polkawallet_ui/assets/images/triangle_bottom.svg",
-                                color: const Color(0x8026282D),
-                              ))
-                          : null,
+                  child: PluginCurrencyWithIcon(
+                    widget.tokenViewFunction != null
+                        ? widget.tokenViewFunction!(widget.balance!.symbol!)
+                        : widget.balance!.symbol!,
+                    PluginTokenIcon(
+                      widget.balance!.symbol!,
+                      widget.tokenIconsMap!,
+                      isHighlighted: widget.enabled,
+                      isFold: true,
                     ),
+                    textStyle: Theme.of(context).textTheme.headline5?.copyWith(
+                        color: Colors.white.withAlpha(
+                            widget.onTokenChange != null &&
+                                    widget.enabled &&
+                                    (widget.tokenOptions?.length ?? 0) > 0
+                                ? 255
+                                : 127),
+                        fontWeight: FontWeight.w600),
+                    trailing: widget.onTokenChange != null &&
+                            widget.enabled &&
+                            (widget.tokenOptions?.length ?? 0) > 0
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 3),
+                            child: Image.asset(
+                              "packages/polkawallet_ui/assets/images/token_select.png",
+                              width: 10,
+                            ))
+                        : null,
                   ),
-                )
+                ),
+                widget.onSetMax != null && widget.enabled
+                    ? Row(
+                        children: [
+                          Container(
+                            height: 20,
+                            width: 1,
+                            margin: const EdgeInsets.only(left: 10, right: 10),
+                            color: const Color(0xFF979797),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              "All",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5
+                                  ?.copyWith(
+                                      color: const Color(0xFFFF7849),
+                                      fontWeight: FontWeight.w400),
+                            ),
+                            onTap: () => widget.onSetMax!(max),
+                          )
+                        ],
+                      )
+                    : Container()
               ],
             ),
           )

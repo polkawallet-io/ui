@@ -35,7 +35,7 @@ class AccountInfo extends StatelessWidget {
           ls.add(Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
+              SizedBox(
                 width: 80,
                 child: Text(k,
                     style: Theme.of(context)
