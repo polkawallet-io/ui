@@ -32,10 +32,11 @@ class PluginPageTitleTaps extends StatelessWidget {
           return GestureDetector(
             child: Container(
               padding: itemPadding ??
-                  const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
               margin: EdgeInsets.only(right: isSpaceBetween ? 0 : 26),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(6)),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                 color: activeTab == index
                     ? const Color(0x24FFFFFF)
                     : Colors.transparent,

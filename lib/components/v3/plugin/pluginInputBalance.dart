@@ -284,10 +284,13 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                   child: Container(
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                    '${dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
-                        fontWeight: FontWeight.w300, color: Colors.white)),
+                child: Visibility(
+                  visible: widget.enabled,
+                  child: Text(
+                      '${dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
+                      style: Theme.of(context).textTheme.headline6?.copyWith(
+                          fontWeight: FontWeight.w300, color: Colors.white)),
+                ),
               )),
             ],
           ),
@@ -320,14 +323,11 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
-                            // hintText:
-                            //     '${dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
-                            // hintStyle: Theme.of(context)
-                            //     .textTheme
-                            //     .headline5
-                            //     ?.copyWith(
-                            //         color: Color(0xFFBCBCBC),
-                            //         fontWeight: FontWeight.w300),
+                            hintText: widget.enabled ? "" : widget.text,
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                ?.copyWith(color: const Color(0xFFBCBCBC)),
                             errorStyle: const TextStyle(height: 0.3),
                             border: InputBorder.none,
                             suffix: _hasFocus &&
@@ -348,8 +348,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                               ?.copyWith(
                                   color: _hasFocus
                                       ? Colors.white
-                                      : const Color(0xFFBCBCBC),
-                                  fontWeight: FontWeight.w600),
+                                      : const Color(0xFFBCBCBC)),
                           inputFormatters: [
                             UI.decimalInputFormatter(widget.balance!.decimals!)!
                           ],
@@ -407,8 +406,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                     widget.enabled &&
                                     (widget.tokenOptions?.length ?? 0) > 0
                                 ? 255
-                                : 127),
-                        fontWeight: FontWeight.w600),
+                                : 127)),
                     trailing: widget.onTokenChange != null &&
                             widget.enabled &&
                             (widget.tokenOptions?.length ?? 0) > 0

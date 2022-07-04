@@ -63,7 +63,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 padding: const EdgeInsets.only(left: 26, right: 25),
                 child: GestureDetector(
                   child: Image.asset(
-                    "packages/polkawallet_ui/assets/images/icon_back_dapp.png",
+                    "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
                     width: 9,
                   ),
                   onTap: () {

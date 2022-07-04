@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class PluginIconButton extends StatelessWidget {
   const PluginIconButton(
-      {Key? key, this.color = Colors.white, this.icon, this.onPressed})
+      {Key? key,
+      this.color = const Color(0x24FFFFFF),
+      this.icon,
+      this.onPressed})
       : super(key: key);
   final Color? color;
   final Widget? icon;
