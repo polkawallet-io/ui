@@ -189,19 +189,25 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                                         fontWeight:
                                                             FontWeight.w600),
                                               ),
-                                              Text(
-                                                '≈\$ ${Fmt.priceFloor(widget.getMarketPrice!(widget.tokenOptions![index]!.symbol ?? '') * Fmt.balanceDouble(widget.tokenOptions![index]!.amount!, widget.tokenOptions![index]!.decimals!), lengthMax: 4)}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline6
-                                                    ?.copyWith(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            UI.getTextSize(
-                                                                10, context),
-                                                        fontWeight:
-                                                            FontWeight.w300),
-                                              ),
+                                              widget.getMarketPrice != null
+                                                  ? Text(
+                                                      '≈\$ ${Fmt.priceFloor(widget.getMarketPrice!(widget.tokenOptions![index]!.symbol ?? '') * Fmt.balanceDouble(widget.tokenOptions![index]!.amount!, widget.tokenOptions![index]!.decimals!), lengthMax: 4)}',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline6
+                                                          ?.copyWith(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: UI
+                                                                  .getTextSize(
+                                                                      10,
+                                                                      context),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w300),
+                                                    )
+                                                  : const SizedBox(
+                                                      height: 0, width: 0),
                                             ],
                                           ),
                                           onTap: () {
