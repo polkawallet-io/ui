@@ -86,12 +86,14 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final txInfo =
         TxInfoData(args.module, args.call, sender, txName: args.txName);
 
-    final fee = await widget.plugin.sdk.api.tx.estimateFees(
-        txInfo, args.params!,
-        rawParam: args.rawParams,
-        jsApi: args.chainFrom == widget.plugin.basic.name
-            ? 'api'
-            : 'xcm.getApi("${args.chainFrom}")');
+    final fee =
+        await widget.plugin.sdk.api.tx.estimateFees(txInfo, args.params!,
+            rawParam: args.rawParams,
+            jsApi: args.isBridge
+                ? 'bridge.getApi("${args.chainFrom}")'
+                : args.chainFrom == widget.plugin.basic.name
+                    ? 'api'
+                    : 'xcm.getApi("${args.chainFrom}")');
     if (mounted) {
       setState(() {
         _fee = fee;
@@ -241,9 +243,11 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     print(param);
 
     return _signAndSend(tx, param!, password,
-        jsApi: args.chainFrom == widget.plugin.basic.name
-            ? 'api'
-            : 'xcm.getApi("${args.chainFrom}")', onStatusChange: (status) {
+        jsApi: args.isBridge
+            ? 'bridge.getApi("${args.chainFrom}")'
+            : args.chainFrom == widget.plugin.basic.name
+                ? 'api'
+                : 'xcm.getApi("${args.chainFrom}")', onStatusChange: (status) {
       if (mounted) {
         final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
         _updateTxStatus(context, dic['tx.$status'] ?? status);
@@ -430,13 +434,17 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                           )),
                                           Visibility(
                                               visible: isNetworkConnected,
-                                              child: Container(
-                                                  height: 44,
-                                                  width: 24,
-                                                  margin:
-                                                      EdgeInsets.only(right: 8),
-                                                  child: args.chainFromIcon ??
-                                                      Container())),
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 10, bottom: 10),
+                                                child: Container(
+                                                    height: 24,
+                                                    width: 24,
+                                                    margin: EdgeInsets.only(
+                                                        right: 8),
+                                                    child: args.chainFromIcon ??
+                                                        Container()),
+                                              )),
                                           !isNetworkConnected
                                               ? Text(
                                                   dic['tx.network.no']!,
@@ -991,6 +999,7 @@ class XcmTxConfirmParams {
       this.txTitle,
       this.txName,
       this.isPlugin = false,
+      this.isBridge = false,
       required this.chainFrom,
       this.chainFromIcon,
       required this.feeToken,
@@ -1009,4 +1018,5 @@ class XcmTxConfirmParams {
   final Widget? chainFromIcon;
   final TokenBalanceData feeToken;
   final Widget? waitingWidget;
+  final bool isBridge;
 }
