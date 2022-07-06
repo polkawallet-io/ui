@@ -60,6 +60,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
     final selected = await showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      barrierColor: const Color(0x24FFFFFF),
       builder: (BuildContext context) {
         var selecIndex = -1;
         return StatefulBuilder(
@@ -71,27 +72,23 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
               ),
-              height: MediaQuery.of(context).size.height -
-                  MediaQuery.of(context).padding.top -
-                  MediaQuery.of(context).padding.bottom -
-                  kToolbarHeight -
-                  200,
+              height: 350,
               width: double.infinity,
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24)),
+                      topLeft: Radius.circular(14),
+                      topRight: Radius.circular(14)),
                 ),
                 child: Column(
                   children: [
                     Container(
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(24),
-                            topRight: Radius.circular(24)),
-                        color: Color(0xFFD8D8D8),
+                            topLeft: Radius.circular(14),
+                            topRight: Radius.circular(14)),
+                        color: Color(0xFF000000),
                       ),
                       height: 48,
                       child: Stack(
@@ -104,7 +101,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                     .headline5
                                     ?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: const Color(0xFF26282D),
+                                        color: const Color(0xFFFFFFFF),
                                         fontSize: UI.getTextSize(18, context))),
                           ),
                           Align(
@@ -117,7 +114,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                   padding: EdgeInsets.only(right: 15),
                                   child: Icon(
                                     Icons.close,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     size: 15,
                                   ),
                                 ),
@@ -127,9 +124,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                     ),
                     Expanded(
                         child: Container(
-                            color: const Color(0xFFBDBEBE),
+                            color: const Color(0xFF313235),
                             padding: const EdgeInsets.only(
-                                top: 35, left: 16, right: 16),
+                                top: 18, left: 16, right: 16),
                             child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: widget.tokenOptions?.length,
@@ -139,11 +136,18 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                   return Container(
                                       margin: const EdgeInsets.only(bottom: 16),
                                       decoration: BoxDecoration(
-                                          color: Color(selecIndex == index
-                                              ? 0x88555555
-                                              : 0x33555555),
+                                          border: selecIndex == index
+                                              ? Border.all(
+                                                  color:
+                                                      const Color(0xFFFF7849),
+                                                  width: 1)
+                                              : const Border(),
+                                          color: selecIndex == index
+                                              ? const Color(0xFFFF7849)
+                                                  .withOpacity(0.09)
+                                              : const Color(0xFF424447),
                                           borderRadius:
-                                              BorderRadius.circular(10)),
+                                              BorderRadius.circular(4)),
                                       child: GestureDetector(
                                         child: ListTile(
                                           title: CurrencyWithIcon(
@@ -154,7 +158,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                             PluginTokenIcon(
                                               symbol,
                                               widget.tokenIconsMap!,
-                                              size: 23,
+                                              size: 24,
                                             ),
                                             textStyle: Theme.of(context)
                                                 .textTheme
