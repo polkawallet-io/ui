@@ -8,8 +8,6 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/webviewWithExtension.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
-import 'package:polkawallet_ui/components/v3/back.dart';
-import 'package:polkawallet_ui/components/v3/iconButton.dart' as v3;
 import 'package:polkawallet_ui/components/v3/plugin/pluginBottomSheetContainer.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginOutlinedButtonSmall.dart';

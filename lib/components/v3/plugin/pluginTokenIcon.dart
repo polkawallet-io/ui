@@ -2,19 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PluginTokenIcon extends StatelessWidget {
-  const PluginTokenIcon(this.id, this.tokenIcons,
-      {Key? key,
-      this.size = 19,
-      this.symbol,
-      this.isHighlighted = true,
-      this.isFold = false})
-      : super(key: key);
+  const PluginTokenIcon(
+    this.id,
+    this.tokenIcons, {
+    Key? key,
+    this.size = 19,
+    this.symbol,
+    this.isHighlighted = true,
+    this.isFold = false,
+    this.bgColor = const Color(0xFFFF7849),
+  }) : super(key: key);
   final String id;
   final String? symbol;
   final Map<String, Widget> tokenIcons;
   final double size;
   final bool isHighlighted;
   final bool isFold;
+  final Color bgColor;
   @override
   Widget build(BuildContext context) {
     if (id.contains('-') && !isFold) {
@@ -23,7 +27,7 @@ class PluginTokenIcon extends StatelessWidget {
         padding: const EdgeInsets.all(1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(size / 2)),
-          color: const Color(0xFFFF7849),
+          color: bgColor,
         ),
         width: size * 2 + 4,
         child: Row(

@@ -341,7 +341,8 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                             errorStyle: const TextStyle(height: 0.3),
                             border: InputBorder.none,
                             suffix: _hasFocus &&
-                                    widget.inputCtrl!.text.isNotEmpty
+                                    widget.inputCtrl!.text.isNotEmpty &&
+                                    widget.onClear != null
                                 ? GestureDetector(
                                     onTap: widget.onClear as void Function()?,
                                     child: Padding(

@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -41,7 +39,7 @@ class TxConfirmPage extends StatefulWidget {
   final Future<Map<dynamic, dynamic>>? txDisabledCalls;
   final Future<String> Function(BuildContext, KeyPairData) getPassword;
 
-  static final String route = '/tx/confirm';
+  static const String route = '/tx/confirm';
 
   @override
   _TxConfirmPageState createState() => _TxConfirmPageState();
@@ -327,9 +325,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final dicAcc = I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!;
 
     final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
-    // final isNetworkMatch = widget.plugin.networkState.genesisHash ==
-    //     widget.plugin.basic.genesisHash;
-    final isNetworkMatch = true;
+    final isNetworkMatch = widget.plugin.networkState.genesisHash ==
+        widget.plugin.basic.genesisHash;
 
     final bool isKusama = widget.plugin.basic.name == 'kusama';
     final String symbol = (widget.plugin.networkState.tokenSymbol ?? [''])[0];
