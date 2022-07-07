@@ -530,6 +530,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
           Container(
             padding: const EdgeInsets.only(top: 12, bottom: 3),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Expanded(
                     child: Column(
@@ -564,7 +565,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                                         padding:
                                             const EdgeInsets.only(right: 4),
                                         child: Icon(Icons.cancel,
-                                            size: 16, color: colorGray)),
+                                            size: 14, color: colorGray)),
                                   )
                                 : null,
                           ),
