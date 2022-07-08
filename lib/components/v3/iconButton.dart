@@ -10,13 +10,15 @@ class IconButton extends StatelessWidget {
       this.onPressed,
       this.bgColor,
       this.iconSize,
-      this.padding})
+      this.padding,
+      this.boxShadow})
       : super(key: key);
 
   final EdgeInsetsGeometry? margin;
   final Widget? icon;
   final double? iconSize;
   final bool isBlueBg;
+  final BoxShadow? boxShadow;
   final Color? bgColor;
   final Function()? onPressed;
   final EdgeInsetsGeometry? padding;
@@ -35,14 +37,7 @@ class IconButton extends StatelessWidget {
                 ? BoxDecoration(
                     color: bgColor,
                     borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(1, 1),
-                        blurRadius: 1,
-                        spreadRadius: 0, //阴影范围
-                        color: Colors.black.withOpacity(0.33), //阴影颜色
-                      ),
-                    ],
+                    boxShadow: boxShadow != null ? [boxShadow!] : [],
                   )
                 : BoxDecoration(
                     image: DecorationImage(

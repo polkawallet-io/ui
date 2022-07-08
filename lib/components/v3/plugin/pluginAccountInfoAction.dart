@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
-import 'package:polkawallet_ui/components/v3/addressIcon.dart';
+import 'package:polkawallet_ui/components/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/index.dart' as v3;
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
@@ -82,9 +82,15 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 7, 0),
-                        child: AddressIcon(widget.keyring.current.address,
-                            svg: widget.keyring.current.icon,
-                            size: widget.itemIconSize ?? 30),
+                        child: AddressIcon(
+                          widget.keyring.current.address,
+                          svg: widget.keyring.current.icon,
+                          size: widget.itemIconSize ?? 30,
+                          borderColor: widget.iconDefaultColor != null
+                              ? Theme.of(context).toggleableActiveColor
+                              : null,
+                          borderWidth: 2,
+                        ),
                       ),
                       Expanded(
                         child: Column(
@@ -124,6 +130,14 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
             icon: v3.IconButton(
               padding: EdgeInsets.zero,
               iconSize: widget.iconSize ?? 30,
+              boxShadow: widget.hasShadow == true
+                  ? BoxShadow(
+                      offset: const Offset(1, 1),
+                      blurRadius: 1,
+                      spreadRadius: 0, //阴影范围
+                      color: Colors.black.withOpacity(0.33), //阴影颜色
+                    )
+                  : null,
               bgColor: _isSelected
                   ? const Color(0xFFFF7849)
                   : widget.iconDefaultColor ?? Color(0x24FFFFFF),
@@ -132,6 +146,10 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                 svg: widget.keyring.current.icon,
                 size: widget.iconSize != null ? widget.iconSize! * 0.7 : 22,
                 tapToCopy: false,
+                borderColor: widget.iconDefaultColor != null
+                    ? Theme.of(context).toggleableActiveColor
+                    : Colors.black,
+                borderWidth: 2,
               ),
             )));
   }

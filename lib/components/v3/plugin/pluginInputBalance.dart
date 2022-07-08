@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/plugin/store/balances.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
-import 'package:polkawallet_ui/components/currencyWithIcon.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginCurrencyWithIcon.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginTextTag.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginTokenIcon.dart';
+import 'package:polkawallet_ui/components/v3/plugin/pluginTokenSelector.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
@@ -13,28 +13,30 @@ import 'package:polkawallet_ui/utils/index.dart';
 enum InputBalanceType { defaultType, swapType }
 
 class PluginInputBalance extends StatefulWidget {
-  const PluginInputBalance(
-      {this.titleTag,
-      Key? key,
-      this.inputCtrl,
-      this.balance,
-      this.tokenIconsMap,
-      this.onTokenChange,
-      this.margin,
-      this.padding,
-      this.onClear,
-      this.onInputChange,
-      this.onSetMax,
-      this.enabled = true,
-      this.tokenBgColor = const Color(0xFFFF7849),
-      this.getMarketPrice,
-      this.tokenSelectTitle,
-      this.tokenOptions,
-      this.tokenViewFunction,
-      this.text,
-      this.type = InputBalanceType.defaultType,
-      this.bgBorderRadius})
-      : super(key: key);
+  const PluginInputBalance({
+    this.titleTag,
+    Key? key,
+    this.inputCtrl,
+    this.balance,
+    this.tokenIconsMap,
+    this.onTokenChange,
+    this.margin,
+    this.padding,
+    this.onClear,
+    this.onInputChange,
+    this.onSetMax,
+    this.enabled = true,
+    this.tokenBgColor = const Color(0xFFFF7849),
+    this.getMarketPrice,
+    this.tokenSelectTitle,
+    this.tokenOptions,
+    this.tokenViewFunction,
+    this.text,
+    this.quickTokenOptions,
+    this.type = InputBalanceType.defaultType,
+    this.bgBorderRadius,
+  }) : super(key: key);
+
   final String? titleTag;
   final TextEditingController? inputCtrl;
   final TokenBalanceData? balance;
@@ -50,6 +52,7 @@ class PluginInputBalance extends StatefulWidget {
   final double Function(String)? getMarketPrice;
   final String? tokenSelectTitle;
   final List<TokenBalanceData?>? tokenOptions;
+  final List<TokenBalanceData?>? quickTokenOptions;
   final bool enabled;
   final String? text; //enabled is false  To be valid
   final InputBalanceType type;
@@ -64,196 +67,21 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
 
   _tokenChangeAction() async {
     final selected = await showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: const Color(0x24FFFFFF),
-      builder: (BuildContext context) {
-        var selecIndex = -1;
-        return StatefulBuilder(
-          builder: (BuildContext context, setBottomSheet) {
-            return Container(
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)),
-              ),
-              height: 350,
-              width: double.infinity,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(14),
-                      topRight: Radius.circular(14)),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(14),
-                            topRight: Radius.circular(14)),
-                        color: Color(0xFF000000),
-                      ),
-                      height: 48,
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(widget.tokenSelectTitle ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xFFFFFFFF),
-                                        fontSize: UI.getTextSize(18, context))),
-                          ),
-                          Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.only(right: 15),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                    size: 15,
-                                  ),
-                                ),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: Container(
-                            color: const Color(0xFF313235),
-                            padding: const EdgeInsets.only(
-                                top: 18, left: 16, right: 16),
-                            child: ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                itemCount: widget.tokenOptions?.length,
-                                itemBuilder: (context, index) {
-                                  final symbol =
-                                      widget.tokenOptions![index]!.symbol!;
-                                  return Container(
-                                      margin: const EdgeInsets.only(bottom: 16),
-                                      decoration: BoxDecoration(
-                                          border: selecIndex == index
-                                              ? Border.all(
-                                                  color:
-                                                      const Color(0xFFFF7849),
-                                                  width: 1)
-                                              : const Border(),
-                                          color: selecIndex == index
-                                              ? const Color(0xFFFF7849)
-                                                  .withOpacity(0.09)
-                                              : const Color(0xFF424447),
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      child: GestureDetector(
-                                        child: ListTile(
-                                          title: CurrencyWithIcon(
-                                            widget.tokenViewFunction != null
-                                                ? widget
-                                                    .tokenViewFunction!(symbol)
-                                                : symbol,
-                                            PluginTokenIcon(
-                                              symbol,
-                                              widget.tokenIconsMap!,
-                                              size: 24,
-                                            ),
-                                            textStyle: Theme.of(context)
-                                                .textTheme
-                                                .headline4
-                                                ?.copyWith(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                          ),
-                                          trailing: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                Fmt.priceFloorBigInt(
-                                                    BigInt.parse(widget
-                                                        .tokenOptions![index]!
-                                                        .amount!),
-                                                    widget.tokenOptions![index]!
-                                                        .decimals!,
-                                                    lengthMax: 4),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline6
-                                                    ?.copyWith(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            UI.getTextSize(
-                                                                14, context),
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                              ),
-                                              widget.getMarketPrice != null
-                                                  ? Text(
-                                                      '≈\$ ${Fmt.priceFloor(widget.getMarketPrice!(widget.tokenOptions![index]!.symbol ?? '') * Fmt.balanceDouble(widget.tokenOptions![index]!.amount!, widget.tokenOptions![index]!.decimals!), lengthMax: 4)}',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline6
-                                                          ?.copyWith(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: UI
-                                                                  .getTextSize(
-                                                                      10,
-                                                                      context),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300),
-                                                    )
-                                                  : const SizedBox(
-                                                      height: 0, width: 0),
-                                            ],
-                                          ),
-                                          onTap: () {
-                                            Navigator.of(context).pop(
-                                                widget.tokenOptions![index]!);
-                                          },
-                                        ),
-                                        onTapDown: (details) {
-                                          debugPrint("onTapDown");
-                                          setBottomSheet(() {
-                                            selecIndex = index;
-                                          });
-                                        },
-                                        onTapUp: (details) {
-                                          debugPrint("onTapUp");
-                                          setBottomSheet(() {
-                                            selecIndex = -1;
-                                          });
-                                        },
-                                        onTapCancel: () {
-                                          debugPrint("onTapCancel");
-                                          setBottomSheet(() {
-                                            selecIndex = -1;
-                                          });
-                                        },
-                                      ));
-                                })))
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-      context: context,
-    );
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        barrierColor: const Color(0x24FFFFFF),
+        builder: (BuildContext context) {
+          return PluginTokenSelector(
+            tokenBgColor: widget.tokenBgColor,
+            tokenSelectTitle: widget.tokenSelectTitle,
+            tokenIconsMap: widget.tokenIconsMap,
+            tokenViewFunction: widget.tokenViewFunction,
+            getMarketPrice: widget.getMarketPrice,
+            tokenOptions: widget.tokenOptions,
+            quickTokenOptions: widget.quickTokenOptions,
+          );
+        },
+        context: context);
     if (selected != null) {
       widget.onTokenChange!(selected as TokenBalanceData);
     }
