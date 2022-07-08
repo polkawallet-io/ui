@@ -319,6 +319,22 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     return value;
   }
 
+  dynamic _formatNumberInParams(dynamic item) {
+    switch (item.runtimeType) {
+      case String:
+        try {
+          final bigInt = BigInt.parse(item);
+          return bigInt.toString();
+        } catch (_) {
+          return item;
+        }
+      case List:
+        return List.of(item).map((e) => _formatNumberInParams(e)).toList();
+      default:
+        return item;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
@@ -334,6 +350,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+    final List? params = _formatNumberInParams(args.params);
 
     final bool isObservation = widget.keyring.current.observation ?? false;
     final bool isProxyObservation =
@@ -521,7 +538,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 _updateKUSD(args.rawParams != null
                                     ? args.rawParams!
                                     : JsonEncoder.withIndent('  ')
-                                        .convert(args.params)),
+                                        .convert(params)),
                                 style: TextStyle(
                                     fontSize: UI.getTextSize(14, context),
                                     color: Colors.white),
@@ -835,7 +852,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                               _updateKUSD(args.rawParams != null
                                   ? args.rawParams!
                                   : JsonEncoder.withIndent('  ')
-                                      .convert(args.params)),
+                                      .convert(params)),
                               style: TextStyle(
                                   fontSize: UI.getTextSize(14, context)),
                             ),
