@@ -41,7 +41,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
   bool _loading = true;
   bool _signing = false;
 
-  final bool _isWillClose = false;
+  bool _isWillClose = false;
 
   Widget _buildScaffold(
       {Function? onBack, Widget? body, Function()? actionOnPressed}) {
@@ -74,6 +74,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 width: 14,
               ),
               onTap: () {
+                _isWillClose = true;
                 onBack!();
               },
             ),
