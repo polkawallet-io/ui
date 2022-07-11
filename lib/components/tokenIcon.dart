@@ -33,7 +33,6 @@ class TokenIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(size / 2),
         child: tokenIcons[id.toUpperCase()] != null
             ? Container(
-                color: Theme.of(context).dividerColor,
                 child: tokenIcons[id.toUpperCase()],
               )
             : CircleAvatar(
