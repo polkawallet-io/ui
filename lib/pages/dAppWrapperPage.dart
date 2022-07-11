@@ -75,7 +75,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               ),
               onTap: () {
                 _isWillClose = true;
-                onBack!();
+                Navigator.of(context).pop();
               },
             ),
           ],

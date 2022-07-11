@@ -439,6 +439,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                               )))
                     ])),
                 GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: widget.onTokenChange != null &&
                           widget.enabled &&
                           (widget.tokenOptions?.length ?? 0) > 0
