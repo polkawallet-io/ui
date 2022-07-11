@@ -53,9 +53,9 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
       height: 550,
       width: double.infinity,
       child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          color: Color(0xFF313235),
+          borderRadius: BorderRadius.only(
               topLeft: Radius.circular(14), topRight: Radius.circular(14)),
         ),
         child: Column(
