@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class RoundedCard extends StatelessWidget {
   const RoundedCard(
@@ -18,26 +19,59 @@ class RoundedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: margin,
-      padding: padding,
-      decoration: BoxDecoration(
-        border: border,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        color: color ?? Theme.of(context).cardColor,
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x24000000),
-            blurRadius: 1.0, // has the effect of softening the shadow
-            spreadRadius: 0.0, // has the effect of extending the shadow
-            offset: Offset(
-              1.0, // horizontal, move right 10
-              1.0, // vertical, move down 10
+    return UI.isDarkTheme(context)
+        ? Container(
+            margin: margin,
+            padding: const EdgeInsets.all(0.7),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0x6EFFFFFF),
+                  Color(0x50FFFFFF),
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x3D000000),
+                  blurRadius: 1.0, // has the effect of softening the shadow
+                  spreadRadius: 0.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    0.5, // horizontal, move right 10
+                    0.5, // vertical, move down 10
+                  ),
+                )
+              ],
             ),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                    padding: padding,
+                    color: color ?? Theme.of(context).cardColor,
+                    child: child)),
           )
-        ],
-      ),
-      child: child,
-    );
+        : Container(
+            margin: margin,
+            padding: padding,
+            decoration: BoxDecoration(
+              border: border,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              color: color ?? Theme.of(context).cardColor,
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x24000000),
+                  blurRadius: 1.0, // has the effect of softening the shadow
+                  spreadRadius: 0.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    1.0, // horizontal, move right 10
+                    1.0, // vertical, move down 10
+                  ),
+                )
+              ],
+            ),
+            child: child,
+          );
   }
 }

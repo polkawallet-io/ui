@@ -75,11 +75,11 @@ class _MetaHubPageState extends State<MetaHubPage>
                       MediaQuery.of(context).padding.top -
                       MediaQuery.of(context).padding.bottom) /
                   2,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                      'packages/polkawallet_ui/assets/images/door_top.png'),
+                      "packages/polkawallet_ui/assets/images/door_top${UI.isDarkTheme(context) ? "_dark" : ""}.png"),
                 ),
               ),
               alignment: Alignment.bottomCenter,
@@ -108,7 +108,7 @@ class _MetaHubPageState extends State<MetaHubPage>
             heightFactor: 1 - animationNumber,
             alignment: Alignment.topCenter,
             child: Image.asset(
-              'packages/polkawallet_ui/assets/images/door_bottom.png',
+              'packages/polkawallet_ui/assets/images/door_bottom${UI.isDarkTheme(context) ? "_dark" : ""}.png',
               width: double.infinity,
               fit: BoxFit.cover,
             )));

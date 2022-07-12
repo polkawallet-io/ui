@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class IconButton extends StatelessWidget {
   const IconButton(
@@ -42,8 +43,8 @@ class IconButton extends StatelessWidget {
                 : BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(!isBlueBg
-                            ? "packages/polkawallet_ui/assets/images/icon_bg_grey.png"
-                            : "packages/polkawallet_ui/assets/images/icon_bg_blue.png"),
+                            ? "packages/polkawallet_ui/assets/images/icon_bg_grey${UI.isDarkTheme(context) ? "_dark" : ""}.png"
+                            : "packages/polkawallet_ui/assets/images/icon_bg_blue${UI.isDarkTheme(context) ? "_dark" : ""}.png"),
                         fit: BoxFit.fill)),
             child: Center(
               child: icon,

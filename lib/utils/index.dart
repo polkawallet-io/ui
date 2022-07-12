@@ -170,4 +170,9 @@ class UI {
             : fontFamilyEn;
     return fontFamilyLocale;
   }
+
+  static bool isDarkTheme(BuildContext context) {
+    return Theme.of(context).scaffoldBackgroundColor.value ==
+        const Color(0xFF242528).value;
+  }
 }

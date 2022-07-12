@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide IconButton;
 import 'package:polkawallet_ui/components/v3/iconButton.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class BackBtn extends StatelessWidget {
   const BackBtn({this.onBack, this.margin, Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class BackBtn extends StatelessWidget {
       child: Center(
           child: IconButton(
         icon: Image.asset(
-          "packages/polkawallet_ui/assets/images/icon_back.png",
+          "packages/polkawallet_ui/assets/images/icon_back${UI.isDarkTheme(context) ? "_plugin" : ""}.png",
           width: 8,
         ),
       )),
