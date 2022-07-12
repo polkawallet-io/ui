@@ -22,15 +22,15 @@ class RoundedCard extends StatelessWidget {
     return UI.isDarkTheme(context)
         ? Container(
             margin: margin,
-            padding: const EdgeInsets.all(0.7),
+            padding: const EdgeInsets.all(0.75),
             decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0x6EFFFFFF),
-                  Color(0x50FFFFFF),
+                  Color(0x43FFFFFF),
+                  Color(0x21FFFFFF),
                 ],
               ),
               boxShadow: [
@@ -46,7 +46,7 @@ class RoundedCard extends StatelessWidget {
               ],
             ),
             child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
                 child: Container(
                     padding: padding,
                     color: color ?? Theme.of(context).cardColor,
@@ -57,7 +57,7 @@ class RoundedCard extends StatelessWidget {
             padding: padding,
             decoration: BoxDecoration(
               border: border,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
               color: color ?? Theme.of(context).cardColor,
               boxShadow: const [
                 BoxShadow(

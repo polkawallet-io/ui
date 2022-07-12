@@ -315,6 +315,13 @@ class TextFormField extends FormField<String> {
                     .copyWith(color: Theme.of(field.context).errorColor);
             final labelStyle = effectiveDecoration.labelStyle ??
                 Theme.of(field.context).textTheme.bodyText1;
+            style = style ??
+                TextStyle(
+                    fontSize: UI.getTextSize(16, field.context),
+                    fontFamily: UI.getFontFamily('TitilliumWeb', field.context),
+                    color: UI.isDarkTheme(field.context)
+                        ? Colors.white
+                        : const Color(0x77565554));
             return UnmanagedRestorationScope(
                 bucket: field.bucket,
                 child: Column(
@@ -373,7 +380,9 @@ class TextFormField extends FormField<String> {
                                               UI.getTextSize(16, field.context),
                                           fontFamily: UI.getFontFamily(
                                               'TitilliumWeb', field.context),
-                                          color: const Color(0x77565554)),
+                                          color: UI.isDarkTheme(field.context)
+                                              ? Colors.white.withAlpha(125)
+                                              : const Color(0x77565554)),
                                       suffix: null,
                                       suffixIcon: null),
                                   keyboardType: keyboardType,

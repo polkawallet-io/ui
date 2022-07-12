@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class Button extends StatelessWidget {
   const Button(
@@ -84,16 +85,16 @@ class BgContainer extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_left.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_left${UI.isDarkTheme(context) ? "_dark" : ""}.png",
                   fit: BoxFit.fill,
                 ),
                 Expanded(
                     child: Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_center.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_center${UI.isDarkTheme(context) ? "_dark" : ""}.png",
                   fit: BoxFit.fill,
                 )),
                 Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_right.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_right${UI.isDarkTheme(context) ? "_dark" : ""}.png",
                   fit: BoxFit.fill,
                 ),
               ],
