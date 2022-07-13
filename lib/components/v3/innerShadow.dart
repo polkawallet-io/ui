@@ -31,7 +31,11 @@ class InnerShadowBGCar extends StatelessWidget {
                       ? const Color(0x52000000)
                       : const Color(0x19FFFFFF),
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  border: Border.all(color: const Color(0x66FFFFFF), width: 1)),
+                  border: Border.all(
+                      color: isWhite
+                          ? const Color(0x66FFFFFF)
+                          : const Color(0x33FFFFFF),
+                      width: 0.75)),
               child: child,
             )
           : Column(

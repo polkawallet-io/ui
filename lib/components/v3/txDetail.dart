@@ -56,12 +56,12 @@ class TxDetail extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.only(top: 31),
                 child: Image.asset(
-                  'packages/polkawallet_ui/assets/images/bg_detail.png',
+                  'packages/polkawallet_ui/assets/images/bg_detail${UI.isDarkTheme(context) ? "_dark" : ""}.png',
                   width: double.infinity,
                   fit: BoxFit.fill,
                 )),
             Image.asset(
-                'packages/polkawallet_ui/assets/images/bg_detail_circle.png',
+                'packages/polkawallet_ui/assets/images/bg_detail_circle${UI.isDarkTheme(context) ? "_dark" : ""}.png',
                 width: 90,
                 fit: BoxFit.contain),
             Padding(
@@ -176,7 +176,7 @@ class TxDetail extends StatelessWidget {
           icon: SvgPicture.asset(
             "packages/polkawallet_ui/assets/images/icon_share.svg",
             width: 24,
-            color: Colors.white,
+            color: Theme.of(context).textTheme.button?.color,
           ),
         ));
     if (pnLink != null) {
@@ -188,7 +188,8 @@ class TxDetail extends StatelessWidget {
                   child: Button(
                 title: 'Subscan',
                 isBlueBg: false,
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.headline3?.copyWith(
+                    color: Theme.of(context).textTheme.button?.color),
                 onPressed: () async {
                   await UI.launchURL(snLink);
                 },
@@ -197,7 +198,7 @@ class TxDetail extends StatelessWidget {
                     child: SvgPicture.asset(
                       "packages/polkawallet_ui/assets/images/icon_share.svg",
                       width: 24,
-                      color: Theme.of(context).disabledColor,
+                      color: Theme.of(context).textTheme.button?.color,
                     )),
               )),
               Container(width: 30),
@@ -207,7 +208,9 @@ class TxDetail extends StatelessWidget {
                 style: TextStyle(
                     fontSize: UI.getTextSize(20, context),
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: UI.isDarkTheme(context)
+                        ? Theme.of(context).textTheme.button?.color
+                        : Colors.white,
                     fontFamily: UI.getFontFamily('TitilliumWeb', context)),
                 isBlueBg: true,
                 onPressed: () async {
@@ -218,7 +221,9 @@ class TxDetail extends StatelessWidget {
                     child: SvgPicture.asset(
                       "packages/polkawallet_ui/assets/images/icon_share.svg",
                       width: 24,
-                      color: Colors.white,
+                      color: UI.isDarkTheme(context)
+                          ? Theme.of(context).textTheme.button?.color
+                          : Colors.white,
                     )),
               ))
             ],

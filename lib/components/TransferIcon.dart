@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 enum TransferIconType {
   rollIn,
@@ -46,7 +47,8 @@ class TransferIcon extends StatelessWidget {
           height: double.infinity,
           padding: EdgeInsets.all(4.r),
           decoration: BoxDecoration(
-              color: bgColor,
+              color:
+                  UI.isDarkTheme(context) ? const Color(0xFF494a4c) : bgColor,
               borderRadius: BorderRadius.all(Radius.circular(8.r))),
           child: SvgPicture.asset(
             getIconImage(type),

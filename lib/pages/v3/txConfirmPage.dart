@@ -644,9 +644,14 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                     .textTheme
                                     .button
                                     ?.copyWith(
-                                        color: Theme.of(context)
-                                            .textSelectionTheme
-                                            .selectionColor),
+                                        color: UI.isDarkTheme(context)
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .button
+                                                ?.color
+                                            : Theme.of(context)
+                                                .textSelectionTheme
+                                                .selectionColor),
                                 title: dic['cancel']!,
                                 backgroundColor: Colors.white,
                                 onPressed: () {
@@ -953,9 +958,14 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   .textTheme
                                   .button
                                   ?.copyWith(
-                                      color: Theme.of(context)
-                                          .textSelectionTheme
-                                          .selectionColor),
+                                      color: UI.isDarkTheme(context)
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              ?.color
+                                          : Theme.of(context)
+                                              .textSelectionTheme
+                                              .selectionColor),
                               title: dic['cancel']!,
                               isBlueBg: false,
                               onPressed: () {

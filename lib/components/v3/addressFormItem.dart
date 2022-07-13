@@ -35,46 +35,56 @@ class AddressFormItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final grey = Theme.of(context).unselectedWidgetColor;
-    final child = Row(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left: 4, right: imageRight),
-          child: AddressIcon(
-            account!.address,
-            svg: svg ?? account!.icon,
-            size: 32,
-            tapToCopy: false,
+    final child = Stack(children: [
+      Row(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(left: 4, right: imageRight),
+            child: AddressIcon(
+              account!.address,
+              svg: svg ?? account!.icon,
+              size: 32,
+              tapToCopy: false,
+            ),
           ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                UI.accountName(context, account!),
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              Visibility(
-                  visible: isShowSubtitle,
-                  child: Text(
-                    Fmt.address(account!.address),
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        color: color ?? grey,
-                        fontSize: UI.getTextSize(10, context)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  UI.accountName(context, account!),
+                  style: Theme.of(context).textTheme.headline5
+                    ?..color?.withAlpha(255),
+                ),
+                Visibility(
+                    visible: isShowSubtitle,
+                    child: Text(
+                      Fmt.address(account!.address),
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          color: color ?? grey,
+                          fontSize: UI.getTextSize(10, context)),
+                    ))
+              ],
+            ),
+          ),
+          Visibility(
+              visible: rightIcon != null || onTap != null,
+              child: rightIcon ??
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
+                    color: color ?? grey,
                   ))
-            ],
-          ),
-        ),
-        Visibility(
-            visible: rightIcon != null || onTap != null,
-            child: rightIcon ??
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 18,
-                  color: color ?? grey,
-                ))
-      ],
-    );
+        ],
+      ),
+      Visibility(
+          visible: isGreyBg && UI.isDarkTheme(context),
+          child: Container(
+            height: 32,
+            width: double.infinity,
+            color: const Color(0x593A3B3F),
+          ))
+    ]);
 
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
