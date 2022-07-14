@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginInputItem.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 
 class PluginTextFormField extends StatelessWidget {
   const PluginTextFormField(
@@ -32,20 +33,26 @@ class PluginTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return PluginInputItem(
       label: label,
+      bgColor: (focusNode?.hasFocus ?? false)
+          ? Color(0x3DFFFFFF)
+          : Color(0x1AFFFFFF),
       child: Container(
         padding: padding,
         child: TextFormField(
           decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: hintText,
-            hintStyle: Theme.of(context).textTheme.headline5?.copyWith(
-                color: const Color(0xFFBCBCBC), fontWeight: FontWeight.w300),
+            contentPadding: EdgeInsets.only(left: 8, top: 16, right: 8),
             suffixIcon: suffix,
+            hintText: hintText,
+            errorStyle: Theme.of(context)
+                .textTheme
+                .headline5!
+                .copyWith(color: PluginColorsDark.primary, height: 0.8),
           ),
           style: Theme.of(context)
               .textTheme
               .headline4
-              ?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+              ?.copyWith(color: Colors.white),
           inputFormatters: inputFormatters,
           controller: controller,
           keyboardType: keyboardType,

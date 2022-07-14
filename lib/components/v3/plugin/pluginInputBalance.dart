@@ -142,8 +142,9 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             ],
           ),
           Container(
+            height: 48,
             padding:
-                const EdgeInsets.only(left: 16, right: 12, top: 12, bottom: 12),
+                const EdgeInsets.only(left: 8, right: 12, top: 14, bottom: 12),
             decoration: BoxDecoration(
                 color: Color(_hasFocus ? 0x3DFFFFFF : 0x1AFFFFFF),
                 borderRadius: BorderRadius.only(
@@ -165,7 +166,6 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                         },
                         child: TextFormField(
                           scrollPadding: EdgeInsets.zero,
-                          cursorColor: Colors.blue,
                           enabled: widget.enabled,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,
@@ -372,7 +372,6 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                         },
                         child: TextFormField(
                           scrollPadding: EdgeInsets.zero,
-                          cursorColor: Colors.blue,
                           enabled: widget.enabled,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,

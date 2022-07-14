@@ -317,11 +317,9 @@ class TextFormField extends FormField<String> {
                 Theme.of(field.context).textTheme.bodyText1;
             style = style ??
                 TextStyle(
-                    fontSize: UI.getTextSize(16, field.context),
+                    fontSize: 16,
                     fontFamily: UI.getFontFamily('TitilliumWeb', field.context),
-                    color: UI.isDarkTheme(field.context)
-                        ? Colors.white
-                        : const Color(0x77565554));
+                    color: Theme.of(field.context).textTheme.headline2?.color);
             return UnmanagedRestorationScope(
                 bucket: field.bucket,
                 child: Column(

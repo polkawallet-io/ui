@@ -36,9 +36,9 @@ class PluginInputItem extends StatelessWidget {
             children: [
               Container(
                 width: double.infinity,
-                height: bgHeight ?? 52,
+                height: bgHeight ?? 48,
                 decoration: BoxDecoration(
-                    color: bgColor ?? const Color(0x24FFFFFF),
+                    color: bgColor ?? const Color(0x1AFFFFFF),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(label == null ? 4 : 0),
                         bottomLeft: const Radius.circular(4),
