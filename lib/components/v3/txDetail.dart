@@ -54,7 +54,8 @@ class TxDetail extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             Padding(
-                padding: const EdgeInsets.only(top: 31),
+                padding:
+                    EdgeInsets.only(top: UI.isDarkTheme(context) ? 30 : 31),
                 child: Image.asset(
                   'packages/polkawallet_ui/assets/images/bg_detail${UI.isDarkTheme(context) ? "_dark" : ""}.png',
                   width: double.infinity,
@@ -92,7 +93,9 @@ class TxDetail extends StatelessWidget {
                           '$action ${success! ? dic!['success'] : dic!['fail']}',
                           style: TextStyle(
                             color: success!
-                                ? const Color(0xFF22BC5A)
+                                ? UI.isDarkTheme(context)
+                                    ? const Color(0xFF82FF99)
+                                    : const Color(0xFF22BC5A)
                                 : Theme.of(context).disabledColor,
                             fontSize: UI.getTextSize(14, context),
                             fontFamily:
@@ -241,7 +244,7 @@ class TxDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(dic['detail']!),
         centerTitle: true,
-        leading: BackBtn(),
+        leading: const BackBtn(),
       ),
       body: SafeArea(
         child: ListView(
@@ -288,7 +291,7 @@ class TxDetailItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Image.asset(
-                          'packages/polkawallet_ui/assets/images/copy.png',
+                          'packages/polkawallet_ui/assets/images/copy${UI.isDarkTheme(context) ? "_dark" : ""}.png',
                           width: 16,
                         ),
                       ),

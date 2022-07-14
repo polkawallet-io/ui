@@ -9,7 +9,8 @@ class RoundedCard extends StatelessWidget {
       this.child,
       Key? key,
       this.color,
-      this.radius})
+      this.radius,
+      this.borderWidth})
       : super(key: key);
 
   final BoxBorder? border;
@@ -18,13 +19,14 @@ class RoundedCard extends StatelessWidget {
   final Widget? child;
   final Color? color;
   final double? radius;
+  final double? borderWidth;
 
   @override
   Widget build(BuildContext context) {
     return UI.isDarkTheme(context)
         ? Container(
             margin: margin,
-            padding: const EdgeInsets.all(0.75),
+            padding: EdgeInsets.all(borderWidth ?? 0.75),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(radius ?? 8)),
               gradient: const LinearGradient(

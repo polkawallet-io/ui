@@ -30,7 +30,10 @@ class IconButton extends StatelessWidget {
       child: GestureDetector(
           onTap: onPressed,
           child: Container(
-            padding: padding ?? const EdgeInsets.only(right: 2, bottom: 1),
+            padding: padding ??
+                (UI.isDarkTheme(context)
+                    ? EdgeInsets.zero
+                    : const EdgeInsets.only(right: 2, bottom: 1)),
             margin: margin,
             width: iconSize ?? 32.h,
             height: iconSize ?? 32.h,

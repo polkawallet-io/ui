@@ -52,6 +52,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
   Widget build(BuildContext context) {
     return Focus(
         onFocusChange: (hasFocus) async {
+          print("onFocusChange===");
           setState(() {
             this.hasFocus = hasFocus;
           });

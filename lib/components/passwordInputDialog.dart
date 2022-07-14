@@ -98,7 +98,14 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
                     controller: _passCtrl,
                     obscureText: true,
                     clearButtonMode: OverlayVisibilityMode.editing,
-                  ),
+                    placeholderStyle: const TextStyle(
+                        fontWeight: FontWeight.w400, color: Color(0xFF565554)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5.0)),
+                        border: Border.all(
+                            color: const Color(0xFFD4D4D4), width: 0.5))),
           ),
         ],
       ),

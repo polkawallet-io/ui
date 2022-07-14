@@ -90,12 +90,15 @@ class PolkawalletAlertDialog extends StatelessWidget {
 
     if (actions.isNotEmpty) {
       children.add(Padding(
-          padding: EdgeInsets.only(
-            top: content != null ? 0.0 : 22.0,
+          padding: const EdgeInsets.only(
+            top: 10.0,
           ),
           child: Column(
             children: [
-              const Divider(height: 1),
+              const Divider(
+                height: 1,
+                color: Color(0xFFD4D4D4),
+              ),
               Row(
                 children: [
                   ...actions.map((e) {
@@ -114,9 +117,10 @@ class PolkawalletAlertDialog extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 1),
                                 child: Container(
-                                    width: 0.5,
-                                    height: 45,
-                                    color: Theme.of(context).dividerColor),
+                                  width: 0.5,
+                                  height: 45,
+                                  color: const Color(0xFFD4D4D4),
+                                ),
                               ),
                               Expanded(
                                   child: DefaultTextStyle(
