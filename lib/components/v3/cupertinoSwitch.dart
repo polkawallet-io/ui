@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 import 'package:flutter/src/cupertino/switch.dart' as system;
 
@@ -17,17 +16,20 @@ class CupertinoSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return UI.isDarkTheme(context)
-        ? SizedBox(
-            width: 36,
+        ? Container(
+            height: 26,
+            width: 26 / 44.0 * 72,
+            padding: EdgeInsets.zero,
             child: FittedBox(
+                fit: BoxFit.fill,
                 child: system.CupertinoSwitch(
-              value: value,
-              onChanged: onChanged,
-              activeColor: Theme.of(context).errorColor,
-              trackColor: Theme.of(context).scaffoldBackgroundColor,
-              thumbColor:
-                  value ? const Color(0xFFD4D4D4) : const Color(0x80FFFFFF),
-            )),
+                  value: value,
+                  onChanged: onChanged,
+                  activeColor: Theme.of(context).errorColor,
+                  trackColor: Theme.of(context).scaffoldBackgroundColor,
+                  thumbColor:
+                      value ? const Color(0xFFD4D4D4) : const Color(0x80FFFFFF),
+                )),
           )
         : GestureDetector(
             onTap: () {
@@ -35,7 +37,7 @@ class CupertinoSwitch extends StatelessWidget {
             },
             child: Image.asset(
               "packages/polkawallet_ui/assets/images/${isPlugin ? 'plugin_' : ''}switch_${value ? 'open' : 'close'}.png",
-              width: 36,
+              height: 26,
             ),
           );
   }

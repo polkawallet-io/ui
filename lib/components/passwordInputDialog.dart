@@ -124,7 +124,8 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
             children: [
               Visibility(
                   visible: _submitting,
-                  child: const CupertinoActivityIndicator()),
+                  child: const CupertinoActivityIndicator(
+                      color: const Color(0xFF3C3C44))),
               Text(dic['ok']!)
             ],
           ),
