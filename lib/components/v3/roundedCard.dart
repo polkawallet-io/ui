@@ -8,7 +8,8 @@ class RoundedCard extends StatelessWidget {
       this.padding,
       this.child,
       Key? key,
-      this.color})
+      this.color,
+      this.radius})
       : super(key: key);
 
   final BoxBorder? border;
@@ -16,6 +17,7 @@ class RoundedCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Widget? child;
   final Color? color;
+  final double? radius;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,9 @@ class RoundedCard extends StatelessWidget {
         ? Container(
             margin: margin,
             padding: const EdgeInsets.all(0.75),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              gradient: LinearGradient(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(radius ?? 8)),
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -33,7 +35,7 @@ class RoundedCard extends StatelessWidget {
                   Color(0x21FFFFFF),
                 ],
               ),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Color(0x3D000000),
                   blurRadius: 1.0, // has the effect of softening the shadow
@@ -46,7 +48,7 @@ class RoundedCard extends StatelessWidget {
               ],
             ),
             child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(radius ?? 8),
                 child: Container(
                     padding: padding,
                     color: color ?? Theme.of(context).cardColor,
@@ -57,7 +59,7 @@ class RoundedCard extends StatelessWidget {
             padding: padding,
             decoration: BoxDecoration(
               border: border,
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              borderRadius: BorderRadius.all(Radius.circular(radius ?? 8)),
               color: color ?? Theme.of(context).cardColor,
               boxShadow: const [
                 BoxShadow(
