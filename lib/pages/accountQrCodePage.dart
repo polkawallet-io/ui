@@ -48,8 +48,13 @@ class AccountQrCodePage extends StatelessWidget {
                       visible: keyring.current.observation ?? false,
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        child: TextTag(dic['warn.external'],
-                            color: Theme.of(context).errorColor),
+                        child: Text(dic['warn.external']!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                ?.copyWith(
+                                    fontSize: UI.getTextSize(10, context),
+                                    color: Theme.of(context).errorColor)),
                       )),
                   Padding(
                     padding: EdgeInsets.only(
@@ -79,6 +84,8 @@ class AccountQrCodePage extends StatelessWidget {
                     child: QrImage(
                       data: codeAddress,
                       size: qrWidth + 24,
+                      foregroundColor:
+                          Theme.of(context).textTheme.headline1?.color,
                       embeddedImage: const AssetImage(
                           'packages/polkawallet_ui/assets/images/app.png'),
                       embeddedImageStyle: QrEmbeddedImageStyle(
@@ -107,7 +114,7 @@ class AccountQrCodePage extends StatelessWidget {
                           fontSize: UI.getTextSize(22, context),
                           fontFamily: UI.getFontFamily('TitilliumWeb', context),
                           fontWeight: FontWeight.w600,
-                          color: Colors.white),
+                          color: Theme.of(context).textTheme.button?.color),
                       onPressed: () =>
                           UI.copyAndNotify(context, keyring.current.address),
                     ),
