@@ -140,7 +140,11 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                   : null,
               bgColor: _isSelected
                   ? const Color(0xFFFF7849)
-                  : widget.iconDefaultColor ?? Color(0x24FFFFFF),
+                  : widget.iconDefaultColor != null
+                      ? (UI.isDarkTheme(context)
+                          ? const Color(0xFF818181)
+                          : widget.iconDefaultColor)
+                      : const Color(0x24FFFFFF),
               icon: AddressIcon(
                 widget.keyring.current.address,
                 svg: widget.keyring.current.icon,
