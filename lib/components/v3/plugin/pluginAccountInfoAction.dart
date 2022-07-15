@@ -142,7 +142,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                   ? const Color(0xFFFF7849)
                   : widget.iconDefaultColor != null
                       ? (UI.isDarkTheme(context)
-                          ? const Color(0xFF818181)
+                          ? Theme.of(context).toggleableActiveColor
                           : widget.iconDefaultColor)
                       : const Color(0x24FFFFFF),
               icon: AddressIcon(

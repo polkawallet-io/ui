@@ -35,8 +35,8 @@ class IconButton extends StatelessWidget {
                     ? EdgeInsets.zero
                     : const EdgeInsets.only(right: 2, bottom: 1)),
             margin: margin,
-            width: iconSize ?? 32.h,
-            height: iconSize ?? 32.h,
+            width: iconSize ?? 32,
+            height: iconSize ?? 32,
             decoration: bgColor != null
                 ? BoxDecoration(
                     color: bgColor,
