@@ -152,7 +152,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                 tapToCopy: false,
                 borderColor: widget.iconDefaultColor != null
                     ? Theme.of(context).toggleableActiveColor
-                    : Colors.black,
+                    : const Color(0xFF212224),
                 borderWidth: 2,
               ),
             )));
