@@ -15,7 +15,7 @@ class CupertinoSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return UI.isDarkTheme(context)
+    return UI.isDarkTheme(context) && !isPlugin
         ? Container(
             height: 26,
             width: 26 / 44.0 * 72,
