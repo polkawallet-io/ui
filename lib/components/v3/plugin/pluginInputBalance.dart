@@ -142,7 +142,6 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
             ],
           ),
           Container(
-            height: 48,
             padding:
                 const EdgeInsets.only(left: 8, right: 12, top: 14, bottom: 12),
             decoration: BoxDecoration(
