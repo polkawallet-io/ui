@@ -152,9 +152,9 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                 tapToCopy: false,
                 borderColor: widget.iconDefaultColor != null
                     ? (UI.isDarkTheme(context)
-                        ? const Color(0xFF212224)
+                        ? const Color(0xFF242528)
                         : Theme.of(context).toggleableActiveColor)
-                    : const Color(0xFF212224),
+                    : const Color(0xFF242528),
                 borderWidth: 2,
               ),
             )));

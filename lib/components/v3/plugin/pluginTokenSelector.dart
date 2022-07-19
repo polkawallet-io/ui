@@ -99,9 +99,9 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
             Container(
                 color: const Color(0xFF313235),
                 padding: const EdgeInsets.only(
-                    top: 16, left: 16, right: 16, bottom: 12),
+                    top: 16, left: 16, right: 16, bottom: 10),
                 alignment: Alignment.center,
-                height: 55,
+                height: 56,
                 child: Stack(
                   children: [
                     Align(
@@ -109,7 +109,6 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
                             color: const Color(0xFF424447)),
-                        height: 30,
                       ),
                     ),
                     Align(
