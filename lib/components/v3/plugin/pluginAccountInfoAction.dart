@@ -53,7 +53,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
             iconSize: widget.iconSize ?? 30,
             offset: widget.offset ?? const Offset(-10, 52),
             itemWidth: widget.itemWidth ?? 160,
-            color: Theme.of(context).cardColor,
+            color: Colors.white,
             padding: widget.padding ?? EdgeInsets.zero,
             elevation: widget.elevation ?? 3,
             shape: widget.shape ??
@@ -104,6 +104,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                                 maxLines: 1,
                                 style: widget.nameStyle ??
                                     TextStyle(
+                                        color: Colors.black,
                                         height: 1,
                                         fontFamily: "Titillium Web SemiBold",
                                         fontSize: UI.getTextSize(14, context)),
@@ -115,6 +116,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                               maxLines: 1,
                               style: widget.addressStyle ??
                                   TextStyle(
+                                      color: Colors.black,
                                       height: 1,
                                       fontFamily: "Titillium Web Regular",
                                       fontSize: UI.getTextSize(10, context)),
