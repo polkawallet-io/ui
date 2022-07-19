@@ -151,7 +151,9 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                 size: widget.iconSize != null ? widget.iconSize! * 0.7 : 22,
                 tapToCopy: false,
                 borderColor: widget.iconDefaultColor != null
-                    ? Theme.of(context).toggleableActiveColor
+                    ? (UI.isDarkTheme(context)
+                        ? const Color(0xFF212224)
+                        : Theme.of(context).toggleableActiveColor)
                     : const Color(0xFF212224),
                 borderWidth: 2,
               ),
