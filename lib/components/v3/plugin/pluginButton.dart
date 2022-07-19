@@ -138,7 +138,7 @@ class BgContainer extends StatelessWidget {
                                     backgroundColor ?? PluginColorsDark.primary,
                                 shape: const BeveledRectangleBorder(
                                     borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(15))),
+                                        topRight: Radius.circular(5))),
                               ),
                             )),
                             Expanded(

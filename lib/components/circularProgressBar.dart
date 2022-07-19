@@ -7,6 +7,7 @@ class AnimationCircularProgressBar extends StatefulWidget {
       {required this.lineColor,
       required this.width,
       required this.progress,
+      this.bgWidth,
       this.size = 96,
       this.startAngle = pi / 2,
       this.bgColor = Colors.transparent,
@@ -16,6 +17,7 @@ class AnimationCircularProgressBar extends StatefulWidget {
   final double size;
   List<Color> lineColor;
   double width;
+  double? bgWidth;
   double startAngle;
   Color bgColor;
 
@@ -63,6 +65,7 @@ class AnimationCircularProgressBarState
         painter: CircularProgressBar(
             startAngle: widget.startAngle,
             width: widget.width,
+            bgWidth: widget.bgWidth,
             lineColor: widget.lineColor,
             progress: controller != null && controller!.isAnimating
                 ? animationNumber
@@ -76,6 +79,7 @@ class AnimationCircularProgressBarState
 class CircularProgressBar extends CustomPainter {
   List<Color> lineColor;
   double width;
+  double? bgWidth;
   double progress; //0-1
   late double endAngle;
   double startAngle;
@@ -84,6 +88,7 @@ class CircularProgressBar extends CustomPainter {
   CircularProgressBar(
       {required this.lineColor,
       required this.width,
+      this.bgWidth,
       this.progress = 1,
       this.startAngle = pi / 2,
       this.bgColor = Colors.transparent}) {
@@ -118,7 +123,7 @@ class CircularProgressBar extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..color = bgColor
       ..isAntiAlias = true
-      ..strokeWidth = width;
+      ..strokeWidth = bgWidth ?? width;
 
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), 0, 2 * pi,
         false, bgpaint);
