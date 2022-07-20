@@ -12,6 +12,7 @@ class Button extends StatelessWidget {
       this.submitting = false,
       this.isBlueBg = true,
       this.height,
+      this.isDarkTheme = false,
       this.child})
       : super(key: key);
   final Function()? onPressed;
@@ -22,6 +23,7 @@ class Button extends StatelessWidget {
   final TextStyle? style;
   final bool isBlueBg;
   final Widget? child;
+  final bool isDarkTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class Button extends StatelessWidget {
         height: height ?? 48,
         isBlueBg: isBlueBg,
         alignment: Alignment.center,
+        isDarkTheme: isDarkTheme,
         child: child ??
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,6 +64,7 @@ class BgContainer extends StatelessWidget {
       this.isBlueBg = false,
       this.alignment,
       this.height,
+      this.isDarkTheme = false,
       Key? key})
       : super(key: key);
 
@@ -71,6 +75,7 @@ class BgContainer extends StatelessWidget {
   final double? height;
   final bool isBlueBg;
   final AlignmentGeometry? alignment;
+  final bool isDarkTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -85,16 +90,16 @@ class BgContainer extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_left${UI.isDarkTheme(context) ? "_dark" : ""}.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_left${(isDarkTheme || UI.isDarkTheme(context)) ? "_dark" : ""}.png",
                   fit: BoxFit.fill,
                 ),
                 Expanded(
                     child: Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_center${UI.isDarkTheme(context) ? "_dark" : ""}.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_center${(isDarkTheme || UI.isDarkTheme(context)) ? "_dark" : ""}.png",
                   fit: BoxFit.fill,
                 )),
                 Image.asset(
-                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_right${UI.isDarkTheme(context) ? "_dark" : ""}.png",
+                  "packages/polkawallet_ui/assets/images/bg_${isBlueBg ? "blue" : "grey"}_right${(isDarkTheme || UI.isDarkTheme(context)) ? "_dark" : ""}.png",
                   fit: BoxFit.fill,
                 ),
               ],
