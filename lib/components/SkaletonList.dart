@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
 import 'package:polkawallet_ui/components/v3/roundedCard.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -68,8 +69,12 @@ class SkaletionRow extends StatelessWidget {
                           ),
                       items: 1,
                       period: period,
-                      highlightColor: highlightColor,
-                      baseColor: baseColor,
+                      highlightColor: UI.isDarkTheme(context)
+                          ? const Color(0xFF6D6D6D)
+                          : highlightColor,
+                      baseColor: UI.isDarkTheme(context)
+                          ? const Color(0xFF3A3B3D)
+                          : baseColor,
                       direction: direction,
                     ))))
             .toList()

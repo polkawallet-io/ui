@@ -650,8 +650,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                                 .button
                                                 ?.color
                                             : Theme.of(context)
-                                                .textSelectionTheme
-                                                .selectionColor),
+                                                .textTheme
+                                                .headline1
+                                                ?.color),
                                 title: dic['cancel']!,
                                 backgroundColor: Colors.white,
                                 onPressed: () {
@@ -964,8 +965,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                               .button
                                               ?.color
                                           : Theme.of(context)
-                                              .textSelectionTheme
-                                              .selectionColor),
+                                              .textTheme
+                                              .headline1
+                                              ?.color),
                               title: dic['cancel']!,
                               isBlueBg: false,
                               onPressed: () {

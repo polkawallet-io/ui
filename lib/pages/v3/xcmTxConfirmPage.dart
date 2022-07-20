@@ -621,8 +621,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                           .button
                                           ?.copyWith(
                                               color: Theme.of(context)
-                                                  .textSelectionTheme
-                                                  .selectionColor),
+                                                  .textTheme
+                                                  .headline1
+                                                  ?.color),
                                       title: dic['cancel']!,
                                       backgroundColor: Colors.white,
                                       onPressed: () {
@@ -916,7 +917,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                     Visibility(
                         visible: isNetworkConnected && !isObservation,
                         child: Padding(
-                            padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                             child: Row(
                               children: <Widget>[
                                 Expanded(
@@ -927,8 +928,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                         .button
                                         ?.copyWith(
                                             color: Theme.of(context)
-                                                .textSelectionTheme
-                                                .selectionColor),
+                                                .textTheme
+                                                .headline1
+                                                ?.color),
                                     title: dic['cancel']!,
                                     isBlueBg: false,
                                     onPressed: () {

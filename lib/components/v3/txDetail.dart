@@ -39,7 +39,7 @@ class TxDetail extends StatelessWidget {
   List<Widget> _buildListView(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final labelStyle = TextStyle(
-      color: Theme.of(context).textSelectionTheme.selectionColor,
+      color: Theme.of(context).textTheme.headline1?.color,
       fontSize: UI.getTextSize(16, context),
       fontFamily: UI.getFontFamily('TitilliumWeb', context),
       fontWeight: FontWeight.w600,
