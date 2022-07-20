@@ -19,7 +19,7 @@ class PluginAccountInfoAction extends StatefulWidget {
       this.onSelected,
       this.nameStyle,
       this.addressStyle,
-      this.iconDefaultColor,
+      this.isPlugin = true,
       this.hasShadow = false})
       : super(key: key);
   final Keyring keyring;
@@ -34,7 +34,7 @@ class PluginAccountInfoAction extends StatefulWidget {
   final void Function(String)? onSelected;
   final TextStyle? nameStyle;
   final TextStyle? addressStyle;
-  final Color? iconDefaultColor;
+  final bool? isPlugin;
   final bool? hasShadow;
 
   @override
@@ -86,7 +86,7 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                           widget.keyring.current.address,
                           svg: widget.keyring.current.icon,
                           size: widget.itemIconSize ?? 30,
-                          borderColor: widget.iconDefaultColor != null
+                          borderColor: widget.isPlugin == false
                               ? Theme.of(context).toggleableActiveColor
                               : null,
                           borderWidth: 2,
@@ -129,35 +129,62 @@ class _PluginAccountInfoActionState extends State<PluginAccountInfoAction> {
                 )
               ];
             },
-            icon: v3.IconButton(
-              padding: EdgeInsets.zero,
-              iconSize: widget.iconSize ?? 30,
-              boxShadow: widget.hasShadow == true
-                  ? BoxShadow(
-                      offset: const Offset(1, 1),
-                      blurRadius: 1,
-                      spreadRadius: 0, //阴影范围
-                      color: Colors.black.withOpacity(0.33), //阴影颜色
-                    )
+            icon: Container(
+              foregroundDecoration: _isSelected
+                  ? BoxDecoration(
+                      color: Colors.black.withOpacity(0.24),
+                      borderRadius: BorderRadius.circular(8))
                   : null,
-              bgColor: _isSelected
-                  ? const Color(0xFFFF7849)
-                  : widget.iconDefaultColor != null
-                      ? (UI.isDarkTheme(context)
-                          ? Theme.of(context).toggleableActiveColor
-                          : widget.iconDefaultColor)
-                      : const Color(0x24FFFFFF),
-              icon: AddressIcon(
-                widget.keyring.current.address,
-                svg: widget.keyring.current.icon,
-                size: widget.iconSize != null ? widget.iconSize! * 0.7 : 22,
-                tapToCopy: false,
-                borderColor: widget.iconDefaultColor != null
+              width: widget.iconSize ?? 30,
+              height: widget.iconSize ?? 30,
+              child: v3.IconButton(
+                padding: widget.hasShadow == true
+                    ? const EdgeInsets.only(left: 1, top: 1)
+                    : EdgeInsets.zero,
+                iconSize: widget.iconSize ?? 30,
+                boxShadows: widget.hasShadow == true
                     ? (UI.isDarkTheme(context)
-                        ? const Color(0xFF242528)
-                        : Theme.of(context).toggleableActiveColor)
-                    : const Color(0xFF242528),
-                borderWidth: 2,
+                        ? [
+                            const BoxShadow(
+                              offset: Offset(1, 1),
+                              blurRadius: 1,
+                              spreadRadius: 0, //阴影范围
+                              blurStyle: BlurStyle.inner,
+                              color: Color(0xFFD9A126), //阴影颜色
+                            )
+                          ]
+                        : [
+                            BoxShadow(
+                              offset: const Offset(1, 1),
+                              blurRadius: 1,
+                              spreadRadius: 0, //阴影范围
+                              blurStyle: BlurStyle.outer,
+                              color: Colors.black.withOpacity(0.33), //阴影颜色
+                            ),
+                            const BoxShadow(
+                              offset: Offset(1, 1),
+                              blurRadius: 1,
+                              spreadRadius: 0, //阴影范围
+                              blurStyle: BlurStyle.inner,
+                              color: Color(0xFF5066AC), //阴影颜色
+                            )
+                          ])
+                    : null,
+                bgColor: widget.isPlugin == false
+                    ? (UI.isDarkTheme(context)
+                        ? Theme.of(context).toggleableActiveColor
+                        : const Color(0xFF7D97EE))
+                    : _isSelected
+                        ? const Color(0xFFFF7849)
+                        : const Color(0x24FFFFFF),
+                icon: AddressIcon(
+                  widget.keyring.current.address,
+                  svg: widget.keyring.current.icon,
+                  size: widget.iconSize != null ? widget.iconSize! * 0.7 : 22,
+                  tapToCopy: false,
+                  borderColor: const Color(0xFF242528),
+                  borderWidth: 2,
+                ),
               ),
             )));
   }
