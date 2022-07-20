@@ -6,7 +6,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/plugin/store/balances.dart';
@@ -309,7 +308,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
 
-    final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
+    final isNetworkConnected =
+        args.isBridge || widget.plugin.sdk.api.connectedNode != null;
     final isNetworkMatch = widget.plugin.networkState.genesisHash ==
         widget.plugin.basic.genesisHash;
 
