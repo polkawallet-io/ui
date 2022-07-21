@@ -261,19 +261,20 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor:
-              args.isPlugin ? Color(0xFF202020) : Theme.of(context).cardColor,
+          backgroundColor: args.isPlugin
+              ? const Color(0xFF202020)
+              : Theme.of(context).cardColor,
           content: ListTile(
-            leading: CupertinoActivityIndicator(),
+            leading: const CupertinoActivityIndicator(),
             title: Text(
               status,
               style: TextStyle(
                   color: args.isPlugin
                       ? PluginColorsDark.headline1
-                      : Colors.black54),
+                      : Theme.of(context).textTheme.headline1?.color),
             ),
           ),
-          duration: Duration(minutes: 5),
+          duration: const Duration(minutes: 5),
         ));
       }
     }

@@ -290,7 +290,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
             style: TextStyle(
                 color: args.isPlugin
                     ? PluginColorsDark.headline1
-                    : Colors.black54),
+                    : Theme.of(context).textTheme.headline1?.color),
           ),
         ),
         duration: const Duration(minutes: 5),

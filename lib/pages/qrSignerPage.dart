@@ -44,7 +44,7 @@ class QrSignerPage extends StatelessWidget {
                   child: TextTag(
                     dic['uos.warn'],
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    color: Colors.red,
+                    color: Theme.of(context).errorColor,
                     fontSize: UI.getTextSize(16, context),
                   ),
                 ),
@@ -52,7 +52,11 @@ class QrSignerPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 16, bottom: 8),
                   child: Text(dic['uos.push']!),
                 ),
-                QrImage(data: text as String, size: screenWidth - 24),
+                QrImage(
+                  data: text as String,
+                  size: screenWidth - 24,
+                  foregroundColor: Theme.of(context).textTheme.headline1?.color,
+                ),
               ],
             )
           ],
