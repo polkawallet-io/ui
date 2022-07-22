@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TabBarPlugin extends StatefulWidget {
@@ -7,7 +8,7 @@ class TabBarPlugin extends StatefulWidget {
       this.unSelectTextStyle,
       this.selectTextStyle,
       this.backgroundColor = const Color(0xFF242424),
-      this.selectTextColor = const Color(0xFFFF8E66),
+      this.selectTextColor = PluginColorsDark.primary,
       this.unSelectTextColor = const Color(0x80FFFFFF),
       this.selectTextBackgroundColor = const Color(0x2EFF8E66),
       this.itemPaddingHorizontal = 12,

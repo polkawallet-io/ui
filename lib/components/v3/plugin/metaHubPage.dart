@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:polkawallet_ui/components/v3/plugin/tabBarPlugin.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class MetaHubPage extends StatefulWidget {
@@ -193,7 +194,7 @@ class _MetaHubPageState extends State<MetaHubPage>
                                       ?.copyWith(
                                           fontSize: UI.getTextSize(24, context),
                                           fontWeight: FontWeight.bold,
-                                          color: const Color(0xFFFF8E66)))
+                                          color: PluginColorsDark.primary))
                               .width,
                           margin: const EdgeInsets.only(bottom: 24),
                           child: Column(
@@ -206,12 +207,12 @@ class _MetaHubPageState extends State<MetaHubPage>
                                     ?.copyWith(
                                         fontSize: UI.getTextSize(24, context),
                                         fontWeight: FontWeight.bold,
-                                        color: const Color(0xFFFF8E66)),
+                                        color: PluginColorsDark.primary),
                               ),
                               const Divider(
                                 height: 4,
                                 thickness: 4,
-                                color: Color(0xFFFF8E66),
+                                color: PluginColorsDark.primary,
                               )
                             ],
                           ),
