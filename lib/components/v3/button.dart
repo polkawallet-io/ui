@@ -47,8 +47,13 @@ class Button extends StatelessWidget {
                     child: const CupertinoActivityIndicator(),
                   ),
                 ),
+                icon != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 2),
+                        child: icon,
+                      )
+                    : Container(),
                 Text(title, style: style ?? Theme.of(context).textTheme.button),
-                icon != null ? icon! : Container(),
               ],
             ),
       ),
