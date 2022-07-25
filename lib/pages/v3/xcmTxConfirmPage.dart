@@ -80,19 +80,39 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
   Future<String> _getTxFee({bool reload = false}) async {
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
+    if (args.isBridge) {
+      args.txDisplay.keys.map((e) => null);
+      final sender = TxSenderData(
+          widget.keyring.current.address, widget.keyring.current.pubKey);
+      final txInfo =
+          TxInfoData(args.module, args.call, sender, txName: args.txName);
+      final feeData = await widget.plugin.sdk.api.bridge.estimateTxFee(
+          args.bridgeParams['from'],
+          args.bridgeParams['to'],
+          args.bridgeParams['token'],
+          args.bridgeParams['address'],
+          args.bridgeParams['amount'],
+          args.bridgeParams['decimals'],
+          sender.address!);
+      if (mounted) {
+        setState(() {
+          _fee = TxFeeEstimateResult()..partialFee = feeData;
+        });
+      }
+      return feeData;
+    }
+
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
     final txInfo =
         TxInfoData(args.module, args.call, sender, txName: args.txName);
 
-    final fee =
-        await widget.plugin.sdk.api.tx.estimateFees(txInfo, args.params!,
-            rawParam: args.rawParams,
-            jsApi: args.isBridge
-                ? 'bridge.getApi("${args.chainFrom}")'
-                : args.chainFrom == widget.plugin.basic.name
-                    ? 'api'
-                    : 'xcm.getApi("${args.chainFrom}")');
+    final fee = await widget.plugin.sdk.api.tx.estimateFees(
+        txInfo, args.params!,
+        rawParam: args.rawParams,
+        jsApi: args.chainFrom == widget.plugin.basic.name
+            ? 'api'
+            : 'xcm.getApi("${args.chainFrom}")');
     if (mounted) {
       setState(() {
         _fee = fee;
@@ -229,6 +249,33 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     return res;
   }
 
+  Future<Map?> _bridgeSignAndSend(Map txInfo, String params, password,
+      {required Function(String) onStatusChange}) async {
+    final msgId =
+        "onStatusChange${widget.plugin.sdk.api.bridge.getEvalJavascriptUID()}";
+    widget.plugin.sdk.api.bridge.addMsgHandler(msgId, onStatusChange);
+    final args =
+        ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
+
+    final keypair = widget.keyring?.store.list.firstWhere(
+        (element) => element['pubKey'] == widget.keyring.current.pubKey);
+
+    final dynamic res = await widget.plugin.sdk.api.bridge.sendTx(
+        args.bridgeParams['from'],
+        args.bridgeParams['to'],
+        args.bridgeParams['token'],
+        args.bridgeParams['address'],
+        args.bridgeParams['amount'],
+        args.bridgeParams['decimals'],
+        txInfo,
+        password,
+        msgId,
+        keypair);
+
+    widget.plugin.sdk.api.bridge.removeMsgHandler(msgId);
+    return res;
+  }
+
   Future<Map?> _sendTx(
     BuildContext context,
     TxInfoData txInfo,
@@ -241,12 +288,18 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     print(tx);
     print(param);
 
+    if (args.isBridge) {
+      return _bridgeSignAndSend(tx, param!, password, onStatusChange: (status) {
+        if (mounted) {
+          final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+          _updateTxStatus(context, dic['tx.$status'] ?? status);
+        }
+      });
+    }
     return _signAndSend(tx, param!, password,
-        jsApi: args.isBridge
-            ? 'bridge.getApi("${args.chainFrom}")'
-            : args.chainFrom == widget.plugin.basic.name
-                ? 'api'
-                : 'xcm.getApi("${args.chainFrom}")', onStatusChange: (status) {
+        jsApi: args.chainFrom == widget.plugin.basic.name
+            ? 'api'
+            : 'xcm.getApi("${args.chainFrom}")', onStatusChange: (status) {
       if (mounted) {
         final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
         _updateTxStatus(context, dic['tx.$status'] ?? status);
@@ -1006,7 +1059,8 @@ class XcmTxConfirmParams {
       required this.chainFrom,
       this.chainFromIcon,
       required this.feeToken,
-      this.waitingWidget});
+      this.waitingWidget,
+      this.bridgeParams = const {}});
   final String? module;
   final String? call;
   final List? params;
@@ -1022,4 +1076,5 @@ class XcmTxConfirmParams {
   final TokenBalanceData feeToken;
   final Widget? waitingWidget;
   final bool isBridge;
+  final Map bridgeParams;
 }
