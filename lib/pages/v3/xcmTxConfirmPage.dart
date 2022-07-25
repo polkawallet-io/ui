@@ -349,6 +349,22 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     return value;
   }
 
+  dynamic _formatNumberInParams(dynamic item) {
+    switch (item.runtimeType) {
+      case String:
+        try {
+          final bigInt = BigInt.parse(item);
+          return bigInt.toString();
+        } catch (_) {
+          return item;
+        }
+      case List:
+        return List.of(item).map((e) => _formatNumberInParams(e)).toList();
+      default:
+        return item;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
@@ -356,6 +372,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
 
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
+    final List? params = _formatNumberInParams(args.params);
 
     final isNetworkConnected =
         args.isBridge || widget.plugin.sdk.api.connectedNode != null;
@@ -561,7 +578,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                       _updateKUSD(args.rawParams != null
                                           ? args.rawParams!
                                           : const JsonEncoder.withIndent('  ')
-                                              .convert(args.params)),
+                                              .convert(params)),
                                       style: TextStyle(
                                           fontSize: UI.getTextSize(14, context),
                                           color: Colors.white),
@@ -879,7 +896,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                     _updateKUSD(args.rawParams != null
                                         ? args.rawParams!
                                         : const JsonEncoder.withIndent('  ')
-                                            .convert(args.params)),
+                                            .convert(params)),
                                     style: TextStyle(
                                         fontSize: UI.getTextSize(14, context)),
                                   ),
