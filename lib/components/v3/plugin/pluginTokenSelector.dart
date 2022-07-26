@@ -192,13 +192,13 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                                           padding:
                                               const EdgeInsets.only(right: 4),
                                           child: PluginTokenIcon(
-                                            e!.symbol!,
+                                            e?.name ?? e?.symbol ?? "",
                                             widget.tokenIconsMap!,
                                             size: 16,
                                           ),
                                         ),
                                         Text(
-                                          e.symbol!,
+                                          e?.name ?? e?.symbol ?? "",
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline4
