@@ -82,14 +82,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     if (args.isBridge) {
       final sender = TxSenderData(
           widget.keyring.current.address, widget.keyring.current.pubKey);
-      final feeData = await widget.plugin.sdk.api.bridge.estimateTxFee(
-          args.bridgeParams['from'],
-          args.bridgeParams['to'],
-          args.bridgeParams['token'],
-          args.bridgeParams['address'],
-          args.bridgeParams['amount'],
-          args.bridgeParams['decimals'],
-          sender.address!);
+      final feeData = await widget.plugin.sdk.api.bridge
+          .estimateTxFee(args.chainFrom, args.txHex!, sender.address!);
       if (mounted) {
         setState(() {
           _fee = TxFeeEstimateResult()..partialFee = feeData;
@@ -176,13 +170,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
       widget.keyring.current.address,
       widget.keyring.current.pubKey,
     );
-    final TxInfoData txInfo = TxInfoData(
-      args.module,
-      args.call,
-      sender,
-      tip: _tipValue.toString(),
-      txName: args.txName,
-    );
+    final TxInfoData txInfo = TxInfoData(args.module, args.call, sender,
+        tip: _tipValue.toString(), txName: args.txName, txHex: args.txHex);
 
     try {
       final res = await _sendTx(context, txInfo, args, password!);
@@ -255,17 +244,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final keypair = widget.keyring.store.list.firstWhere(
         (element) => element['pubKey'] == widget.keyring.current.pubKey);
 
-    final dynamic res = await widget.plugin.sdk.api.bridge.sendTx(
-        args.bridgeParams['from'],
-        args.bridgeParams['to'],
-        args.bridgeParams['token'],
-        args.bridgeParams['address'],
-        args.bridgeParams['amount'],
-        args.bridgeParams['decimals'],
-        txInfo,
-        password,
-        msgId,
-        keypair);
+    final dynamic res = await widget.plugin.sdk.api.bridge
+        .sendTx(args.chainFrom, txInfo, password, msgId, keypair);
 
     widget.plugin.sdk.api.bridge.removeMsgHandler(msgId);
     return res;
@@ -1057,7 +1037,7 @@ class XcmTxConfirmParams {
       this.chainFromIcon,
       required this.feeToken,
       this.waitingWidget,
-      this.bridgeParams = const {}});
+      this.txHex});
   final String? module;
   final String? call;
   final List? params;
@@ -1073,5 +1053,5 @@ class XcmTxConfirmParams {
   final TokenBalanceData feeToken;
   final Widget? waitingWidget;
   final bool isBridge;
-  final Map bridgeParams;
+  final String? txHex;
 }
