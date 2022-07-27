@@ -24,6 +24,7 @@ dependencies:
   scrollable_positioned_list: ^0.2.3
   card_swiper: ^2.0.3
   share_plus: ^4.0.9
+  rive: ^0.9.0
   # simple_shadow: ^0.2.0
 
 #dependency_overrides:
