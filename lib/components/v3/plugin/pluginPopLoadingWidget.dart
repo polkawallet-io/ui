@@ -4,11 +4,16 @@ import 'package:rive/rive.dart';
 
 class PluginPopLoadingContainer extends StatelessWidget {
   const PluginPopLoadingContainer(
-      {Key? key, required this.child, this.loading = false, this.tips})
+      {Key? key,
+      required this.child,
+      this.loading = false,
+      this.canTap = false,
+      this.tips})
       : super(key: key);
   final bool loading;
   final Widget child;
   final String? tips;
+  final bool canTap;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -16,7 +21,7 @@ class PluginPopLoadingContainer extends StatelessWidget {
         child,
         loading
             ? Container(
-                color: Colors.transparent,
+                color: canTap ? null : Colors.transparent,
                 width: double.infinity,
                 height: double.infinity,
                 child: Align(
@@ -41,12 +46,12 @@ class PluginPopLoadingWidget extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white.withOpacity(0.08)),
-        height: 104,
-        width: 168,
+        width: 170,
+        height: 105,
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 12, bottom: 6),
+              margin: const EdgeInsets.only(top: 12),
               height: 58,
               width: 58,
               child: const RiveAnimation.asset(
@@ -54,20 +59,21 @@ class PluginPopLoadingWidget extends StatelessWidget {
                 fit: BoxFit.none,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 5),
-              child: SizedBox(
-                height: 19,
-                child: Align(
+            Expanded(
+              child: Align(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 2.5),
                   child: Text(
                     tips,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: UI.getTextSize(12, context)),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ));
   }
