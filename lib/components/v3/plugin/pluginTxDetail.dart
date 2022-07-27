@@ -13,7 +13,8 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginTxDetail extends StatelessWidget {
-  const PluginTxDetail({Key? key,
+  const PluginTxDetail({
+    Key? key,
     this.success,
     this.networkName,
     this.action,
@@ -23,6 +24,7 @@ class PluginTxDetail extends StatelessWidget {
     this.blockTime,
     this.blockNum,
     this.infoItems,
+    this.resolveLinks,
     required this.current,
   }) : super(key: key);
 
@@ -36,6 +38,7 @@ class PluginTxDetail extends StatelessWidget {
   final int? blockNum;
   final List<TxDetailInfoItem>? infoItems;
   final KeyPairData current;
+  final String? resolveLinks;
 
   List<Widget> _buildListView(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
@@ -79,8 +82,8 @@ class PluginTxDetail extends StatelessWidget {
                           border: Border.all(
                               color: Theme.of(context).toggleableActiveColor,
                               width: 3),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(55 / 2.0))),
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(55 / 2.0))),
                     ),
                     Padding(
                         padding: const EdgeInsets.only(top: 3),
@@ -177,7 +180,29 @@ class PluginTxDetail extends StatelessWidget {
         ],
       ),
     ));
-    if (hash == null) return list;
+    if (hash == null) {
+      if (resolveLinks == null) return list;
+      Widget links = Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: PluginButton(
+            title: 'Subscan',
+            style: Theme.of(context)
+                .textTheme
+                .headline3
+                ?.copyWith(color: Colors.black),
+            backgroundColor: PluginColorsDark.primary,
+            onPressed: () async {
+              await UI.launchURL(resolveLinks!);
+            },
+            icon: SvgPicture.asset(
+              "packages/polkawallet_ui/assets/images/icon_share.svg",
+              width: 24,
+              color: Colors.black,
+            ),
+          ));
+      list.add(links);
+      return list;
+    }
 
     final pnLink = networkName == 'polkadot' || networkName == 'kusama'
         ? 'https://polkascan.io/${networkName!.toLowerCase()}/transaction/$hash'
@@ -272,7 +297,9 @@ class PluginTxDetail extends StatelessWidget {
 }
 
 class TxDetailItem extends StatelessWidget {
-  const TxDetailItem(this.i, this.labelStyle, {Key? key, this.isShowDivider = true}) : super(key: key);
+  const TxDetailItem(this.i, this.labelStyle,
+      {Key? key, this.isShowDivider = true})
+      : super(key: key);
   final TxDetailInfoItem i;
   final TextStyle labelStyle;
   final bool isShowDivider;
