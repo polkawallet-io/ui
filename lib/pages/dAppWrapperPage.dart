@@ -54,7 +54,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
     return PluginScaffold(
       appBar: PluginAppBar(
         title: Text(
-          url.split(":").length > 1 ? url.split(":")[1] : url,
+          url.split("://").length > 1 ? url.split("://")[1] : url,
           style: Theme.of(context)
               .appBarTheme
               .titleTextStyle
