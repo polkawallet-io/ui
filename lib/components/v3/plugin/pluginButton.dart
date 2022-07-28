@@ -76,95 +76,106 @@ class BgContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const sWidth = 20.0;
-    return SizedBox(
-      width: width,
-      height: height,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          SizedBox(
-            width: width,
-            height: height,
-            child: Stack(
-              children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: SizedBox(
-                        width: sWidth,
-                        height: height,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(2)),
-                                color:
-                                    backgroundColor ?? PluginColorsDark.primary,
-                              ),
-                            )),
-                            Expanded(
-                                child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(2)),
-                                color:
-                                    backgroundColor ?? PluginColorsDark.primary,
-                              ),
-                            ))
-                          ],
-                        ))),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: sWidth - 1),
-                  width: width,
-                  height: height,
-                  color: backgroundColor ?? PluginColorsDark.primary,
-                ),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: SizedBox(
-                        width: sWidth,
-                        height: height,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              width: double.infinity,
-                              decoration: ShapeDecoration(
-                                color:
-                                    backgroundColor ?? PluginColorsDark.primary,
-                                shape: const BeveledRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(5))),
-                              ),
-                            )),
-                            Expanded(
-                                child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    bottomRight: Radius.circular(2)),
-                                color:
-                                    backgroundColor ?? PluginColorsDark.primary,
-                              ),
-                            ))
-                          ],
-                        ))),
-              ],
-            ),
-          ),
-          Container(
-              margin: margin,
-              width: width,
-              height: height,
-              padding: padding,
-              alignment: alignment,
-              child: child!)
-        ],
-      ),
-    );
+    return Container(
+        margin: margin,
+        width: width,
+        height: height,
+        padding: padding,
+        alignment: alignment,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          color: backgroundColor ?? PluginColorsDark.primary,
+        ),
+        child: child!);
+    // const sWidth = 20.0;
+    // return SizedBox(
+    //   width: width,
+    //   height: height,
+    //   child: Stack(
+    //     alignment: Alignment.center,
+    //     children: [
+    //       SizedBox(
+    //         width: width,
+    //         height: height,
+    //         child: Stack(
+    //           children: [
+    //             Align(
+    //                 alignment: Alignment.centerLeft,
+    //                 child: SizedBox(
+    //                     width: sWidth,
+    //                     height: height,
+    //                     child: Column(
+    //                       children: [
+    //                         Expanded(
+    //                             child: Container(
+    //                           width: double.infinity,
+    //                           decoration: BoxDecoration(
+    //                             borderRadius: const BorderRadius.only(
+    //                                 topLeft: Radius.circular(2)),
+    //                             color:
+    //                                 backgroundColor ?? PluginColorsDark.primary,
+    //                           ),
+    //                         )),
+    //                         Expanded(
+    //                             child: Container(
+    //                           width: double.infinity,
+    //                           decoration: BoxDecoration(
+    //                             borderRadius: const BorderRadius.only(
+    //                                 bottomLeft: Radius.circular(2)),
+    //                             color:
+    //                                 backgroundColor ?? PluginColorsDark.primary,
+    //                           ),
+    //                         ))
+    //                       ],
+    //                     ))),
+    //             Container(
+    //               margin: const EdgeInsets.symmetric(horizontal: sWidth - 1),
+    //               width: width,
+    //               height: height,
+    //               color: backgroundColor ?? PluginColorsDark.primary,
+    //             ),
+    //             Align(
+    //                 alignment: Alignment.centerRight,
+    //                 child: SizedBox(
+    //                     width: sWidth,
+    //                     height: height,
+    //                     child: Column(
+    //                       children: [
+    //                         Expanded(
+    //                             child: Container(
+    //                           width: double.infinity,
+    //                           decoration: ShapeDecoration(
+    //                             color:
+    //                                 backgroundColor ?? PluginColorsDark.primary,
+    //                             shape: const BeveledRectangleBorder(
+    //                                 borderRadius: BorderRadius.only(
+    //                                     topRight: Radius.circular(5))),
+    //                           ),
+    //                         )),
+    //                         Expanded(
+    //                             child: Container(
+    //                           width: double.infinity,
+    //                           decoration: BoxDecoration(
+    //                             borderRadius: const BorderRadius.only(
+    //                                 bottomRight: Radius.circular(2)),
+    //                             color:
+    //                                 backgroundColor ?? PluginColorsDark.primary,
+    //                           ),
+    //                         ))
+    //                       ],
+    //                     ))),
+    //           ],
+    //         ),
+    //       ),
+    //       Container(
+    //           margin: margin,
+    //           width: width,
+    //           height: height,
+    //           padding: padding,
+    //           alignment: alignment,
+    //           child: child!)
+    //     ],
+    //   ),
+    // );
   }
 }
