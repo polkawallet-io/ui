@@ -55,10 +55,8 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
       appBar: PluginAppBar(
         title: Text(
           url.split("://").length > 1 ? url.split("://")[1] : url,
-          style: Theme.of(context)
-              .appBarTheme
-              .titleTextStyle
-              ?.copyWith(fontSize: UI.getTextSize(16, context)),
+          style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+              fontSize: UI.getTextSize(16, context), color: Colors.white),
         ),
         leadingWidth: 88,
         leading: Row(
