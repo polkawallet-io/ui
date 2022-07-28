@@ -5,20 +5,20 @@ import 'package:rive/rive.dart';
 class PluginPopLoadingContainer extends StatelessWidget {
   const PluginPopLoadingContainer(
       {Key? key,
-      required this.child,
+      this.child,
       this.loading = false,
       this.canTap = false,
       this.tips})
       : super(key: key);
   final bool loading;
-  final Widget child;
+  final Widget? child;
   final String? tips;
   final bool canTap;
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        child,
+        child ?? Container(),
         loading
             ? Container(
                 color: canTap ? null : Colors.transparent,
@@ -26,7 +26,7 @@ class PluginPopLoadingContainer extends StatelessWidget {
                 height: double.infinity,
                 child: Align(
                   child: PluginPopLoadingWidget(
-                    tips: tips ?? 'Connecting...',
+                    tips: tips ?? 'Loading...',
                   ),
                 ),
               )
@@ -37,7 +37,7 @@ class PluginPopLoadingContainer extends StatelessWidget {
 }
 
 class PluginPopLoadingWidget extends StatelessWidget {
-  const PluginPopLoadingWidget({Key? key, this.tips = 'Connecting...'})
+  const PluginPopLoadingWidget({Key? key, this.tips = 'Loading...'})
       : super(key: key);
   final String tips;
   @override
