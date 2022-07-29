@@ -328,7 +328,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
   }
 
   void _onTipChanged(double tip) {
-    final decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
+    final args =
+        ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
+    final decimals = args.feeToken.decimals!;
 
     /// tip division from 0 to 19:
     /// 0-10 for 0-0.1
@@ -656,10 +658,15 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                           .textTheme
                                           .button
                                           ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .headline1
-                                                  ?.color),
+                                              color: UI.isDarkTheme(context)
+                                                  ? Theme.of(context)
+                                                      .textTheme
+                                                      .button
+                                                      ?.color
+                                                  : Theme.of(context)
+                                                      .textTheme
+                                                      .headline1
+                                                      ?.color),
                                       title: dic['cancel']!,
                                       backgroundColor: Colors.white,
                                       onPressed: () {
@@ -966,10 +973,15 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                         .textTheme
                                         .button
                                         ?.copyWith(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .headline1
-                                                ?.color),
+                                            color: UI.isDarkTheme(context)
+                                                ? Theme.of(context)
+                                                    .textTheme
+                                                    .button
+                                                    ?.color
+                                                : Theme.of(context)
+                                                    .textTheme
+                                                    .headline1
+                                                    ?.color),
                                     title: dic['cancel']!,
                                     isBlueBg: false,
                                     onPressed: () {
