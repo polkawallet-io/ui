@@ -24,10 +24,21 @@ class PluginPopLoadingContainer extends StatelessWidget {
                 color: canTap ? null : Colors.transparent,
                 width: double.infinity,
                 height: double.infinity,
-                child: Align(
-                  child: PluginPopLoadingWidget(
-                    tips: tips ?? 'Loading...',
-                  ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 45,
+                      child: Container(),
+                    ),
+                    Align(
+                        child: PluginPopLoadingWidget(
+                      tips: tips ?? 'Loading...',
+                    )),
+                    Expanded(
+                      flex: 55,
+                      child: Container(),
+                    ),
+                  ],
                 ),
               )
             : Container()
