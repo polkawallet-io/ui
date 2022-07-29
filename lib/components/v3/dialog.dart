@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-enum DialogType { warn, inform }
+enum DialogType { warn, inform, ok }
 
 const TextStyle _kCupertinoDialogTitleStyle = TextStyle(
     fontFamily: 'SF_Pro',
