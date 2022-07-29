@@ -21,9 +21,8 @@ import 'package:polkawallet_ui/components/v3/innerShadow.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
-import 'package:polkawallet_ui/components/v3/plugin/pluginSliderThumbShape.dart';
-import 'package:polkawallet_ui/components/v3/plugin/pluginSliderTrackShape.dart';
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
+import 'package:polkawallet_ui/components/v3/plugin/slider/PluginSlider.dart';
 import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
@@ -615,29 +614,14 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                             style:
                                                 TextStyle(color: Colors.white)),
                                         Expanded(
-                                          child: SliderTheme(
-                                              data: const SliderThemeData(
-                                                trackHeight: 12,
-                                                activeTrackColor:
-                                                    Color(0xFFFF7849),
-                                                inactiveTrackColor:
-                                                    Colors.transparent,
-                                                overlayColor:
-                                                    Colors.transparent,
-                                                trackShape:
-                                                    PluginSliderTrackShape(),
-                                                thumbShape:
-                                                    PluginSliderThumbShape(),
-                                              ),
-                                              child: Slider(
-                                                min: 0,
-                                                max: 19,
-                                                divisions: 19,
-                                                value: _tip,
-                                                onChanged: _submitting
-                                                    ? null
-                                                    : _onTipChanged,
-                                              )),
+                                          child: PluginSlider(
+                                            max: 19,
+                                            divisions: 19,
+                                            value: _tip,
+                                            onChanged: _submitting
+                                                ? null
+                                                : _onTipChanged,
+                                          ),
                                         ),
                                         const Text('1',
                                             style:

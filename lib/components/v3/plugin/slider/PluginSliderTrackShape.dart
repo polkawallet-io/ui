@@ -11,8 +11,12 @@ class PluginSliderTrackShape extends SliderTrackShape {
       required SliderThemeData sliderTheme,
       bool isEnabled = false,
       bool isDiscrete = false}) {
+    assert(parentBox != null);
+    assert(offset != null);
+    assert(sliderTheme != null);
     assert(sliderTheme.overlayShape != null);
-
+    assert(isEnabled != null);
+    assert(isDiscrete != null);
     final double thumbWidth =
         sliderTheme.thumbShape!.getPreferredSize(isEnabled, isDiscrete).width;
     final double trackHeight = sliderTheme.trackHeight!;
@@ -39,12 +43,18 @@ class PluginSliderTrackShape extends SliderTrackShape {
       bool isEnabled = false,
       double additionalActiveTrackHeight = 2,
       required TextDirection textDirection}) {
+    assert(context != null);
+    assert(offset != null);
+    assert(parentBox != null);
+    assert(sliderTheme != null);
     assert(sliderTheme.disabledActiveTrackColor != null);
     assert(sliderTheme.disabledInactiveTrackColor != null);
     assert(sliderTheme.activeTrackColor != null);
     assert(sliderTheme.inactiveTrackColor != null);
     assert(sliderTheme.thumbShape != null);
-
+    assert(enableAnimation != null);
+    assert(textDirection != null);
+    assert(thumbCenter != null);
     // If the slider [SliderThemeData.trackHeight] is less than or equal to 0,
     // then it makes no difference whether the track is painted or not,
     // therefore the painting  can be a no-op.
@@ -60,10 +70,33 @@ class PluginSliderTrackShape extends SliderTrackShape {
     final ColorTween inactiveTrackColorTween = ColorTween(
         begin: sliderTheme.disabledInactiveTrackColor,
         end: sliderTheme.inactiveTrackColor);
+    final Rect trackRect = getPreferredRect(
+      parentBox: parentBox,
+      offset: offset,
+      sliderTheme: sliderTheme,
+      isEnabled: isEnabled,
+      isDiscrete: isDiscrete,
+    );
     final Paint activePaint = Paint()
-      ..color = activeTrackColorTween.evaluate(enableAnimation)!;
+      ..color = activeTrackColorTween.evaluate(enableAnimation)!
+      ..shader = LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [
+          sliderTheme.activeTrackColor!,
+          sliderTheme.disabledActiveTrackColor!
+        ],
+      ).createShader(parentBox.paintBounds);
     final Paint inactivePaint = Paint()
-      ..color = inactiveTrackColorTween.evaluate(enableAnimation)!;
+      ..color = inactiveTrackColorTween.evaluate(enableAnimation)!
+      ..shader = LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [
+          sliderTheme.inactiveTrackColor!,
+          sliderTheme.disabledInactiveTrackColor!
+        ],
+      ).createShader(parentBox.paintBounds);
     final Paint leftTrackPaint;
     final Paint rightTrackPaint;
     switch (textDirection) {
@@ -77,34 +110,8 @@ class PluginSliderTrackShape extends SliderTrackShape {
         break;
     }
 
-    final Rect trackRect = getPreferredRect(
-      parentBox: parentBox,
-      offset: offset,
-      sliderTheme: sliderTheme,
-      isEnabled: isEnabled,
-      isDiscrete: isDiscrete,
-    );
-    // final Radius trackRadius = Radius.circular(trackRect.height / 2);
-    // final Radius activeTrackRadius =
-    //     Radius.circular((trackRect.height + additionalActiveTrackHeight) / 2);
-
     context.canvas.drawRRect(
       RRect.fromLTRBAndCorners(
-        trackRect.left + 3,
-        ((textDirection == TextDirection.ltr)
-                ? trackRect.top - (additionalActiveTrackHeight / 2)
-                : trackRect.top) +
-            3,
-        thumbCenter.dx,
-        ((textDirection == TextDirection.ltr)
-                ? trackRect.bottom + (additionalActiveTrackHeight / 2)
-                : trackRect.bottom) -
-            3,
-      ),
-      leftTrackPaint,
-    );
-    context.canvas.drawRRect(
-        RRect.fromLTRBAndCorners(
           trackRect.left,
           (textDirection == TextDirection.ltr)
               ? trackRect.top - (additionalActiveTrackHeight / 2)
@@ -113,30 +120,13 @@ class PluginSliderTrackShape extends SliderTrackShape {
           (textDirection == TextDirection.ltr)
               ? trackRect.bottom + (additionalActiveTrackHeight / 2)
               : trackRect.bottom,
-          topLeft: const Radius.circular(2),
-          bottomLeft: const Radius.circular(2),
-        ),
-        Paint()
-          ..color = Colors.white.withAlpha(127)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.5);
+          topLeft: Radius.circular(2),
+          bottomLeft: Radius.circular(2)),
+      leftTrackPaint,
+    );
 
     context.canvas.drawRRect(
       RRect.fromLTRBAndCorners(
-          thumbCenter.dx,
-          ((textDirection == TextDirection.rtl)
-                  ? trackRect.top - (additionalActiveTrackHeight / 2)
-                  : trackRect.top) +
-              3,
-          trackRect.right - 3,
-          ((textDirection == TextDirection.rtl)
-                  ? trackRect.bottom + (additionalActiveTrackHeight / 2)
-                  : trackRect.bottom) -
-              3),
-      rightTrackPaint,
-    );
-    context.canvas.drawRRect(
-        RRect.fromLTRBAndCorners(
           thumbCenter.dx,
           (textDirection == TextDirection.rtl)
               ? trackRect.top - (additionalActiveTrackHeight / 2)
@@ -145,12 +135,9 @@ class PluginSliderTrackShape extends SliderTrackShape {
           (textDirection == TextDirection.rtl)
               ? trackRect.bottom + (additionalActiveTrackHeight / 2)
               : trackRect.bottom,
-          topRight: const Radius.circular(2),
-          bottomRight: const Radius.circular(2),
-        ),
-        Paint()
-          ..color = Colors.white.withAlpha(127)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.5);
+          topRight: Radius.circular(2),
+          bottomRight: Radius.circular(2)),
+      rightTrackPaint,
+    );
   }
 }
