@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:polkawallet_ui/components/v3/innerShadow.dart';
 import 'package:polkawallet_ui/utils/index.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 export 'package:flutter/services.dart' show SmartQuotesType, SmartDashesType;
 
@@ -346,7 +347,7 @@ class TextFormField extends FormField<String> {
                               height: 11 + (maxLines ?? 1) * 21,
                             )),
                         Container(
-                          height: 11 + 16 + (maxLines ?? 1) * 21,
+                          height: 11 + 16.h + (maxLines ?? 1) * 21,
                           decoration: hasFocus
                               ? BoxDecoration(
                                   borderRadius: const BorderRadius.all(
