@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/i18n.dart';
 
 class PluginFilterWidget extends StatefulWidget {
   static const String pluginAllFilter = 'All';
@@ -27,6 +29,7 @@ class _PluginFilterWidgetState extends State<PluginFilterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
       child: Column(
@@ -52,7 +55,7 @@ class _PluginFilterWidgetState extends State<PluginFilterWidget> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Filter',
+                        dic!['filter']!,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: showOptions
