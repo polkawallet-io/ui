@@ -153,7 +153,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     }
 
     final password = await widget.getPassword(context, widget.keyring.current);
-    _onSubmit(context, password: password);
+    if (password != null) {
+      _onSubmit(context, password: password);
+    }
   }
 
   Future<void> _onSubmit(BuildContext context, {String? password}) async {
