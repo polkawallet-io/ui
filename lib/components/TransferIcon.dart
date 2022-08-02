@@ -30,12 +30,14 @@ class TransferIcon extends StatelessWidget {
       this.size = 32,
       this.type = TransferIconType.rollIn,
       this.bgColor = const Color(0xFFE9E9E9),
-      this.iconColor})
+      this.iconColor,
+      this.darkBgColor = const Color(0xFF494a4c)})
       : super(key: key);
   final double size;
   final TransferIconType type;
   final Color bgColor;
   final Color? iconColor;
+  final Color? darkBgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +49,7 @@ class TransferIcon extends StatelessWidget {
           height: double.infinity,
           padding: EdgeInsets.all(4.r),
           decoration: BoxDecoration(
-              color:
-                  UI.isDarkTheme(context) ? const Color(0xFF494a4c) : bgColor,
+              color: UI.isDarkTheme(context) ? darkBgColor : bgColor,
               borderRadius: BorderRadius.all(Radius.circular(8.r))),
           child: SvgPicture.asset(
             getIconImage(type),
