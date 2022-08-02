@@ -269,6 +269,46 @@ class Fmt {
     return priceFloorFormatter(Fmt.bigIntToDouble(value, decimals),
         lengthFixed: lengthFixed, lengthMax: lengthMax);
   }
+
+  static String priceCurrencySymbol(String priceCurrency) {
+// CNY（人民币）Chinese Yuan (¥)
+// USD（美元）United States Dollar ($)
+// EUR（欧元）Euro (€)
+// GBP（英镑）Pound Sterling (£)
+// RUB（卢布）Russian Ruble (₽)
+// HKD（港币）Hong Kong Dollar ($)
+// NZD（新西兰元）New Zealand Dollar ($)
+// AUD（澳元）Australian Dollar ($)
+// TWD（台币）New Taiwan Dollar (NT$)
+// KRW（韩元）South Korean Won (₩)
+// JPY（日元）Japanese Yen (¥)
+    switch (priceCurrency) {
+      case "USD":
+        return "\$";
+      case "CNY":
+        return "￥";
+      case "EUR":
+        return "€";
+      case "GBP":
+        return "£";
+      case "RUB":
+        return "₽";
+      case "HKD":
+        return "\$";
+      case "NZD":
+        return "\$";
+      case "AUD":
+        return "\$";
+      case "TWD":
+        return "NT\$";
+      case "KRW":
+        return "₩";
+      case "JPY":
+        return "¥";
+      default:
+        return "\$";
+    }
+  }
 }
 
 class PriceFormatter {
