@@ -9,7 +9,7 @@ class PluginTextTag extends StatelessWidget {
       this.style,
       this.backgroundColor,
       this.child,
-      this.height = 25,
+      this.height = 22,
       Key? key})
       : super(key: key);
   final String title;
@@ -35,11 +35,12 @@ class PluginTextTag extends StatelessWidget {
                 children: [
                   Text(
                     title,
+                    textAlign: TextAlign.center,
                     style: style ??
                         Theme.of(context).textTheme.headline5?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF212123),
-                            height: 1.0),
+                            height: 1.1),
                   )
                 ],
               )),
@@ -69,8 +70,8 @@ class TagBgContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding:
-          padding ?? const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      padding: padding ??
+          const EdgeInsets.only(left: 6, right: 7, bottom: 1, top: 3),
       height: height,
       margin: margin,
       decoration: BoxDecoration(

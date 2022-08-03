@@ -28,7 +28,7 @@ class PluginButton extends StatelessWidget {
       onPressed: !submitting ? onPressed : null,
       child: BgContainer(
         double.infinity,
-        height: height ?? 42,
+        height: height ?? 44,
         alignment: Alignment.center,
         backgroundColor: backgroundColor,
         child: Row(
