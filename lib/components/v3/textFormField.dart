@@ -56,9 +56,9 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           setState(() {
             this.hasFocus = hasFocus;
           });
+          print(hasFocus);
         },
         child: TextFormField(
-          key: const Key("1"),
           controller: widget.controller,
           focusNode: widget.focusNode,
           onChanged: widget.onChanged,
@@ -73,6 +73,7 @@ class _TextInputWidgetState extends State<TextInputWidget> {
           keyboardType: widget.keyboardType,
           style: widget.style,
           hasFocus: hasFocus,
+          autofocus: false,
         ));
   }
 }
@@ -298,6 +299,7 @@ class TextFormField extends FormField<String> {
               ? AutovalidateMode.always
               : (autovalidateMode ?? AutovalidateMode.disabled),
           builder: (FormFieldState<String> field) {
+            print("${decoration?.labelText}====hasFocus===${hasFocus}");
             final _TextFormFieldState state = field as _TextFormFieldState;
             final InputDecorationV3 effectiveDecoration = (decoration ??
                     const InputDecorationV3())
@@ -395,7 +397,7 @@ class TextFormField extends FormField<String> {
                                   autofocus: autofocus,
                                   toolbarOptions: toolbarOptions,
                                   readOnly: readOnly,
-                                  showCursor: showCursor,
+                                  showCursor: hasFocus ? showCursor : false,
                                   obscuringCharacter: obscuringCharacter,
                                   obscureText: obscureText,
                                   autocorrect: autocorrect,

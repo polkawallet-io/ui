@@ -166,6 +166,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                         child: TextFormField(
                           scrollPadding: EdgeInsets.zero,
                           enabled: widget.enabled,
+                          showCursor: _hasFocus,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
@@ -372,6 +373,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                         child: TextFormField(
                           scrollPadding: EdgeInsets.zero,
                           enabled: widget.enabled,
+                          showCursor: _hasFocus,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
