@@ -150,7 +150,7 @@ class TxDetail extends StatelessWidget {
               visible: hash != null,
               child: TxDetailItem(
                   TxDetailInfoItem(
-                      copyText: Fmt.address(hash),
+                      copyText: hash,
                       label: 'Hash',
                       content: Text(Fmt.address(hash))),
                   labelStyle)),
