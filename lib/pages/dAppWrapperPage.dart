@@ -19,6 +19,7 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:collection/collection.dart';
 
 class DAppWrapperPage extends StatefulWidget {
   const DAppWrapperPage(this.plugin, this.keyring,
@@ -230,7 +231,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         : SignExtrinsicRequest.fromJson(
                 Map<String, dynamic>.from(params.request ?? {}))
             .address;
-    final acc = widget.keyring.keyPairs.firstWhere((acc) {
+    dynamic acc = widget.keyring.keyPairs.firstWhereOrNull((acc) {
       bool matched = false;
       widget.keyring.store.pubKeyAddressMap.values.forEach((e) {
         e.forEach((k, v) {
@@ -241,6 +242,15 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
       });
       return matched;
     });
+
+    if (acc == null) {
+      final decoded =
+          await widget.plugin.sdk.api.account.decodeAddress([address!]);
+      acc = widget.keyring.keyPairs.firstWhere((acc) {
+        return decoded?.keys.firstOrNull == acc.pubKey;
+      });
+    }
+
     final res = await showModalBottomSheet(
       isDismissible: false,
       enableDrag: false,
@@ -281,8 +291,8 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                             ),
                             Container(
                               margin: const EdgeInsets.only(right: 4),
-                              child:
-                                  AddressIcon(address, svg: acc.icon, size: 18),
+                              child: AddressIcon(address,
+                                  svg: acc?.icon, size: 18),
                             ),
                             Expanded(
                                 child: Text(
@@ -331,7 +341,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                         onPressed: _signing
                             ? null
                             : () async {
-                                final res = await _doSign(acc, params);
+                                final res = await _doSign(acc!, params);
                                 if (res != null) {
                                   Navigator.of(context).pop(res);
                                 }
