@@ -270,7 +270,7 @@ class Fmt {
         lengthFixed: lengthFixed, lengthMax: lengthMax);
   }
 
-  static String priceCurrencySymbol(String priceCurrency) {
+  static String priceCurrencySymbol(String? priceCurrency) {
 // CNY（人民币）Chinese Yuan (¥)
 // USD（美元）United States Dollar ($)
 // EUR（欧元）Euro (€)

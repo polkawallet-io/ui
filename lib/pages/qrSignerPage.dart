@@ -55,7 +55,8 @@ class QrSignerPage extends StatelessWidget {
                 QrImage(
                   data: text as String,
                   size: screenWidth - 24,
-                  foregroundColor: Theme.of(context).textTheme.headline1?.color,
+                  padding: const EdgeInsets.all(2),
+                  backgroundColor: Colors.white,
                 ),
               ],
             )

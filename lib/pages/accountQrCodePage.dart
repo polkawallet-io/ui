@@ -83,8 +83,8 @@ class AccountQrCodePage extends StatelessWidget {
                     child: QrImage(
                       data: codeAddress,
                       size: qrWidth + 24,
-                      foregroundColor:
-                          Theme.of(context).textTheme.headline1?.color,
+                      padding: const EdgeInsets.all(2),
+                      backgroundColor: Colors.white,
                       embeddedImage: const AssetImage(
                           'packages/polkawallet_ui/assets/images/app.png'),
                       embeddedImageStyle: QrEmbeddedImageStyle(

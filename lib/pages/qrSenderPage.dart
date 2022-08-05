@@ -86,8 +86,8 @@ class _QrSenderPageState extends State<QrSenderPage> {
                             data: '',
                             rawBytes: snapshot.data,
                             size: screenWidth - 24,
-                            foregroundColor:
-                                Theme.of(context).textTheme.headline1?.color,
+                            padding: const EdgeInsets.all(2),
+                            backgroundColor: Colors.white,
                           )
                         : const CupertinoActivityIndicator(),
                     Visibility(
