@@ -4,7 +4,7 @@
     <g id="icon-v2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="icon" transform="translate(-7.000000, -15.000000)">
             <g id="Deposit" transform="translate(7.000000, 15.000000)">
-                <rect id="矩形" fill="#D8D8D8" opacity="0.0405040923" x="0" y="0" width="24" height="24"></rect>
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
                 <g id="编组" transform="translate(4.000000, 11.000000)" stroke="#979797" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.33425414">
                     <path d="M2.20994475,4.10177211 C3.68324125,1.37951309 5.3038674,0.0183835762 7.0718232,0.0183835762 C8.83977901,0.0183835762 10.0184162,0.0183835762 10.6077348,0.0183835762 C11.1970534,0.0183835762 11.4917127,0.169620189 11.4917127,0.472093414" id="路径-62"></path>
                     <polygon id="路径-63" points="2.20994475 4.10177211 0 5.91661146 2.6519337 10 4.86187845 8.18516065"></polygon>

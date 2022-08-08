@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/plugin/store/balances.dart';
@@ -18,13 +16,13 @@ import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/components/v3/collapsedContainer.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/components/v3/innerShadow.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
-import 'package:polkawallet_ui/components/v3/plugin/pluginSliderThumbShape.dart';
-import 'package:polkawallet_ui/components/v3/plugin/pluginSliderTrackShape.dart';
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
+import 'package:polkawallet_ui/components/v3/plugin/slider/PluginSlider.dart';
 import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
@@ -33,16 +31,17 @@ import 'package:polkawallet_ui/utils/index.dart';
 
 class XcmTxConfirmPage extends StatefulWidget {
   const XcmTxConfirmPage(this.plugin, this.keyring, this.getPassword,
-      {this.txDisabledCalls});
+      {Key? key, this.txDisabledCalls})
+      : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
   final Future<Map<dynamic, dynamic>>? txDisabledCalls;
   final Future<String> Function(BuildContext, KeyPairData) getPassword;
 
-  static final String route = '/tx/xcm/confirm';
+  static const String route = '/tx/xcm/confirm';
 
   @override
-  _XcmTxConfirmPageState createState() => _XcmTxConfirmPageState();
+  createState() => _XcmTxConfirmPageState();
 }
 
 class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
@@ -77,9 +76,22 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     return fi.image;
   }
 
-  Future<String> _getTxFee({bool reload = false}) async {
+  Future<String> _getTxFee() async {
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
+    if (args.isBridge) {
+      final sender = TxSenderData(
+          widget.keyring.current.address, widget.keyring.current.pubKey);
+      final feeData = await widget.plugin.sdk.api.bridge
+          .estimateTxFee(args.chainFrom, args.txHex!, sender.address!);
+      if (mounted) {
+        setState(() {
+          _fee = TxFeeEstimateResult()..partialFee = feeData;
+        });
+      }
+      return feeData;
+    }
+
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
     final txInfo =
@@ -101,22 +113,20 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
 
   void _onTxFinish(BuildContext context, Map? res, String? errorMsg) async {
     if (res != null) {
-      print('callback triggered, blockHash: ${res['hash']}');
+      debugPrint('callback triggered, blockHash: ${res['hash']}');
     }
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     if (mounted) {
       await showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
-            title: errorMsg != null
-                ? Icon(Icons.cancel, color: Colors.red, size: 32)
-                : Icon(Icons.check_circle, color: Colors.lightGreen, size: 32),
-            content: Text(errorMsg ??
+          return PolkawalletAlertDialog(
+            type: errorMsg != null ? DialogType.warn : DialogType.ok,
+            title: Text(errorMsg ??
                 I18n.of(context)!
                     .getDic(i18n_full_dic_ui, 'common')!['success']!),
             actions: <Widget>[
-              CupertinoButton(
+              PolkawalletActionSheetAction(
                 child: Text(I18n.of(context)!
                     .getDic(i18n_full_dic_ui, 'common')!['ok']!),
                 onPressed: () => Navigator.of(context).pop(),
@@ -125,12 +135,13 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
           );
         },
       );
+      if (!mounted) return;
       Navigator.of(context).pop(res);
     }
   }
 
   Future<void> _showPasswordDialog(BuildContext context) async {
-    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
+    // final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
 
@@ -161,19 +172,14 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
       widget.keyring.current.address,
       widget.keyring.current.pubKey,
     );
-    final TxInfoData txInfo = TxInfoData(
-      args.module,
-      args.call,
-      sender,
-      tip: _tipValue.toString(),
-      txName: args.txName,
-    );
+    final TxInfoData txInfo = TxInfoData(args.module, args.call, sender,
+        tip: _tipValue.toString(), txName: args.txName, txHex: args.txHex);
 
     try {
       final res = await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
-      _onTxFinish(context, null, err.toString());
+      _onTxFinish(context, null, err.toString().split(":")[1]);
     }
     if (mounted) {
       setState(() {
@@ -190,12 +196,12 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
             title: Text(dic['note']!),
             content: Text(
                 "<${args.module}.${args.call}> ${dic['tx.disabledCall']!}"),
             actions: <Widget>[
-              CupertinoButton(
+              PolkawalletActionSheetAction(
                 child: Text(
                   dic['cancel']!,
                   style: TextStyle(
@@ -229,19 +235,44 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     return res;
   }
 
+  Future<Map?> _bridgeSignAndSend(Map txInfo, password,
+      {required Function(String) onStatusChange}) async {
+    final msgId =
+        "onStatusChange${widget.plugin.sdk.api.bridge.getEvalJavascriptUID()}";
+    widget.plugin.sdk.api.bridge.addMsgHandler(msgId, onStatusChange);
+    final args =
+        ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
+
+    final keypair = widget.keyring.store.list.firstWhere(
+        (element) => element['pubKey'] == widget.keyring.current.pubKey);
+
+    final dynamic res = await widget.plugin.sdk.api.bridge
+        .sendTx(args.chainFrom, txInfo, password, msgId, keypair);
+
+    widget.plugin.sdk.api.bridge.removeMsgHandler(msgId);
+    return res;
+  }
+
   Future<Map?> _sendTx(
     BuildContext context,
     TxInfoData txInfo,
     XcmTxConfirmParams args,
     String password,
   ) async {
-    final param =
-        args.rawParams != null ? args.rawParams : jsonEncode(args.params);
+    final param = args.rawParams ?? jsonEncode(args.params);
     final Map tx = txInfo.toJson();
-    print(tx);
-    print(param);
+    debugPrint('$tx');
+    debugPrint(param);
 
-    return _signAndSend(tx, param!, password,
+    if (args.isBridge) {
+      return _bridgeSignAndSend(tx, password, onStatusChange: (status) {
+        if (mounted) {
+          final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+          _updateTxStatus(context, dic['tx.$status'] ?? status);
+        }
+      });
+    }
+    return _signAndSend(tx, param, password,
         jsApi: args.chainFrom == widget.plugin.basic.name
             ? 'api'
             : 'xcm.getApi("${args.chainFrom}")', onStatusChange: (status) {
@@ -259,26 +290,29 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor:
-              args.isPlugin ? Color(0xFF202020) : Theme.of(context).cardColor,
+          backgroundColor: args.isPlugin
+              ? const Color(0xFF202020)
+              : Theme.of(context).cardColor,
           content: ListTile(
-            leading: CupertinoActivityIndicator(),
+            leading: const CupertinoActivityIndicator(),
             title: Text(
               status,
               style: TextStyle(
                   color: args.isPlugin
                       ? PluginColorsDark.headline1
-                      : Colors.black54),
+                      : Theme.of(context).textTheme.headline1?.color),
             ),
           ),
-          duration: Duration(minutes: 5),
+          duration: const Duration(minutes: 5),
         ));
       }
     }
   }
 
   void _onTipChanged(double tip) {
-    final decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
+    final args =
+        ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
+    final decimals = args.feeToken.decimals!;
 
     /// tip division from 0 to 19:
     /// 0-10 for 0-0.1
@@ -306,7 +340,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
 
-    final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
+    final isNetworkConnected =
+        args.isBridge || widget.plugin.sdk.api.connectedNode != null;
     final isNetworkMatch = widget.plugin.networkState.genesisHash ==
         widget.plugin.basic.genesisHash;
 
@@ -327,9 +362,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
             title: Text(args.txTitle!),
             centerTitle: true,
             leading: PluginIconButton(
-                icon: SvgPicture.asset(
-                  "packages/polkawallet_ui/assets/images/icon_back_24.svg",
-                  color: Colors.black,
+                icon: Image.asset(
+                  "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
+                  width: 9,
                 ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -343,16 +378,16 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                     children: <Widget>[
                       Expanded(
                         child: ListView(
-                          padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                           children: <Widget>[
                             Column(
                               children: [
                                 RoundedPluginCard(
-                                  color: Color(0x24FFFFFF),
+                                  color: const Color(0x24FFFFFF),
                                   borderRadius: const BorderRadius.all(
-                                      const Radius.circular(10)),
-                                  padding: EdgeInsets.all(16),
-                                  margin: EdgeInsets.only(bottom: 24),
+                                      Radius.circular(10)),
+                                  padding: const EdgeInsets.all(16),
+                                  margin: const EdgeInsets.only(bottom: 24),
                                   width: double.infinity,
                                   child: Column(
                                     crossAxisAlignment:
@@ -392,10 +427,10 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                   ),
                                 ),
                                 RoundedPluginCard(
-                                  color: Color(0x24FFFFFF),
+                                  color: const Color(0x24FFFFFF),
                                   borderRadius: const BorderRadius.all(
-                                      const Radius.circular(10)),
-                                  padding: EdgeInsets.all(16),
+                                      Radius.circular(10)),
+                                  padding: const EdgeInsets.all(16),
                                   child: Column(
                                     children: [
                                       Row(
@@ -411,7 +446,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                             size: 24,
                                           ),
                                           Container(
-                                            margin: EdgeInsets.only(left: 8),
+                                            margin:
+                                                const EdgeInsets.only(left: 8),
                                             child: Text(
                                               Fmt.address(
                                                   widget
@@ -431,13 +467,18 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                           )),
                                           Visibility(
                                               visible: isNetworkConnected,
-                                              child: Container(
-                                                  height: 44,
-                                                  width: 24,
-                                                  margin:
-                                                      EdgeInsets.only(right: 8),
-                                                  child: args.chainFromIcon ??
-                                                      Container())),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10, bottom: 10),
+                                                child: Container(
+                                                    height: 24,
+                                                    width: 24,
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 8),
+                                                    child: args.chainFromIcon ??
+                                                        Container()),
+                                              )),
                                           !isNetworkConnected
                                               ? Text(
                                                   dic['tx.network.no']!,
@@ -481,7 +522,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                               ],
                             ),
                             Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 child: Image.asset(
                                     "packages/polkawallet_ui/assets/images/divider.png")),
                             CollapsedContainer(
@@ -497,11 +539,11 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                         color: Colors.white),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 40),
+                                    margin: const EdgeInsets.only(left: 40),
                                     child: Text(
                                       _updateKUSD(args.rawParams != null
                                           ? args.rawParams!
-                                          : JsonEncoder.withIndent('  ')
+                                          : const JsonEncoder.withIndent('  ')
                                               .convert(args.params)),
                                       style: TextStyle(
                                           fontSize: UI.getTextSize(14, context),
@@ -512,7 +554,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 16),
+                              margin: const EdgeInsets.only(top: 16),
                               child: CollapsedContainer(
                                 title: dicAcc['advanced'] ?? '',
                                 isPlugin: true,
@@ -520,10 +562,10 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                   children: [
                                     Row(
                                       children: <Widget>[
-                                        Container(
+                                        SizedBox(
                                           width: 64,
                                           child: Text(dic['tx.tip']!,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.white)),
                                         ),
                                         TapTooltip(
@@ -532,14 +574,14 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                             children: [
                                               Text(
                                                 '${Fmt.token(_tipValue, decimals)} $symbol',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                     color: Colors.white),
                                               ),
                                               Container(
-                                                padding:
-                                                    EdgeInsets.only(left: 8),
-                                                child: Icon(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8),
+                                                child: const Icon(
                                                   Icons.info,
                                                   color: Colors.white,
                                                   size: 16,
@@ -552,35 +594,20 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                     ),
                                     Row(
                                       children: <Widget>[
-                                        Text('0',
+                                        const Text('0',
                                             style:
                                                 TextStyle(color: Colors.white)),
                                         Expanded(
-                                          child: SliderTheme(
-                                              data: SliderThemeData(
-                                                trackHeight: 12,
-                                                activeTrackColor:
-                                                    Color(0xFFFF7849),
-                                                inactiveTrackColor:
-                                                    Colors.transparent,
-                                                overlayColor:
-                                                    Colors.transparent,
-                                                trackShape:
-                                                    const PluginSliderTrackShape(),
-                                                thumbShape:
-                                                    const PluginSliderThumbShape(),
-                                              ),
-                                              child: Slider(
-                                                min: 0,
-                                                max: 19,
-                                                divisions: 19,
-                                                value: _tip,
-                                                onChanged: _submitting
-                                                    ? null
-                                                    : _onTipChanged,
-                                              )),
+                                          child: PluginSlider(
+                                            max: 19,
+                                            divisions: 19,
+                                            value: _tip,
+                                            onChanged: _submitting
+                                                ? null
+                                                : _onTipChanged,
+                                          ),
                                         ),
-                                        Text('1',
+                                        const Text('1',
                                             style:
                                                 TextStyle(color: Colors.white))
                                       ],
@@ -603,7 +630,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                       Visibility(
                           visible: isNetworkConnected && !isObservation,
                           child: Padding(
-                              padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                               child: Row(
                                 children: <Widget>[
                                   Expanded(
@@ -613,9 +640,15 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                           .textTheme
                                           .button
                                           ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .textSelectionTheme
-                                                  .selectionColor),
+                                              color: UI.isDarkTheme(context)
+                                                  ? Theme.of(context)
+                                                      .textTheme
+                                                      .button
+                                                      ?.color
+                                                  : Theme.of(context)
+                                                      .textTheme
+                                                      .headline1
+                                                      ?.color),
                                       title: dic['cancel']!,
                                       backgroundColor: Colors.white,
                                       onPressed: () {
@@ -676,13 +709,13 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                   children: <Widget>[
                     Expanded(
                       child: ListView(
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                         children: <Widget>[
                           Column(
                             children: [
                               InnerShadowBGCar(
-                                padding: EdgeInsets.only(left: 16),
-                                margin: EdgeInsets.only(bottom: 24),
+                                padding: const EdgeInsets.only(left: 16),
+                                margin: const EdgeInsets.only(bottom: 24),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -718,7 +751,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                 ),
                               ),
                               InnerShadowBGCar(
-                                padding: EdgeInsets.only(left: 16, right: 16),
+                                padding:
+                                    const EdgeInsets.only(left: 16, right: 16),
                                 child: Column(
                                   children: [
                                     Row(
@@ -732,7 +766,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                           size: 24,
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 8),
+                                          margin:
+                                              const EdgeInsets.only(left: 8),
                                           child: Text(
                                             Fmt.address(
                                                 widget.keyring.current.address,
@@ -750,12 +785,16 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                         Visibility(
                                             visible: isNetworkConnected,
                                             child: Container(
-                                                height: 44,
+                                                height: 24,
                                                 width: 24,
-                                                margin:
-                                                    EdgeInsets.only(right: 8),
-                                                child: args.chainFromIcon ??
-                                                    Container())),
+                                                margin: const EdgeInsets.only(
+                                                    right: 8,
+                                                    top: 10,
+                                                    bottom: 10),
+                                                child: Center(
+                                                  child: args.chainFromIcon ??
+                                                      Container(),
+                                                ))),
                                         !isNetworkConnected
                                             ? Text(
                                                 dic['tx.network.no']!,
@@ -796,7 +835,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                               ),
                             ],
                           ),
-                          Divider(height: 24),
+                          const Divider(height: 24),
                           CollapsedContainer(
                             title: dic['tx.params'] ?? '',
                             child: Column(
@@ -808,11 +847,11 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                       fontSize: UI.getTextSize(14, context)),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(left: 40),
+                                  margin: const EdgeInsets.only(left: 40),
                                   child: Text(
                                     _updateKUSD(args.rawParams != null
                                         ? args.rawParams!
-                                        : JsonEncoder.withIndent('  ')
+                                        : const JsonEncoder.withIndent('  ')
                                             .convert(args.params)),
                                     style: TextStyle(
                                         fontSize: UI.getTextSize(14, context)),
@@ -822,14 +861,14 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 16),
+                            margin: const EdgeInsets.only(top: 16),
                             child: CollapsedContainer(
                               title: dicAcc['advanced'] ?? '',
                               child: Column(
                                 children: [
                                   Row(
                                     children: <Widget>[
-                                      Container(
+                                      SizedBox(
                                         width: 64,
                                         child: Text(dic['tx.tip']!),
                                       ),
@@ -845,7 +884,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                                       .toggleableActiveColor),
                                             ),
                                             Container(
-                                              padding: EdgeInsets.only(left: 8),
+                                              padding: const EdgeInsets.only(
+                                                  left: 8),
                                               child: Icon(
                                                 Icons.info,
                                                 color: Theme.of(context)
@@ -860,7 +900,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                   ),
                                   Row(
                                     children: <Widget>[
-                                      Text('0'),
+                                      const Text('0'),
                                       Expanded(
                                         child: SliderTheme(
                                             data: SliderThemeData(
@@ -869,11 +909,11 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                                     Theme.of(context)
                                                         .toggleableActiveColor,
                                                 inactiveTrackColor:
-                                                    Color(0xFFE3DED8),
+                                                    const Color(0xFFE3DED8),
                                                 overlayColor:
                                                     Colors.transparent,
-                                                thumbShape: SliderThumbShape(
-                                                    _image ?? null)),
+                                                thumbShape:
+                                                    SliderThumbShape(_image)),
                                             child: Slider(
                                               min: 0,
                                               max: 19,
@@ -884,7 +924,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                                   : _onTipChanged,
                                             )),
                                       ),
-                                      Text('1')
+                                      const Text('1')
                                     ],
                                   )
                                 ],
@@ -905,7 +945,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                     Visibility(
                         visible: isNetworkConnected && !isObservation,
                         child: Padding(
-                            padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                             child: Row(
                               children: <Widget>[
                                 Expanded(
@@ -915,9 +955,15 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                         .textTheme
                                         .button
                                         ?.copyWith(
-                                            color: Theme.of(context)
-                                                .textSelectionTheme
-                                                .selectionColor),
+                                            color: UI.isDarkTheme(context)
+                                                ? Theme.of(context)
+                                                    .textTheme
+                                                    .button
+                                                    ?.color
+                                                : Theme.of(context)
+                                                    .textTheme
+                                                    .headline1
+                                                    ?.color),
                                     title: dic['cancel']!,
                                     isBlueBg: false,
                                     onPressed: () {
@@ -960,18 +1006,18 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
 }
 
 class _ConfirmItemLabel extends StatelessWidget {
-  _ConfirmItemLabel({required this.text, this.isPlugin = false});
+  const _ConfirmItemLabel({required this.text, this.isPlugin = false});
   final String text;
   final bool isPlugin;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 88,
+      alignment: AlignmentDirectional.centerStart,
       child: Text(text,
           style: TextStyle(
               fontFamily: UI.getFontFamily('TitilliumWeb', context),
-              color: this.isPlugin ? Colors.white : null)),
-      alignment: AlignmentDirectional.centerStart,
+              color: isPlugin ? Colors.white : null)),
     );
   }
 }
@@ -988,10 +1034,12 @@ class XcmTxConfirmParams {
       this.txTitle,
       this.txName,
       this.isPlugin = false,
+      this.isBridge = false,
       required this.chainFrom,
       this.chainFromIcon,
       required this.feeToken,
-      this.waitingWidget});
+      this.waitingWidget,
+      this.txHex});
   final String? module;
   final String? call;
   final List? params;
@@ -1006,4 +1054,6 @@ class XcmTxConfirmParams {
   final Widget? chainFromIcon;
   final TokenBalanceData feeToken;
   final Widget? waitingWidget;
+  final bool isBridge;
+  final String? txHex;
 }

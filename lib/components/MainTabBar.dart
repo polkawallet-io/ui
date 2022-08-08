@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class MainTabBar extends StatelessWidget {
-  MainTabBar({
+  const MainTabBar({
+    Key? key,
     this.tabs,
     this.activeTab,
     this.onTap,
     this.fontSize = 24,
     this.lineWidth = 8,
-  });
+  }) : super(key: key);
 
   final List<String>? tabs;
   final Function(int)? onTap;
@@ -23,7 +24,7 @@ class MainTabBar extends StatelessWidget {
         return GestureDetector(
           child: isActive
               ? Padding(
-                  padding: EdgeInsets.only(right: 24),
+                  padding: const EdgeInsets.only(right: 24),
                   child: Column(
                     children: [
                       Text(e,
@@ -32,7 +33,7 @@ class MainTabBar extends StatelessWidget {
                       Container(
                         width: 24,
                         height: lineWidth,
-                        margin: EdgeInsets.only(top: 4),
+                        margin: const EdgeInsets.only(top: 4),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
                             color: Theme.of(context).primaryColor),
@@ -41,10 +42,10 @@ class MainTabBar extends StatelessWidget {
                   ),
                 )
               : Padding(
-                  padding: EdgeInsets.only(right: 24),
+                  padding: const EdgeInsets.only(right: 24),
                   child: Column(children: [
                     Text(e, style: TextStyle(fontSize: fontSize - 4)),
-                    Container(width: 24, height: 8)
+                    const SizedBox(width: 24, height: 8)
                   ]),
                 ),
           onTap: () => onTap!(tabs!.indexOf(e)),

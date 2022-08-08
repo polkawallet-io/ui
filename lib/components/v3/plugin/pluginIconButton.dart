@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PluginIconButton extends StatelessWidget {
   const PluginIconButton(
       {Key? key,
-      this.color = const Color(0xFFE4E5E5),
+      this.color = const Color(0x24FFFFFF),
       this.icon,
       this.onPressed})
       : super(key: key);
@@ -20,10 +20,10 @@ class PluginIconButton extends StatelessWidget {
           width: 30,
           height: 30,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(const Radius.circular(8)),
-            color: this.color,
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: color,
           ),
-          child: icon,
+          child: Center(child: icon),
         ),
       ),
     );

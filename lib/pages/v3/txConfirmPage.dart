@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -18,13 +16,13 @@ import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/components/v3/collapsedContainer.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/components/v3/innerShadow.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
-import 'package:polkawallet_ui/components/v3/plugin/pluginSliderThumbShape.dart';
-import 'package:polkawallet_ui/components/v3/plugin/pluginSliderTrackShape.dart';
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
+import 'package:polkawallet_ui/components/v3/plugin/slider/PluginSlider.dart';
 import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
 import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
@@ -40,7 +38,7 @@ class TxConfirmPage extends StatefulWidget {
   final Future<Map<dynamic, dynamic>>? txDisabledCalls;
   final Future<String> Function(BuildContext, KeyPairData) getPassword;
 
-  static final String route = '/tx/confirm';
+  static const String route = '/tx/confirm';
 
   @override
   _TxConfirmPageState createState() => _TxConfirmPageState();
@@ -79,7 +77,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     return fi.image;
   }
 
-  Future<String> _getTxFee({bool reload = false}) async {
+  Future<String> _getTxFee() async {
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     final sender = TxSenderData(
@@ -106,15 +104,13 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       await showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
-            title: errorMsg != null
-                ? Icon(Icons.cancel, color: Colors.red, size: 32)
-                : Icon(Icons.check_circle, color: Colors.lightGreen, size: 32),
-            content: Text(errorMsg ??
+          return PolkawalletAlertDialog(
+            type: errorMsg != null ? DialogType.warn : DialogType.ok,
+            title: Text(errorMsg ??
                 I18n.of(context)!
                     .getDic(i18n_full_dic_ui, 'common')!['success']!),
             actions: <Widget>[
-              CupertinoButton(
+              PolkawalletActionSheetAction(
                 child: Text(I18n.of(context)!
                     .getDic(i18n_full_dic_ui, 'common')!['ok']!),
                 onPressed: () => Navigator.of(context).pop(),
@@ -128,7 +124,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   }
 
   Future<void> _showPasswordDialog(BuildContext context) async {
-    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
 
@@ -188,7 +183,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
           : await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
-      _onTxFinish(context, null, err.toString());
+      _onTxFinish(context, null, err.toString().split(":")[1]);
     }
     if (mounted) {
       setState(() {
@@ -205,12 +200,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
             title: Text(dic['note']!),
             content: Text(
                 "<${args.module}.${args.call}> ${dic['tx.disabledCall']!}"),
             actions: <Widget>[
-              CupertinoButton(
+              PolkawalletActionSheetAction(
                 child: Text(
                   dic['cancel']!,
                   style: TextStyle(
@@ -284,19 +279,20 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor:
-            args.isPlugin ? Color(0xFF202020) : Theme.of(context).cardColor,
+        backgroundColor: args.isPlugin
+            ? const Color(0xFF202020)
+            : Theme.of(context).cardColor,
         content: ListTile(
-          leading: CupertinoActivityIndicator(),
+          leading: const CupertinoActivityIndicator(),
           title: Text(
             status,
             style: TextStyle(
                 color: args.isPlugin
                     ? PluginColorsDark.headline1
-                    : Colors.black54),
+                    : Theme.of(context).textTheme.headline1?.color),
           ),
         ),
-        duration: Duration(minutes: 5),
+        duration: const Duration(minutes: 5),
       ));
     }
   }
@@ -322,6 +318,22 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     return value;
   }
 
+  dynamic _formatNumberInParams(dynamic item) {
+    switch (item.runtimeType) {
+      case String:
+        try {
+          final bigInt = BigInt.parse(item);
+          return bigInt.toString();
+        } catch (_) {
+          return item;
+        }
+      case List:
+        return List.of(item).map((e) => _formatNumberInParams(e)).toList();
+      default:
+        return item;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
@@ -331,12 +343,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final isNetworkMatch = widget.plugin.networkState.genesisHash ==
         widget.plugin.basic.genesisHash;
 
-    final bool isKusama = widget.plugin.basic.name == 'kusama';
     final String symbol = (widget.plugin.networkState.tokenSymbol ?? [''])[0];
     final int decimals = (widget.plugin.networkState.tokenDecimals ?? [12])[0];
 
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
+    final List? params = _formatNumberInParams(args.params);
 
     final bool isObservation = widget.keyring.current.observation ?? false;
     final bool isProxyObservation =
@@ -356,9 +368,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
             title: Text(args.txTitle!),
             centerTitle: true,
             leading: PluginIconButton(
-                icon: SvgPicture.asset(
-                  "packages/polkawallet_ui/assets/images/icon_back_24.svg",
-                  color: Colors.black,
+                icon: Image.asset(
+                  "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
+                  width: 9,
                 ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -370,16 +382,16 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
               children: <Widget>[
                 Expanded(
                   child: ListView(
-                    padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                     children: <Widget>[
                       Column(
                         children: [
                           RoundedPluginCard(
-                            color: Color(0x24FFFFFF),
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(10)),
-                            padding: EdgeInsets.all(16),
-                            margin: EdgeInsets.only(bottom: 24),
+                            color: const Color(0x24FFFFFF),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            padding: const EdgeInsets.all(16),
+                            margin: const EdgeInsets.only(bottom: 24),
                             width: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,10 +428,10 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             ),
                           ),
                           RoundedPluginCard(
-                            color: Color(0x24FFFFFF),
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(10)),
-                            padding: EdgeInsets.all(16),
+                            color: const Color(0x24FFFFFF),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            padding: const EdgeInsets.all(16),
                             child: Column(
                               children: [
                                 isUnsigned
@@ -437,7 +449,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                             size: 24,
                                           ),
                                           Container(
-                                            margin: EdgeInsets.only(left: 8),
+                                            margin:
+                                                const EdgeInsets.only(left: 8),
                                             child: Text(
                                               Fmt.address(
                                                   widget
@@ -460,7 +473,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                         child: Container(
                                             height: 44,
                                             width: 24,
-                                            margin: EdgeInsets.only(right: 8),
+                                            margin:
+                                                const EdgeInsets.only(right: 8),
                                             child: widget.plugin.basic.icon)),
                                     !isNetworkConnected
                                         ? Text(
@@ -503,7 +517,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         ],
                       ),
                       Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                           child: Image.asset(
                               "packages/polkawallet_ui/assets/images/divider.png")),
                       CollapsedContainer(
@@ -519,12 +533,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   color: Colors.white),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 40),
+                              margin: const EdgeInsets.only(left: 40),
                               child: Text(
                                 _updateKUSD(args.rawParams != null
                                     ? args.rawParams!
-                                    : JsonEncoder.withIndent('  ')
-                                        .convert(args.params)),
+                                    : const JsonEncoder.withIndent('  ')
+                                        .convert(params)),
                                 style: TextStyle(
                                     fontSize: UI.getTextSize(14, context),
                                     color: Colors.white),
@@ -534,7 +548,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 16),
+                        margin: const EdgeInsets.only(top: 16),
                         child: CollapsedContainer(
                           title: dicAcc['advanced'] ?? '',
                           isPlugin: true,
@@ -542,10 +556,11 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             children: [
                               Row(
                                 children: <Widget>[
-                                  Container(
+                                  SizedBox(
                                     width: 64,
                                     child: Text(dic['tx.tip']!,
-                                        style: TextStyle(color: Colors.white)),
+                                        style: const TextStyle(
+                                            color: Colors.white)),
                                   ),
                                   TapTooltip(
                                     message: dic['tx.tip.brief']!,
@@ -553,13 +568,14 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                       children: [
                                         Text(
                                           '${Fmt.token(_tipValue, decimals)} $symbol',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.w600,
                                               color: Colors.white),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.only(left: 8),
-                                          child: Icon(
+                                          padding:
+                                              const EdgeInsets.only(left: 8),
+                                          child: const Icon(
                                             Icons.info,
                                             color: Colors.white,
                                             size: 16,
@@ -572,32 +588,18 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                               ),
                               Row(
                                 children: <Widget>[
-                                  Text('0',
+                                  const Text('0',
                                       style: TextStyle(color: Colors.white)),
                                   Expanded(
-                                    child: SliderTheme(
-                                        data: SliderThemeData(
-                                          trackHeight: 12,
-                                          activeTrackColor: Color(0xFFFF7849),
-                                          inactiveTrackColor:
-                                              Colors.transparent,
-                                          overlayColor: Colors.transparent,
-                                          trackShape:
-                                              const PluginSliderTrackShape(),
-                                          thumbShape:
-                                              const PluginSliderThumbShape(),
-                                        ),
-                                        child: Slider(
-                                          min: 0,
-                                          max: 19,
-                                          divisions: 19,
-                                          value: _tip,
-                                          onChanged: _submitting
-                                              ? null
-                                              : _onTipChanged,
-                                        )),
+                                    child: PluginSlider(
+                                      max: 19,
+                                      divisions: 19,
+                                      value: _tip,
+                                      onChanged:
+                                          _submitting ? null : _onTipChanged,
+                                    ),
                                   ),
-                                  Text('1',
+                                  const Text('1',
                                       style: TextStyle(color: Colors.white))
                                 ],
                               )
@@ -619,7 +621,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 Visibility(
                     visible: isNetworkConnected,
                     child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -629,9 +631,15 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                     .textTheme
                                     .button
                                     ?.copyWith(
-                                        color: Theme.of(context)
-                                            .textSelectionTheme
-                                            .selectionColor),
+                                        color: UI.isDarkTheme(context)
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .button
+                                                ?.color
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .headline1
+                                                ?.color),
                                 title: dic['cancel']!,
                                 backgroundColor: Colors.white,
                                 onPressed: () {
@@ -706,13 +714,13 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
             children: <Widget>[
               Expanded(
                 child: ListView(
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                   children: <Widget>[
                     Column(
                       children: [
                         InnerShadowBGCar(
-                          padding: EdgeInsets.only(left: 16),
-                          margin: EdgeInsets.only(bottom: 24),
+                          padding: const EdgeInsets.only(left: 16),
+                          margin: const EdgeInsets.only(bottom: 24),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -745,7 +753,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                           ),
                         ),
                         InnerShadowBGCar(
-                          padding: EdgeInsets.only(left: 16, right: 16),
+                          padding: const EdgeInsets.only(left: 16, right: 16),
                           child: Column(
                             children: [
                               isUnsigned
@@ -761,7 +769,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           size: 24,
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(left: 8),
+                                          margin:
+                                              const EdgeInsets.only(left: 8),
                                           child: Text(
                                             Fmt.address(
                                                 widget.keyring.current.address,
@@ -781,7 +790,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                       child: Container(
                                           height: 44,
                                           width: 24,
-                                          margin: EdgeInsets.only(right: 8),
+                                          margin:
+                                              const EdgeInsets.only(right: 8),
                                           child: widget.plugin.basic.icon)),
                                   !isNetworkConnected
                                       ? Text(
@@ -821,7 +831,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                         ),
                       ],
                     ),
-                    Divider(height: 24),
+                    const Divider(height: 24),
                     CollapsedContainer(
                       title: dic['tx.params'] ?? '',
                       child: Column(
@@ -833,12 +843,12 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 fontSize: UI.getTextSize(14, context)),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 40),
+                            margin: const EdgeInsets.only(left: 40),
                             child: Text(
                               _updateKUSD(args.rawParams != null
                                   ? args.rawParams!
-                                  : JsonEncoder.withIndent('  ')
-                                      .convert(args.params)),
+                                  : const JsonEncoder.withIndent('  ')
+                                      .convert(params)),
                               style: TextStyle(
                                   fontSize: UI.getTextSize(14, context)),
                             ),
@@ -847,14 +857,14 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 16),
+                      margin: const EdgeInsets.only(top: 16),
                       child: CollapsedContainer(
                         title: dicAcc['advanced'] ?? '',
                         child: Column(
                           children: [
                             Row(
                               children: <Widget>[
-                                Container(
+                                SizedBox(
                                   width: 64,
                                   child: Text(dic['tx.tip']!),
                                 ),
@@ -870,7 +880,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                                 .toggleableActiveColor),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.only(left: 8),
+                                        padding: const EdgeInsets.only(left: 8),
                                         child: Icon(
                                           Icons.info,
                                           color: Theme.of(context)
@@ -885,17 +895,17 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                             ),
                             Row(
                               children: <Widget>[
-                                Text('0'),
+                                const Text('0'),
                                 Expanded(
                                   child: SliderTheme(
                                       data: SliderThemeData(
                                           trackHeight: 16,
                                           activeTrackColor: Theme.of(context)
                                               .toggleableActiveColor,
-                                          inactiveTrackColor: Color(0xFFE3DED8),
+                                          inactiveTrackColor:
+                                              const Color(0xFFE4E4E3),
                                           overlayColor: Colors.transparent,
-                                          thumbShape:
-                                              SliderThumbShape(_image ?? null)),
+                                          thumbShape: SliderThumbShape(_image)),
                                       child: Slider(
                                         min: 0,
                                         max: 19,
@@ -905,7 +915,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                             _submitting ? null : _onTipChanged,
                                       )),
                                 ),
-                                Text('1')
+                                const Text('1')
                               ],
                             )
                           ],
@@ -926,7 +936,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
               Visibility(
                   visible: isNetworkConnected,
                   child: Padding(
-                      padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -936,9 +946,15 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                   .textTheme
                                   .button
                                   ?.copyWith(
-                                      color: Theme.of(context)
-                                          .textSelectionTheme
-                                          .selectionColor),
+                                      color: UI.isDarkTheme(context)
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              ?.color
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .headline1
+                                              ?.color),
                               title: dic['cancel']!,
                               isBlueBg: false,
                               onPressed: () {
@@ -995,7 +1011,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 }
 
 class _ConfirmItemLabel extends StatelessWidget {
-  _ConfirmItemLabel({required this.text, this.isPlugin = false});
+  const _ConfirmItemLabel({required this.text, this.isPlugin = false});
   final String text;
   final bool isPlugin;
   @override

@@ -5,7 +5,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 // Examples can assume:
 // enum Commands { heroAndScholar, hurricaneCame }
@@ -116,8 +115,7 @@ class _MenuItem extends SingleChildRenderObjectWidget {
     Key? key,
     required this.onLayout,
     required Widget? child,
-  })  : assert(onLayout != null),
-        super(key: key, child: child);
+  }) : super(key: key, child: child);
 
   final ValueChanged<Size> onLayout;
 
@@ -134,9 +132,7 @@ class _MenuItem extends SingleChildRenderObjectWidget {
 }
 
 class _RenderMenuItem extends RenderShiftedBox {
-  _RenderMenuItem(this.onLayout, [RenderBox? child])
-      : assert(onLayout != null),
-        super(child);
+  _RenderMenuItem(this.onLayout, [RenderBox? child]) : super(child);
 
   ValueChanged<Size> onLayout;
 
@@ -217,9 +213,7 @@ class PopupMenuItem<T> extends PopupMenuEntry<T> {
     this.textStyle,
     this.mouseCursor,
     required this.child,
-  })  : assert(enabled != null),
-        assert(height != null),
-        super(key: key);
+  }) : super(key: key);
 
   /// The value that will be returned by [showMenu] if this entry is selected.
   final T? value;
@@ -449,8 +443,7 @@ class CheckedPopupMenuItem<T> extends PopupMenuItem<T> {
     EdgeInsets? padding,
     double height = kMinInteractiveDimension,
     Widget? child,
-  })  : assert(checked != null),
-        super(
+  }) : super(
           key: key,
           value: value,
           enabled: enabled,
@@ -502,10 +495,11 @@ class _CheckedPopupMenuItemState<T>
   @override
   void handleTap() {
     // This fades the checkmark in or out when tapped.
-    if (widget.checked)
+    if (widget.checked) {
       _controller.reverse();
-    else
+    } else {
       _controller.forward();
+    }
     super.handleTap();
   }
 
@@ -669,10 +663,11 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
     final double buttonHeight = size.height - position.top - position.bottom;
     // Find the ideal vertical position.
     double y = position.top;
-    if (selectedItemIndex != null && itemSizes != null) {
+    if (selectedItemIndex != null) {
       double selectedItemOffset = _kMenuVerticalPadding;
-      for (int index = 0; index < selectedItemIndex!; index += 1)
+      for (int index = 0; index < selectedItemIndex!; index += 1) {
         selectedItemOffset += itemSizes[index]!.height;
+      }
       selectedItemOffset += itemSizes[selectedItemIndex!]!.height / 2;
       y = y + buttonHeight / 2.0 - selectedItemOffset;
     }
@@ -687,7 +682,6 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
       x = position.left;
     } else {
       // Menu button is equidistant from both edges, so grow in reading direction.
-      assert(textDirection != null);
       switch (textDirection) {
         case TextDirection.rtl:
           x = size.width - position.right - childSize.width;
@@ -700,16 +694,18 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
 
     // Avoid going outside an area defined as the rectangle 8.0 pixels from the
     // edge of the screen in every direction.
-    if (x < _kMenuScreenPadding + padding.left)
+    if (x < _kMenuScreenPadding + padding.left) {
       x = _kMenuScreenPadding + padding.left;
-    else if (x + childSize.width >
-        size.width - _kMenuScreenPadding - padding.right)
+    } else if (x + childSize.width >
+        size.width - _kMenuScreenPadding - padding.right) {
       x = size.width - childSize.width - _kMenuScreenPadding - padding.right;
-    if (y < _kMenuScreenPadding + padding.top)
+    }
+    if (y < _kMenuScreenPadding + padding.top) {
       y = _kMenuScreenPadding + padding.top;
-    else if (y + childSize.height >
-        size.height - _kMenuScreenPadding - padding.bottom)
+    } else if (y + childSize.height >
+        size.height - _kMenuScreenPadding - padding.bottom) {
       y = size.height - padding.bottom - _kMenuScreenPadding - childSize.height;
+    }
 
     return Offset(x, y);
   }
@@ -881,10 +877,7 @@ Future<T?> showMenu<T>({
   bool useRootNavigator = false,
   double? itemWidth,
 }) {
-  assert(context != null);
-  assert(position != null);
-  assert(useRootNavigator != null);
-  assert(items != null && items.isNotEmpty);
+  assert(items.isNotEmpty);
   assert(debugCheckHasMaterialLocalizations(context));
 
   switch (Theme.of(context).platform) {
@@ -995,6 +988,7 @@ class PopupMenuButton<T> extends StatefulWidget {
       this.initialValue,
       this.onSelected,
       this.onCanceled,
+      this.onShow,
       this.tooltip,
       this.elevation,
       this.padding = const EdgeInsets.all(8.0),
@@ -1007,10 +1001,7 @@ class PopupMenuButton<T> extends StatefulWidget {
       this.color,
       this.enableFeedback,
       this.itemWidth})
-      : assert(itemBuilder != null),
-        assert(offset != null),
-        assert(enabled != null),
-        assert(
+      : assert(
           !(child != null && icon != null),
           'You can only pass [child] or [icon], not both.',
         ),
@@ -1022,7 +1013,7 @@ class PopupMenuButton<T> extends StatefulWidget {
   /// The value of the menu item, if any, that should be highlighted when the menu opens.
   final T? initialValue;
 
-  /// The value of the menu item, if any, that should be highlighted when the menu opens.
+  /// The value of the menu itemWidth.
   final double? itemWidth;
 
   /// Called when the user selects a value from the popup menu created by this button.
@@ -1035,6 +1026,9 @@ class PopupMenuButton<T> extends StatefulWidget {
   ///
   /// If the user selects a value, [onSelected] is called instead.
   final PopupMenuCanceled? onCanceled;
+
+  /// Called when the popup menu show.
+  final PopupMenuCanceled? onShow;
 
   /// Text that describes the action that will occur when the button is pressed.
   ///
@@ -1162,6 +1156,7 @@ class PopupMenuButtonState<T> extends State<PopupMenuButton<T>> {
         }
         widget.onSelected?.call(newValue);
       });
+      widget.onShow?.call();
     }
   }
 
@@ -1184,7 +1179,7 @@ class PopupMenuButtonState<T> extends State<PopupMenuButton<T>> {
 
     assert(debugCheckHasMaterialLocalizations(context));
 
-    if (widget.child != null)
+    if (widget.child != null) {
       return Tooltip(
         message:
             widget.tooltip ?? MaterialLocalizations.of(context).showMenuTooltip,
@@ -1195,10 +1190,15 @@ class PopupMenuButtonState<T> extends State<PopupMenuButton<T>> {
           child: widget.child,
         ),
       );
+    }
 
     return IconButton(
       icon: widget.icon ?? Icon(Icons.adaptive.more),
       padding: widget.padding,
+      constraints: widget.iconSize != null
+          ? BoxConstraints(
+              maxWidth: widget.iconSize!, minWidth: widget.iconSize!)
+          : null,
       iconSize: widget.iconSize ?? 24.0,
       tooltip:
           widget.tooltip ?? MaterialLocalizations.of(context).showMenuTooltip,

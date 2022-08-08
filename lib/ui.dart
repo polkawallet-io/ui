@@ -3,7 +3,9 @@ library polkawallet_ui;
 import 'package:flutter/material.dart';
 
 class PageWrapperWithBackground extends StatelessWidget {
-  PageWrapperWithBackground(this.child, {this.height, this.backgroundImage});
+  const PageWrapperWithBackground(this.child,
+      {Key? key, this.height, this.backgroundImage})
+      : super(key: key);
 
   final double? height;
   final AssetImage? backgroundImage;
@@ -32,7 +34,7 @@ class PageWrapperWithBackground extends StatelessWidget {
               Theme.of(context).primaryColor,
               Theme.of(context).primaryColorDark
             ],
-            stops: [0.6, 0.9],
+            stops: const [0.6, 0.9],
           )),
         ),
         Container(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -14,7 +13,9 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class WalletExtensionSignPage extends StatefulWidget {
-  WalletExtensionSignPage(this.plugin, this.keyring, this.getPassword);
+  const WalletExtensionSignPage(this.plugin, this.keyring, this.getPassword,
+      {Key? key})
+      : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
   final Future<String> Function(BuildContext, KeyPairData) getPassword;
@@ -25,8 +26,7 @@ class WalletExtensionSignPage extends StatefulWidget {
   static const String signTypeExtrinsic = 'pub(extrinsic.sign)';
 
   @override
-  _WalletExtensionSignPageState createState() =>
-      _WalletExtensionSignPageState();
+  createState() => _WalletExtensionSignPageState();
 }
 
 class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
@@ -34,9 +34,7 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
 
   Future<void> _showPasswordDialog(KeyPairData acc) async {
     final password = await widget.getPassword(context, acc);
-    if (password != null) {
-      _sign(password);
-    }
+    _sign(password);
   }
 
   Future<void> _sign(String password) async {
@@ -52,6 +50,7 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
         _submitting = false;
       });
     }
+    if (!mounted) return;
     Navigator.of(context).pop(ExtensionSignResult.fromJson({
       'id': args.id,
       'signature': res.signature,
@@ -74,13 +73,13 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
             .address;
     final KeyPairData acc = widget.keyring.keyPairs.firstWhere((acc) {
       bool matched = false;
-      widget.keyring.store.pubKeyAddressMap.values.forEach((e) {
+      for (var e in widget.keyring.store.pubKeyAddressMap.values) {
         e.forEach((k, v) {
           if (acc.pubKey == k && address == v) {
             matched = true;
           }
         });
-      });
+      }
       return matched;
     });
     return Scaffold(
@@ -97,10 +96,10 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
           children: [
             Expanded(
               child: ListView(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: AddressFormItem(acc,
                         svg: acc.icon, label: dic['submit.signer']),
                   ),
@@ -115,10 +114,11 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
                 Expanded(
                   child: Container(
                     color: _submitting ? Colors.black12 : Colors.orange,
-                    child: FlatButton(
-                      padding: EdgeInsets.all(16),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(16)),
                       child: Text(dic['cancel']!,
-                          style: TextStyle(color: Colors.white)),
+                          style: const TextStyle(color: Colors.white)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -130,14 +130,16 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
                     color: _submitting
                         ? Theme.of(context).disabledColor
                         : Theme.of(context).primaryColor,
-                    child: FlatButton(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        dic['submit.sign']!,
-                        style: TextStyle(color: Colors.white),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.all(16),
                       ),
                       onPressed:
                           _submitting ? null : () => _showPasswordDialog(acc),
+                      child: Text(
+                        dic['submit.sign']!,
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
@@ -151,7 +153,7 @@ class _WalletExtensionSignPageState extends State<WalletExtensionSignPage> {
 }
 
 class SignExtrinsicInfo extends StatelessWidget {
-  SignExtrinsicInfo(this.msg);
+  const SignExtrinsicInfo(this.msg, {Key? key}) : super(key: key);
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {
@@ -171,7 +173,7 @@ class SignExtrinsicInfo extends StatelessWidget {
 }
 
 class SignBytesInfo extends StatelessWidget {
-  SignBytesInfo(this.msg);
+  const SignBytesInfo(this.msg, {Key? key}) : super(key: key);
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {

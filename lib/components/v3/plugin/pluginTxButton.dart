@@ -9,13 +9,14 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 export 'package:polkawallet_ui/components/txButton.dart';
 
 class PluginTxButton extends StatelessWidget {
-  PluginTxButton({
+  const PluginTxButton({
+    Key? key,
     this.text,
     required this.getTxParams,
     this.onFinish,
     this.icon,
     this.color,
-  });
+  }) : super(key: key);
 
   final String? text;
   final Future<TxConfirmParams?> Function() getTxParams;

@@ -1,6 +1,6 @@
 name: polkawallet_ui
 description: Common used Widgets for polkawallet app.
-version: 0.4.8
+version: 0.4.9
 homepage: https://polkawallet.io
 
 environment:
@@ -17,12 +17,14 @@ dependencies:
   intl: ^0.17.0
   qr_flutter_fork: ^4.0.0
   flutter_qr_scan: ^1.0.7
-  polkawallet_sdk: ^0.4.8
+  polkawallet_sdk: ^0.4.9
   webview_flutter: ^3.0.4
   skeleton_loader: ^2.0.0+4
   flutter_screenutil: ^5.0.0+2
   scrollable_positioned_list: ^0.2.3
   card_swiper: ^2.0.3
+  share_plus: ^4.0.9
+  rive: ^0.9.0
   # simple_shadow: ^0.2.0
 
 #dependency_overrides:
@@ -32,6 +34,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

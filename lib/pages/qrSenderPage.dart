@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +6,6 @@ import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
-import 'package:polkawallet_ui/components/roundedButton.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/button.dart';
 import 'package:polkawallet_ui/pages/scanPage.dart';
@@ -22,14 +20,14 @@ class QrSenderPageParams {
 }
 
 class QrSenderPage extends StatefulWidget {
-  QrSenderPage(this.plugin, this.keyring);
+  const QrSenderPage(this.plugin, this.keyring, {Key? key}) : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
 
   static const String route = 'tx/uos/sender';
 
   @override
-  _QrSenderPageState createState() => _QrSenderPageState();
+  createState() => _QrSenderPageState();
 }
 
 class _QrSenderPageState extends State<QrSenderPage> {
@@ -45,7 +43,9 @@ class _QrSenderPageState extends State<QrSenderPage> {
 
     final Map? res = await widget.plugin.sdk.api.uos
         .makeQrCode(args.txInfo, args.params!, rawParam: args.rawParams);
-    print('make qr code');
+
+    debugPrint('make qr code');
+
     setState(() {
       _qrPayload =
           Uint8List.fromList(List<int>.from(Map.of(res!['qrPayload']).values));
@@ -57,6 +57,7 @@ class _QrSenderPageState extends State<QrSenderPage> {
     final res = (await Navigator.of(context).pushNamed(ScanPage.route))
         as QRCodeResult?;
     if (res != null && res.type == QRCodeResultType.hex) {
+      if (!mounted) return;
       Navigator.of(context).pop(res.hex);
     }
   }
@@ -67,13 +68,15 @@ class _QrSenderPageState extends State<QrSenderPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-          title: Text(dic['tx.qr']!), centerTitle: true, leading: BackBtn()),
+          title: Text(dic['tx.qr']!),
+          centerTitle: true,
+          leading: const BackBtn()),
       body: SafeArea(
         child: FutureBuilder(
           future: _getQrCodeData(context),
           builder: (_, AsyncSnapshot<Uint8List?> snapshot) {
             return ListView(
-              padding: EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 16),
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,12 +86,14 @@ class _QrSenderPageState extends State<QrSenderPage> {
                             data: '',
                             rawBytes: snapshot.data,
                             size: screenWidth - 24,
+                            padding: const EdgeInsets.all(2),
+                            backgroundColor: Colors.white,
                           )
-                        : CupertinoActivityIndicator(),
+                        : const CupertinoActivityIndicator(),
                     Visibility(
                         visible: snapshot.hasData,
                         child: Padding(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: Button(
                             icon: SvgPicture.asset(
                               'packages/polkawallet_ui/assets/images/scan.svg',

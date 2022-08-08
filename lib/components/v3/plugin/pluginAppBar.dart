@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
 
 class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -12,6 +11,7 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leading,
       this.titleTextStyle,
       this.isShowLeading = true,
+      this.leadingWidth,
       this.actions})
       : super(key: key);
 
@@ -23,6 +23,7 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isShowLeading;
   final TextStyle? titleTextStyle;
   final List<Widget>? actions;
+  final double? leadingWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +38,13 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor,
       toolbarHeight: toolbarHeight,
       centerTitle: centerTitle,
+      leadingWidth: leadingWidth,
       leading: leading ??
           (isShowLeading
               ? PluginIconButton(
-                  icon: SvgPicture.asset(
-                    "packages/polkawallet_ui/assets/images/icon_back_24.svg",
-                    color: Colors.black,
+                  icon: Image.asset(
+                    "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
+                    width: 9,
                   ),
                   onPressed: () => Navigator.of(context).pop(),
                 )
@@ -52,6 +54,5 @@ class PluginAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      Size.fromHeight(this.toolbarHeight ?? kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(toolbarHeight ?? kToolbarHeight);
 }

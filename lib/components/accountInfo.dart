@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/components/addressIcon.dart';
 import 'package:polkawallet_ui/components/jumpToBrowserLink.dart';
@@ -7,13 +6,15 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class AccountInfo extends StatelessWidget {
-  AccountInfo(
-      {this.accInfo,
+  const AccountInfo(
+      {Key? key,
+      this.accInfo,
       this.address,
       this.icon,
       this.network,
       this.isPlugin = false,
-      this.charts});
+      this.charts})
+      : super(key: key);
   final Map? accInfo;
   final String? address;
   final String? icon;
@@ -34,7 +35,7 @@ class AccountInfo extends StatelessWidget {
           ls.add(Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
+              SizedBox(
                 width: 80,
                 child: Text(k,
                     style: Theme.of(context)
@@ -50,9 +51,9 @@ class AccountInfo extends StatelessWidget {
         }
       });
 
-      if (ls.length > 0) {
+      if (ls.isNotEmpty) {
         if (!isPlugin) {
-          list.add(Divider());
+          list.add(const Divider());
           list.add(Container(height: 4));
         }
         list.addAll(ls);
@@ -62,11 +63,11 @@ class AccountInfo extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          color: Color(0x0FFFFFFF),
+          color: const Color(0x0FFFFFFF),
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 16, bottom: 8),
+                padding: const EdgeInsets.only(top: 16, bottom: 8),
                 child: AddressIcon(address, svg: icon),
               ),
               Visibility(
@@ -78,23 +79,24 @@ class AccountInfo extends StatelessWidget {
                 children: [
                   UI.accountDisplayName(address, accInfo,
                       expand: false,
-                      textColor: isPlugin ? Colors.white : Color(0xFF565554))
+                      textColor:
+                          isPlugin ? Colors.white : const Color(0xFF565554))
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 16, top: 8),
+                padding: const EdgeInsets.only(bottom: 16, top: 8),
                 child: Text(Fmt.address(address),
                     style: TextStyle(
                         color: isPlugin ? Colors.white : null,
                         fontSize: UI.getTextSize(14, context))),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 8),
+                margin: const EdgeInsets.only(bottom: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(right: 16),
+                      padding: const EdgeInsets.only(right: 16),
                       child: JumpToBrowserLink(
                         'https://polkascan.io/$network/account/$address',
                         text: 'Polkascan',
@@ -109,7 +111,7 @@ class AccountInfo extends StatelessWidget {
                     Visibility(
                         visible: charts != null,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 16),
+                          padding: const EdgeInsets.only(left: 16),
                           child: charts ?? Container(),
                         ))
                   ],
@@ -121,9 +123,9 @@ class AccountInfo extends StatelessWidget {
         Visibility(
             visible: accInfo != null,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               color: isPlugin
-                  ? Color.fromARGB(255, 58, 60, 63)
+                  ? const Color.fromARGB(255, 58, 60, 63)
                   : Colors.transparent,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start, children: list),

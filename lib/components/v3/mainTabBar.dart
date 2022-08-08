@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class MainTabBar extends StatelessWidget {
-  MainTabBar({required this.tabs, this.activeTab, this.onTap});
+  const MainTabBar({Key? key, required this.tabs, this.activeTab, this.onTap})
+      : super(key: key);
 
   final Map<String, bool> tabs;
   final Function(int)? onTap;
@@ -22,7 +23,7 @@ class MainTabBar extends StatelessWidget {
               color: Colors.transparent,
               image: DecorationImage(
                   image: AssetImage(
-                      "packages/polkawallet_ui/assets/images/tab_bg_${index == 0 ? 'l' : 'r'}_${index == activeTab ? 'blue' : 'grey'}.png"),
+                      "packages/polkawallet_ui/assets/images/tab_bg_${index == 0 ? 'l' : 'r'}_${index == activeTab ? 'blue' : 'grey'}${UI.isDarkTheme(context) ? "_dark" : ""}.png"),
                   fit: BoxFit.fill),
             ),
             child: Row(
@@ -36,7 +37,7 @@ class MainTabBar extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: UI.getFontFamily('TitilliumWeb', context),
                     color: activeTab == index
-                        ? Colors.white
+                        ? Theme.of(context).textTheme.button?.color
                         : Theme.of(context).unselectedWidgetColor,
                   ),
                 ),
@@ -45,7 +46,7 @@ class MainTabBar extends StatelessWidget {
                     child: Container(
                       width: 9,
                       height: 9,
-                      margin: EdgeInsets.only(left: 5),
+                      margin: const EdgeInsets.only(left: 5),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.5),
                           color: Theme.of(context).errorColor),

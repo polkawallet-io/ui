@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart' hide IconButton;
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:polkawallet_ui/components/v3/iconButton.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class BackBtn extends StatelessWidget {
-  BackBtn({this.onBack, this.margin, Key? key}) : super(key: key);
+  const BackBtn({this.onBack, this.margin, Key? key}) : super(key: key);
 
   final Function? onBack;
   final EdgeInsetsGeometry? margin;
@@ -18,13 +19,18 @@ class BackBtn extends StatelessWidget {
           Navigator.of(context).pop();
         }
       },
-      child: Center(
-          child: IconButton(
-        icon: SvgPicture.asset(
-          "packages/polkawallet_ui/assets/images/icon_back_24.svg",
-          color: Color(0xFF9F9B97),
-        ),
-      )),
+      child: Padding(
+          padding: EdgeInsets.only(left: 16.w),
+          child: Row(
+            children: [
+              IconButton(
+                icon: Image.asset(
+                  "packages/polkawallet_ui/assets/images/icon_back${UI.isDarkTheme(context) ? "_plugin" : ""}.png",
+                  width: 8,
+                ),
+              )
+            ],
+          )),
     );
   }
 }

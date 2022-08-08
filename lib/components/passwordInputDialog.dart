@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/api/api.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class PasswordInputDialog extends StatefulWidget {
-  PasswordInputDialog(this.api,
-      {this.account, this.userPass, this.title, this.content});
+  const PasswordInputDialog(this.api,
+      {Key? key, this.account, this.userPass, this.title, this.content})
+      : super(key: key);
 
   final PolkawalletApi api;
   final KeyPairData? account;
@@ -16,11 +18,11 @@ class PasswordInputDialog extends StatefulWidget {
   final Widget? content;
 
   @override
-  _PasswordInputDialog createState() => _PasswordInputDialog();
+  createState() => _PasswordInputDialog();
 }
 
 class _PasswordInputDialog extends State<PasswordInputDialog> {
-  final TextEditingController _passCtrl = new TextEditingController();
+  final TextEditingController _passCtrl = TextEditingController();
 
   bool _submitting = false;
 
@@ -35,16 +37,18 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
         _submitting = false;
       });
     }
+    if (!mounted) return;
     if (!passed) {
       final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return PolkawalletAlertDialog(
+            type: DialogType.warn,
             title: Text(dic!['pass.error']!),
             content: Text(dic['pass.error.text']!),
             actions: <Widget>[
-              CupertinoButton(
+              PolkawalletActionSheetAction(
                 child: Text(dic['ok']!),
                 onPressed: () => Navigator.of(context).pop(),
               ),
@@ -77,16 +81,16 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
 
-    return CupertinoAlertDialog(
+    return PolkawalletAlertDialog(
       title: widget.title ?? Container(),
       content: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(top: 4),
             child: widget.content ?? Container(),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 12),
+            padding: const EdgeInsets.only(top: 12),
             child: _submitting
                 ? Text(dic['pass.checking']!)
                 : CupertinoTextField(
@@ -94,27 +98,37 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
                     controller: _passCtrl,
                     obscureText: true,
                     clearButtonMode: OverlayVisibilityMode.editing,
-                  ),
+                    placeholderStyle: const TextStyle(
+                        fontWeight: FontWeight.w400, color: Color(0xFF565554)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5.0)),
+                        border: Border.all(
+                            color: const Color(0xFFD4D4D4), width: 0.5))),
           ),
         ],
       ),
       actions: <Widget>[
-        CupertinoButton(
+        PolkawalletActionSheetAction(
           child: Text(dic['cancel']!),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        CupertinoButton(
+        PolkawalletActionSheetAction(
+          isDefaultAction: true,
+          onPressed: _submitting ? null : () => _submit(_passCtrl.text.trim()),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Visibility(
-                  visible: _submitting, child: CupertinoActivityIndicator()),
+                  visible: _submitting,
+                  child: const CupertinoActivityIndicator(
+                      color: const Color(0xFF3C3C44))),
               Text(dic['ok']!)
             ],
           ),
-          onPressed: _submitting ? null : () => _submit(_passCtrl.text.trim()),
         ),
       ],
     );

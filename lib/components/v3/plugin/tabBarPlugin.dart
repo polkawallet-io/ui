@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TabBarPlugin extends StatefulWidget {
-  TabBarPlugin(
+  const TabBarPlugin(
       {required this.datas,
       this.unSelectTextStyle,
       this.selectTextStyle,
       this.backgroundColor = const Color(0xFF242424),
-      this.selectTextColor = const Color(0xFFFF8E66),
+      this.selectTextColor = PluginColorsDark.primary,
       this.unSelectTextColor = const Color(0x80FFFFFF),
       this.selectTextBackgroundColor = const Color(0x2EFF8E66),
       this.itemPaddingHorizontal = 12,
@@ -27,14 +28,15 @@ class TabBarPlugin extends StatefulWidget {
   final Function(int)? onChange;
 
   @override
-  _TabBarPluginState createState() => _TabBarPluginState();
+  createState() => _TabBarPluginState();
 }
 
 class _TabBarPluginState extends State<TabBarPlugin> {
   int _index = 0;
   int _min = 0, _max = 0;
-  ItemScrollController _scrollController = ItemScrollController();
-  ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
+  final ItemScrollController _scrollController = ItemScrollController();
+  final ItemPositionsListener _itemPositionsListener =
+      ItemPositionsListener.create();
 
   @override
   void initState() {
@@ -60,7 +62,7 @@ class _TabBarPluginState extends State<TabBarPlugin> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: Stack(
         alignment: Alignment.centerRight,
         children: [
@@ -110,13 +112,13 @@ class _TabBarPluginState extends State<TabBarPlugin> {
             ),
           ),
           Container(
-              margin: EdgeInsets.only(right: 22, bottom: 5.5, top: 2.5),
-              padding: EdgeInsets.all(4),
+              margin: const EdgeInsets.only(right: 22, bottom: 5.5, top: 2.5),
+              padding: const EdgeInsets.all(4),
               width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topLeft: const Radius.circular(5),
-                    bottomLeft: const Radius.circular(5)),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    bottomLeft: Radius.circular(5)),
                 color: Color(0xFFD5D2CD),
                 boxShadow: [
                   BoxShadow(
@@ -133,8 +135,8 @@ class _TabBarPluginState extends State<TabBarPlugin> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
-                      topLeft: const Radius.circular(3),
-                      bottomLeft: const Radius.circular(3)),
+                      topLeft: Radius.circular(3),
+                      bottomLeft: Radius.circular(3)),
                   color: widget.backgroundColor,
                 ),
                 child: ScrollablePositionedList.builder(
@@ -187,6 +189,6 @@ class TabBarPluginController {
   late Function(int) move;
 
   void _bind(Function(int) onChange) {
-    this.move = onChange;
+    move = onChange;
   }
 }

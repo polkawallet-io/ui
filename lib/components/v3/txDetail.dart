@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
@@ -12,7 +11,8 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class TxDetail extends StatelessWidget {
-  TxDetail({
+  const TxDetail({
+    Key? key,
     this.success,
     this.networkName,
     this.action,
@@ -23,7 +23,7 @@ class TxDetail extends StatelessWidget {
     this.blockNum,
     this.infoItems,
     required this.current,
-  });
+  }) : super(key: key);
 
   final bool? success;
   final String? networkName;
@@ -39,7 +39,7 @@ class TxDetail extends StatelessWidget {
   List<Widget> _buildListView(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     final labelStyle = TextStyle(
-      color: Theme.of(context).textSelectionTheme.selectionColor,
+      color: Theme.of(context).textTheme.headline1?.color,
       fontSize: UI.getTextSize(16, context),
       fontFamily: UI.getFontFamily('TitilliumWeb', context),
       fontWeight: FontWeight.w600,
@@ -47,25 +47,26 @@ class TxDetail extends StatelessWidget {
 
     var list = <Widget>[
       Container(
-        margin: EdgeInsets.all(16),
+        margin: const EdgeInsets.all(16),
         height: 180,
         width: double.infinity,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
             Padding(
-                padding: EdgeInsets.only(top: 30),
+                padding:
+                    EdgeInsets.only(top: UI.isDarkTheme(context) ? 30.5 : 31),
                 child: Image.asset(
-                  'packages/polkawallet_ui/assets/images/bg_detail.png',
+                  'packages/polkawallet_ui/assets/images/bg_detail${UI.isDarkTheme(context) ? "_dark" : ""}.png',
                   width: double.infinity,
                   fit: BoxFit.fill,
                 )),
             Image.asset(
-                'packages/polkawallet_ui/assets/images/bg_detail_circle.png',
+                'packages/polkawallet_ui/assets/images/bg_detail_circle${UI.isDarkTheme(context) ? "_dark" : ""}.png',
                 width: 90,
                 fit: BoxFit.contain),
             Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Column(
                   children: [
                     AddressIcon(
@@ -77,11 +78,11 @@ class TxDetail extends StatelessWidget {
                           border: Border.all(
                               color: Theme.of(context).toggleableActiveColor,
                               width: 3),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(55 / 2.0))),
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(55 / 2.0))),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(top: 3),
+                        padding: const EdgeInsets.only(top: 3),
                         child: Text(current.name!, style: labelStyle)),
                     Expanded(
                         child: Column(
@@ -92,7 +93,9 @@ class TxDetail extends StatelessWidget {
                           '$action ${success! ? dic!['success'] : dic!['fail']}',
                           style: TextStyle(
                             color: success!
-                                ? Color(0xFF22BC5A)
+                                ? UI.isDarkTheme(context)
+                                    ? const Color(0xFF82FF99)
+                                    : const Color(0xFF22BC5A)
                                 : Theme.of(context).disabledColor,
                             fontSize: UI.getTextSize(14, context),
                             fontFamily:
@@ -112,7 +115,7 @@ class TxDetail extends StatelessWidget {
     int index = 0;
     bool isShowDivider = false;
     list.add(RoundedCard(
-      margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: Column(
         children: [
           ...infoItems!.map((i) {
@@ -147,7 +150,9 @@ class TxDetail extends StatelessWidget {
               visible: hash != null,
               child: TxDetailItem(
                   TxDetailInfoItem(
-                      label: 'Hash', content: Text(Fmt.address(hash))),
+                      copyText: hash,
+                      label: 'Hash',
+                      content: Text(Fmt.address(hash))),
                   labelStyle)),
           Visibility(
               visible: blockTime != null,
@@ -165,7 +170,7 @@ class TxDetail extends StatelessWidget {
     final snLink =
         'https://${networkName!.toLowerCase()}.subscan.io/extrinsic/$hash';
     Widget links = Padding(
-        padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: Button(
           title: 'Subscan',
           onPressed: () async {
@@ -174,28 +179,29 @@ class TxDetail extends StatelessWidget {
           icon: SvgPicture.asset(
             "packages/polkawallet_ui/assets/images/icon_share.svg",
             width: 24,
-            color: Colors.white,
+            color: Theme.of(context).textTheme.button?.color,
           ),
         ));
     if (pnLink != null) {
       links = Padding(
-          padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: Row(
             children: [
               Expanded(
                   child: Button(
                 title: 'Subscan',
                 isBlueBg: false,
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.headline3?.copyWith(
+                    color: Theme.of(context).textTheme.button?.color),
                 onPressed: () async {
                   await UI.launchURL(snLink);
                 },
                 icon: Container(
-                    margin: EdgeInsets.only(left: 3),
+                    margin: const EdgeInsets.only(left: 3),
                     child: SvgPicture.asset(
                       "packages/polkawallet_ui/assets/images/icon_share.svg",
                       width: 24,
-                      color: Theme.of(context).disabledColor,
+                      color: Theme.of(context).textTheme.button?.color,
                     )),
               )),
               Container(width: 30),
@@ -205,18 +211,22 @@ class TxDetail extends StatelessWidget {
                 style: TextStyle(
                     fontSize: UI.getTextSize(20, context),
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: UI.isDarkTheme(context)
+                        ? Theme.of(context).textTheme.button?.color
+                        : Colors.white,
                     fontFamily: UI.getFontFamily('TitilliumWeb', context)),
                 isBlueBg: true,
                 onPressed: () async {
                   await UI.launchURL(pnLink);
                 },
                 icon: Container(
-                    margin: EdgeInsets.only(left: 3),
+                    margin: const EdgeInsets.only(left: 3),
                     child: SvgPicture.asset(
                       "packages/polkawallet_ui/assets/images/icon_share.svg",
                       width: 24,
-                      color: Colors.white,
+                      color: UI.isDarkTheme(context)
+                          ? Theme.of(context).textTheme.button?.color
+                          : Colors.white,
                     )),
               ))
             ],
@@ -234,12 +244,12 @@ class TxDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(dic['detail']!),
         centerTitle: true,
-        leading: BackBtn(),
+        leading: const BackBtn(),
       ),
       body: SafeArea(
         child: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.only(bottom: 32),
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 32),
           children: _buildListView(context),
         ),
       ),
@@ -248,7 +258,9 @@ class TxDetail extends StatelessWidget {
 }
 
 class TxDetailItem extends StatelessWidget {
-  TxDetailItem(this.i, this.labelStyle, {this.isShowDivider = true});
+  const TxDetailItem(this.i, this.labelStyle,
+      {Key? key, this.isShowDivider = true})
+      : super(key: key);
   final TxDetailInfoItem i;
   final TextStyle labelStyle;
   final bool isShowDivider;
@@ -258,28 +270,28 @@ class TxDetailItem extends StatelessWidget {
       children: [
         Visibility(
             visible: isShowDivider,
-            child: Padding(
+            child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Divider(
                   height: 1,
                 ))),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
               Expanded(flex: 0, child: Text(i.label!, style: labelStyle)),
               Expanded(
                   child: Container(
-                margin: EdgeInsets.only(left: 16),
+                margin: const EdgeInsets.only(left: 16),
                 alignment: Alignment.centerRight,
                 child: i.content!,
               )),
               i.copyText != null
                   ? GestureDetector(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 8),
+                        padding: const EdgeInsets.only(left: 8),
                         child: Image.asset(
-                          'packages/polkawallet_ui/assets/images/copy.png',
+                          'packages/polkawallet_ui/assets/images/copy${UI.isDarkTheme(context) ? "_dark" : ""}.png',
                           width: 16,
                         ),
                       ),

@@ -12,7 +12,7 @@ class PluginBottomSheetContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -25,7 +25,7 @@ class PluginBottomSheetContainer extends StatelessWidget {
               20.h),
       width: double.infinity,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color(0xFF262628),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -34,7 +34,7 @@ class PluginBottomSheetContainer extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(bottom: 7.h),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
@@ -55,7 +55,7 @@ class PluginBottomSheetContainer extends StatelessWidget {
                         },
                         child: Padding(
                           padding: EdgeInsets.only(left: 15.w),
-                          child: Icon(
+                          child: const Icon(
                             Icons.close,
                             color: Colors.white,
                             size: 18,

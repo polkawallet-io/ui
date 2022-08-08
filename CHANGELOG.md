@@ -1,3 +1,9 @@
+## [0.4.9] - 20220808.
+
+* bump polkawallet_sdk: 0.4.9.
+* UI 3.0 update & issues fix.
+* DApp wrapper sign request fix.
+
 ## [0.4.8] - 20220621.
 
 * bump polkawallet_sdk: 0.4.8.

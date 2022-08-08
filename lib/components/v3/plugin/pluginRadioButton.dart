@@ -14,7 +14,7 @@ class PluginRadioButton extends StatelessWidget {
           color: value ? PluginColorsDark.primary : Color(0x66FFFFFF),
           borderRadius: BorderRadius.circular(7)),
       child: value
-          ? Center(
+          ? const Center(
               child: Icon(
                 Icons.check,
                 size: 9,

@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  RoundedButton({
+  const RoundedButton({
+    Key? key,
     this.text,
     this.textColor,
     this.onPressed,
@@ -10,7 +11,7 @@ class RoundedButton extends StatelessWidget {
     this.color,
     this.borderRadius = 80,
     this.submitting = false,
-  });
+  }) : super(key: key);
 
   final String? text;
   final Color? textColor;
@@ -24,7 +25,7 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> row = <Widget>[];
     if (submitting) {
-      row.add(CupertinoActivityIndicator());
+      row.add(const CupertinoActivityIndicator());
     }
     if (icon != null) {
       row.add(Container(
@@ -49,23 +50,26 @@ class RoundedButton extends StatelessWidget {
         ? Theme.of(context).dividerColor
         : (color ?? Theme.of(context).hoverColor);
 
-    return RaisedButton(
-      padding: EdgeInsets.all(0),
-      // color: color ?? Theme.of(context).primaryColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius)),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.all(0),
+        // color: color ?? Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius)),
+      ),
+      onPressed: submitting ? null : onPressed as void Function()?,
       child: Ink(
         decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [bgColor, gradientColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              stops: [0.1, 0.9],
+              stops: const [0.1, 0.9],
             ),
             borderRadius: BorderRadius.circular(borderRadius)),
         child: Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
-          constraints: BoxConstraints(minHeight: 50.0, minWidth: 88),
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          constraints: const BoxConstraints(minHeight: 50.0, minWidth: 88),
           alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +77,6 @@ class RoundedButton extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: submitting ? null : onPressed as void Function()?,
     );
   }
 }

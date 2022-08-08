@@ -4,12 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 
 class ConnectionChecker extends StatefulWidget {
-  ConnectionChecker(this.plugin, {required this.onConnected});
+  const ConnectionChecker(this.plugin, {Key? key, required this.onConnected})
+      : super(key: key);
   final PolkawalletPlugin plugin;
   final Function onConnected;
 
   @override
-  _ConnectionCheckerState createState() => _ConnectionCheckerState();
+  createState() => _ConnectionCheckerState();
 }
 
 class _ConnectionCheckerState extends State<ConnectionChecker> {
@@ -20,7 +21,7 @@ class _ConnectionCheckerState extends State<ConnectionChecker> {
       widget.onConnected();
     } else {
       /// we need to re-fetch data with timer before wss connected
-      _waitNetworkTimer = new Timer(Duration(seconds: 3), _checkConnection);
+      _waitNetworkTimer = Timer(const Duration(seconds: 3), _checkConnection);
     }
   }
 

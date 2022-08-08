@@ -26,7 +26,7 @@ class InputItem extends StatefulWidget {
       : super(key: key);
 
   @override
-  _InputItemState createState() => _InputItemState();
+  createState() => _InputItemState();
 }
 
 class _InputItemState extends State<InputItem> {
@@ -42,12 +42,12 @@ class _InputItemState extends State<InputItem> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         border: Border.all(
             color: widget.color ?? Theme.of(context).disabledColor,
             width: widget.borderWidth),
       ),
-      padding: widget.padding ?? EdgeInsets.all(8),
+      padding: widget.padding ?? const EdgeInsets.all(8),
       child: Row(
         children: [
           Expanded(
@@ -65,7 +65,7 @@ class _InputItemState extends State<InputItem> {
                   ))),
           GestureDetector(
             child: Container(
-              padding: EdgeInsets.all(2),
+              padding: const EdgeInsets.all(2),
               child: Icon(
                 Icons.cancel,
                 size: 20,

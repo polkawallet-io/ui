@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/numberInputFormatter.dart';
@@ -19,21 +21,20 @@ class UI {
       builder: (BuildContext context) {
         final Map<String, String> dic =
             I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
-        return CupertinoAlertDialog(
+        return PolkawalletAlertDialog(
           title: Container(),
           content: Text('${dic['copy']} ${dic['success']}'),
         );
       },
     );
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.of(context).pop();
     });
   }
 
   static String accountName(BuildContext context, KeyPairData acc) {
-    return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}' +
-        '${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
+    return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
   }
 
   static Widget accountDisplayName(String? address, Map? accInfo,
@@ -61,20 +62,20 @@ class UI {
         hasId
             ? Container(
                 width: 14,
-                margin: EdgeInsets.only(right: 4),
+                margin: const EdgeInsets.only(right: 4),
                 child: good
-                    ? Icon(
+                    ? const Icon(
                         Icons.check_circle,
                         size: 16,
                         color: Colors.lightGreen,
                       )
-                    : Icon(
+                    : const Icon(
                         Icons.remove_circle,
                         size: 16,
                         color: Colors.grey,
                       ),
               )
-            : Container(width: 1, height: 2),
+            : const SizedBox(width: 1, height: 2),
         expand
             ? Expanded(
                 child: Text(accountDisplayNameString(address, accInfo),
@@ -124,20 +125,22 @@ class UI {
         try {
           await launch(url);
         } catch (err) {
-          print(err);
+          if (kDebugMode) {
+            print(err);
+          }
         }
       } else {
-        print('Could not launch $url');
+        debugPrint('Could not launch $url');
       }
     });
   }
 
-  static const Duration _KDelay = Duration(milliseconds: 500);
+  static const Duration _kDelay = Duration(milliseconds: 500);
   static var enable = true;
 
   static throttle(
     Function func, {
-    Duration delay = _KDelay,
+    Duration delay = _kDelay,
   }) {
     if (enable) {
       func();
@@ -166,5 +169,10 @@ class UI {
             ? fontFamilyZh
             : fontFamilyEn;
     return fontFamilyLocale;
+  }
+
+  static bool isDarkTheme(BuildContext context) {
+    return Theme.of(context).scaffoldBackgroundColor.value ==
+        const Color(0xFF242528).value;
   }
 }

@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PluginLinearProgressbar extends StatelessWidget {
-  PluginLinearProgressbar(
-      {this.color,
+  const PluginLinearProgressbar(
+      {Key? key,
+      this.color,
       this.backgroundColor,
       this.width,
       this.progress,
-      this.margin});
+      this.margin})
+      : super(key: key);
   final Color? color;
   final Color? backgroundColor;
   final double? width;
@@ -18,8 +19,8 @@ class PluginLinearProgressbar extends StatelessWidget {
   Widget build(BuildContext context) {
     final progressWidth = ((progress ?? 0.5) < 1 ? (progress ?? 0.5) : 1) *
         (width ?? MediaQuery.of(context).size.width);
-    final thumbWidth = 25.0;
-    final thumbHeithg = 17.0;
+    const thumbWidth = 25.0;
+    const thumbHeithg = 17.0;
     var thumbLeft = progressWidth != 0 ? progressWidth - thumbWidth / 2 : 0.0;
     thumbLeft =
         thumbLeft + thumbWidth > (width ?? MediaQuery.of(context).size.width)
@@ -27,17 +28,17 @@ class PluginLinearProgressbar extends StatelessWidget {
             : thumbLeft;
     thumbLeft = thumbLeft < 0 ? 0 : thumbLeft;
     return Container(
-      margin: margin ?? EdgeInsets.only(top: 16, bottom: 8),
+      margin: margin ?? const EdgeInsets.only(top: 16, bottom: 8),
       child: Stack(
         children: [
           Container(
             height: 11,
             width: width ?? double.infinity,
-            padding: EdgeInsets.all(1.5),
-            margin: EdgeInsets.only(top: (thumbHeithg - 11) / 2),
+            padding: const EdgeInsets.all(1.5),
+            margin: const EdgeInsets.only(top: (thumbHeithg - 11) / 2),
             decoration: BoxDecoration(
-                border: Border.all(color: Color(0x88FFFFFF), width: 1.5),
-                borderRadius: BorderRadius.all(Radius.circular(2))),
+                border: Border.all(color: const Color(0x88FFFFFF), width: 1.5),
+                borderRadius: const BorderRadius.all(Radius.circular(2))),
             child: Container(
               color: backgroundColor ?? Colors.black12,
               height: double.infinity,
@@ -49,11 +50,11 @@ class PluginLinearProgressbar extends StatelessWidget {
               child: Container(
                 height: 11,
                 width: progressWidth < 8 ? 16 : progressWidth,
-                margin: EdgeInsets.only(top: (thumbHeithg - 11) / 2),
-                padding: EdgeInsets.all(1.5),
+                margin: const EdgeInsets.only(top: (thumbHeithg - 11) / 2),
+                padding: const EdgeInsets.all(1.5),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.transparent, width: 1.5),
-                    borderRadius: BorderRadius.all(Radius.circular(2))),
+                    borderRadius: const BorderRadius.all(Radius.circular(2))),
                 child: Container(
                   color: color ?? Colors.blue,
                   height: double.infinity,
@@ -64,7 +65,7 @@ class PluginLinearProgressbar extends StatelessWidget {
               width: thumbWidth,
               height: thumbHeithg,
               margin: EdgeInsets.only(left: thumbLeft),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(6)),
                 boxShadow: [

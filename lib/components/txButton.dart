@@ -32,13 +32,14 @@ class TxConfirmParams {
 }
 
 class TxButton extends StatelessWidget {
-  TxButton({
+  const TxButton({
+    Key? key,
     this.text,
     required this.getTxParams,
     this.onFinish,
     this.icon,
     this.color,
-  });
+  }) : super(key: key);
 
   final String? text;
   final Future<TxConfirmParams?> Function() getTxParams;

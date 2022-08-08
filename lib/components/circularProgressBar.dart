@@ -7,6 +7,7 @@ class AnimationCircularProgressBar extends StatefulWidget {
       {required this.lineColor,
       required this.width,
       required this.progress,
+      this.bgWidth,
       this.size = 96,
       this.startAngle = pi / 2,
       this.bgColor = Colors.transparent,
@@ -16,6 +17,7 @@ class AnimationCircularProgressBar extends StatefulWidget {
   final double size;
   List<Color> lineColor;
   double width;
+  double? bgWidth;
   double startAngle;
   Color bgColor;
 
@@ -31,25 +33,24 @@ class AnimationCircularProgressBarState
   late Animation<double> animation;
 
   void _startAnimation(double progress) {
-    this.controller = AnimationController(
+    controller = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation =
-        Tween(begin: animationNumber, end: progress).animate(this.controller!);
+        Tween(begin: animationNumber, end: progress).animate(controller!);
     animation.addListener(() {
       setState(() {
         animationNumber = animation.value;
       });
     });
-    Future.delayed(Duration(milliseconds: 150), () {
+    Future.delayed(const Duration(milliseconds: 150), () {
       controller!.forward();
     });
   }
 
   @override
   void didUpdateWidget(covariant AnimationCircularProgressBar oldWidget) {
-    if (this.controller == null ||
-        (!this.controller!.isAnimating &&
-            oldWidget.progress != widget.progress)) {
+    if (controller == null ||
+        (!controller!.isAnimating && oldWidget.progress != widget.progress)) {
       _startAnimation(widget.progress);
     }
     super.didUpdateWidget(oldWidget);
@@ -57,15 +58,16 @@ class AnimationCircularProgressBarState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.size,
       height: widget.size,
       child: CustomPaint(
         painter: CircularProgressBar(
             startAngle: widget.startAngle,
             width: widget.width,
+            bgWidth: widget.bgWidth,
             lineColor: widget.lineColor,
-            progress: this.controller != null && this.controller!.isAnimating
+            progress: controller != null && controller!.isAnimating
                 ? animationNumber
                 : widget.progress,
             bgColor: widget.bgColor),
@@ -77,6 +79,7 @@ class AnimationCircularProgressBarState
 class CircularProgressBar extends CustomPainter {
   List<Color> lineColor;
   double width;
+  double? bgWidth;
   double progress; //0-1
   late double endAngle;
   double startAngle;
@@ -85,10 +88,11 @@ class CircularProgressBar extends CustomPainter {
   CircularProgressBar(
       {required this.lineColor,
       required this.width,
+      this.bgWidth,
       this.progress = 1,
       this.startAngle = pi / 2,
       this.bgColor = Colors.transparent}) {
-    this.endAngle = this.progress / 1 * 2 * pi;
+    endAngle = progress / 1 * 2 * pi;
   }
   @override
   void paint(Canvas canvas, Size size) {
@@ -108,7 +112,7 @@ class CircularProgressBar extends CustomPainter {
       endAngle: 2 * pi,
       colors: lineColor,
       transform: GradientRotation(
-          this.startAngle - ((1 - progress) <= 0.04 ? 0 : 0.05 * pi)),
+          startAngle - ((1 - progress) <= 0.04 ? 0 : 0.05 * pi)),
     ).createShader(
       Rect.fromCircle(center: center, radius: radius),
     );
@@ -119,17 +123,17 @@ class CircularProgressBar extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..color = bgColor
       ..isAntiAlias = true
-      ..strokeWidth = width;
+      ..strokeWidth = bgWidth ?? width;
 
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), 0, 2 * pi,
         false, bgpaint);
 
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius),
-        this.startAngle, endAngle, false, paint);
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), startAngle,
+        endAngle, false, paint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return (oldDelegate as CircularProgressBar).progress != this.progress;
+    return (oldDelegate as CircularProgressBar).progress != progress;
   }
 }

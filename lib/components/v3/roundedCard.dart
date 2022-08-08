@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class RoundedCard extends StatelessWidget {
   const RoundedCard(
@@ -7,7 +8,10 @@ class RoundedCard extends StatelessWidget {
       this.padding,
       this.child,
       Key? key,
-      this.color})
+      this.color,
+      this.radius,
+      this.borderWidth,
+      this.brightBoxShadow})
       : super(key: key);
 
   final BoxBorder? border;
@@ -15,29 +19,67 @@ class RoundedCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Widget? child;
   final Color? color;
+  final double? radius;
+  final double? borderWidth;
+  final List<BoxShadow>? brightBoxShadow;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: margin,
-      padding: padding,
-      child: child,
-      decoration: BoxDecoration(
-        border: border,
-        borderRadius: const BorderRadius.all(const Radius.circular(10)),
-        color: this.color ?? Theme.of(context).cardColor,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x30000000),
-            blurRadius: 2.0, // has the effect of softening the shadow
-            spreadRadius: 0.0, // has the effect of extending the shadow
-            offset: Offset(
-              1.0, // horizontal, move right 10
-              1.0, // vertical, move down 10
+    return UI.isDarkTheme(context)
+        ? Container(
+            margin: margin,
+            padding: EdgeInsets.all(borderWidth ?? 0.75),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(radius ?? 8)),
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0x43FFFFFF),
+                  Color(0x21FFFFFF),
+                ],
+              ),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x3D000000),
+                  blurRadius: 1.0, // has the effect of softening the shadow
+                  spreadRadius: 0.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    0.5, // horizontal, move right 10
+                    0.5, // vertical, move down 10
+                  ),
+                )
+              ],
             ),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(radius ?? 8),
+                child: Container(
+                    padding: padding,
+                    color: color ?? Theme.of(context).cardColor,
+                    child: child)),
           )
-        ],
-      ),
-    );
+        : Container(
+            margin: margin,
+            padding: padding,
+            decoration: BoxDecoration(
+              border: border,
+              borderRadius: BorderRadius.all(Radius.circular(radius ?? 8)),
+              color: color ?? Theme.of(context).cardColor,
+              boxShadow: brightBoxShadow ??
+                  const [
+                    BoxShadow(
+                      color: Color(0x24000000),
+                      blurRadius: 1.0, // has the effect of softening the shadow
+                      spreadRadius:
+                          0.0, // has the effect of extending the shadow
+                      offset: Offset(
+                        1.0, // horizontal, move right 10
+                        1.0, // vertical, move down 10
+                      ),
+                    )
+                  ],
+            ),
+            child: child,
+          );
   }
 }

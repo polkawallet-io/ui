@@ -8,11 +8,8 @@ import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/webviewWithExtension.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
-import 'package:polkawallet_ui/components/v3/back.dart';
-import 'package:polkawallet_ui/components/v3/iconButton.dart' as v3;
 import 'package:polkawallet_ui/components/v3/plugin/pluginBottomSheetContainer.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginIconButton.dart';
-import 'package:polkawallet_ui/components/v3/plugin/pluginLoadingWidget.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginOutlinedButtonSmall.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
 import 'package:polkawallet_ui/pages/walletExtensionSignPage.dart';
@@ -21,10 +18,13 @@ import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:collection/collection.dart';
 
 class DAppWrapperPage extends StatefulWidget {
-  DAppWrapperPage(this.plugin, this.keyring,
-      {this.getPassword, this.checkAuth, this.updateAuth});
+  const DAppWrapperPage(this.plugin, this.keyring,
+      {Key? key, this.getPassword, this.checkAuth, this.updateAuth})
+      : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
   final Future<String?> Function(BuildContext, KeyPairData)? getPassword;
@@ -34,7 +34,7 @@ class DAppWrapperPage extends StatefulWidget {
   static const String route = '/extension/app';
 
   @override
-  _DAppWrapperPageState createState() => _DAppWrapperPageState();
+  createState() => _DAppWrapperPageState();
 }
 
 class _DAppWrapperPageState extends State<DAppWrapperPage> {
@@ -46,64 +46,62 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
 
   Widget _buildScaffold(
       {Function? onBack, Widget? body, Function()? actionOnPressed}) {
-    if (ModalRoute.of(context)!.settings.arguments is Map &&
-        (ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]) {
-      final String url =
-          (ModalRoute.of(context)!.settings.arguments as Map)["url"];
-      return PluginScaffold(
-        appBar: PluginAppBar(
-          title: Text(url),
-          leading: PluginIconButton(
-            icon: SvgPicture.asset(
-              "packages/polkawallet_ui/assets/images/icon_back_24.svg",
-              color: Colors.black,
-            ),
-            onPressed: () {
-              onBack!();
-            },
-          ),
-          actions: [
-            Container(
-              margin: EdgeInsets.only(right: 14),
-              child: PluginIconButton(
-                onPressed: actionOnPressed,
-                icon: Icon(
-                  CupertinoIcons.clear,
-                  color: Colors.black,
-                  size: 16,
-                ),
+    String url;
+    if (ModalRoute.of(context)!.settings.arguments is Map) {
+      url = (ModalRoute.of(context)!.settings.arguments as Map)["url"];
+    } else {
+      url = ModalRoute.of(context)!.settings.arguments as String;
+    }
+    return PluginScaffold(
+      appBar: PluginAppBar(
+        title: Text(
+          url.split("://").length > 1 ? url.split("://")[1] : url,
+          style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(
+              fontSize: UI.getTextSize(16, context), color: Colors.white),
+        ),
+        leadingWidth: 88,
+        leading: Row(
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(left: 26, right: 25),
+                child: GestureDetector(
+                  child: Image.asset(
+                    "packages/polkawallet_ui/assets/images/icon_back_plugin.png",
+                    width: 9,
+                  ),
+                  onTap: () {
+                    onBack!();
+                  },
+                )),
+            GestureDetector(
+              child: Image.asset(
+                "packages/polkawallet_ui/assets/images/dapp_clean.png",
+                width: 14,
               ),
-            )
+              onTap: () {
+                _isWillClose = true;
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         ),
-        body: body,
-      );
-    }
-    final String url = ModalRoute.of(context)!.settings.arguments as String;
-    return Scaffold(
-        appBar: AppBar(
-            title: Text(
-              url,
-              style: TextStyle(fontSize: UI.getTextSize(16, context)),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 16),
+            child: PluginIconButton(
+              onPressed: actionOnPressed,
+              color: Colors.transparent,
+              icon: const Icon(
+                Icons.more_horiz,
+                color: PluginColorsDark.headline1,
+                size: 25,
+              ),
             ),
-            leading: BackBtn(
-              onBack: onBack,
-            ),
-            actions: [
-              Container(
-                margin: EdgeInsets.only(right: 14),
-                child: v3.IconButton(
-                  onPressed: actionOnPressed,
-                  icon: Icon(
-                    CupertinoIcons.clear,
-                    color: Theme.of(context).unselectedWidgetColor,
-                    size: 16,
-                  ),
-                ),
-              )
-            ],
-            centerTitle: true),
-        body: body);
+          )
+        ],
+      ),
+      body: body,
+    );
   }
 
   Future<bool> _onConnectRequest(DAppConnectParam params) async {
@@ -133,7 +131,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 24, bottom: 16),
+                      margin: const EdgeInsets.only(top: 24, bottom: 16),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
@@ -170,7 +168,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                           fontWeight: FontWeight.bold),
                     ),
                     Container(
-                      margin: EdgeInsets.all(16),
+                      margin: const EdgeInsets.all(16),
                       child: Text(
                         dic['dApp.connect.tip']!,
                         style: TextStyle(
@@ -183,24 +181,24 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 ),
               )),
               Container(
-                margin: EdgeInsets.fromLTRB(24, 0, 24, 40),
+                margin: const EdgeInsets.fromLTRB(24, 0, 24, 40),
                 child: Row(
                   children: [
                     Expanded(
                       child: PluginOutlinedButtonSmall(
-                        margin: EdgeInsets.only(right: 12),
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.only(right: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.reject']!,
                         fontSize: UI.getTextSize(16, context),
-                        color: Color(0xFFD8D8D8),
+                        color: const Color(0xFFD8D8D8),
                         active: true,
                         onPressed: () => Navigator.of(context).pop(false),
                       ),
                     ),
                     Expanded(
                       child: PluginOutlinedButtonSmall(
-                        margin: EdgeInsets.only(left: 12),
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.only(left: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.allow']!,
                         fontSize: UI.getTextSize(16, context),
                         color: PluginColorsDark.primary,
@@ -233,7 +231,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
         : SignExtrinsicRequest.fromJson(
                 Map<String, dynamic>.from(params.request ?? {}))
             .address;
-    final acc = widget.keyring.keyPairs.firstWhere((acc) {
+    dynamic acc = widget.keyring.keyPairs.firstWhereOrNull((acc) {
       bool matched = false;
       widget.keyring.store.pubKeyAddressMap.values.forEach((e) {
         e.forEach((k, v) {
@@ -244,6 +242,15 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
       });
       return matched;
     });
+
+    if (acc == null) {
+      final decoded =
+          await widget.plugin.sdk.api.account.decodeAddress([address!]);
+      acc = widget.keyring.keyPairs.firstWhere((acc) {
+        return decoded?.keys.firstOrNull == acc.pubKey;
+      });
+    }
+
     final res = await showModalBottomSheet(
       isDismissible: false,
       enableDrag: false,
@@ -263,14 +270,14 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
               Expanded(
                   child: SingleChildScrollView(
                 child: Container(
-                  margin: EdgeInsets.all(24),
+                  margin: const EdgeInsets.all(24),
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(bottom: 6),
+                        padding: const EdgeInsets.only(bottom: 6),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width / 4,
                               child: Text(
                                 dic['submit.signer']!,
@@ -283,9 +290,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(right: 4),
-                              child:
-                                  AddressIcon(address, svg: acc.icon, size: 18),
+                              margin: const EdgeInsets.only(right: 4),
+                              child: AddressIcon(address,
+                                  svg: acc?.icon, size: 18),
                             ),
                             Expanded(
                                 child: Text(
@@ -309,24 +316,24 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 ),
               )),
               Container(
-                margin: EdgeInsets.fromLTRB(24, 0, 24, 40),
+                margin: const EdgeInsets.fromLTRB(24, 0, 24, 40),
                 child: Row(
                   children: [
                     Expanded(
                       child: PluginOutlinedButtonSmall(
-                        margin: EdgeInsets.only(right: 12),
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.only(right: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.connect.reject']!,
                         fontSize: UI.getTextSize(16, context),
-                        color: Color(0xFFD8D8D8),
+                        color: const Color(0xFFD8D8D8),
                         active: true,
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
                     Expanded(
                       child: PluginOutlinedButtonSmall(
-                        margin: EdgeInsets.only(left: 12),
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        margin: const EdgeInsets.only(left: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         content: dic['dApp.confirm']!,
                         fontSize: UI.getTextSize(16, context),
                         color: PluginColorsDark.primary,
@@ -334,7 +341,7 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                         onPressed: _signing
                             ? null
                             : () async {
-                                final res = await _doSign(acc, params);
+                                final res = await _doSign(acc!, params);
                                 if (res != null) {
                                   Navigator.of(context).pop(res);
                                 }
@@ -377,8 +384,15 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
   @override
   Widget build(BuildContext context) {
     String url = "";
+    String name = "";
+    String icon = "";
+    String isPlugin = "";
     if (ModalRoute.of(context)!.settings.arguments is Map) {
       url = (ModalRoute.of(context)!.settings.arguments as Map)["url"];
+      name = (ModalRoute.of(context)!.settings.arguments as Map)["name"] ?? "";
+      icon = (ModalRoute.of(context)!.settings.arguments as Map)["icon"] ?? "";
+      isPlugin =
+          "${(ModalRoute.of(context)!.settings.arguments as Map)["isPlugin"]}";
     } else {
       url = ModalRoute.of(context)!.settings.arguments as String;
     }
@@ -393,8 +407,12 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           }
         },
         actionOnPressed: () {
-          _isWillClose = true;
-          Navigator.of(context).pop();
+          showCupertinoModalPopup(
+            context: context,
+            builder: (contextPopup) {
+              return MoreInfo(url, _controller!, icon, name, isPlugin, context);
+            },
+          );
         },
         body: SafeArea(
           child: Stack(
@@ -418,9 +436,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
                 onSignExtrinsicRequest: _onSignRequest,
                 checkAuth: widget.checkAuth,
               ),
-              Visibility(
-                  visible: _loading,
-                  child: Center(child: PluginLoadingWidget()))
+              // Visibility(
+              //     visible: _loading,
+              //     child: Center(child: PluginLoadingWidget()))
             ],
           ),
         ),
@@ -442,8 +460,187 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
   }
 }
 
+class MoreInfo extends StatelessWidget {
+  const MoreInfo(this._url, this._controller, this._icon, this._name,
+      this._isPlugin, this._fatherContext,
+      {Key? key})
+      : super(key: key);
+  final WebViewController _controller;
+  final String _url;
+  final String _name;
+  final String _icon;
+  final String _isPlugin;
+  final BuildContext _fatherContext;
+
+  Widget buildItem(
+      String icon, String name, Function onTap, BuildContext context) {
+    return GestureDetector(
+      child: SizedBox(
+          width: 56,
+          child: Column(
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                margin: const EdgeInsets.only(bottom: 6),
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    color: Color(0xFF414244)),
+                child: Center(child: Image.asset(icon, width: 40)),
+              ),
+              Text(
+                name,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(color: PluginColorsDark.headline1),
+              )
+            ],
+          )),
+      onTap: () {
+        onTap();
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final uri = Uri.parse(_url);
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+    return ClipRRect(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+        child: Container(
+          height: 304,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                color: const Color(0xFF36383B),
+                height: 64,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Row(
+                      children: [
+                        ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                            child: Image.network(
+                              '${uri.scheme}://${uri.host}/favicon.ico',
+                              width: 40,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                if (_icon.isNotEmpty) {
+                                  return SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: _icon.contains('.svg')
+                                          ? SvgPicture.network(_icon, width: 40)
+                                          : Image.network(_icon, width: 40));
+                                }
+                                return Image.asset(
+                                    "packages/polkawallet_ui/assets/images/dapp_icon_failure.png",
+                                    width: 40);
+                              },
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                _name.isNotEmpty ? _name : uri.host,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline4
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: PluginColorsDark.headline1),
+                              ),
+                              Text(
+                                _url,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    ?.copyWith(
+                                        color: PluginColorsDark.headline1),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )),
+                    GestureDetector(
+                      child: const Icon(
+                        Icons.close,
+                        size: 18,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                color: const Color(0xFF212224),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildItem('packages/polkawallet_ui/assets/images/Share.png',
+                        dic["dApp.share"]!, () {
+                      Navigator.pop(context);
+                      String data = "url=$_url";
+                      if (_name.trim().isNotEmpty) {
+                        data = "$data&name=$_name";
+                      }
+                      if (_icon.trim().isNotEmpty) {
+                        data = "$data&icon=$_icon";
+                      }
+                      if (_isPlugin.trim().isNotEmpty) {
+                        data = "$data&isPlugin=$_isPlugin";
+                      }
+                      debugPrint(data);
+                      Share.share(
+                          "https://polkawallet.io${DAppWrapperPage.route}?$data",
+                          subject: _url);
+                    }, context),
+                    buildItem(
+                        'packages/polkawallet_ui/assets/images/copyLink.png',
+                        dic["dApp.copylink"]!, () {
+                      Navigator.pop(context);
+                      UI.copyAndNotify(_fatherContext, _url);
+                    }, context),
+                    buildItem(
+                        'packages/polkawallet_ui/assets/images/refresh.png',
+                        dic["dApp.refresh"]!, () {
+                      Navigator.pop(context);
+                      _controller.reload();
+                    }, context),
+                    buildItem(
+                        'packages/polkawallet_ui/assets/images/browser.png',
+                        dic["dApp.browser"]!, () {
+                      Navigator.pop(context);
+                      UI.launchURL(_url);
+                    }, context),
+                  ],
+                ),
+              ))
+            ],
+          ),
+        ));
+  }
+}
+
 class SignExtrinsicInfo extends StatelessWidget {
-  SignExtrinsicInfo(this.msg);
+  const SignExtrinsicInfo(this.msg, {Key? key}) : super(key: key);
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {
@@ -463,7 +660,7 @@ class SignExtrinsicInfo extends StatelessWidget {
 }
 
 class SignBytesInfo extends StatelessWidget {
-  SignBytesInfo(this.msg);
+  const SignBytesInfo(this.msg, {Key? key}) : super(key: key);
   final SignAsExtensionParam msg;
   @override
   Widget build(BuildContext context) {
@@ -480,7 +677,7 @@ class SignBytesInfo extends StatelessWidget {
 }
 
 class SignInfoItemRow extends StatelessWidget {
-  SignInfoItemRow(this.label, this.content);
+  const SignInfoItemRow(this.label, this.content, {Key? key}) : super(key: key);
   final String label;
   final String content;
   @override
@@ -488,7 +685,7 @@ class SignInfoItemRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width / 4,
           child: Text(
             label,
@@ -500,7 +697,7 @@ class SignInfoItemRow extends StatelessWidget {
         ),
         Expanded(
             child: Container(
-          margin: EdgeInsets.only(bottom: 6),
+          margin: const EdgeInsets.only(bottom: 6),
           child: Text(
             content,
             style: Theme.of(context)

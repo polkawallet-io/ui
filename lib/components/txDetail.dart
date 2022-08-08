@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/jumpToBrowserLink.dart';
@@ -8,7 +7,8 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class TxDetail extends StatelessWidget {
-  TxDetail({
+  const TxDetail({
+    Key? key,
     this.success,
     this.networkName,
     this.action,
@@ -18,7 +18,7 @@ class TxDetail extends StatelessWidget {
     this.blockTime,
     this.blockNum,
     this.infoItems,
-  });
+  }) : super(key: key);
 
   final bool? success;
   final String? networkName;
@@ -39,24 +39,25 @@ class TxDetail extends StatelessWidget {
 
     var list = <Widget>[
       RoundedCard(
-        margin: EdgeInsets.all(16),
-        padding: EdgeInsets.only(top: 8, bottom: 16),
+        margin: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(top: 8, bottom: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               width: 120,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: success!
-                  ? Icon(Icons.check_circle, color: Colors.lightGreen, size: 80)
-                  : Icon(Icons.error, color: Colors.red, size: 80),
+                  ? const Icon(Icons.check_circle,
+                      color: Colors.lightGreen, size: 80)
+                  : const Icon(Icons.error, color: Colors.red, size: 80),
             ),
             Text(
               '$action ${success! ? dic!['success'] : dic!['fail']}',
               style: Theme.of(context).textTheme.headline4,
             ),
             Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 8),
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
               child: Text(blockTime!),
             ),
           ],
@@ -64,12 +65,12 @@ class TxDetail extends StatelessWidget {
       ),
     ];
     list.add(RoundedCard(
-      margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-      padding: EdgeInsets.only(top: 8, bottom: 8),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
         children: infoItems!.map((i) {
           return Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
                 Expanded(child: Text(i.label!, style: labelStyle)),
@@ -77,7 +78,7 @@ class TxDetail extends StatelessWidget {
                 i.copyText != null
                     ? GestureDetector(
                         child: Padding(
-                          padding: EdgeInsets.only(left: 8),
+                          padding: const EdgeInsets.only(left: 8),
                           child: Image.asset(
                             'packages/polkawallet_ui/assets/images/copy.png',
                             width: 16,
@@ -111,8 +112,8 @@ class TxDetail extends StatelessWidget {
       ));
     }
     list.add(RoundedCard(
-      margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-      padding: EdgeInsets.only(top: 8, bottom: 8),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Column(
         children: [
           Visibility(
@@ -128,9 +129,9 @@ class TxDetail extends StatelessWidget {
               child: TxDetailItem(TxDetailInfoItem(
                   label: 'Block', content: Text('#$blockNum')))),
           TxDetailItem(TxDetailInfoItem(
-              label: 'Hash', content: Text(Fmt.address(hash)))),
+              copyText: hash, label: 'Hash', content: Text(Fmt.address(hash)))),
           Padding(
-            padding: EdgeInsets.only(top: 8, bottom: 8),
+            padding: const EdgeInsets.only(top: 8, bottom: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: links,
@@ -152,7 +153,7 @@ class TxDetail extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.only(bottom: 32),
+          padding: const EdgeInsets.only(bottom: 32),
           children: _buildListView(context),
         ),
       ),
@@ -161,7 +162,7 @@ class TxDetail extends StatelessWidget {
 }
 
 class TxDetailItem extends StatelessWidget {
-  TxDetailItem(this.i);
+  const TxDetailItem(this.i, {Key? key}) : super(key: key);
   final TxDetailInfoItem i;
   @override
   Widget build(BuildContext context) {
@@ -178,14 +179,14 @@ class TxDetailItem extends StatelessWidget {
             ),
           )),
           Expanded(
+              flex: 0,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [i.content!]),
-              flex: 0),
+                  children: [i.content!])),
           i.copyText != null
               ? GestureDetector(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.only(left: 8),
                     child: Image.asset(
                       'packages/polkawallet_ui/assets/images/copy.png',
                       width: 16,

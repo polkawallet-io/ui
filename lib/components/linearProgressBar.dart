@@ -1,15 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LinearProgressbar extends StatelessWidget {
-  LinearProgressbar(
-      {this.color,
+  const LinearProgressbar(
+      {Key? key,
+      this.color,
       this.backgroundColor,
       this.width,
       this.height,
       this.progress,
       this.borderRadius,
-      this.margin});
+      this.margin})
+      : super(key: key);
   final Color? color;
   final Color? backgroundColor;
   final double? width;
@@ -23,7 +24,7 @@ class LinearProgressbar extends StatelessWidget {
     final num progressWidth = ((progress ?? 0.5) < 1 ? (progress ?? 0.5) : 1) *
         (width ?? MediaQuery.of(context).size.width);
     return Container(
-      margin: margin ?? EdgeInsets.only(top: 16, bottom: 8),
+      margin: margin ?? const EdgeInsets.only(top: 16, bottom: 8),
       child: Stack(
         children: [
           Container(

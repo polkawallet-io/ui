@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class BottomSheetContainer extends StatelessWidget {
   BottomSheetContainer({required this.title, required this.content});
@@ -10,7 +11,7 @@ class BottomSheetContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -24,7 +25,7 @@ class BottomSheetContainer extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10)),
         ),
         child: Column(
@@ -32,11 +33,13 @@ class BottomSheetContainer extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(bottom: 7.h),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
-                color: Color(0xFFF0ECE6),
-                boxShadow: [
+                color: UI.isDarkTheme(context)
+                    ? const Color(0xFF818181)
+                    : const Color(0xFFF0ECE6),
+                boxShadow: const [
                   BoxShadow(
                     color: Color(0x33000000),
                     blurRadius: 4.0,

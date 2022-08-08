@@ -17,7 +17,6 @@ class Fmt {
   static String blockToTime(int? blocks, int blockDuration,
       {String locale = 'en'}) {
     if (blocks == null) return '~';
-    print(locale);
 
     final blocksOfMin = 60000 ~/ blockDuration;
     final blocksOfHour = 3600000 ~/ blockDuration;
@@ -39,10 +38,10 @@ class Fmt {
   }
 
   static String address(String? addr, {int pad = 6}) {
-    if (addr == null || addr.length == 0) {
+    if (addr == null || addr.isEmpty) {
       return 'address';
     }
-    return addr.substring(0, pad) + '...' + addr.substring(addr.length - pad);
+    return '${addr.substring(0, pad)}...${addr.substring(addr.length - pad)}';
   }
 
   static bool isAddress(String txt) {
@@ -63,7 +62,7 @@ class Fmt {
   /// number transform 1:
   /// from raw <String> of Api data to <BigInt>
   static BigInt balanceInt(String? raw) {
-    if (raw == null || raw.length == 0) {
+    if (raw == null || raw.isEmpty) {
       return BigInt.zero;
     }
     if (raw.contains(',') || raw.contains('.')) {
@@ -108,7 +107,7 @@ class Fmt {
     int decimals, {
     int length = 4,
   }) {
-    if (raw == null || raw.length == 0) {
+    if (raw == null || raw.isEmpty) {
       return '~';
     }
     return doubleFormat(bigIntToDouble(balanceInt(raw), decimals),
@@ -148,7 +147,7 @@ class Fmt {
         v = double.parse(value);
       }
     } catch (err) {
-      print('Fmt.tokenInt() error: ${err.toString()}');
+      debugPrint('Fmt.tokenInt() error: ${err.toString()}');
     }
     return BigInt.from(v * pow(10, decimals));
   }
@@ -168,7 +167,10 @@ class Fmt {
     final double price = (value * x).ceilToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
-    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}";
+    return NumberFormat(
+            ",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals",
+            "en_US")
+        .format(price);
   }
 
   /// number transform 6:
@@ -186,7 +188,10 @@ class Fmt {
     final double price = (value * x).floorToDouble() / x;
     final String tailDecimals =
         lengthMax == null ? '' : "#" * (lengthMax - lengthFixed);
-    return "${NumberFormat(",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals", "en_US").format(price)}";
+    return NumberFormat(
+            ",##0${lengthFixed > 0 ? '.' : ''}${"0" * lengthFixed}$tailDecimals",
+            "en_US")
+        .format(price);
   }
 
   /// number transform 7:
@@ -264,6 +269,46 @@ class Fmt {
     return priceFloorFormatter(Fmt.bigIntToDouble(value, decimals),
         lengthFixed: lengthFixed, lengthMax: lengthMax);
   }
+
+  static String priceCurrencySymbol(String? priceCurrency) {
+// CNY（人民币）Chinese Yuan (¥)
+// USD（美元）United States Dollar ($)
+// EUR（欧元）Euro (€)
+// GBP（英镑）Pound Sterling (£)
+// RUB（卢布）Russian Ruble (₽)
+// HKD（港币）Hong Kong Dollar ($)
+// NZD（新西兰元）New Zealand Dollar ($)
+// AUD（澳元）Australian Dollar ($)
+// TWD（台币）New Taiwan Dollar (NT$)
+// KRW（韩元）South Korean Won (₩)
+// JPY（日元）Japanese Yen (¥)
+    switch (priceCurrency) {
+      case "USD":
+        return "\$";
+      case "CNY":
+        return "￥";
+      case "EUR":
+        return "€";
+      case "GBP":
+        return "£";
+      case "RUB":
+        return "₽";
+      case "HKD":
+        return "\$";
+      case "NZD":
+        return "\$";
+      case "AUD":
+        return "\$";
+      case "TWD":
+        return "NT\$";
+      case "KRW":
+        return "₩";
+      case "JPY":
+        return "¥";
+      default:
+        return "\$";
+    }
+  }
 }
 
 class PriceFormatter {
@@ -271,11 +316,11 @@ class PriceFormatter {
     var suffix = [' ', 'k', 'M', 'B', 'T', 'P', 'E'];
     if (price < 1000) {
       this.price = price;
-      this.unit = '';
+      unit = '';
     } else {
       for (int i = 1; i < suffix.length && price >= 1000; price /= 1000, i++) {
         this.price = price / 1000;
-        this.unit = suffix[i];
+        unit = suffix[i];
       }
     }
   }

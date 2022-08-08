@@ -33,11 +33,11 @@ class _PluginTabCardState extends State<PluginTabCard> {
                 }
               },
               child: PluginTextTag(
-                margin: EdgeInsets.only(right: 3),
+                margin: const EdgeInsets.only(right: 3),
                 title: widget.datas[index],
                 style: Theme.of(context).textTheme.headline4?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF212123),
+                    color: const Color(0xFF212123),
                     fontSize: widget.initIndex == index
                         ? UI.getTextSize(16, context)
                         : UI.getTextSize(14, context)),

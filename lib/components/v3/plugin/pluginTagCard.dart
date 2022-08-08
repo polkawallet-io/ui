@@ -37,9 +37,9 @@ class PluginTagCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.only(
-                      bottomLeft: this.radius,
-                      topRight: this.radius,
-                      bottomRight: this.radius)),
+                      bottomLeft: radius,
+                      topRight: radius,
+                      bottomRight: radius)),
               child: child)
         ],
       ),

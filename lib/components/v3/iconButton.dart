@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class IconButton extends StatelessWidget {
   const IconButton(
-      {Key? key, this.margin, this.icon, this.isBlueBg = false, this.onPressed})
+      {Key? key,
+      this.margin,
+      this.icon,
+      this.isBlueBg = false,
+      this.onPressed,
+      this.bgColor,
+      this.iconSize,
+      this.padding,
+      this.boxShadows})
       : super(key: key);
 
   final EdgeInsetsGeometry? margin;
   final Widget? icon;
+  final double? iconSize;
   final bool isBlueBg;
+  final List<BoxShadow>? boxShadows;
+  final Color? bgColor;
   final Function()? onPressed;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +30,25 @@ class IconButton extends StatelessWidget {
       child: GestureDetector(
           onTap: onPressed,
           child: Container(
-            padding: EdgeInsets.only(right: 1, bottom: 1),
+            padding: padding ??
+                (UI.isDarkTheme(context)
+                    ? EdgeInsets.zero
+                    : const EdgeInsets.only(right: 2, bottom: 1)),
             margin: margin,
-            width: 32.h,
-            height: 32.h,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(!isBlueBg
-                        ? "packages/polkawallet_ui/assets/images/icon_bg_grey.png"
-                        : "packages/polkawallet_ui/assets/images/icon_bg_blue.png"),
-                    fit: BoxFit.fill)),
+            width: iconSize ?? 30,
+            height: iconSize ?? 30,
+            decoration: bgColor != null
+                ? BoxDecoration(
+                    color: bgColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    boxShadow: boxShadows ?? [],
+                  )
+                : BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(!isBlueBg
+                            ? "packages/polkawallet_ui/assets/images/icon_bg_grey${UI.isDarkTheme(context) ? "_dark" : ""}.png"
+                            : "packages/polkawallet_ui/assets/images/icon_bg_blue${UI.isDarkTheme(context) ? "_dark" : ""}.png"),
+                        fit: BoxFit.fill)),
             child: Center(
               child: icon,
             ),

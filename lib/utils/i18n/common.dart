@@ -56,6 +56,7 @@ const Map<String, String> enCommon = {
   'exit.confirm': 'Do you want to exit the App?',
   'amount.error': 'Invalid amount',
   'address.error': 'Invalid address',
+  'address.scam': 'Scam address',
   'scan.help': 'Please put the QR code in the box',
   'balance': 'Balance',
   'max': 'Max',
@@ -70,6 +71,12 @@ const Map<String, String> enCommon = {
   'dApp.connect.reject': 'Reject',
   'dApp.confirm.title': 'Transaction & Sign',
   'dApp.confirm': 'Confirm',
+  'dApp.share': 'Share',
+  'dApp.refresh': 'Refresh',
+  'dApp.copylink': 'Copy Link',
+  'dApp.browser': 'Open in browser',
+  'search.token': 'Search Token',
+  'filter': 'Filter',
 };
 
 const Map<String, String> zhCommon = {
@@ -126,6 +133,7 @@ const Map<String, String> zhCommon = {
   'exit.confirm': '确定要退出 App 吗？',
   'amount.error': '格式错误',
   'address.error': '格式错误',
+  'address.scam': '诈骗地址',
   'scan.help': '请将二维码置于方框中',
   'balance': '余额',
   'max': '最大值',
@@ -139,4 +147,10 @@ const Map<String, String> zhCommon = {
   'dApp.connect.reject': '拒绝',
   'dApp.confirm.title': '交易 & 签名',
   'dApp.confirm': '确认',
+  'dApp.share': '分享',
+  'dApp.refresh': '刷新',
+  'dApp.copylink': '复制链接',
+  'dApp.browser': '打开默认浏览器',
+  'search.token': '搜索代币',
+  'filter': '筛选',
 };

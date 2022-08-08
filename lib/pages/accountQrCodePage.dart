@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -15,11 +14,12 @@ import 'package:polkawallet_ui/components/v3/index.dart' as v3;
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
 class AccountQrCodePage extends StatelessWidget {
-  AccountQrCodePage(this.plugin, this.keyring);
+  const AccountQrCodePage(this.plugin, this.keyring, {Key? key})
+      : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
 
-  static final String route = '/assets/receive';
+  static const String route = '/assets/receive';
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +36,25 @@ class AccountQrCodePage extends StatelessWidget {
           elevation: 0,
           title: Text(dic['receive']!),
           centerTitle: true,
-          leading: Container(
-            child: BackBtn(),
-          )),
+          leading: BackBtn()),
       body: SafeArea(
         child: ListView(
           children: <Widget>[
             RoundedCard(
-              color: Color(0xFFF8F5F2),
               margin: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
               child: Column(
                 children: <Widget>[
                   Visibility(
                       visible: keyring.current.observation ?? false,
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        child: TextTag(dic['warn.external'],
-                            color: Theme.of(context).errorColor),
+                        margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                        child: Text(dic['warn.external']!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                ?.copyWith(
+                                    fontSize: UI.getTextSize(10, context),
+                                    color: Theme.of(context).errorColor)),
                       )),
                   Padding(
                     padding: EdgeInsets.only(
@@ -69,39 +71,39 @@ class AccountQrCodePage extends StatelessWidget {
                       keyring.current.address, keyring.current.indexInfo,
                       mainAxisAlignment: MainAxisAlignment.center,
                       expand: false,
-                      textColor:
-                          Theme.of(context).textSelectionTheme.selectionColor!),
+                      textColor: Theme.of(context).textTheme.headline1!.color!),
                   accInfo != null && accInfo['accountIndex'] != null
                       ? Padding(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: Text(accInfo['accountIndex']),
                         )
                       : Container(),
                   Container(
-                    margin: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
                     child: QrImage(
                       data: codeAddress,
                       size: qrWidth + 24,
-                      embeddedImage: AssetImage(
+                      padding: const EdgeInsets.all(2),
+                      backgroundColor: Colors.white,
+                      embeddedImage: const AssetImage(
                           'packages/polkawallet_ui/assets/images/app.png'),
                       embeddedImageStyle: QrEmbeddedImageStyle(
                           size: Size(qrWidth / 3.875, qrWidth / 3.875)),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: qrWidth,
                     child: Text(keyring.current.address!,
                         style: TextStyle(
                             fontSize: UI.getTextSize(12, context),
                             fontFamily: UI.getFontFamily('SF_Pro', context),
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context)
-                                .textSelectionTheme
-                                .selectionColor)),
+                            color:
+                                Theme.of(context).textTheme.headline1?.color)),
                   ),
                   Container(
                     width: qrWidth,
-                    padding: EdgeInsets.only(top: 16, bottom: 24),
+                    padding: const EdgeInsets.only(top: 16, bottom: 24),
                     child: v3.Button(
                       title: I18n.of(context)!
                               .getDic(i18n_full_dic_ui, 'common')?['copy'] ??
@@ -110,7 +112,7 @@ class AccountQrCodePage extends StatelessWidget {
                           fontSize: UI.getTextSize(22, context),
                           fontFamily: UI.getFontFamily('TitilliumWeb', context),
                           fontWeight: FontWeight.w600,
-                          color: Colors.white),
+                          color: Theme.of(context).textTheme.button?.color),
                       onPressed: () =>
                           UI.copyAndNotify(context, keyring.current.address),
                     ),

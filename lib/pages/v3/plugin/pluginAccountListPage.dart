@@ -4,7 +4,6 @@ import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
-import 'package:polkawallet_ui/components/v3/back.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginAddressFormItem.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
@@ -17,9 +16,10 @@ class PluginAccountListPageParams {
 }
 
 class PluginAccountListPage extends StatelessWidget {
-  PluginAccountListPage(this.plugin, this.keyring);
+  const PluginAccountListPage(this.plugin, this.keyring, {Key? key})
+      : super(key: key);
 
-  static final String route = '/account/list';
+  static const String route = '/account/list';
   final PolkawalletPlugin plugin;
   final Keyring keyring;
 
@@ -38,7 +38,7 @@ class PluginAccountListPage extends StatelessWidget {
         children: args.list!.map((i) {
           return GestureDetector(
             child: Container(
-              margin: EdgeInsets.fromLTRB(16, 0, 16, 12),
+              margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
               child: PluginAddressFormItem(account: i),
             ),
             onTap: () => Navigator.of(context).pop(i),
