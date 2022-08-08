@@ -27,8 +27,9 @@ class ScanPage extends StatelessWidget {
     Future onScan(String? txt, String? rawData) async {
       String address = '';
       final String? data = txt?.trim();
-      if (data != null) {
-        if (data.contains("polkawallet.io")) {
+      if ((data != null && data.isNotEmpty) ||
+          (rawData != null && rawData.isNotEmpty)) {
+        if (data!.contains("polkawallet.io")) {
           final paths = data.toString().split("polkawallet.io");
           Map<dynamic, dynamic> args = <dynamic, dynamic>{};
           if (paths.length > 1) {

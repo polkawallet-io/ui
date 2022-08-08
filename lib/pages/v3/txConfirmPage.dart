@@ -181,9 +181,14 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       final res = viaQr
           ? await _sendTxViaQr(context, txInfo, args)
           : await _sendTx(context, txInfo, args, password!);
-      _onTxFinish(context, res, null);
+      //{error: 1010: Invalid Transaction: Transaction has a bad signature}
+      if (res!["error"] != null) {
+        _onTxFinish(context, null, res["error"].toString().split(":").last);
+      } else {
+        _onTxFinish(context, res, null);
+      }
     } catch (err) {
-      _onTxFinish(context, null, err.toString().split(":")[1]);
+      _onTxFinish(context, null, err.toString().split(":").last);
     }
     if (mounted) {
       setState(() {
@@ -247,6 +252,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   ) async {
     final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     print('show qr');
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     final signed = await Navigator.of(context).pushNamed(
       QrSenderPage.route,
       arguments: QrSenderPageParams(
@@ -255,15 +261,16 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         rawParams: args.rawParams,
       ),
     );
+    _updateTxStatus(context, dic!['tx.wait']!);
     if (signed == null) {
-      throw Exception(dic!['tx.cancelled']);
+      throw Exception(dic['tx.cancelled']);
     }
     final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
       widget.keyring.current.address!,
       signed.toString(),
       (status) {
         if (mounted) {
-          _updateTxStatus(context, dic!['tx.$status'] ?? status);
+          _updateTxStatus(context, dic['tx.$status'] ?? status);
         }
       },
     );
