@@ -181,14 +181,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
       final res = viaQr
           ? await _sendTxViaQr(context, txInfo, args)
           : await _sendTx(context, txInfo, args, password!);
-      //{error: 1010: Invalid Transaction: Transaction has a bad signature}
-      if (res!["error"] != null) {
-        _onTxFinish(context, null, res["error"].toString().split(":").last);
-      } else {
-        _onTxFinish(context, res, null);
-      }
+      _onTxFinish(context, res, null);
     } catch (err) {
-      _onTxFinish(context, null, err.toString().split(":").last);
+      _onTxFinish(context, null, err.toString());
     }
     if (mounted) {
       setState(() {
