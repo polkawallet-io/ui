@@ -29,40 +29,40 @@ class PluginAddressFormItem extends StatelessWidget {
       label: label,
       labelBgColor: isDisable ? PluginColorsDark.disableTagBg : null,
       bgColor: isDisable ? PluginColorsDark.disableBg : null,
+      bgHeight: 54,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        height: 46,
         child: Row(
           children: [
             Container(
-              margin: const EdgeInsets.only(right: 8),
+              margin: const EdgeInsets.only(right: 12),
               child: AddressIcon(
                 account.address,
                 svg: svg ?? account.icon,
-                size: 32,
+                size: 30,
                 tapToCopy: false,
               ),
             ),
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 4),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      UI.accountName(context, account),
-                      style: Theme.of(context).textTheme.headline4?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          height: 1.3,
-                          color: const Color(0xCCFFFFFF)),
-                    ),
-                    Text(
-                      Fmt.address(account.address),
-                      style: TextStyle(
-                          fontSize: UI.getTextSize(12, context),
-                          color: const Color(0xCCFFFFFF)),
-                    )
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    UI.accountName(context, account),
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        height: 1.3,
+                        color: const Color(0xCCFFFFFF)),
+                  ),
+                  Text(
+                    Fmt.address(account.address),
+                    style: TextStyle(
+                        fontSize: UI.getTextSize(12, context),
+                        color: const Color(0xCCFFFFFF)),
+                  )
+                ],
               ),
             ),
             Visibility(
