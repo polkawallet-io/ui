@@ -138,8 +138,8 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                         autocorrect: false,
                         decoration: InputDecoration(
                           isCollapsed: true,
-                          contentPadding: const EdgeInsets.only(
-                              left: 8, right: 30, top: 10, bottom: 10),
+                          contentPadding:
+                              const EdgeInsets.only(left: 8, right: 30),
                           hintText: dic['search.token'],
                           hintStyle: TextStyle(
                               fontFamily: 'Titillium Web Light',
