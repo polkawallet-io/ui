@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class TextTag extends StatelessWidget {
-  TextTag(this.text, {this.margin, this.padding, this.color, this.fontSize});
+  TextTag(this.text,
+      {this.margin, this.padding, this.color, this.textColor, this.fontSize});
   final String? text;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final Color? color;
+  final Color? textColor;
   final double? fontSize;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class TextTag extends StatelessWidget {
         text!,
         style: TextStyle(
           fontSize: fontSize ?? UI.getTextSize(10, context),
-          color: Theme.of(context).cardColor,
+          color: textColor ?? Theme.of(context).cardColor,
         ),
       ),
     );
