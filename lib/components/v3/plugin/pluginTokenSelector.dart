@@ -8,29 +8,29 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
 class PluginTokenSelector extends StatefulWidget {
-  const PluginTokenSelector({
-    Key? key,
-    this.tokenViewFunction,
-    required this.tokenBgColor,
-    this.getMarketPrice,
-    this.tokenSelectTitle,
-    this.tokenOptions,
-    this.quickTokenOptions,
-    this.tokenIconsMap,
-  }) : super(key: key);
+  const PluginTokenSelector(
+      {Key? key,
+      this.tokenViewFunction,
+      this.getMarketPrice,
+      this.tokenSelectTitle,
+      this.tokenOptions,
+      this.quickTokenOptions,
+      this.tokenIconsMap,
+      this.current})
+      : super(key: key);
   final String Function(String)? tokenViewFunction;
-  final Color tokenBgColor;
+
   final double Function(String)? getMarketPrice;
   final String? tokenSelectTitle;
   final List<TokenBalanceData?>? tokenOptions;
   final List<TokenBalanceData?>? quickTokenOptions;
   final Map<String, Widget>? tokenIconsMap;
+  final TokenBalanceData? current;
   @override
   State<PluginTokenSelector> createState() => _PluginTokenSelectorState();
 }
 
 class _PluginTokenSelectorState extends State<PluginTokenSelector> {
-  var selecIndex = -1;
   final TextEditingController searchCtl = TextEditingController();
   final FocusNode focusNode = FocusNode();
   List<TokenBalanceData?>? searchList = [];
@@ -228,16 +228,18 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                             child: Container(
                               margin: const EdgeInsets.only(bottom: 12),
                               decoration: BoxDecoration(
-                                  border: selecIndex == index
-                                      ? Border.all(
-                                          color: const Color(0xFFFF7849),
-                                          width: 1)
-                                      : const Border(),
-                                  color: selecIndex == index
-                                      ? const Color(0xFFFF7849)
-                                          .withOpacity(0.09)
-                                      : const Color(0xFF424447),
+                                  color: const Color(0xFF424447),
                                   borderRadius: BorderRadius.circular(4)),
+                              foregroundDecoration: symbol ==
+                                      widget.current?.symbol
+                                  ? BoxDecoration(
+                                      border: Border.all(
+                                          color: const Color(0xFFFF7849),
+                                          width: 1),
+                                      color: const Color(0xFFFF7849)
+                                          .withOpacity(0.09),
+                                      borderRadius: BorderRadius.circular(4))
+                                  : null,
                               child: Padding(
                                   padding:
                                       const EdgeInsets.only(left: 8, right: 12),
@@ -305,9 +307,6 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                                   )),
                             ),
                             onTap: () {
-                              setState(() {
-                                selecIndex = index;
-                              });
                               Navigator.of(context).pop(searchList![index]!);
                             },
                           );

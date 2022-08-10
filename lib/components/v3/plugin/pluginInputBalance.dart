@@ -72,13 +72,13 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
         barrierColor: const Color(0x24FFFFFF),
         builder: (BuildContext context) {
           return PluginTokenSelector(
-            tokenBgColor: widget.tokenBgColor,
             tokenSelectTitle: widget.tokenSelectTitle,
             tokenIconsMap: widget.tokenIconsMap,
             tokenViewFunction: widget.tokenViewFunction,
             getMarketPrice: widget.getMarketPrice,
             tokenOptions: widget.tokenOptions,
             quickTokenOptions: widget.quickTokenOptions,
+            current: widget.balance,
           );
         },
         context: context);
