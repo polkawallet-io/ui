@@ -24,7 +24,7 @@ class AddressFormItem extends StatelessWidget {
   final String? svg;
   final bool isShowSubtitle;
   final bool isGreyBg;
-  final KeyPairData? account;
+  final dynamic? account;
   final Future<void> Function()? onTap;
   final Color? color;
   final double borderWidth;

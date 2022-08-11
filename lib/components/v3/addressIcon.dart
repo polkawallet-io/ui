@@ -81,12 +81,14 @@ class AddressIcon extends StatelessWidget {
                     color: Theme.of(context).toggleableActiveColor, width: 2),
                 borderRadius: BorderRadius.all(
                     Radius.circular((size ?? defaultSize) / 2))),
-        child: svg == null
-            ? Image.asset(
-                'packages/polkawallet_ui/assets/images/polkadot_avatar.png',
-                bundle: rootBundle,
-              )
-            : SvgPicture.string(svg!),
+        child: ClipOval(
+          child: svg == null
+              ? Image.asset(
+                  'packages/polkawallet_ui/assets/images/polkadot_avatar.png',
+                  bundle: rootBundle,
+                )
+              : SvgPicture.string(svg!),
+        ),
       ),
     );
   }
