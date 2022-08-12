@@ -7,7 +7,7 @@ class PluginColorsLight {
 }
 
 class PluginColorsDark {
-  static const primary = Color(0xFFFF7849);
+  static const primary = Color(0xFFFF6D37);
   static const green = Color(0xFF60FFA7);
   static const headline1 = Colors.white;
   static const headline2 = Color(0xCCFFFFFF);
