@@ -49,6 +49,11 @@ class Fmt {
     return reg.hasMatch(txt);
   }
 
+  static bool isAddressETH(String txt) {
+    var reg = RegExp(r'^(0x)?[0-9a-fA-F]{40}$');
+    return reg.hasMatch(txt);
+  }
+
   static bool isHexString(String hex) {
     var reg = RegExp(r'^[a-f0-9]+$');
     return reg.hasMatch(hex);
