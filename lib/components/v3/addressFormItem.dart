@@ -69,12 +69,15 @@ class AddressFormItem extends StatelessWidget {
           ),
           Visibility(
               visible: rightIcon != null || onTap != null,
-              child: rightIcon ??
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 18,
-                    color: color ?? grey,
-                  ))
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: rightIcon ??
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 18,
+                      color: color ?? grey,
+                    ),
+              ))
         ],
       ),
       Visibility(

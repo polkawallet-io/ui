@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/api/api.dart';
+import 'package:polkawallet_sdk/storage/types/ethWalletData.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/v3/dialog.dart';
@@ -8,11 +9,17 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 
 class PasswordInputDialog extends StatefulWidget {
   const PasswordInputDialog(this.api,
-      {Key? key, this.account, this.userPass, this.title, this.content})
+      {Key? key,
+      this.account,
+      this.ethAccount,
+      this.userPass,
+      this.title,
+      this.content})
       : super(key: key);
 
   final PolkawalletApi api;
   final KeyPairData? account;
+  final EthWalletData? ethAccount;
   final String? userPass;
   final Widget? title;
   final Widget? content;
@@ -30,8 +37,15 @@ class _PasswordInputDialog extends State<PasswordInputDialog> {
     setState(() {
       _submitting = true;
     });
-    var passed =
-        await widget.api.keyring.checkPassword(widget.account!, password);
+    bool passed = false;
+    if (widget.account != null) {
+      passed =
+          await widget.api.keyring.checkPassword(widget.account!, password);
+    } else if (widget.ethAccount != null) {
+      passed = await widget.api.eth.keyring
+          .checkPassword(widget.ethAccount!.address!, password);
+    }
+
     if (mounted) {
       setState(() {
         _submitting = false;

@@ -1019,7 +1019,7 @@ class _ConfirmItemLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 88,
+      constraints: BoxConstraints(minWidth: 88),
       child: Text(text,
           style: TextStyle(
               fontFamily: UI.getFontFamily('TitilliumWeb', context),
