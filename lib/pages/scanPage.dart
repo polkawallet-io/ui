@@ -58,7 +58,7 @@ class ScanPage extends StatelessWidget {
         }
 
         for (String item in ls) {
-          if (Fmt.isAddress(item)) {
+          if (Fmt.isAddress(item) || Fmt.isAddressETH(item)) {
             address = item;
             break;
           }
