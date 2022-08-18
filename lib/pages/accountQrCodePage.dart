@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
+import 'package:polkawallet_sdk/storage/keyringEVM.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/roundedCard.dart';
 import 'package:polkawallet_ui/components/textTag.dart';
@@ -14,10 +15,12 @@ import 'package:polkawallet_ui/components/v3/index.dart' as v3;
 import 'package:polkawallet_sdk/utils/i18n.dart';
 
 class AccountQrCodePage extends StatelessWidget {
-  const AccountQrCodePage(this.plugin, this.keyring, {Key? key})
+  const AccountQrCodePage(this.plugin, this.keyring,
+      {Key? key, this.keyringEVM})
       : super(key: key);
   final PolkawalletPlugin plugin;
   final Keyring keyring;
+  final KeyringEVM? keyringEVM;
 
   static const String route = '/assets/receive';
 
@@ -25,10 +28,14 @@ class AccountQrCodePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!;
 
-    final codeAddress =
-        'substrate:${keyring.current.address}:${keyring.current.pubKey}:${keyring.current.name}';
+    final current = keyringEVM != null
+        ? keyringEVM!.current.toKeyPairData()
+        : keyring.current;
 
-    final accInfo = keyring.current.indexInfo;
+    final codeAddress =
+        'substrate:${current.address}:${current.pubKey}:${current.name}';
+
+    final accInfo = keyringEVM != null ? null : keyring.current.indexInfo;
     final qrWidth = MediaQuery.of(context).size.width / 2;
 
     return Scaffold(
@@ -45,7 +52,7 @@ class AccountQrCodePage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Visibility(
-                      visible: keyring.current.observation ?? false,
+                      visible: current.observation ?? false,
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                         child: Text(dic['warn.external']!,
@@ -58,17 +65,15 @@ class AccountQrCodePage extends StatelessWidget {
                       )),
                   Padding(
                     padding: EdgeInsets.only(
-                        top:
-                            (keyring.current.observation ?? false) ? 8.h : 13.h,
+                        top: (current.observation ?? false) ? 8.h : 13.h,
                         bottom: 4.h),
                     child: AddressIcon(
-                      keyring.current.address,
-                      svg: keyring.current.icon,
+                      current.address,
+                      svg: current.icon,
                       size: 32.w,
                     ),
                   ),
-                  UI.accountDisplayName(
-                      keyring.current.address, keyring.current.indexInfo,
+                  UI.accountDisplayName(current.address, current.indexInfo,
                       mainAxisAlignment: MainAxisAlignment.center,
                       expand: false,
                       textColor: Theme.of(context).textTheme.headline1!.color!),
@@ -93,7 +98,7 @@ class AccountQrCodePage extends StatelessWidget {
                   ),
                   SizedBox(
                     width: qrWidth,
-                    child: Text(keyring.current.address!,
+                    child: Text(current.address!,
                         style: TextStyle(
                             fontSize: UI.getTextSize(12, context),
                             fontFamily: UI.getFontFamily('SF_Pro', context),
@@ -114,7 +119,7 @@ class AccountQrCodePage extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: Theme.of(context).textTheme.button?.color),
                       onPressed: () =>
-                          UI.copyAndNotify(context, keyring.current.address),
+                          UI.copyAndNotify(context, current.address),
                     ),
                   )
                 ],

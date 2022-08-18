@@ -28,9 +28,9 @@ dependencies:
   collection: ^1.16.0
   # simple_shadow: ^0.2.0
 
-#dependency_overrides:
-#  polkawallet_sdk:
-#    path: ../sdk
+dependency_overrides:
+ polkawallet_sdk:
+   path: ../sdk
 
 dev_dependencies:
   flutter_test:
