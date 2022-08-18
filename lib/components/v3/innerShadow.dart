@@ -4,23 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class InnerShadowBGCar extends StatelessWidget {
-  InnerShadowBGCar(
+  const InnerShadowBGCar(
       {Key? key,
       @required this.child,
       this.margin,
       this.padding,
-      this.isWhite = false})
+      this.isWhite = false,
+      this.isDarkTheme = false})
       : super(key: key);
-  Widget? child;
+  final Widget? child;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final bool isWhite;
+  final bool isDarkTheme;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: margin ?? EdgeInsets.zero,
-      child: UI.isDarkTheme(context)
+      child: (UI.isDarkTheme(context) || isDarkTheme)
           ? Container(
               padding: padding?.add(EdgeInsets.only(top: 8.h, bottom: 8.h)) ??
                   EdgeInsets.only(
