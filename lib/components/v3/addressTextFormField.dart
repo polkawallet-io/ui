@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:polkawallet_sdk/api/api.dart';
 import 'package:polkawallet_sdk/polkawallet_sdk.dart';
+import 'package:polkawallet_sdk/storage/types/ethWalletData.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/v3/addressFormItem.dart';
@@ -19,6 +20,7 @@ class AddressTextFormField extends StatefulWidget {
   AddressTextFormField(this.api, this.localAccounts,
       {this.initialValue,
       this.onChanged,
+      this.localEthAccounts,
       this.hintText,
       this.hintStyle,
       this.errorStyle,
@@ -33,6 +35,7 @@ class AddressTextFormField extends StatefulWidget {
   final PolkawalletApi api;
   final WalletSDK? sdk;
   final List<KeyPairData> localAccounts;
+  final List<EthWalletData>? localEthAccounts;
   final KeyPairData? initialValue;
   final Function(KeyPairData)? onChanged;
 
@@ -70,47 +73,81 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
     return null;
   }
 
-  Future<KeyPairData?> _getAccountFromInput(String input) async {
+  Future<KeyPairData?> _parseEthAccount(String input) async {
+    try {
+      // check if input address in local account list
+      final int addressIndex = widget.localEthAccounts!
+          .indexWhere((e) => e.address?.toLowerCase() == input.toLowerCase());
+      if (addressIndex >= 0) {
+        return widget.localEthAccounts![addressIndex].toKeyPairData();
+      }
+
+      final checked = await widget.api.eth.account.getAddress(input);
+      final res = KeyPairData()
+        ..address = checked
+        ..pubKey = checked;
+
+      // fetch address info if it's a new address
+      final icon =
+          await widget.api.service.eth.account.getAddressIcons([checked]);
+      if (icon != null) {
+        res.icon = icon[0][1];
+      }
+      return res;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  Future<KeyPairData?> _parseSubstrateAccount(String input) async {
     if (input.length < 47) {
       return null;
     }
 
-    // todo: eth address not support now
-    if (input.trim().startsWith('0x')) {
-      return null;
-    }
-
-    // check if user input is valid address or indices
-    final checkAddress = await widget.api.account.decodeAddress([input]);
-    if (checkAddress == null) {
-      return null;
-    }
-
-    final acc = KeyPairData();
-    acc.address = input;
-    acc.pubKey = checkAddress.keys.toList()[0];
-
-    // check if input address in local account list
-    final int addressIndex = widget.localAccounts
-        .indexWhere((e) => _itemAsString(e).contains(input));
-    if (addressIndex >= 0) {
-      return widget.localAccounts[addressIndex];
-    }
-
-    // fetch address info if it's a new address
-    final res = await widget.api.account.getAddressIcons([acc.address]);
-    if (res != null) {
-      if (res.isNotEmpty) {
-        acc.icon = res[0][1];
-        setState(() {
-          _addressIconsMap.addAll({acc.address: res[0][1]});
-        });
+    try {
+      // check if user input is valid address or indices
+      final checkAddress = await widget.api.account.decodeAddress([input]);
+      if (checkAddress == null) {
+        return null;
       }
 
-      // we use address as account name
-      acc.name ??= Fmt.address(acc.address);
+      final acc = KeyPairData();
+      acc.address = input;
+      acc.pubKey = checkAddress.keys.toList()[0];
+
+      // check if input address in local account list
+      final int addressIndex =
+          widget.localAccounts.indexWhere((e) => e.address == input);
+      if (addressIndex >= 0) {
+        return widget.localAccounts[addressIndex];
+      }
+
+      // fetch address info if it's a new address
+      final res = await widget.api.account.getAddressIcons([acc.address]);
+      if (res != null) {
+        if (res.isNotEmpty) {
+          acc.icon = res[0][1];
+          setState(() {
+            _addressIconsMap.addAll({acc.address: res[0][1]});
+          });
+        }
+
+        // we use address as account name
+        acc.name ??= Fmt.address(acc.address);
+      }
+      return acc;
+    } catch (err) {
+      return null;
     }
-    return acc;
+  }
+
+  Future<KeyPairData?> _getAccountFromInput(String input) async {
+    if (widget.localEthAccounts != null) {
+      final ethAcc = await _parseEthAccount(input);
+      return ethAcc;
+    }
+
+    return _parseSubstrateAccount(input);
   }
 
   String _itemAsString(KeyPairData item) {
@@ -139,13 +176,14 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
       return Focus(
           onFocusChange: (hasFocus) async {
             if (!hasFocus) {
-              if (_controller.text.trim().isNotEmpty) {
-                final data = await _getAccountFromInput(_controller.text);
+              final input = _controller.text.trim();
+              if (input.isNotEmpty) {
+                final data = await _getAccountFromInput(input);
                 if (data == null) {
                   setState(() {
                     validatorError = dic!['address.error'];
                   });
-                } else {
+                } else if (widget.localEthAccounts == null) {
                   // check blacklist
                   final blackListCheck = widget.sdk == null
                       ? null
@@ -235,7 +273,10 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                       var res = await Navigator.of(context).pushNamed(
                         PluginAccountListPage.route,
                         arguments: PluginAccountListPageParams(
-                            list: widget.localAccounts),
+                            list: widget.localEthAccounts
+                                    ?.map((e) => e.toKeyPairData())
+                                    .toList() ??
+                                widget.localAccounts),
                       );
                       if (res != null && widget.onChanged != null) {
                         widget.onChanged!(res as KeyPairData);
@@ -274,13 +315,14 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
       Focus(
           onFocusChange: (hasFocus) async {
             if (!hasFocus) {
-              if (_controller.text.trim().isNotEmpty) {
-                final data = await _getAccountFromInput(_controller.text);
+              final input = _controller.text.trim();
+              if (input.isNotEmpty) {
+                final data = await _getAccountFromInput(input);
                 if (data == null) {
                   setState(() {
                     validatorError = dic!['address.error'];
                   });
-                } else {
+                } else if (widget.localEthAccounts == null) {
                   // check blacklist
                   final blackListCheck = widget.sdk == null
                       ? null
@@ -373,8 +415,11 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                       onTap: () async {
                         var res = await Navigator.of(context).pushNamed(
                           AccountListPage.route,
-                          arguments:
-                              AccountListPageParams(list: widget.localAccounts),
+                          arguments: AccountListPageParams(
+                              list: widget.localEthAccounts
+                                      ?.map((e) => e.toKeyPairData())
+                                      .toList() ??
+                                  widget.localAccounts),
                         );
                         if (res != null && widget.onChanged != null) {
                           widget.onChanged!(res as KeyPairData);
@@ -387,11 +432,12 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                       ),
                     ),
                   ),
-                  validator: (value) {
-                    if (value!.trim().length < 47) {
+                  validator: (v) {
+                    final value = v?.trim() ?? '';
+                    if (!value.startsWith('0x') && value.length < 47) {
                       return dic!['address.error'];
                     }
-                    if (value!.trim().isNotEmpty) {
+                    if (value.isNotEmpty) {
                       return validatorError;
                     }
                     return null;
