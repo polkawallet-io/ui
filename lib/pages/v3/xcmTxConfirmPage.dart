@@ -94,8 +94,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
 
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
-    final txInfo =
-        TxInfoData(args.module, args.call, sender, txName: args.txName);
+    final txInfo = TxInfoData(args.module, args.call, sender,
+        txName: args.txName, txHex: args.txHex);
 
     final fee = await widget.plugin.sdk.api.tx.estimateFees(
         txInfo, args.params!,
