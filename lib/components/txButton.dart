@@ -16,6 +16,7 @@ class TxConfirmParams {
       this.isUnsigned,
       this.txTitle,
       this.txName,
+      this.txHex,
       this.isPlugin = false,
       this.onStatusChange});
   final String? module;
@@ -27,6 +28,7 @@ class TxConfirmParams {
   final Map<String, Widget> txDisplayBold;
   final String? txTitle;
   final String? txName;
+  final String? txHex;
   final bool isPlugin;
   final Function(String)? onStatusChange;
 }

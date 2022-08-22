@@ -82,8 +82,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
-    final txInfo =
-        TxInfoData(args.module, args.call, sender, txName: args.txName);
+    final txInfo = TxInfoData(args.module, args.call, sender,
+        txName: args.txName, txHex: args.txHex);
 
     final fee = await widget.plugin.sdk.api.tx
         .estimateFees(txInfo, args.params!, rawParam: args.rawParams);
@@ -320,22 +320,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     return value;
   }
 
-  dynamic _formatNumberInParams(dynamic item) {
-    switch (item.runtimeType) {
-      case String:
-        try {
-          final bigInt = BigInt.parse(item);
-          return bigInt.toString();
-        } catch (_) {
-          return item;
-        }
-      case List:
-        return List.of(item).map((e) => _formatNumberInParams(e)).toList();
-      default:
-        return item;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
@@ -350,7 +334,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
-    final List? params = _formatNumberInParams(args.params);
 
     final bool isObservation = widget.keyring.current.observation ?? false;
     final bool isProxyObservation =
@@ -540,7 +523,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 _updateKUSD(args.rawParams != null
                                     ? args.rawParams!
                                     : const JsonEncoder.withIndent('  ')
-                                        .convert(params)),
+                                        .convert(args.params)),
                                 style: TextStyle(
                                     fontSize: UI.getTextSize(14, context),
                                     color: Colors.white),
@@ -850,7 +833,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                               _updateKUSD(args.rawParams != null
                                   ? args.rawParams!
                                   : const JsonEncoder.withIndent('  ')
-                                      .convert(params)),
+                                      .convert(args.params)),
                               style: TextStyle(
                                   fontSize: UI.getTextSize(14, context)),
                             ),
