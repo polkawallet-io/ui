@@ -80,8 +80,10 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
     if (args.isBridge) {
-      final sender = TxSenderData(
-          widget.keyring.current.address, widget.keyring.current.pubKey);
+      final sender = args.sender != null
+          ? TxSenderData(args.sender!.address, args.sender!.pubKey)
+          : TxSenderData(
+              widget.keyring.current.address, widget.keyring.current.pubKey);
       final feeData = await widget.plugin.sdk.api.bridge
           .estimateTxFee(args.chainFrom, args.txHex!, sender.address!);
       if (mounted) {
@@ -152,7 +154,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
       }
     }
 
-    final password = await widget.getPassword(context, widget.keyring.current);
+    final password = await widget.getPassword(
+        context, args.sender ?? widget.keyring.current);
     if (password != null) {
       _onSubmit(context, password: password);
     }
@@ -168,10 +171,12 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     });
     _updateTxStatus(context, dic['tx.wait']!);
 
-    final TxSenderData sender = TxSenderData(
-      widget.keyring.current.address,
-      widget.keyring.current.pubKey,
-    );
+    final TxSenderData sender = args.sender != null
+        ? TxSenderData(args.sender!.address, args.sender!.pubKey)
+        : TxSenderData(
+            widget.keyring.current.address,
+            widget.keyring.current.pubKey,
+          );
     final TxInfoData txInfo = TxInfoData(args.module, args.call, sender,
         tip: _tipValue.toString(), txName: args.txName, txHex: args.txHex);
 
@@ -243,8 +248,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final args =
         ModalRoute.of(context)!.settings.arguments as XcmTxConfirmParams;
 
-    final keypair = widget.keyring.store.list.firstWhere(
-        (element) => element['pubKey'] == widget.keyring.current.pubKey);
+    final keypair = widget.keyring.store.list.firstWhere((element) =>
+        element['pubKey'] ==
+        (args.sender?.pubKey ?? widget.keyring.current.pubKey));
 
     final dynamic res = await widget.plugin.sdk.api.bridge
         .sendTx(args.chainFrom, txInfo, password, msgId, keypair);
@@ -348,7 +354,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
     final symbol = args.feeToken.symbol;
     final decimals = args.feeToken.decimals!;
 
-    final bool isObservation = widget.keyring.current.observation ?? false;
+    final bool isObservation = args.sender != null
+        ? args.sender?.observation ?? false
+        : widget.keyring.current.observation ?? false;
 
     final itemContentStyle = TextStyle(
         fontFamily: UI.getFontFamily('TitilliumWeb', context),
@@ -441,8 +449,10 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                             isPlugin: true,
                                           )),
                                           AddressIcon(
-                                            widget.keyring.current.address,
-                                            svg: widget.keyring.current.icon,
+                                            args.sender?.address ??
+                                                widget.keyring.current.address,
+                                            svg: args.sender?.icon ??
+                                                widget.keyring.current.icon,
                                             size: 24,
                                           ),
                                           Container(
@@ -450,8 +460,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                                 const EdgeInsets.only(left: 8),
                                             child: Text(
                                               Fmt.address(
-                                                  widget
-                                                      .keyring.current.address,
+                                                  args.sender?.address ??
+                                                      widget.keyring.current
+                                                          .address,
                                                   pad: 8),
                                               style: itemContentStyle,
                                             ),
@@ -761,8 +772,10 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                             child: _ConfirmItemLabel(
                                                 text: dic["tx.from"] ?? '')),
                                         AddressIcon(
-                                          widget.keyring.current.address,
-                                          svg: widget.keyring.current.icon,
+                                          args.sender?.address ??
+                                              widget.keyring.current.address,
+                                          svg: args.sender?.icon ??
+                                              widget.keyring.current.icon,
                                           size: 24,
                                         ),
                                         Container(
@@ -770,7 +783,9 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                               const EdgeInsets.only(left: 8),
                                           child: Text(
                                             Fmt.address(
-                                                widget.keyring.current.address,
+                                                args.sender?.address ??
+                                                    widget.keyring.current
+                                                        .address,
                                                 pad: 8),
                                             style: itemContentStyle,
                                           ),
@@ -1012,7 +1027,7 @@ class _ConfirmItemLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 88,
+      constraints: const BoxConstraints(minWidth: 88),
       alignment: AlignmentDirectional.centerStart,
       child: Text(text,
           style: TextStyle(
@@ -1039,7 +1054,8 @@ class XcmTxConfirmParams {
       this.chainFromIcon,
       required this.feeToken,
       this.waitingWidget,
-      this.txHex});
+      this.txHex,
+      this.sender});
   final String? module;
   final String? call;
   final List? params;
@@ -1056,4 +1072,5 @@ class XcmTxConfirmParams {
   final Widget? waitingWidget;
   final bool isBridge;
   final String? txHex;
+  final KeyPairData? sender;
 }
