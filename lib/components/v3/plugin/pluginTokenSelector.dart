@@ -16,7 +16,8 @@ class PluginTokenSelector extends StatefulWidget {
       this.tokenOptions,
       this.quickTokenOptions,
       this.tokenIconsMap,
-      this.current})
+      this.current,
+      this.canSearch = true})
       : super(key: key);
   final String Function(String)? tokenViewFunction;
 
@@ -26,6 +27,7 @@ class PluginTokenSelector extends StatefulWidget {
   final List<TokenBalanceData?>? quickTokenOptions;
   final Map<String, Widget>? tokenIconsMap;
   final TokenBalanceData? current;
+  final bool? canSearch;
   @override
   State<PluginTokenSelector> createState() => _PluginTokenSelectorState();
 }
@@ -96,72 +98,74 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                 ],
               ),
             ),
-            Container(
-                color: const Color(0xFF313235),
-                padding: const EdgeInsets.only(
-                    top: 16, left: 16, right: 16, bottom: 10),
-                alignment: Alignment.center,
-                height: 56,
-                child: Stack(
-                  children: [
-                    Align(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: const Color(0xFF424447)),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: TextField(
-                        focusNode: focusNode,
-                        controller: searchCtl,
-                        onChanged: (value) {
-                          var list = widget.tokenOptions!
-                              .where((element) => element!.symbol!
-                                  .toUpperCase()
-                                  .contains(searchCtl.text.toUpperCase()))
-                              .toList();
-                          if (searchCtl.text.isEmpty) {
-                            list = widget.tokenOptions!;
-                          }
-                          setState(() {
-                            searchList = list;
-                          });
-                        },
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 14),
-                        cursorColor: Colors.white,
-                        textInputAction: TextInputAction.search,
-                        maxLines: 1,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          contentPadding:
-                              const EdgeInsets.only(left: 8, right: 30),
-                          hintText: dic['search.token'],
-                          hintStyle: TextStyle(
-                              fontFamily: 'Titillium Web Light',
-                              fontWeight: FontWeight.w300,
-                              fontSize: UI.getTextSize(14, context),
-                              color: Colors.white.withOpacity(0.5)),
-                          border: InputBorder.none,
+            Visibility(
+                visible: widget.canSearch ?? true,
+                child: Container(
+                    color: const Color(0xFF313235),
+                    padding: const EdgeInsets.only(
+                        top: 16, left: 16, right: 16, bottom: 10),
+                    alignment: Alignment.center,
+                    height: 56,
+                    child: Stack(
+                      children: [
+                        Align(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: const Color(0xFF424447)),
+                          ),
                         ),
-                      ),
-                    ),
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                          padding: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.search,
-                            size: 24,
-                            color: Color(0xFF979797),
-                          )),
-                    )
-                  ],
-                )),
+                        Align(
+                          alignment: Alignment.center,
+                          child: TextField(
+                            focusNode: focusNode,
+                            controller: searchCtl,
+                            onChanged: (value) {
+                              var list = widget.tokenOptions!
+                                  .where((element) => element!.symbol!
+                                      .toUpperCase()
+                                      .contains(searchCtl.text.toUpperCase()))
+                                  .toList();
+                              if (searchCtl.text.isEmpty) {
+                                list = widget.tokenOptions!;
+                              }
+                              setState(() {
+                                searchList = list;
+                              });
+                            },
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 14),
+                            cursorColor: Colors.white,
+                            textInputAction: TextInputAction.search,
+                            maxLines: 1,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              isCollapsed: true,
+                              contentPadding:
+                                  const EdgeInsets.only(left: 8, right: 30),
+                              hintText: dic['search.token'],
+                              hintStyle: TextStyle(
+                                  fontFamily: 'Titillium Web Light',
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: UI.getTextSize(14, context),
+                                  color: Colors.white.withOpacity(0.5)),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        const Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                              padding: EdgeInsets.only(right: 5),
+                              child: Icon(
+                                Icons.search,
+                                size: 24,
+                                color: Color(0xFF979797),
+                              )),
+                        )
+                      ],
+                    ))),
             widget.quickTokenOptions != null &&
                     widget.quickTokenOptions!.isNotEmpty
                 ? Container(
@@ -217,7 +221,10 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
             Expanded(
                 child: Container(
                     color: const Color(0xFF313235),
-                    padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+                    padding: EdgeInsets.only(
+                        top: widget.canSearch == true ? 8 : 18,
+                        left: 16,
+                        right: 16),
                     child: ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         itemCount: searchList?.length,

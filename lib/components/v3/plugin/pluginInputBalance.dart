@@ -35,7 +35,8 @@ class PluginInputBalance extends StatefulWidget {
       this.quickTokenOptions,
       this.type = InputBalanceType.defaultType,
       this.bgBorderRadius,
-      this.balanceLabel})
+      this.balanceLabel,
+      this.canSearch = true})
       : super(key: key);
 
   final String? titleTag;
@@ -59,6 +60,7 @@ class PluginInputBalance extends StatefulWidget {
   final InputBalanceType type;
   final BorderRadiusGeometry? bgBorderRadius; //swapType
   final String? balanceLabel;
+  final bool? canSearch;
 
   @override
   createState() => _PluginInputBalanceState();
@@ -74,14 +76,14 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
         barrierColor: const Color(0x24FFFFFF),
         builder: (BuildContext context) {
           return PluginTokenSelector(
-            tokenSelectTitle: widget.tokenSelectTitle,
-            tokenIconsMap: widget.tokenIconsMap,
-            tokenViewFunction: widget.tokenViewFunction,
-            getMarketPrice: widget.getMarketPrice,
-            tokenOptions: widget.tokenOptions,
-            quickTokenOptions: widget.quickTokenOptions,
-            current: widget.balance,
-          );
+              tokenSelectTitle: widget.tokenSelectTitle,
+              tokenIconsMap: widget.tokenIconsMap,
+              tokenViewFunction: widget.tokenViewFunction,
+              getMarketPrice: widget.getMarketPrice,
+              tokenOptions: widget.tokenOptions,
+              quickTokenOptions: widget.quickTokenOptions,
+              current: widget.balance,
+              canSearch: widget.canSearch);
         },
         context: context);
     if (selected != null) {
