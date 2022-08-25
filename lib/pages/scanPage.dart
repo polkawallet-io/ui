@@ -70,7 +70,16 @@ class ScanPage extends StatelessWidget {
             type: QRCodeResultType.address,
             address: ls.length == 4
                 ? QRCodeAddressResult(ls)
-                : QRCodeAddressResult(['', address, '', '']),
+                : QRCodeAddressResult([
+                    Fmt.isAddress(address)
+                        ? 'substrate'
+                        : Fmt.isAddressETH(address)
+                            ? "evm"
+                            : "",
+                    address,
+                    '',
+                    ''
+                  ]),
           ));
         } else if (Fmt.isHexString(data)) {
           debugPrint('hex detected in Qr');
@@ -142,7 +151,7 @@ class QRCodeAddressResult {
 
   final List<String> rawData;
 
-  final String chainType;
+  final String chainType; //'evm','substrate'
   final String address;
   final String pubKey;
   final String name;

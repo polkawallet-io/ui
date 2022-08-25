@@ -33,7 +33,7 @@ class AccountQrCodePage extends StatelessWidget {
         : keyring.current;
 
     final codeAddress =
-        'substrate:${current.address}:${current.pubKey}:${current.name}';
+        '${keyringEVM != null ? 'evm' : 'substrate'}:${current.address}:${current.pubKey}:${current.name}';
 
     final accInfo = keyringEVM != null ? null : keyring.current.indexInfo;
     final qrWidth = MediaQuery.of(context).size.width / 2;
