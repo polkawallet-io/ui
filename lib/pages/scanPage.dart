@@ -27,8 +27,9 @@ class ScanPage extends StatelessWidget {
     Future onScan(String? txt, String? rawData) async {
       String address = '';
       final String? data = txt?.trim();
-      if (data != null) {
-        if (data.contains("polkawallet.io")) {
+      if ((data != null && data.isNotEmpty) ||
+          (rawData != null && rawData.isNotEmpty)) {
+        if (data!.contains("polkawallet.io")) {
           final paths = data.toString().split("polkawallet.io");
           Map<dynamic, dynamic> args = <dynamic, dynamic>{};
           if (paths.length > 1) {
@@ -57,7 +58,7 @@ class ScanPage extends StatelessWidget {
         }
 
         for (String item in ls) {
-          if (Fmt.isAddress(item)) {
+          if (Fmt.isAddress(item) || Fmt.isAddressETH(item)) {
             address = item;
             break;
           }
@@ -69,7 +70,16 @@ class ScanPage extends StatelessWidget {
             type: QRCodeResultType.address,
             address: ls.length == 4
                 ? QRCodeAddressResult(ls)
-                : QRCodeAddressResult(['', address, '', '']),
+                : QRCodeAddressResult([
+                    Fmt.isAddress(address)
+                        ? 'substrate'
+                        : Fmt.isAddressETH(address)
+                            ? "evm"
+                            : "",
+                    address,
+                    '',
+                    ''
+                  ]),
           ));
         } else if (Fmt.isHexString(data)) {
           debugPrint('hex detected in Qr');
@@ -141,7 +151,7 @@ class QRCodeAddressResult {
 
   final List<String> rawData;
 
-  final String chainType;
+  final String chainType; //'evm','substrate'
   final String address;
   final String pubKey;
   final String name;

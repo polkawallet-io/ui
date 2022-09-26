@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/innerShadow.dart';
 import 'package:polkawallet_ui/utils/format.dart';
@@ -18,23 +17,26 @@ class AddressFormItem extends StatelessWidget {
     this.imageRight = 8.0,
     this.margin,
     this.rightIcon,
+    this.isDarkTheme = false,
     Key? key,
   }) : super(key: key);
   final String? label;
   final String? svg;
   final bool isShowSubtitle;
   final bool isGreyBg;
-  final KeyPairData? account;
+  final dynamic? account;
   final Future<void> Function()? onTap;
   final Color? color;
   final double borderWidth;
   final double imageRight;
   final EdgeInsetsGeometry? margin;
   final Widget? rightIcon;
+  final bool isDarkTheme;
 
   @override
   Widget build(BuildContext context) {
-    final grey = Theme.of(context).unselectedWidgetColor;
+    final grey =
+        isDarkTheme ? Colors.white : Theme.of(context).unselectedWidgetColor;
     final child = Stack(children: [
       Row(
         children: <Widget>[
@@ -53,7 +55,12 @@ class AddressFormItem extends StatelessWidget {
               children: <Widget>[
                 Text(
                   UI.accountName(context, account!),
-                  style: Theme.of(context).textTheme.headline5
+                  style: isDarkTheme
+                      ? Theme.of(context)
+                          .textTheme
+                          .headline5
+                          ?.copyWith(color: Colors.white)
+                      : Theme.of(context).textTheme.headline5
                     ?..color?.withAlpha(255),
                 ),
                 Visibility(
@@ -69,16 +76,19 @@ class AddressFormItem extends StatelessWidget {
           ),
           Visibility(
               visible: rightIcon != null || onTap != null,
-              child: rightIcon ??
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 18,
-                    color: color ?? grey,
-                  ))
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: rightIcon ??
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 18,
+                      color: color ?? grey,
+                    ),
+              ))
         ],
       ),
       Visibility(
-          visible: isGreyBg && UI.isDarkTheme(context),
+          visible: isGreyBg && (UI.isDarkTheme(context) || isDarkTheme),
           child: Container(
             height: 32,
             width: double.infinity,
@@ -93,6 +103,7 @@ class AddressFormItem extends StatelessWidget {
         InnerShadowBGCar(
             padding: const EdgeInsets.only(left: 8),
             isWhite: !isGreyBg,
+            isDarkTheme: isDarkTheme,
             child: child)
       ],
     );

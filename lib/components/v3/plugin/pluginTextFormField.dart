@@ -40,10 +40,15 @@ class PluginTextFormField extends StatelessWidget {
         padding: padding,
         child: TextFormField(
           decoration: InputDecoration(
+            isCollapsed: true,
             border: InputBorder.none,
             contentPadding: EdgeInsets.only(left: 8, top: 16, right: 8),
             suffixIcon: suffix,
             hintText: hintText,
+            hintStyle: Theme.of(context)
+                .textTheme
+                .headline4
+                ?.copyWith(color: Colors.white.withAlpha(120)),
             errorStyle: Theme.of(context)
                 .textTheme
                 .headline5!

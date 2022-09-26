@@ -9,7 +9,7 @@ class PluginTextTag extends StatelessWidget {
       this.style,
       this.backgroundColor,
       this.child,
-      this.height = 22,
+      this.height = 24,
       Key? key})
       : super(key: key);
   final String title;

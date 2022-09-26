@@ -11,19 +11,21 @@ import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 
 class TxDetail extends StatelessWidget {
-  const TxDetail({
-    Key? key,
-    this.success,
-    this.networkName,
-    this.action,
-    this.fee,
-    this.eventId,
-    this.hash,
-    this.blockTime,
-    this.blockNum,
-    this.infoItems,
-    required this.current,
-  }) : super(key: key);
+  const TxDetail(
+      {Key? key,
+      this.success,
+      this.networkName,
+      this.action,
+      this.fee,
+      this.eventId,
+      this.hash,
+      this.blockTime,
+      this.blockNum,
+      this.infoItems,
+      required this.current,
+      this.scanLink,
+      this.scanName})
+      : super(key: key);
 
   final bool? success;
   final String? networkName;
@@ -35,6 +37,8 @@ class TxDetail extends StatelessWidget {
   final int? blockNum;
   final List<TxDetailInfoItem>? infoItems;
   final KeyPairData current;
+  final String? scanName;
+  final String? scanLink;
 
   List<Widget> _buildListView(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
@@ -167,12 +171,12 @@ class TxDetail extends StatelessWidget {
     final pnLink = networkName == 'polkadot' || networkName == 'kusama'
         ? 'https://polkascan.io/${networkName!.toLowerCase()}/transaction/$hash'
         : null;
-    final snLink =
+    final snLink = scanLink ??
         'https://${networkName!.toLowerCase()}.subscan.io/extrinsic/$hash';
     Widget links = Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: Button(
-          title: 'Subscan',
+          title: scanName ?? 'Subscan',
           onPressed: () async {
             await UI.launchURL(snLink);
           },

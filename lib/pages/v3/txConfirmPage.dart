@@ -82,8 +82,8 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
     final sender = TxSenderData(
         widget.keyring.current.address, widget.keyring.current.pubKey);
-    final txInfo =
-        TxInfoData(args.module, args.call, sender, txName: args.txName);
+    final txInfo = TxInfoData(args.module, args.call, sender,
+        txName: args.txName, txHex: args.txHex);
 
     final fee = await widget.plugin.sdk.api.tx
         .estimateFees(txInfo, args.params!, rawParam: args.rawParams);
@@ -183,7 +183,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
           : await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
-      _onTxFinish(context, null, err.toString().split(":")[1]);
+      _onTxFinish(context, null, err.toString());
     }
     if (mounted) {
       setState(() {
@@ -247,6 +247,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
   ) async {
     final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
     print('show qr');
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
     final signed = await Navigator.of(context).pushNamed(
       QrSenderPage.route,
       arguments: QrSenderPageParams(
@@ -255,15 +256,16 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         rawParams: args.rawParams,
       ),
     );
+    _updateTxStatus(context, dic!['tx.wait']!);
     if (signed == null) {
-      throw Exception(dic!['tx.cancelled']);
+      throw Exception(dic['tx.cancelled']);
     }
     final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
       widget.keyring.current.address!,
       signed.toString(),
       (status) {
         if (mounted) {
-          _updateTxStatus(context, dic!['tx.$status'] ?? status);
+          _updateTxStatus(context, dic['tx.$status'] ?? status);
         }
       },
     );
@@ -318,22 +320,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     return value;
   }
 
-  dynamic _formatNumberInParams(dynamic item) {
-    switch (item.runtimeType) {
-      case String:
-        try {
-          final bigInt = BigInt.parse(item);
-          return bigInt.toString();
-        } catch (_) {
-          return item;
-        }
-      case List:
-        return List.of(item).map((e) => _formatNumberInParams(e)).toList();
-      default:
-        return item;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
@@ -348,7 +334,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
 
     final TxConfirmParams args =
         ModalRoute.of(context)!.settings.arguments as TxConfirmParams;
-    final List? params = _formatNumberInParams(args.params);
 
     final bool isObservation = widget.keyring.current.observation ?? false;
     final bool isProxyObservation =
@@ -538,7 +523,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                 _updateKUSD(args.rawParams != null
                                     ? args.rawParams!
                                     : const JsonEncoder.withIndent('  ')
-                                        .convert(params)),
+                                        .convert(args.params)),
                                 style: TextStyle(
                                     fontSize: UI.getTextSize(14, context),
                                     color: Colors.white),
@@ -848,7 +833,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                               _updateKUSD(args.rawParams != null
                                   ? args.rawParams!
                                   : const JsonEncoder.withIndent('  ')
-                                      .convert(params)),
+                                      .convert(args.params)),
                               style: TextStyle(
                                   fontSize: UI.getTextSize(14, context)),
                             ),
@@ -1017,7 +1002,7 @@ class _ConfirmItemLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 88,
+      constraints: BoxConstraints(minWidth: 88),
       child: Text(text,
           style: TextStyle(
               fontFamily: UI.getFontFamily('TitilliumWeb', context),

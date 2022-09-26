@@ -9,10 +9,11 @@ import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 
 class PluginAccountListPageParams {
-  PluginAccountListPageParams({this.list, this.title});
+  PluginAccountListPageParams({this.list, this.title, this.current});
 
   final String? title;
   final List<KeyPairData>? list;
+  final KeyPairData? current;
 }
 
 class PluginAccountListPage extends StatelessWidget {
@@ -39,6 +40,14 @@ class PluginAccountListPage extends StatelessWidget {
           return GestureDetector(
             child: Container(
               margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              foregroundDecoration: args.current?.pubKey == i.pubKey
+                  ? BoxDecoration(
+                      color: const Color(0xFFFF7849).withOpacity(0.09),
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(
+                        color: const Color(0xFFFF7849),
+                      ))
+                  : null,
               child: PluginAddressFormItem(account: i),
             ),
             onTap: () => Navigator.of(context).pop(i),

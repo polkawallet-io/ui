@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:polkawallet_sdk/storage/types/ethWalletData.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/v3/dialog.dart';
@@ -33,8 +34,13 @@ class UI {
     });
   }
 
-  static String accountName(BuildContext context, KeyPairData acc) {
-    return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
+  static String accountName(BuildContext context, dynamic acc) {
+    if (acc is KeyPairData) {
+      return '${accountDisplayNameString(acc.address, acc.indexInfo, acc.name)}${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
+    } else if (acc is EthWalletData) {
+      return '${accountDisplayNameString(acc.address, null, acc.name)}${(acc.observation ?? false) ? ' (${I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!['observe']})' : ''}';
+    }
+    return "";
   }
 
   static Widget accountDisplayName(String? address, Map? accInfo,
@@ -49,10 +55,12 @@ class UI {
         hasId = true;
       }
       if (accInfo['identity']['judgements'].length > 0) {
-        final judgement = accInfo['identity']['judgements'][0][1];
-        if (Map.of(judgement).keys.contains('knownGood') ||
-            Map.of(judgement).keys.contains('reasonable')) {
-          good = true;
+        for (var j in List.of(accInfo['identity']['judgements'])) {
+          final judgement = j[1];
+          if (Map.of(judgement).keys.contains('knownGood') ||
+              Map.of(judgement).keys.contains('reasonable')) {
+            good = true;
+          }
         }
       }
     }

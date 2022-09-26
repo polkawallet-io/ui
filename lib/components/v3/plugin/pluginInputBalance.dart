@@ -13,29 +13,31 @@ import 'package:polkawallet_ui/utils/index.dart';
 enum InputBalanceType { defaultType, swapType }
 
 class PluginInputBalance extends StatefulWidget {
-  const PluginInputBalance({
-    this.titleTag,
-    Key? key,
-    this.inputCtrl,
-    this.balance,
-    this.tokenIconsMap,
-    this.onTokenChange,
-    this.margin,
-    this.padding,
-    this.onClear,
-    this.onInputChange,
-    this.onSetMax,
-    this.enabled = true,
-    this.tokenBgColor = const Color(0xFFFF7849),
-    this.getMarketPrice,
-    this.tokenSelectTitle,
-    this.tokenOptions,
-    this.tokenViewFunction,
-    this.text,
-    this.quickTokenOptions,
-    this.type = InputBalanceType.defaultType,
-    this.bgBorderRadius,
-  }) : super(key: key);
+  const PluginInputBalance(
+      {this.titleTag,
+      Key? key,
+      this.inputCtrl,
+      this.balance,
+      this.tokenIconsMap,
+      this.onTokenChange,
+      this.margin,
+      this.padding,
+      this.onClear,
+      this.onInputChange,
+      this.onSetMax,
+      this.enabled = true,
+      this.tokenBgColor = const Color(0xFFFF7849),
+      this.getMarketPrice,
+      this.tokenSelectTitle,
+      this.tokenOptions,
+      this.tokenViewFunction,
+      this.text,
+      this.quickTokenOptions,
+      this.type = InputBalanceType.defaultType,
+      this.bgBorderRadius,
+      this.balanceLabel,
+      this.canSearch = true})
+      : super(key: key);
 
   final String? titleTag;
   final TextEditingController? inputCtrl;
@@ -57,6 +59,8 @@ class PluginInputBalance extends StatefulWidget {
   final String? text; //enabled is false  To be valid
   final InputBalanceType type;
   final BorderRadiusGeometry? bgBorderRadius; //swapType
+  final String? balanceLabel;
+  final bool? canSearch;
 
   @override
   createState() => _PluginInputBalanceState();
@@ -72,14 +76,14 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
         barrierColor: const Color(0x24FFFFFF),
         builder: (BuildContext context) {
           return PluginTokenSelector(
-            tokenBgColor: widget.tokenBgColor,
-            tokenSelectTitle: widget.tokenSelectTitle,
-            tokenIconsMap: widget.tokenIconsMap,
-            tokenViewFunction: widget.tokenViewFunction,
-            getMarketPrice: widget.getMarketPrice,
-            tokenOptions: widget.tokenOptions,
-            quickTokenOptions: widget.quickTokenOptions,
-          );
+              tokenSelectTitle: widget.tokenSelectTitle,
+              tokenIconsMap: widget.tokenIconsMap,
+              tokenViewFunction: widget.tokenViewFunction,
+              getMarketPrice: widget.getMarketPrice,
+              tokenOptions: widget.tokenOptions,
+              quickTokenOptions: widget.quickTokenOptions,
+              current: widget.balance,
+              canSearch: widget.canSearch);
         },
         context: context);
     if (selected != null) {
@@ -134,7 +138,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                 child: Visibility(
                   visible: widget.enabled,
                   child: Text(
-                      '${dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
+                      '${widget.balanceLabel ?? dic['balance']}: ${widget.enabled ? Fmt.priceFloorBigInt(max, widget.balance?.decimals ?? 12, lengthMax: 4) : widget.text}',
                       style: Theme.of(context).textTheme.headline6?.copyWith(
                           fontWeight: FontWeight.w300, color: Colors.white)),
                 ),

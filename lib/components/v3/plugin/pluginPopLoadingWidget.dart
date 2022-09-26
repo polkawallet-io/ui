@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_ui/utils/index.dart';
 import 'package:rive/rive.dart';
@@ -8,12 +9,14 @@ class PluginPopLoadingContainer extends StatelessWidget {
       this.child,
       this.loading = false,
       this.canTap = false,
+      this.isDarkTheme = true,
       this.tips})
       : super(key: key);
   final bool loading;
   final Widget? child;
   final String? tips;
   final bool canTap;
+  final bool isDarkTheme;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -31,9 +34,13 @@ class PluginPopLoadingContainer extends StatelessWidget {
                       child: Container(),
                     ),
                     Align(
-                        child: PluginPopLoadingWidget(
-                      tips: tips ?? 'Loading...',
-                    )),
+                      child: isDarkTheme
+                          ? PluginPopLoadingWidget(
+                              tips: tips ?? 'Loading...',
+                            )
+                          : const CupertinoActivityIndicator(
+                              color: Color(0xFF3C3C44)),
+                    ),
                     Expanded(
                       flex: 55,
                       child: Container(),

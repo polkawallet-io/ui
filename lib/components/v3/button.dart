@@ -44,7 +44,8 @@ class Button extends StatelessWidget {
                   visible: submitting,
                   child: Container(
                     margin: const EdgeInsets.only(right: 8),
-                    child: const CupertinoActivityIndicator(),
+                    child: const CupertinoActivityIndicator(
+                        color: Color(0xFF3C3C44)),
                   ),
                 ),
                 icon != null
