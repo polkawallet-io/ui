@@ -175,6 +175,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
           : null,
       tip: _tipValue.toString(),
       txName: args.txName,
+      txHex: args.txHex,
     );
 
     try {

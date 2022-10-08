@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qr_scan/qrcode_reader_view.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,13 +21,12 @@ class ScanPage extends StatelessWidget {
     return status.isGranted;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    Future onScan(String? txt, String? rawData) async {
-      String address = '';
-      final String? data = txt?.trim();
-      if ((data != null && data.isNotEmpty) ||
-          (rawData != null && rawData.isNotEmpty)) {
+  Future _onScan(BuildContext context, String? txt, String? rawData) async {
+    String address = '';
+    final String? data = txt?.trim();
+    if ((data != null && data.isNotEmpty) ||
+        (rawData != null && rawData.isNotEmpty)) {
+      try {
         if (data!.contains("polkawallet.io")) {
           final paths = data.toString().split("polkawallet.io");
           Map<dynamic, dynamic> args = <dynamic, dynamic>{};
@@ -100,9 +98,15 @@ class ScanPage extends StatelessWidget {
         } else {
           _qrViewKey.currentState!.startScan();
         }
+      } catch (err) {
+        // ignore error and restart scan
+        _qrViewKey.currentState!.startScan();
       }
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
     return Scaffold(
       body: FutureBuilder<bool>(
@@ -121,7 +125,8 @@ class ScanPage extends StatelessWidget {
                   ),
                 ),
                 helpWidget: Text(dic['scan.help']!),
-                onScan: onScan);
+                onScan: (String? txt, String? rawData) =>
+                    _onScan(context, txt, rawData));
           } else {
             return Container();
           }
