@@ -348,8 +348,6 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
 
     final isNetworkConnected =
         args.isBridge || widget.plugin.sdk.api.connectedNode != null;
-    final isNetworkMatch = widget.plugin.networkState.genesisHash ==
-        widget.plugin.basic.genesisHash;
 
     final symbol = args.feeToken.symbol;
     final decimals = args.feeToken.decimals!;
@@ -680,8 +678,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                               .textTheme
                                               .button
                                               ?.copyWith(color: Colors.black),
-                                          onPressed: !isNetworkMatch ||
-                                                  _submitting
+                                          onPressed: _submitting
                                               ? null
                                               : () =>
                                                   _showPasswordDialog(context),
@@ -997,8 +994,7 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                                         title: dic['tx.submit']!,
                                         style:
                                             Theme.of(context).textTheme.button,
-                                        onPressed: !isNetworkMatch ||
-                                                _submitting
+                                        onPressed: _submitting
                                             ? null
                                             : () =>
                                                 _showPasswordDialog(context),

@@ -24,7 +24,8 @@ class TxDetail extends StatelessWidget {
       this.infoItems,
       required this.current,
       this.scanLink,
-      this.scanName})
+      this.scanName,
+      this.confirmations})
       : super(key: key);
 
   final bool? success;
@@ -39,6 +40,7 @@ class TxDetail extends StatelessWidget {
   final KeyPairData current;
   final String? scanName;
   final String? scanLink;
+  final int? confirmations;
 
   List<Widget> _buildListView(BuildContext context) {
     final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
@@ -48,6 +50,7 @@ class TxDetail extends StatelessWidget {
       fontFamily: UI.getFontFamily('TitilliumWeb', context),
       fontWeight: FontWeight.w600,
     );
+    final isPending = confirmations == -1;
 
     var list = <Widget>[
       Container(
@@ -94,7 +97,7 @@ class TxDetail extends StatelessWidget {
                       children: [
                         infoItems![0].content!,
                         Text(
-                          '$action ${success! ? dic!['success'] : dic!['fail']}',
+                          '$action ${(confirmations ?? 0) > -1 ? success! ? dic!['success'] : dic!['fail'] : ''}',
                           style: TextStyle(
                             color: success!
                                 ? UI.isDarkTheme(context)
@@ -122,6 +125,23 @@ class TxDetail extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: Column(
         children: [
+          Visibility(
+              visible: confirmations != null,
+              child: TxDetailItem(
+                  TxDetailInfoItem(
+                      label: 'Status',
+                      content: Text(
+                        isPending
+                            ? 'Pending'
+                            : 'Confirmed by ${(confirmations ?? 0) + 1} blocks',
+                        style: TextStyle(
+                            color: isPending
+                                ? null
+                                : UI.isDarkTheme(context)
+                                    ? const Color(0xFF82FF99)
+                                    : const Color(0xFF22BC5A)),
+                      )),
+                  labelStyle)),
           ...infoItems!.map((i) {
             if (index == 0) {
               index = 1;
@@ -137,7 +157,7 @@ class TxDetail extends StatelessWidget {
               visible: fee != null,
               child: TxDetailItem(
                   TxDetailInfoItem(
-                      label: dic['tx.fee'], content: Text(fee ?? "")),
+                      label: dic!['tx.fee'], content: Text(fee ?? "")),
                   labelStyle)),
           Visibility(
               visible: eventId != null,

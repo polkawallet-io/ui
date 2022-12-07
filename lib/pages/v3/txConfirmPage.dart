@@ -327,6 +327,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     final dicAcc = I18n.of(context)!.getDic(i18n_full_dic_ui, 'account')!;
 
     final isNetworkConnected = widget.plugin.sdk.api.connectedNode != null;
+    // const isNetworkMatch = true;
     final isNetworkMatch = widget.plugin.networkState.genesisHash ==
         widget.plugin.basic.genesisHash;
 
@@ -920,7 +921,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 ),
               ),
               Visibility(
-                  visible: isNetworkConnected,
+                  visible: !isObservation && isNetworkConnected,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       child: Row(

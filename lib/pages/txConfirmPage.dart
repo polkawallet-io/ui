@@ -650,7 +650,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 ),
               ),
               Visibility(
-                  visible: isNetworkConnected,
+                  visible: !isObservation && isNetworkConnected,
                   child: Row(
                     children: <Widget>[
                       Expanded(
