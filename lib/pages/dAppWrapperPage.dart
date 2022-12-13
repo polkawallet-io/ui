@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,9 +18,8 @@ import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:collection/collection.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class DAppWrapperPage extends StatefulWidget {
   const DAppWrapperPage(this.plugin, this.keyring,
@@ -410,7 +410,8 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
           showCupertinoModalPopup(
             context: context,
             builder: (contextPopup) {
-              return MoreInfo(url, _controller!, icon, name, isPlugin, context);
+              return DAppBrowserActionButton(
+                  url, _controller!, icon, name, isPlugin, context);
             },
           );
         },
@@ -460,9 +461,9 @@ class _DAppWrapperPageState extends State<DAppWrapperPage> {
   }
 }
 
-class MoreInfo extends StatelessWidget {
-  const MoreInfo(this._url, this._controller, this._icon, this._name,
-      this._isPlugin, this._fatherContext,
+class DAppBrowserActionButton extends StatelessWidget {
+  const DAppBrowserActionButton(this._url, this._controller, this._icon,
+      this._name, this._isPlugin, this._fatherContext,
       {Key? key})
       : super(key: key);
   final WebViewController _controller;

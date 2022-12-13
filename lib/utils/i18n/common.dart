@@ -75,6 +75,8 @@ const Map<String, String> enCommon = {
   'dApp.refresh': 'Refresh',
   'dApp.copylink': 'Copy Link',
   'dApp.browser': 'Open in browser',
+  'dApp.src': 'Request from',
+  'dApp.data': 'Data',
   'search.token': 'Search Token',
   'filter': 'Filter',
 };
@@ -151,6 +153,8 @@ const Map<String, String> zhCommon = {
   'dApp.refresh': '刷新',
   'dApp.copylink': '复制链接',
   'dApp.browser': '打开默认浏览器',
+  'dApp.src': '请求来自',
+  'dApp.data': '内容',
   'search.token': '搜索代币',
   'filter': '筛选',
 };
