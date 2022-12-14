@@ -11,6 +11,7 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/addressFormItem.dart';
+import 'package:polkawallet_ui/components/offlineSignatureInvalidWarn.dart';
 import 'package:polkawallet_ui/components/tapTooltip.dart';
 import 'package:polkawallet_ui/components/txButton.dart';
 import 'package:polkawallet_ui/components/v3/dialog.dart';
@@ -650,67 +651,77 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                 ),
               ),
               Visibility(
-                  visible: !isObservation && isNetworkConnected,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          color: _submitting ? Colors.black12 : Colors.orange,
-                          child: TextButton(
-                            child: Container(
-                              padding: const EdgeInsets.only(top: 6, bottom: 6),
-                              child: Text(dic['cancel']!,
-                                  style: const TextStyle(color: Colors.white)),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: _submitting || !isNetworkMatch
-                              ? Theme.of(context).disabledColor
-                              : Theme.of(context).primaryColor,
-                          child: Builder(
-                            builder: (BuildContext context) {
-                              return TextButton(
-                                onPressed: !isNetworkMatch
-                                    ? null
-                                    : isUnsigned
-                                        ? () => _onSubmit(context)
-                                        : (isObservation &&
-                                                    _proxyAccount == null) ||
-                                                isProxyObservation
-                                            ? () =>
-                                                _onSubmit(context, viaQr: true)
-                                            : _submitting
-                                                ? null
-                                                : () => _showPasswordDialog(
-                                                    context),
-                                child: Container(
-                                  padding:
-                                      const EdgeInsets.only(top: 6, bottom: 6),
-                                  child: Text(
-                                    isUnsigned
-                                        ? dic['tx.no.sign']!
-                                        : (isObservation &&
-                                                    _proxyAccount == null) ||
-                                                isProxyObservation
-                                            ? dic['tx.qr']!
-                                            // dicAcc['observe.invalid']
-                                            : dic['tx.submit']!,
-                                    style: const TextStyle(color: Colors.white),
+                  visible: isNetworkConnected,
+                  child: isObservation
+                      ? const OfflineSignatureInvalidWarn()
+                      : Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                color: _submitting
+                                    ? Colors.black12
+                                    : Colors.orange,
+                                child: TextButton(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(
+                                        top: 6, bottom: 6),
+                                    child: Text(dic['cancel']!,
+                                        style: const TextStyle(
+                                            color: Colors.white)),
                                   ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ))
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                color: _submitting || !isNetworkMatch
+                                    ? Theme.of(context).disabledColor
+                                    : Theme.of(context).primaryColor,
+                                child: Builder(
+                                  builder: (BuildContext context) {
+                                    return TextButton(
+                                      onPressed: !isNetworkMatch
+                                          ? null
+                                          : isUnsigned
+                                              ? () => _onSubmit(context)
+                                              : (isObservation &&
+                                                          _proxyAccount ==
+                                                              null) ||
+                                                      isProxyObservation
+                                                  ? () => _onSubmit(context,
+                                                      viaQr: true)
+                                                  : _submitting
+                                                      ? null
+                                                      : () =>
+                                                          _showPasswordDialog(
+                                                              context),
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            top: 6, bottom: 6),
+                                        child: Text(
+                                          isUnsigned
+                                              ? dic['tx.no.sign']!
+                                              : (isObservation &&
+                                                          _proxyAccount ==
+                                                              null) ||
+                                                      isProxyObservation
+                                                  ? dic['tx.qr']!
+                                                  // dicAcc['observe.invalid']
+                                                  : dic['tx.submit']!,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ))
             ],
           ),
         ),

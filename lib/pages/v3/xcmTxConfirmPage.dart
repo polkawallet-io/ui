@@ -11,6 +11,7 @@ import 'package:polkawallet_sdk/plugin/store/balances.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/components/offlineSignatureInvalidWarn.dart';
 import 'package:polkawallet_ui/components/tapTooltip.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
 import 'package:polkawallet_ui/components/v3/back.dart';
@@ -637,57 +638,61 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                         ),
                       ),
                       Visibility(
-                          visible: isNetworkConnected && !isObservation,
+                          visible: isNetworkConnected,
                           child: Padding(
                               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: PluginButton(
-                                      submitting: _submitting,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .button
-                                          ?.copyWith(
-                                              color: UI.isDarkTheme(context)
-                                                  ? Theme.of(context)
-                                                      .textTheme
-                                                      .button
-                                                      ?.color
-                                                  : Theme.of(context)
-                                                      .textTheme
-                                                      .headline1
-                                                      ?.color),
-                                      title: dic['cancel']!,
-                                      backgroundColor: Colors.white,
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Builder(
-                                      builder: (BuildContext context) {
-                                        return PluginButton(
-                                          submitting: _submitting,
-                                          title: dic['tx.submit']!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              ?.copyWith(color: Colors.black),
-                                          onPressed: _submitting
-                                              ? null
-                                              : () =>
-                                                  _showPasswordDialog(context),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )))
+                              child: isObservation
+                                  ? const OfflineSignatureInvalidWarn()
+                                  : Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: PluginButton(
+                                            submitting: _submitting,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .button
+                                                ?.copyWith(
+                                                    color:
+                                                        UI.isDarkTheme(context)
+                                                            ? Theme.of(context)
+                                                                .textTheme
+                                                                .button
+                                                                ?.color
+                                                            : Theme.of(context)
+                                                                .textTheme
+                                                                .headline1
+                                                                ?.color),
+                                            title: dic['cancel']!,
+                                            backgroundColor: Colors.white,
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Builder(
+                                            builder: (BuildContext context) {
+                                              return PluginButton(
+                                                submitting: _submitting,
+                                                title: dic['tx.submit']!,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .button
+                                                    ?.copyWith(
+                                                        color: Colors.black),
+                                                onPressed: _submitting
+                                                    ? null
+                                                    : () => _showPasswordDialog(
+                                                        context),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    )))
                     ],
                   ),
           ),
@@ -955,55 +960,58 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
                       ),
                     ),
                     Visibility(
-                        visible: isNetworkConnected && !isObservation,
+                        visible: isNetworkConnected,
                         child: Padding(
                             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Button(
-                                    submitting: _submitting,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        ?.copyWith(
-                                            color: UI.isDarkTheme(context)
-                                                ? Theme.of(context)
-                                                    .textTheme
-                                                    .button
-                                                    ?.color
-                                                : Theme.of(context)
-                                                    .textTheme
-                                                    .headline1
-                                                    ?.color),
-                                    title: dic['cancel']!,
-                                    isBlueBg: false,
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                  child: Builder(
-                                    builder: (BuildContext context) {
-                                      return Button(
-                                        submitting: _submitting,
-                                        title: dic['tx.submit']!,
-                                        style:
-                                            Theme.of(context).textTheme.button,
-                                        onPressed: _submitting
-                                            ? null
-                                            : () =>
-                                                _showPasswordDialog(context),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )))
+                            child: isObservation
+                                ? const OfflineSignatureInvalidWarn()
+                                : Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Button(
+                                          submitting: _submitting,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              ?.copyWith(
+                                                  color: UI.isDarkTheme(context)
+                                                      ? Theme.of(context)
+                                                          .textTheme
+                                                          .button
+                                                          ?.color
+                                                      : Theme.of(context)
+                                                          .textTheme
+                                                          .headline1
+                                                          ?.color),
+                                          title: dic['cancel']!,
+                                          isBlueBg: false,
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                        child: Builder(
+                                          builder: (BuildContext context) {
+                                            return Button(
+                                              submitting: _submitting,
+                                              title: dic['tx.submit']!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .button,
+                                              onPressed: _submitting
+                                                  ? null
+                                                  : () => _showPasswordDialog(
+                                                      context),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )))
                   ],
                 ),
         ),

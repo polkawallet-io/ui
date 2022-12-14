@@ -8,6 +8,7 @@ const Map<String, String> enAccount = {
   'uos.push': 'Scan to publish',
   'uos.warn':
       'Safety Warning!!! DO NOT send this QR to anyone or you may LOSE your assets!!!',
+  'uos.invalid': 'Offline Signature is no longer supported.',
   'advanced': 'Advanced Options',
   'ss58.mismatch': 'Address is for a different network',
   'warn.external':
@@ -23,6 +24,7 @@ const Map<String, String> zhAccount = {
   'uos.signer': '签名账户',
   'uos.push': '扫码发送交易',
   'uos.warn': '安全警告!!! 不要将该二维码发送给任何人!!! 泄露该二维码会导致账户资产丢失!!!',
+  'uos.invalid': '离线签名功能已不再支持。',
   'advanced': '高级选项',
   'ss58.mismatch': '其他网络地址格式',
   'warn.external': '在 Polkawallet 中你未拥有该【观察账户】的签名权，请勿转入资产，除非你在其他管理器中有该账户签名权。',
