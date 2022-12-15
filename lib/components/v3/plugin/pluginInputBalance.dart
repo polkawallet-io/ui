@@ -171,6 +171,7 @@ class _PluginInputBalanceState extends State<PluginInputBalance> {
                           scrollPadding: EdgeInsets.zero,
                           enabled: widget.enabled,
                           showCursor: _hasFocus,
+                          cursorColor: PluginColorsDark.primary,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.zero,
                             isDense: true,
