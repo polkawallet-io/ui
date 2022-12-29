@@ -183,4 +183,27 @@ class UI {
     return Theme.of(context).scaffoldBackgroundColor.value ==
         const Color(0xFF242528).value;
   }
+
+  static Future<bool> confirm(BuildContext context, String message) async {
+    final dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common')!;
+    final res = await showCupertinoDialog(
+        context: context,
+        builder: (_) {
+          return PolkawalletAlertDialog(
+            content: Text(message),
+            actions: <Widget>[
+              PolkawalletActionSheetAction(
+                child: Text(dic['cancel']!),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              PolkawalletActionSheetAction(
+                isDefaultAction: true,
+                child: Text(dic['ok']!),
+                onPressed: () => Navigator.of(context).pop(true),
+              )
+            ],
+          );
+        });
+    return res;
+  }
 }
