@@ -9,6 +9,8 @@ class NumberLoader extends StatelessWidget {
       this.height = 16,
       this.width = 60,
       this.isDarkTheme = true,
+      this.highlightColor,
+      this.baseColor,
       required this.isLoading})
       : super(key: key);
   final bool isLoading;
@@ -16,8 +18,16 @@ class NumberLoader extends StatelessWidget {
   final double height;
   final double width;
   final bool isDarkTheme;
+  final Color? highlightColor;
+  final Color? baseColor;
   @override
   Widget build(BuildContext context) {
+    final highlightColorDefault = isDarkTheme || UI.isDarkTheme(context)
+        ? const Color(0xFF6D6D6D)
+        : const Color(0xFFC0C0C0);
+    final baseColorDefault = isDarkTheme || UI.isDarkTheme(context)
+        ? const Color(0xFF3A3B3D)
+        : const Color(0xFFE0E0E0);
     return isLoading
         ? SizedBox(
             width: width,
@@ -33,12 +43,8 @@ class NumberLoader extends StatelessWidget {
               ),
               items: 1,
               period: const Duration(seconds: 2),
-              highlightColor: isDarkTheme || UI.isDarkTheme(context)
-                  ? const Color(0xFF6D6D6D)
-                  : const Color(0xFFC0C0C0),
-              baseColor: isDarkTheme || UI.isDarkTheme(context)
-                  ? const Color(0xFF3A3B3D)
-                  : const Color(0xFFE0E0E0),
+              highlightColor: highlightColor ?? highlightColorDefault,
+              baseColor: baseColor ?? baseColorDefault,
               direction: SkeletonDirection.ltr,
             ),
           )
