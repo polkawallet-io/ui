@@ -16,7 +16,6 @@ import 'package:polkawallet_ui/components/tapTooltip.dart';
 import 'package:polkawallet_ui/components/txButton.dart';
 import 'package:polkawallet_ui/components/v3/dialog.dart';
 import 'package:polkawallet_ui/pages/accountListPage.dart';
-import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
 import 'package:polkawallet_ui/utils/index.dart';
@@ -218,9 +217,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     );
 
     try {
-      final res = viaQr
-          ? await _sendTxViaQr(context, txInfo, args)
-          : await _sendTx(context, txInfo, args, password!);
+      final res = await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
       _onTxFinish(context, null, err.toString().split(":")[1]);
@@ -278,36 +275,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         _updateTxStatus(context, dic['tx.$status'] ?? status);
       }
     });
-  }
-
-  Future<Map?> _sendTxViaQr(
-    BuildContext context,
-    TxInfoData txInfo,
-    TxConfirmParams args,
-  ) async {
-    final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
-    debugPrint('show qr');
-    final signed = await Navigator.of(context).pushNamed(
-      QrSenderPage.route,
-      arguments: QrSenderPageParams(
-        txInfo,
-        args.params,
-        rawParams: args.rawParams,
-      ),
-    );
-    if (signed == null) {
-      throw Exception(dic!['tx.cancelled']);
-    }
-    final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
-      widget.keyring.current.address!,
-      signed.toString(),
-      (status) {
-        if (mounted) {
-          _updateTxStatus(context, dic!['tx.$status'] ?? status);
-        }
-      },
-    );
-    return res;
   }
 
   void _updateTxStatus(BuildContext context, String status) {
@@ -687,30 +654,17 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           ? null
                                           : isUnsigned
                                               ? () => _onSubmit(context)
-                                              : (isObservation &&
-                                                          _proxyAccount ==
-                                                              null) ||
-                                                      isProxyObservation
-                                                  ? () => _onSubmit(context,
-                                                      viaQr: true)
-                                                  : _submitting
-                                                      ? null
-                                                      : () =>
-                                                          _showPasswordDialog(
-                                                              context),
+                                              : _submitting
+                                                  ? null
+                                                  : () => _showPasswordDialog(
+                                                      context),
                                       child: Container(
                                         padding: const EdgeInsets.only(
                                             top: 6, bottom: 6),
                                         child: Text(
                                           isUnsigned
                                               ? dic['tx.no.sign']!
-                                              : (isObservation &&
-                                                          _proxyAccount ==
-                                                              null) ||
-                                                      isProxyObservation
-                                                  ? dic['tx.qr']!
-                                                  // dicAcc['observe.invalid']
-                                                  : dic['tx.submit']!,
+                                              : dic['tx.submit']!,
                                           style: const TextStyle(
                                               color: Colors.white),
                                         ),

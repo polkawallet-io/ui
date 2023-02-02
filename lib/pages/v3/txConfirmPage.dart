@@ -25,7 +25,6 @@ import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
 import 'package:polkawallet_ui/components/v3/plugin/slider/PluginSlider.dart';
 import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
-import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
@@ -180,9 +179,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     );
 
     try {
-      final res = viaQr
-          ? await _sendTxViaQr(context, txInfo, args)
-          : await _sendTx(context, txInfo, args, password!);
+      final res = await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
       _onTxFinish(context, null, err.toString());
@@ -240,38 +237,6 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         _updateTxStatus(context, dic['tx.$status'] ?? status);
       }
     });
-  }
-
-  Future<Map?> _sendTxViaQr(
-    BuildContext context,
-    TxInfoData txInfo,
-    TxConfirmParams args,
-  ) async {
-    final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
-    print('show qr');
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    final signed = await Navigator.of(context).pushNamed(
-      QrSenderPage.route,
-      arguments: QrSenderPageParams(
-        txInfo,
-        args.params,
-        rawParams: args.rawParams,
-      ),
-    );
-    _updateTxStatus(context, dic!['tx.wait']!);
-    if (signed == null) {
-      throw Exception(dic['tx.cancelled']);
-    }
-    final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
-      widget.keyring.current.address!,
-      signed.toString(),
-      (status) {
-        if (mounted) {
-          _updateTxStatus(context, dic['tx.$status'] ?? status);
-        }
-      },
-    );
-    return res;
   }
 
   void _updateTxStatus(BuildContext context, String status) {
@@ -647,13 +612,7 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                           submitting: _submitting,
                                           title: isUnsigned
                                               ? dic['tx.no.sign']!
-                                              : (isObservation &&
-                                                          _proxyAccount ==
-                                                              null) ||
-                                                      isProxyObservation
-                                                  ? dic['tx.qr']!
-                                                  // dicAcc['observe.invalid']
-                                                  : dic['tx.submit']!,
+                                              : dic['tx.submit']!,
                                           style: Theme.of(context)
                                               .textTheme
                                               .button
@@ -662,17 +621,11 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                               ? null
                                               : isUnsigned
                                                   ? () => _onSubmit(context)
-                                                  : (isObservation &&
-                                                              _proxyAccount ==
-                                                                  null) ||
-                                                          isProxyObservation
-                                                      ? () => _onSubmit(context,
-                                                          viaQr: true)
-                                                      : _submitting
-                                                          ? null
-                                                          : () =>
-                                                              _showPasswordDialog(
-                                                                  context),
+                                                  : _submitting
+                                                      ? null
+                                                      : () =>
+                                                          _showPasswordDialog(
+                                                              context),
                                         );
                                       },
                                     ),
@@ -966,30 +919,17 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                                         submitting: _submitting,
                                         title: isUnsigned
                                             ? dic['tx.no.sign']!
-                                            : (isObservation &&
-                                                        _proxyAccount ==
-                                                            null) ||
-                                                    isProxyObservation
-                                                ? dic['tx.qr']!
-                                                // dicAcc['observe.invalid']
-                                                : dic['tx.submit']!,
+                                            : dic['tx.submit']!,
                                         style:
                                             Theme.of(context).textTheme.button,
                                         onPressed: !isNetworkMatch
                                             ? null
                                             : isUnsigned
                                                 ? () => _onSubmit(context)
-                                                : (isObservation &&
-                                                            _proxyAccount ==
-                                                                null) ||
-                                                        isProxyObservation
-                                                    ? () => _onSubmit(context,
-                                                        viaQr: true)
-                                                    : _submitting
-                                                        ? null
-                                                        : () =>
-                                                            _showPasswordDialog(
-                                                                context),
+                                                : _submitting
+                                                    ? null
+                                                    : () => _showPasswordDialog(
+                                                        context),
                                       );
                                     },
                                   ),
