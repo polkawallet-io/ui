@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
 
 class PluginSliderTrackShape extends SliderTrackShape {
   const PluginSliderTrackShape();
@@ -39,6 +40,7 @@ class PluginSliderTrackShape extends SliderTrackShape {
       required SliderThemeData sliderTheme,
       required Animation<double> enableAnimation,
       required Offset thumbCenter,
+      Offset? secondaryOffset,
       bool isDiscrete = false,
       bool isEnabled = false,
       double additionalActiveTrackHeight = 2,
