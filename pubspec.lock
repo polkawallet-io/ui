@@ -499,10 +499,11 @@ packages:
   polkawallet_sdk:
     dependency: "direct main"
     description:
-      path: "../sdk"
-      relative: true
-    source: path
-    version: "0.5.1"
+      name: polkawallet_sdk
+      sha256: d003028e952256b59643c2fa3cd6e4b10c353a328280038e3adb58b1fe713218
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.2"
   process:
     dependency: transitive
     description:
