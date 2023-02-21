@@ -8,6 +8,7 @@ class NumberLoader extends StatelessWidget {
       required this.child,
       this.height = 16,
       this.width = 60,
+      this.margin,
       this.isDarkTheme = true,
       this.highlightColor,
       this.baseColor,
@@ -17,6 +18,7 @@ class NumberLoader extends StatelessWidget {
   final Widget child;
   final double height;
   final double width;
+  final EdgeInsetsGeometry? margin;
   final bool isDarkTheme;
   final Color? highlightColor;
   final Color? baseColor;
@@ -29,7 +31,8 @@ class NumberLoader extends StatelessWidget {
         ? const Color(0xFF3A3B3D)
         : const Color(0xFFE0E0E0);
     return isLoading
-        ? SizedBox(
+        ? Container(
+            margin: margin,
             width: width,
             height: height,
             child: SkeletonLoader(
