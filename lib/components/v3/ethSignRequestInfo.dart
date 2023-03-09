@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/api/types/walletConnect/pairingData.dart';
 import 'package:polkawallet_sdk/api/types/walletConnect/payloadData.dart';
@@ -11,7 +10,7 @@ class EthSignRequestInfo extends StatelessWidget {
       {Key? key, this.peer, required this.originUri})
       : super(key: key);
   final WCCallRequestData callRequest;
-  final WCPeerMetaData? peer;
+  final WCProposerMeta? peer;
   final Uri originUri;
   @override
   Widget build(BuildContext context) {
@@ -62,7 +61,7 @@ class EthSignRequestInfo extends StatelessWidget {
 
 class WCPairingSourceInfo extends StatelessWidget {
   const WCPairingSourceInfo(this.metadata, {Key? key}) : super(key: key);
-  final WCPeerMetaData metadata;
+  final WCProposerMeta metadata;
   @override
   Widget build(BuildContext context) {
     return RoundedCard(
