@@ -60,8 +60,10 @@ class EthSignRequestInfo extends StatelessWidget {
 }
 
 class WCPairingSourceInfo extends StatelessWidget {
-  const WCPairingSourceInfo(this.metadata, {Key? key}) : super(key: key);
+  const WCPairingSourceInfo(this.metadata, {this.trailing, Key? key})
+      : super(key: key);
   final WCProposerMeta metadata;
+  final Widget? trailing;
   @override
   Widget build(BuildContext context) {
     return RoundedCard(
@@ -70,6 +72,7 @@ class WCPairingSourceInfo extends StatelessWidget {
         leading: Image.network(metadata.icons![0], width: 40),
         title: Text(metadata.name ?? ''),
         subtitle: Text(metadata.url ?? ''),
+        trailing: trailing,
       ),
     );
   }
