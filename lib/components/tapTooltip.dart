@@ -315,7 +315,7 @@ class _TooltipState extends State<TapTooltip>
       ),
     );
     _entry = OverlayEntry(builder: (BuildContext context) => overlay);
-    Overlay.of(context, debugRequiredFor: widget)!.insert(_entry!);
+    Overlay.of(context, debugRequiredFor: widget).insert(_entry!);
     SemanticsService.tooltip(widget.message);
   }
 

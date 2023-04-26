@@ -294,7 +294,7 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                     if (value!.trim().length < 47) {
                       return dic!['address.error'];
                     }
-                    if (value!.trim().isNotEmpty) {
+                    if (value.trim().isNotEmpty) {
                       return validatorError;
                     }
                     return null;

@@ -1,3 +1,8 @@
+## [0.5.3] - 20230426.
+
+* bump polkawallet_sdk: 0.5.3.
+* update evm related components.
+
 ## [0.5.2] - 20230214.
 
 * bump polkawallet_sdk: 0.5.2.
