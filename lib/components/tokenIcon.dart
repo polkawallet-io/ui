@@ -30,7 +30,12 @@ class TokenIcon extends StatelessWidget {
     }
     Map<String, Widget> tokenIconMap = tokenIcons;
     if (Fmt.isAddressETH(id) && tokenIcons[id] == null) {
-      tokenIconMap = {id: UniSwapTokenIcon(contractAddress: id)};
+      tokenIconMap = {
+        id: UniSwapTokenIcon(
+          contractAddress: id,
+          key: Key(id),
+        )
+      };
     }
     return SizedBox(
       width: size,

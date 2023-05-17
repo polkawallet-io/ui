@@ -7,6 +7,7 @@ class UniSwapTokenIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeInImage(
+      key: key,
       placeholder: const AssetImage(
           'packages/polkawallet_ui/assets/images/dapp_icon_failure.png'),
       image: NetworkImage(
