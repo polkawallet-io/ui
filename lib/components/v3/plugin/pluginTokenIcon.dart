@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polkawallet_ui/components/v3/uniSwapTokenIcon.dart';
+import 'package:polkawallet_ui/utils/format.dart';
 
 class PluginTokenIcon extends StatelessWidget {
   const PluginTokenIcon(
@@ -55,12 +56,16 @@ class PluginTokenIcon extends StatelessWidget {
       );
     }
 
+    Map<String, Widget> tokenIconMap = tokenIcons;
+    if (Fmt.isAddressETH(id) && tokenIcons[id] == null) {
+      tokenIconMap = {id: UniSwapTokenIcon(contractAddress: id)};
+    }
     return SizedBox(
       width: size,
       height: size,
       child: Stack(
         children: [
-          tokenIcons[id.toUpperCase()] ??
+          tokenIconMap[id] ??
               CircleAvatar(
                   child: Text((symbol ?? id).substring(0,
                       (symbol ?? id).length > 2 ? 2 : (symbol ?? id).length))),
