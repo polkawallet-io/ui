@@ -500,10 +500,10 @@ packages:
     dependency: "direct main"
     description:
       name: polkawallet_sdk
-      sha256: "352215c23e6cc4b285af610fb4d598df79afd2eeda709f95378ab699d1c82762"
+      sha256: "7509a7e82b621345fc805b9d89cae1586b418559ce7913715b3bc735ef72fb30"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.3"
+    version: "0.5.4"
   process:
     dependency: transitive
     description:
