@@ -1,3 +1,8 @@
+## [0.5.4] - 20230607.
+
+* bump polkawallet_sdk: 0.5.4.
+* fetch erc20 token icon with uniswap api.
+
 ## [0.5.3] - 20230426.
 
 * bump polkawallet_sdk: 0.5.3.
