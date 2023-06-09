@@ -10,7 +10,6 @@ import 'package:polkawallet_sdk/plugin/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/utils/i18n.dart';
-import 'package:polkawallet_ui/components/offlineSignatureInvalidWarn.dart';
 import 'package:polkawallet_ui/components/tapTooltip.dart';
 import 'package:polkawallet_ui/components/txButton.dart';
 import 'package:polkawallet_ui/components/v3/addressIcon.dart';
@@ -25,6 +24,7 @@ import 'package:polkawallet_ui/components/v3/plugin/pluginScaffold.dart';
 import 'package:polkawallet_ui/components/v3/plugin/roundedPluginCard.dart';
 import 'package:polkawallet_ui/components/v3/plugin/slider/PluginSlider.dart';
 import 'package:polkawallet_ui/components/v3/sliderThumbShape.dart';
+import 'package:polkawallet_ui/pages/qrSenderPage.dart';
 import 'package:polkawallet_ui/utils/consts.dart';
 import 'package:polkawallet_ui/utils/format.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
@@ -179,7 +179,9 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
     );
 
     try {
-      final res = await _sendTx(context, txInfo, args, password!);
+      final res = viaQr
+          ? await _sendTxViaQr(context, txInfo, args)
+          : await _sendTx(context, txInfo, args, password!);
       _onTxFinish(context, res, null);
     } catch (err) {
       _onTxFinish(context, null, err.toString());
@@ -237,6 +239,38 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
         _updateTxStatus(context, dic['tx.$status'] ?? status);
       }
     });
+  }
+
+  Future<Map?> _sendTxViaQr(
+    BuildContext context,
+    TxInfoData txInfo,
+    TxConfirmParams args,
+  ) async {
+    final Map? dic = I18n.of(context)!.getDic(i18n_full_dic_ui, 'common');
+    print('show qr');
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    final signed = await Navigator.of(context).pushNamed(
+      QrSenderPage.route,
+      arguments: QrSenderPageParams(
+        txInfo,
+        args.params,
+        rawParams: args.rawParams,
+      ),
+    );
+    _updateTxStatus(context, dic!['tx.wait']!);
+    if (signed == null) {
+      throw Exception(dic['tx.cancelled']);
+    }
+    final res = await widget.plugin.sdk.api.uos.addSignatureAndSend(
+      widget.keyring.current.address!,
+      signed.toString(),
+      (status) {
+        if (mounted) {
+          _updateTxStatus(context, dic['tx.$status'] ?? status);
+        }
+      },
+    );
+    return res;
   }
 
   void _updateTxStatus(BuildContext context, String status) {
@@ -575,63 +609,71 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                     visible: isNetworkConnected,
                     child: Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        child: isObservation
-                            ? const OfflineSignatureInvalidWarn()
-                            : Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: PluginButton(
-                                      submitting: _submitting,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .button
-                                          ?.copyWith(
-                                              color: UI.isDarkTheme(context)
-                                                  ? Theme.of(context)
-                                                      .textTheme
-                                                      .button
-                                                      ?.color
-                                                  : Theme.of(context)
-                                                      .textTheme
-                                                      .headline1
-                                                      ?.color),
-                                      title: dic['cancel']!,
-                                      backgroundColor: Colors.white,
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Builder(
-                                      builder: (BuildContext context) {
-                                        return PluginButton(
-                                          submitting: _submitting,
-                                          title: isUnsigned
-                                              ? dic['tx.no.sign']!
-                                              : dic['tx.submit']!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              ?.copyWith(color: Colors.black),
-                                          onPressed: !isNetworkMatch
-                                              ? null
-                                              : isUnsigned
-                                                  ? () => _onSubmit(context)
-                                                  : _submitting
-                                                      ? null
-                                                      : () =>
-                                                          _showPasswordDialog(
-                                                              context),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )))
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: PluginButton(
+                                submitting: _submitting,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    ?.copyWith(
+                                        color: UI.isDarkTheme(context)
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .button
+                                                ?.color
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .headline1
+                                                ?.color),
+                                title: dic['cancel']!,
+                                backgroundColor: Colors.white,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                            Container(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Builder(
+                                builder: (BuildContext context) {
+                                  return PluginButton(
+                                    submitting: _submitting,
+                                    title: isUnsigned
+                                        ? dic['tx.no.sign']!
+                                        : (isObservation &&
+                                                    _proxyAccount == null) ||
+                                                isProxyObservation
+                                            ? dic['tx.qr']!
+                                            // dicAcc['observe.invalid']
+                                            : dic['tx.submit']!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .button
+                                        ?.copyWith(color: Colors.black),
+                                    onPressed: !isNetworkMatch
+                                        ? null
+                                        : isUnsigned
+                                            ? () => _onSubmit(context)
+                                            : (isObservation &&
+                                                        _proxyAccount ==
+                                                            null) ||
+                                                    isProxyObservation
+                                                ? () => _onSubmit(context,
+                                                    viaQr: true)
+                                                : _submitting
+                                                    ? null
+                                                    : () => _showPasswordDialog(
+                                                        context),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        )))
               ],
             ),
           ),
@@ -882,60 +924,67 @@ class _TxConfirmPageState extends State<TxConfirmPage> {
                   visible: isNetworkConnected,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      child: isObservation
-                          ? const OfflineSignatureInvalidWarn()
-                          : Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Button(
-                                    submitting: _submitting,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        ?.copyWith(
-                                            color: UI.isDarkTheme(context)
-                                                ? Theme.of(context)
-                                                    .textTheme
-                                                    .button
-                                                    ?.color
-                                                : Theme.of(context)
-                                                    .textTheme
-                                                    .headline1
-                                                    ?.color),
-                                    title: dic['cancel']!,
-                                    isBlueBg: false,
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                  child: Builder(
-                                    builder: (BuildContext context) {
-                                      return Button(
-                                        submitting: _submitting,
-                                        title: isUnsigned
-                                            ? dic['tx.no.sign']!
-                                            : dic['tx.submit']!,
-                                        style:
-                                            Theme.of(context).textTheme.button,
-                                        onPressed: !isNetworkMatch
-                                            ? null
-                                            : isUnsigned
-                                                ? () => _onSubmit(context)
-                                                : _submitting
-                                                    ? null
-                                                    : () => _showPasswordDialog(
-                                                        context),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )))
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Button(
+                              submitting: _submitting,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  ?.copyWith(
+                                      color: UI.isDarkTheme(context)
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              ?.color
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .headline1
+                                              ?.color),
+                              title: dic['cancel']!,
+                              isBlueBg: false,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Builder(
+                              builder: (BuildContext context) {
+                                return Button(
+                                  submitting: _submitting,
+                                  title: isUnsigned
+                                      ? dic['tx.no.sign']!
+                                      : (isObservation &&
+                                                  _proxyAccount == null) ||
+                                              isProxyObservation
+                                          ? dic['tx.qr']!
+                                          // dicAcc['observe.invalid']
+                                          : dic['tx.submit']!,
+                                  style: Theme.of(context).textTheme.button,
+                                  onPressed: !isNetworkMatch
+                                      ? null
+                                      : isUnsigned
+                                          ? () => _onSubmit(context)
+                                          : (isObservation &&
+                                                      _proxyAccount == null) ||
+                                                  isProxyObservation
+                                              ? () => _onSubmit(context,
+                                                  viaQr: true)
+                                              : _submitting
+                                                  ? null
+                                                  : () => _showPasswordDialog(
+                                                      context),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      )))
             ],
           ),
         ),
