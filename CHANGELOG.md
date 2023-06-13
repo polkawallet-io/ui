@@ -1,3 +1,9 @@
+## [0.5.4+1]
+
+20230613
+* bump polkawallet_sdk: 0.5.4+1.
+* add uos support as hot-wallet.
+
 ## [0.5.4] - 20230607.
 
 * bump polkawallet_sdk: 0.5.4.
