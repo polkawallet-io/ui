@@ -335,7 +335,8 @@ class _XcmTxConfirmPageState extends State<XcmTxConfirmPage> {
   }
 
   dynamic _updateKUSD(String value) {
-    value = value.replaceAll("KUSD", "AUSD");
+    value = value.replaceAll("KUSD", "ASEED");
+    value = value.replaceAll("AUSD", "ASEED");
     return value;
   }
 
