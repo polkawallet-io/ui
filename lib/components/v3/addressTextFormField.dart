@@ -144,7 +144,9 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
   Future<KeyPairData?> _getAccountFromInput(String input) async {
     if (widget.localEthAccounts != null) {
       final ethAcc = await _parseEthAccount(input);
-      return ethAcc;
+      if (ethAcc != null) {
+        return ethAcc;
+      }
     }
 
     return _parseSubstrateAccount(input);
@@ -290,11 +292,12 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                       ),
                     ),
                   ),
-                  validator: (value) {
-                    if (value!.trim().length < 47) {
+                  validator: (v) {
+                    final value = v?.trim() ?? '';
+                    if (!value.startsWith('0x') && value.length < 47) {
                       return dic!['address.error'];
                     }
-                    if (value.trim().isNotEmpty) {
+                    if (value.isNotEmpty) {
                       return validatorError;
                     }
                     return null;

@@ -1,5 +1,9 @@
-## [0.5.4+1]
+## [0.5.5]
+20231212
+* bump polkawallet_sdk: 0.5.8.
+* addressTextFormField support evm address fix.
 
+## [0.5.4+1]
 20230613
 * bump polkawallet_sdk: 0.5.4+1.
 * add uos support as hot-wallet.
