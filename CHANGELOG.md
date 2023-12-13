@@ -1,3 +1,7 @@
+## [0.5.5+1]
+20231213
+* pluginAccountListPage support sub & evm address.
+
 ## [0.5.5]
 20231212
 * bump polkawallet_sdk: 0.5.8.

@@ -275,10 +275,10 @@ class _AddressTextFormFieldState extends State<AddressTextFormField> {
                       var res = await Navigator.of(context).pushNamed(
                         PluginAccountListPage.route,
                         arguments: PluginAccountListPageParams(
-                            list: widget.localEthAccounts
-                                    ?.map((e) => e.toKeyPairData())
-                                    .toList() ??
-                                widget.localAccounts),
+                            listEVM: widget.localEthAccounts
+                                ?.map((e) => e.toKeyPairData())
+                                .toList(),
+                            list: widget.localAccounts),
                       );
                       if (res != null && widget.onChanged != null) {
                         widget.onChanged!(res as KeyPairData);
