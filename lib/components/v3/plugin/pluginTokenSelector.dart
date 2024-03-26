@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:polkawallet_sdk/plugin/store/balances.dart';
+import 'package:polkawallet_sdk/utils/i18n.dart';
 import 'package:polkawallet_ui/components/currencyWithIcon.dart';
 import 'package:polkawallet_ui/components/v3/plugin/pluginTokenIcon.dart';
 import 'package:polkawallet_ui/utils/format.dart';
-import 'package:polkawallet_ui/utils/index.dart';
 import 'package:polkawallet_ui/utils/i18n.dart';
-import 'package:polkawallet_sdk/utils/i18n.dart';
+import 'package:polkawallet_ui/utils/index.dart';
 
 class PluginTokenSelector extends StatefulWidget {
   const PluginTokenSelector(
@@ -231,6 +231,8 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                         itemExtent: 56,
                         itemBuilder: (context, index) {
                           final symbol = searchList?[index]?.symbol ?? "";
+                          final amount = searchList?[index]?.amount ?? '0';
+                          final decimals = searchList?[index]?.decimals ?? 18;
                           return GestureDetector(
                             child: Container(
                               margin: const EdgeInsets.only(bottom: 12),
@@ -278,9 +280,7 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                                         children: [
                                           Text(
                                             Fmt.priceFloorBigInt(
-                                                BigInt.parse(searchList![index]!
-                                                    .amount!),
-                                                searchList![index]!.decimals!,
+                                                BigInt.parse(amount), decimals,
                                                 lengthMax: 4),
                                             style: Theme.of(context)
                                                 .textTheme
@@ -294,7 +294,7 @@ class _PluginTokenSelectorState extends State<PluginTokenSelector> {
                                           ),
                                           widget.getMarketPrice != null
                                               ? Text(
-                                                  '≈\$ ${Fmt.priceFloor(widget.getMarketPrice!(searchList![index]!.symbol ?? '') * Fmt.balanceDouble(searchList![index]!.amount!, searchList![index]!.decimals!), lengthMax: 4)}',
+                                                  '≈\$ ${Fmt.priceFloor(widget.getMarketPrice!(symbol) * Fmt.balanceDouble(amount, decimals), lengthMax: 4)}',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline6
